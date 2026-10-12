@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>القرآن الكريم — قراءة الآيات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">القرآن الكريم</h1>
+    <p class="site-subtitle">اختر السورة ثم اختر الآيات التي تريد قراءتها</p>
+  </header>
+
+  <main class="layout">
+    <aside class="panel index-panel">
+      <h2 class="panel-title">فهرس السور</h2>
+      <input
+        id="surah-search"
+        type="search"
+        class="search-box"
+        placeholder="ابحث عن سورة…"
+        aria-label="ابحث عن سورة"
+      />
+      <ol id="surah-list" class="surah-list" aria-label="فهرس السور"></ol>
+    </aside>
+
+    <section class="panel reading-panel">
+      <div class="controls">
+        <div class="control">
+          <label for="surah-select">السورة</label>
+          <select id="surah-select" aria-label="اختر السورة"></select>
+        </div>
+        <div class="control">
+          <label for="from-ayah">من الآية</label>
+          <select id="from-ayah" aria-label="من الآية"></select>
+        </div>
+        <div class="control">
+          <label for="to-ayah">إلى الآية</label>
+          <select id="to-ayah" aria-label="إلى الآية"></select>
+        </div>
+        <button id="read-btn" class="gold-btn">اقرأ</button>
+        <button id="full-surah-btn" class="ghost-btn">السورة كاملة</button>
+      </div>
+
+      <div id="bismillah" class="bismillah hidden">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+
+      <div id="surah-header" class="surah-header hidden">
+        <span id="surah-name" class="surah-name"></span>
+        <span id="surah-meta" class="surah-meta"></span>
+      </div>
+
+      <div id="verses" class="verses" aria-live="polite">
+        <p class="placeholder">اختر سورة من الفهرس لبدء القراءة</p>
+      </div>
+
+      <div class="pager">
+        <button id="prev-surah" class="ghost-btn">« السورة السابقة</button>
+        <button id="next-surah" class="ghost-btn">السورة التالية »</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>تصميم بسيط لقراءة القرآن الكريم — نص عثماني من مصحف المدينة</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
