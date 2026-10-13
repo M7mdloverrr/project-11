@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -66,7 +67,7 @@ fun Loading() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     vm: AppViewModel,
@@ -99,28 +100,34 @@ fun HomeScreen(
             Box(Modifier.padding(pad)) { Loading() }
             return@Scaffold
         }
-        Column(Modifier.padding(pad)) {
-            ContinueCard(q, st, openPage)
-            Row(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                val lat = st.lat
-                val lon = st.lon
-                val sub = if (lat != null && lon != null) {
-                    val (i, t) = PrayerCalc.next(lat, lon, st.prayerMethod, st.madhab)
-                    "${PrayerCalc.names[i]} ${prayerTime(t)}"
-                } else "حدّد موقعك"
-                QuickCard("مواقيت الصلاة", sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
-                QuickCard("القبلة", "البوصلة", Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
+        LazyColumn(Modifier.padding(pad).fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
+            item(key = "continue") { ContinueCard(q, st, openPage) }
+            item(key = "quick") {
+                Row(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    val lat = st.lat
+                    val lon = st.lon
+                    val sub = if (lat != null && lon != null) {
+                        val (i, t) = PrayerCalc.next(lat, lon, st.prayerMethod, st.madhab)
+                        "${PrayerCalc.names[i]} ${prayerTime(t)}"
+                    } else "حدّد موقعك"
+                    QuickCard("مواقيت الصلاة", sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
+                    QuickCard("القبلة", "البوصلة", Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
+                }
             }
-            QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
-            PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
-                listOf("السور", "الأجزاء", "العلامات").forEachIndexed { i, t ->
-                    Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) })
+            item(key = "studio") {
+                QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
+            }
+            stickyHeader(key = "tabs") {
+                PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
+                    listOf("السور", "الأجزاء", "العلامات").forEachIndexed { i, t ->
+                        Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) })
+                    }
                 }
             }
             when (tab) {
-                0 -> SurahList(q) { openPage(it.startPage) }
-                1 -> JuzList(q, openPage)
-                else -> Bookmarks(q, st, openPage) { vm.toggleBookmark(it) }
+                0 -> surahItems(q) { openPage(it.startPage) }
+                1 -> juzItems(q, openPage)
+                else -> bookmarkItems(q, st, openPage) { vm.toggleBookmark(it) }
             }
         }
     }
@@ -173,30 +180,26 @@ private fun ContinueCard(q: Quran, st: Settings, openPage: (Int) -> Unit) {
     }
 }
 
-@Composable
-private fun Bookmarks(q: Quran, st: Settings, openPage: (Int) -> Unit, remove: (String) -> Unit) {
+private fun LazyListScope.bookmarkItems(q: Quran, st: Settings, openPage: (Int) -> Unit, remove: (String) -> Unit) {
     val list = st.bookmarks.mapNotNull { q.ayahOrNull(it) }.sortedWith(compareBy({ it.surah }, { it.number }))
-    if (list.isEmpty()) {
+    if (list.isEmpty()) item(key = "empty") {
         Text(
             "لا توجد علامات بعد.\nاضغط على أي آية في المصحف ثم على رمز العلامة.",
             Modifier.fillMaxWidth().padding(32.dp),
             textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        return
     }
-    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
-        items(list, key = { it.key }) { a ->
-            Row(
-                Modifier.fillMaxWidth().clickable { openPage(a.page) }.padding(start = 16.dp, top = 10.dp, bottom = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
-                    Text(a.text, fontFamily = QuranFont, fontSize = 18.sp, maxLines = 1)
-                }
-                IconButton(onClick = { remove(a.key) }) { Icon(Icons.Rounded.BookmarkRemove, "حذف العلامة") }
+    items(list, key = { it.key }) { a ->
+        Row(
+            Modifier.fillMaxWidth().clickable { openPage(a.page) }.padding(start = 16.dp, top = 10.dp, bottom = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                Text(a.text, fontFamily = QuranFont, fontSize = 18.sp, maxLines = 1)
             }
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            IconButton(onClick = { remove(a.key) }) { Icon(Icons.Rounded.BookmarkRemove, "حذف العلامة") }
         }
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }
 }

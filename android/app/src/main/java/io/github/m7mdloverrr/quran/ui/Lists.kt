@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
@@ -60,40 +61,44 @@ fun SurahRow(surah: Surah, onClick: () -> Unit, trailing: @Composable () -> Unit
 
 @Composable
 fun SurahList(quran: Quran, onOpen: (Surah) -> Unit) {
-    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
-        items(quran.surahs, key = { it.number }) { s ->
-            SurahRow(s, { onOpen(s) })
-            HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        }
+    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) { surahItems(quran, onOpen) }
+}
+
+fun LazyListScope.surahItems(quran: Quran, onOpen: (Surah) -> Unit) {
+    items(quran.surahs, key = { "s${it.number}" }) { s ->
+        SurahRow(s, { onOpen(s) })
+        HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
 
 @Composable
 fun JuzList(quran: Quran, onOpenPage: (Int) -> Unit) {
-    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) {
-        items(quran.juzStart.size) { i ->
-            val a = quran.juzStart[i]
-            Row(
-                Modifier.fillMaxWidth().clickable { onOpenPage(a.page) }.padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-            ) {
-                NumberBadge(i + 1)
-                Column(Modifier.weight(1f)) {
-                    Text("الجزء ${(i + 1).ar()}", style = MaterialTheme.typography.titleMedium)
-                    Text(
-                        a.text.split(" ").take(5).joinToString(" "),
-                        fontFamily = QuranFont, fontSize = 16.sp, maxLines = 1,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        "${quran.surah(a.surah).name} • الآية ${a.number.ar()}",
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-                Text("ص ${a.page.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    LazyColumn(contentPadding = PaddingValues(bottom = 24.dp)) { juzItems(quran, onOpenPage) }
+}
+
+fun LazyListScope.juzItems(quran: Quran, onOpenPage: (Int) -> Unit) {
+    items(quran.juzStart.size, key = { "j$it" }) { i ->
+        val a = quran.juzStart[i]
+        Row(
+            Modifier.fillMaxWidth().clickable { onOpenPage(a.page) }.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            NumberBadge(i + 1)
+            Column(Modifier.weight(1f)) {
+                Text("الجزء ${(i + 1).ar()}", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    a.text.split(" ").take(5).joinToString(" "),
+                    fontFamily = QuranFont, fontSize = 16.sp, maxLines = 1,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    "${quran.surah(a.surah).name} • الآية ${a.number.ar()}",
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
-            HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
+            Text("ص ${a.page.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+        HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
