@@ -111,6 +111,10 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     )
                 }
             }
+            Section("وضوح خلفية التطبيق") {
+                var a by remember(st.bgAlpha) { mutableFloatStateOf(st.bgAlpha) }
+                Slider(a, { a = it }, valueRange = 0f..0.7f, onValueChangeFinished = { vm.setPref(Prefs.Keys.bgAlpha, a) })
+            }
             Section("القراءة") {
                 Text("لون صفحة المصحف", style = MaterialTheme.typography.bodyMedium)
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {

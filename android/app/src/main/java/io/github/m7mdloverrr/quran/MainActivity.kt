@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
             QuranTheme(dark, settings?.pageStyle ?: 0) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {
-                        Image(painterResource(R.drawable.app_bg), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, alpha = if (dark) 0.14f else 0.08f)
+                        Image(painterResource(R.drawable.app_bg), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, alpha = settings?.bgAlpha ?: 0.3f)
                         val nav = rememberNavController()
                         LaunchedEffect(Unit) {
                             if (intent?.getStringExtra("open") == "prayer") nav.navigate("prayer")
