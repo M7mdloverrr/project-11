@@ -40,6 +40,7 @@ import androidx.media3.transformer.Transformer
 import com.google.common.collect.ImmutableList
 import io.github.m7mdloverrr.quran.R
 import io.github.m7mdloverrr.quran.audio.AudioCache
+import io.github.m7mdloverrr.quran.data.AyahTimings
 import io.github.m7mdloverrr.quran.data.Ayah
 import io.github.m7mdloverrr.quran.data.Reciter
 import io.github.m7mdloverrr.quran.data.ar
@@ -137,6 +138,35 @@ class VerseRenderer(context: Context, val cfg: StudioStyle, private val surahNam
 
 class AudioMissing(val ayah: Ayah) : Exception()
 
+private val layouts = HashMap<String, Pair<Long, Double>>()
+
+/** First MP3 frame offset and bytes per millisecond of a constant-bitrate MPEG-1 Layer III file. */
+@OptIn(UnstableApi::class)
+private fun mp3Layout(factory: androidx.media3.datasource.DataSource.Factory, url: String): Pair<Long, Double>? {
+    layouts[url]?.let { return it }
+    val ds = factory.createDataSource()
+    val head = ByteArray(256 * 1024)
+    var n = 0
+    try {
+        ds.open(DataSpec.Builder().setUri(url).setPosition(0).setLength(head.size.toLong()).build())
+        while (n < head.size) {
+            val r = ds.read(head, n, head.size - n)
+            if (r == C.RESULT_END_OF_INPUT) break
+            n += r
+        }
+    } finally {
+        ds.close()
+    }
+    fun b(i: Int) = head[i].toInt() and 0xFF
+    var i = if (n > 10 && head[0] == 'I'.code.toByte() && head[1] == 'D'.code.toByte() && head[2] == '3'.code.toByte())
+        10 + ((b(6) shl 21) or (b(7) shl 14) or (b(8) shl 7) or b(9)) else 0
+    while (i + 3 < n && !(b(i) == 0xFF && (b(i + 1) and 0xFE) == 0xFA)) i++
+    if (i + 3 >= n) return null
+    val kbps = intArrayOf(0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0)[b(i + 2) shr 4]
+    if (kbps == 0) return null
+    return (i.toLong() to kbps / 8.0).also { layouts[url] = it }
+}
+
 @OptIn(UnstableApi::class)
 suspend fun prepareAudio(ctx: Context, reciter: Reciter, ayahs: List<Ayah>, progress: (Float) -> Unit): List<VerseClip> =
     withContext(Dispatchers.IO) {
@@ -149,7 +179,18 @@ suspend fun prepareAudio(ctx: Context, reciter: Reciter, ayahs: List<Ayah>, prog
                 val tmp = File(f.path + ".part")
                 val ds = factory.createDataSource()
                 try {
-                    ds.open(DataSpec(Uri.parse(reciter.url(a.surah, a.number))))
+                    val url = reciter.url(a.surah, a.number)
+                    val clip = AyahTimings.clip(ctx, reciter, a.surah, a.number)
+                    ds.open(
+                        if (clip == null) DataSpec(Uri.parse(url))
+                        else {
+                            val (first, bytesPerMs) = mp3Layout(factory, url) ?: throw AudioMissing(a)
+                            DataSpec.Builder().setUri(url)
+                                .setPosition(first + (clip.first * bytesPerMs).toLong())
+                                .setLength(((clip.second - clip.first) * bytesPerMs).toLong())
+                                .build()
+                        },
+                    )
                     tmp.outputStream().use { out ->
                         val buf = ByteArray(64 * 1024)
                         while (true) {

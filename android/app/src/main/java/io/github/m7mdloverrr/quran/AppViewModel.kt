@@ -18,7 +18,7 @@ import androidx.work.WorkManager
 import io.github.m7mdloverrr.quran.audio.AudioCache
 import io.github.m7mdloverrr.quran.audio.DownloadWorker
 import io.github.m7mdloverrr.quran.audio.PlaybackService
-import io.github.m7mdloverrr.quran.audio.recitationUrl
+import io.github.m7mdloverrr.quran.audio.recitation
 import io.github.m7mdloverrr.quran.data.Prefs
 import io.github.m7mdloverrr.quran.data.Quran
 import io.github.m7mdloverrr.quran.data.QuranRepository
@@ -160,7 +160,7 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
         val title = if (ayah == 0) "سورة ${sura.name} • البسملة" else "${sura.name} • الآية ${ayah.ar()}"
         return MediaItem.Builder()
             .setMediaId(id)
-            .setUri(recitationUrl(id))
+            .recitation(app, id)
             .setMediaMetadata(MediaMetadata.Builder().setTitle(title).setArtist(r.nameAr).setAlbumTitle("القرآن الكريم").build())
             .build()
     }

@@ -33,7 +33,7 @@ class DownloadWorker(context: Context, params: WorkerParameters) : CoroutineWork
         val urls = buildList {
             if (surah != 1 && surah != 9) add(reciter.url(1, 1))
             for (a in 1..count) add(reciter.url(surah, a))
-        }
+        }.distinct()
         val source = AudioCache.dataSourceFactory(applicationContext).createDataSource()
         var missing = 0
         for ((i, url) in urls.withIndex()) {

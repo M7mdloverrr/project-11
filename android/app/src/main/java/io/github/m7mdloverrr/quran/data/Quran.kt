@@ -111,9 +111,18 @@ object QuranRepository {
     }
 }
 
-class Reciter(val id: String, val nameAr: String, val nameEn: String, val folder: String) {
+/** Verse-file reciters use EveryAyah; reciters with [surahBase] stream whole-surah files clipped by [timing]. */
+class Reciter(
+    val id: String,
+    val nameAr: String,
+    val nameEn: String,
+    val folder: String,
+    val surahBase: String? = null,
+    val timing: String? = null,
+) {
     fun url(surah: Int, ayah: Int) =
-        String.format(Locale.US, "https://everyayah.com/data/%s/%03d%03d.mp3", folder, surah, ayah)
+        if (surahBase != null) String.format(Locale.US, "%s%03d.mp3", surahBase, surah)
+        else String.format(Locale.US, "https://everyayah.com/data/%s/%03d%03d.mp3", folder, surah, ayah)
 }
 
 object Reciters {
@@ -139,6 +148,10 @@ object Reciters {
         Reciter("basfar", "عبد الله بصفر", "Abdullah Basfar", "Abdullah_Basfar_192kbps"),
         Reciter("budair", "صلاح البدير", "Salah Al-Budair", "Salah_Al_Budair_128kbps"),
         Reciter("rifai", "هاني الرفاعي", "Hani Ar-Rifai", "Hani_Rifai_192kbps"),
+        Reciter(
+            "sufi_hafs", "عبد الرشيد صوفي (حفص عن عاصم)", "Abdul Rashid Sufi (Hafs)", "abdulrasheed-sufi/r3",
+            "https://cdn.mp3quran.net/audio/abdulrasheed-sufi/r3/", "timing_sufi_hafs.json",
+        ),
     )
 
     fun byId(id: String?) = all.firstOrNull { it.id == id } ?: all[0]
@@ -205,3 +218,21 @@ object Scripts {
 
 val Ayah.shown: String get() = Scripts.texts?.getOrNull(surah - 1)?.getOrNull(number - 1) ?: text
 val Quran.shownBasmala: String get() = Scripts.texts?.getOrNull(0)?.getOrNull(0) ?: basmala
+
+/** Start/end (ms) of each ayah inside a whole-surah recording, from bundled mp3quran.net timing data. */
+object AyahTimings {
+    private val cache = HashMap<String, List<LongArray>>()
+
+    fun clip(context: Context, reciter: Reciter, surah: Int, ayah: Int): Pair<Long, Long>? {
+        val asset = reciter.timing ?: return null
+        val all = synchronized(cache) {
+            cache.getOrPut(asset) {
+                val arr = org.json.JSONObject(context.assets.open(asset).bufferedReader().readText()).getJSONArray("s")
+                List(arr.length()) { i -> arr.getJSONArray(i).let { a -> LongArray(a.length()) { a.getLong(it) } } }
+            }
+        }
+        val t = all.getOrNull(surah - 1) ?: return null
+        val i = (ayah - 1) * 2
+        return if (i < 0 || i + 1 >= t.size) null else t[i] to t[i + 1]
+    }
+}
