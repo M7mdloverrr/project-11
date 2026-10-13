@@ -326,6 +326,7 @@ function renderSettings() {
       <div class="rowx"><span>إبقاء الشاشة مضاءة أثناء القراءة</span>${sw('wake')}</div></section>
     <section class="card"><h3>الترجمة الألمانية (Deutsch)</h3>${seg('de', [[0, 'إيقاف'], [1, 'فقاعة'], [2, 'تحت كل آية']])}
       <div class="rowx"><span><small>فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني<br>Übersetzung: Bubenheim &amp; Elyas</small></span></div></section>
+    <section class="card"><h3>عن التطبيق</h3><div class="rowx"><span>المؤلف: محمد صالح المحمد<small>Autor: Mouhamad Almuhamad</small></span></div></section>
     <section class="card"><h3>حول</h3><small>نص القرآن: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (الرسم العثماني، CC BY 3.0، دون أي تعديل). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).</small></section>
   </div>`;
   window.scrollTo(0, y);
