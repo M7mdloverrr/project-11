@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -331,7 +331,7 @@ private fun Compass(ctx: Context, lat: Double, lon: Double, city: String) {
                     Text(
                         l,
                         Modifier.align(Alignment.Center)
-                            .offset(x = (sin(rad) * 108).dp, y = (-cos(rad) * 108).dp)
+                            .absoluteOffset(x = (sin(rad) * 108).dp, y = (-cos(rad) * 108).dp)
                             .graphicsLayer { rotationZ = heading },
                         color = if (a == 0.0) Color(0xFFD64545) else onSurface, fontWeight = FontWeight.Bold, fontSize = 18.sp,
                     )
