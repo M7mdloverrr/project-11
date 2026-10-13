@@ -1,5 +1,8 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.Scripts
+import io.github.m7mdloverrr.quran.data.shownBasmala
+
 import io.github.m7mdloverrr.quran.data.Tafsirs
 
 import io.github.m7mdloverrr.quran.data.Prefs
@@ -107,13 +110,21 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 Slider(size, { size = it }, valueRange = 18f..44f, steps = 12, onValueChangeFinished = { vm.setFontSize(size) })
                 Surface(color = LocalPageColors.current.page, shape = MaterialTheme.shapes.medium) {
                     Text(
-                        quran?.basmala ?: "",
-                        Modifier.fillMaxWidth().padding(vertical = 8.dp), fontFamily = QuranFont, fontSize = size.sp, textAlign = TextAlign.Center,
+                        quran?.shownBasmala ?: "",
+                        Modifier.fillMaxWidth().padding(vertical = 8.dp), fontFamily = AyahFont, fontSize = size.sp, textAlign = TextAlign.Center,
                         color = LocalPageColors.current.text,
                     )
                 }
             }
-            Section("خط المصحف") {
+            Section("رسم المصحف") {
+                Scripts.all.forEachIndexed { i, sc ->
+                    Row(Modifier.fillMaxWidth().clickable { vm.setPref(Prefs.Keys.script, i) }, verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(selected = st.script == i, onClick = { vm.setPref(Prefs.Keys.script, i) })
+                        Text(sc.nameAr, style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
+            }
+            if (ScriptFonts.getOrNull(st.script) == null) Section("خط المصحف") {
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     QuranFonts.forEachIndexed { i, (name, family) ->
                         SegmentedButton(st.quranFont == i, { vm.setPref(Prefs.Keys.quranFont, i) }, SegmentedButtonDefaults.itemShape(i, QuranFonts.size)) {

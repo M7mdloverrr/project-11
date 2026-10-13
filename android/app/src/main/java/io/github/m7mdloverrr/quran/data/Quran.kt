@@ -1,5 +1,10 @@
 package io.github.m7mdloverrr.quran.data
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+
 import android.content.Context
 import android.util.JsonReader
 import kotlinx.coroutines.Dispatchers
@@ -169,3 +174,34 @@ object GermanRepository {
             out
         }
 }
+
+
+class QuranScript(val nameAr: String, val asset: String?)
+
+object Scripts {
+    val all = listOf(
+        QuranScript("الرسم العثماني • مجمع الملك فهد", "script_qpc.json"),
+        QuranScript("الرسم العثماني • تنزيل", null),
+        QuranScript("الرسم الإملائي", "script_imlaei.json"),
+        QuranScript("الرسم الهندي/الباكستاني", "script_indopak.json"),
+    )
+    var index by mutableIntStateOf(0)
+        private set
+    var texts by mutableStateOf<List<List<String>>?>(null)
+        private set
+    private val cache = HashMap<Int, List<List<String>>>()
+
+    suspend fun select(context: Context, i: Int) {
+        val asset = all.getOrNull(i)?.asset
+        texts = asset?.let { a ->
+            cache[i] ?: withContext(Dispatchers.IO) {
+                val arr = org.json.JSONObject(context.assets.open(a).bufferedReader().readText()).getJSONArray("s")
+                List(arr.length()) { si -> arr.getJSONArray(si).let { sa -> List(sa.length()) { sa.getString(it) } } }
+            }.also { cache[i] = it }
+        }
+        index = i
+    }
+}
+
+val Ayah.shown: String get() = Scripts.texts?.getOrNull(surah - 1)?.getOrNull(number - 1) ?: text
+val Quran.shownBasmala: String get() = Scripts.texts?.getOrNull(0)?.getOrNull(0) ?: basmala

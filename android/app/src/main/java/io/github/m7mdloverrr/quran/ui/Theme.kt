@@ -27,6 +27,8 @@ val QuranFonts = listOf(
 )
 var quranFontIndex by mutableIntStateOf(0)
 val QuranFont: FontFamily get() = QuranFonts.getOrElse(quranFontIndex) { QuranFonts[0] }.second
+val ScriptFonts: List<FontFamily?> = listOf(FontFamily(Font(R.font.kfgqpc_hafs)), null, null, FontFamily(Font(R.font.indopak)))
+val AyahFont: FontFamily get() = ScriptFonts.getOrNull(io.github.m7mdloverrr.quran.data.Scripts.index) ?: QuranFont
 
 class PageColors(val page: Color, val text: Color, val mark: Color, val highlight: Color, val selected: Color)
 

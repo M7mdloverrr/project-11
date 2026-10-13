@@ -1,5 +1,9 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.Scripts
+import io.github.m7mdloverrr.quran.data.shown
+import io.github.m7mdloverrr.quran.data.shownBasmala
+
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
@@ -302,11 +306,11 @@ private fun QuranPage(
                     if (q.surah(s).hasBasmala) {
                         val hl = currentKey == "$s:0"
                         Text(
-                            q.basmala,
+                            q.shownBasmala,
                             Modifier.fillMaxWidth()
                                 .background(if (hl) colors.highlight else Color.Transparent, RoundedCornerShape(8.dp))
                                 .onGloballyPositioned { c -> root?.let { r -> onPositions(mapOf("$s:0" to r.localPositionOf(c, androidx.compose.ui.geometry.Offset.Zero).y)) } },
-                            fontFamily = QuranFont, fontSize = (st.fontSize * 0.95f).sp, color = colors.text, textAlign = TextAlign.Center,
+                            fontFamily = AyahFont, fontSize = (st.fontSize * 0.95f).sp, color = colors.text, textAlign = TextAlign.Center,
                         )
                     }
                 }
@@ -365,7 +369,7 @@ private fun AyahParagraph(
     val tap by rememberUpdatedState(onTap)
     val longPress by rememberUpdatedState(LocalAyahLongPress.current)
     val starts = remember(segment) { IntArray(segment.size) }
-    val text = remember(segment, currentKey, selectedKey, st.bookmarks, colors) {
+    val text = remember(segment, currentKey, selectedKey, st.bookmarks, colors, Scripts.texts) {
         buildAnnotatedString {
             segment.forEachIndexed { idx, a ->
                 starts[idx] = length
@@ -375,10 +379,10 @@ private fun AyahParagraph(
                     else -> Color.Transparent
                 }
                 withStyle(SpanStyle(background = bg)) {
-                    append(a.text)
+                    append(a.shown)
                     append(' ')
                     withStyle(SpanStyle(color = if (a.key in st.bookmarks) Color(0xFFC9A227) else colors.mark)) {
-                        append(AYAH_MARK + a.number.ar())
+                        append((if (Scripts.index == 0) "" else AYAH_MARK) + a.number.ar())
                     }
                 }
                 append(' ')
@@ -402,7 +406,7 @@ private fun AyahParagraph(
             onPositions(segment.indices.associate { segment[it].key to base + l.getLineTop(l.getLineForOffset(starts[it])) })
         },
         style = TextStyle(
-            fontFamily = QuranFont,
+            fontFamily = AyahFont,
             fontSize = st.fontSize.sp,
             lineHeight = (st.fontSize * st.lineSpacing).sp,
             textAlign = TextAlign.Justify,
@@ -490,7 +494,7 @@ private fun TafsirSheet(vm: AppViewModel, q: Quran, a: Ayah, st: Settings) {
             }
         }
         Column(Modifier.fillMaxWidth().heightIn(max = 520.dp).verticalScroll(rememberScrollState())) {
-            Text(a.text, fontFamily = QuranFont, fontSize = 22.sp, lineHeight = 40.sp, color = MaterialTheme.colorScheme.onSurface)
+            Text(a.shown, fontFamily = AyahFont, fontSize = 22.sp, lineHeight = 40.sp, color = MaterialTheme.colorScheme.onSurface)
             val r = result
             when {
                 r == null -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))

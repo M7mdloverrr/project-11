@@ -44,6 +44,7 @@ data class Settings(
     val bgAlpha: Float,
     val tafsir: Int,
     val quranFont: Int,
+    val script: Int,
 )
 
 class Prefs(context: Context) {
@@ -76,6 +77,7 @@ class Prefs(context: Context) {
         val bgAlpha = floatPreferencesKey("bg_alpha")
         val tafsir = intPreferencesKey("tafsir")
         val quranFont = intPreferencesKey("quran_font")
+        val script = intPreferencesKey("script")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -106,6 +108,7 @@ class Prefs(context: Context) {
             bgAlpha = p[Keys.bgAlpha] ?: 0.3f,
             tafsir = p[Keys.tafsir] ?: 0,
             quranFont = p[Keys.quranFont] ?: 0,
+            script = p[Keys.script] ?: 0,
         )
     }
 

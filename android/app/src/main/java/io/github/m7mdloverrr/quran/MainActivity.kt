@@ -74,6 +74,8 @@ class MainActivity : ComponentActivity() {
             }
             val fontIndex = settings?.quranFont ?: 0
             SideEffect { quranFontIndex = fontIndex }
+            val scriptIndex = settings?.script ?: 0
+            LaunchedEffect(scriptIndex) { io.github.m7mdloverrr.quran.data.Scripts.select(applicationContext, scriptIndex) }
             QuranTheme(dark, settings?.pageStyle ?: 0) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {

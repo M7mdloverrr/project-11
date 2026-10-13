@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.shown
+
 import androidx.compose.material3.Surface
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Explore
@@ -196,7 +198,7 @@ private fun LazyListScope.bookmarkItems(q: Quran, st: Settings, openPage: (Int) 
         ) {
             Column(Modifier.weight(1f)) {
                 Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
-                Text(a.text, fontFamily = QuranFont, fontSize = 18.sp, maxLines = 1)
+                Text(a.shown, fontFamily = AyahFont, fontSize = 18.sp, maxLines = 1)
             }
             IconButton(onClick = { remove(a.key) }) { Icon(Icons.Rounded.BookmarkRemove, "حذف العلامة") }
         }

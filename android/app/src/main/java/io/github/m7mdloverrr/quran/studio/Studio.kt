@@ -1,5 +1,6 @@
 package io.github.m7mdloverrr.quran.studio
 
+import io.github.m7mdloverrr.quran.data.shown
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -86,7 +87,7 @@ class VerseClip(val ayah: Ayah, val file: File, val durationUs: Long)
 
 class VerseRenderer(context: Context, val cfg: StudioStyle, private val surahName: String, private val reciterName: String) {
     private val typeface: Typeface =
-        if (cfg.font == 0) ResourcesCompat.getFont(context, R.font.amiri_quran) ?: Typeface.SERIF
+        if (cfg.font == 0) ResourcesCompat.getFont(context, when (io.github.m7mdloverrr.quran.data.Scripts.index) { 0 -> R.font.kfgqpc_hafs; 3 -> R.font.indopak; else -> R.font.amiri_quran }) ?: Typeface.SERIF
         else Typeface.create(Typeface.SERIF, Typeface.NORMAL)
 
     fun render(w: Int, h: Int, ayah: Ayah): Bitmap {
@@ -99,7 +100,7 @@ class VerseRenderer(context: Context, val cfg: StudioStyle, private val surahNam
             textSize = 72f * unit * cfg.size
             if (cfg.shadow) setShadowLayer(14f * unit, 0f, 4f * unit, 0xD0000000.toInt())
         }
-        val text = ayah.text + " \u06DD" + ayah.number.ar()
+        val text = ayah.shown + (if (io.github.m7mdloverrr.quran.data.Scripts.index == 0) " " else " \u06DD") + ayah.number.ar()
         val maxW = (w * 0.86f).toInt()
         val maxH = h * 0.62f
         var layout: StaticLayout
