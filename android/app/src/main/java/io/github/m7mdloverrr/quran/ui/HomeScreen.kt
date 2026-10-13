@@ -82,7 +82,7 @@ fun HomeScreen(
     val settings by vm.settings.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var jump by remember { mutableStateOf(false) }
-    Scaffold(
+    Scaffold(containerColor = Color.Transparent, 
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("القرآن الكريم", fontFamily = QuranFont, fontSize = 28.sp) },

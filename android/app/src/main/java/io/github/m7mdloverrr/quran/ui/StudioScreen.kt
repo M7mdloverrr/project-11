@@ -242,7 +242,7 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
     val count = surah.ayahs.size
     fun changed() { vm.stopPreview(); vm.result = null }
 
-    Scaffold(topBar = {
+    Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
             title = { Text("استوديو الفيديو") },
             navigationIcon = { IconButton(back) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },

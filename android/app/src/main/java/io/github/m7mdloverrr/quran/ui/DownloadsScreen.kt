@@ -37,6 +37,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.m7mdloverrr.quran.AppViewModel
@@ -56,7 +57,7 @@ fun DownloadsScreen(vm: AppViewModel, onBack: () -> Unit) {
     var reciterId by remember { mutableStateOf<String?>(null) }
     var confirmDelete by remember { mutableStateOf(false) }
     LaunchedEffect(downloads.size, st?.downloaded) { vm.refreshCacheSize() }
-    Scaffold(topBar = {
+    Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
             title = { Text("التحميل للاستماع دون اتصال") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },

@@ -144,7 +144,7 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
     val st = settings ?: return Loading()
     val loc = rememberLocationRequest(vm)
     LaunchedEffect(Unit) { if (st.lat == null) loc.request() }
-    Scaffold(topBar = {
+    Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
             title = { Text("مواقيت الصلاة") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
@@ -249,7 +249,7 @@ fun QiblaScreen(vm: AppViewModel, onBack: () -> Unit) {
     val settings by vm.settings.collectAsStateWithLifecycle()
     val st = settings ?: return Loading()
     val loc = rememberLocationRequest(vm)
-    Scaffold(topBar = {
+    Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
             title = { Text("اتجاه القبلة") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },

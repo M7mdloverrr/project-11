@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
     val quran by vm.quran.collectAsStateWithLifecycle()
     val st = settings ?: return Loading()
     val uri = LocalUriHandler.current
-    Scaffold(topBar = {
+    Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
             title = { Text("الإعدادات") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
