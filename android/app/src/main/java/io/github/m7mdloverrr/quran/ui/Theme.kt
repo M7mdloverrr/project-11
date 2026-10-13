@@ -25,6 +25,7 @@ val LocalPageColors = staticCompositionLocalOf {
 }
 
 private val Light = lightColorScheme(
+    inversePrimary = EmeraldBright,
     primary = Emerald,
     onPrimary = Color.White,
     primaryContainer = Color(0xFFD4F1E4),
@@ -46,6 +47,7 @@ private val Light = lightColorScheme(
 )
 
 private val Dark = darkColorScheme(
+    inversePrimary = Emerald,
     primary = EmeraldBright,
     onPrimary = Color(0xFF00281B),
     primaryContainer = DarkGreen,

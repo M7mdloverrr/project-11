@@ -393,7 +393,7 @@ private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: Playing
                     when {
                         playing.buffering -> CircularProgressIndicator(Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
                         playing.isPlaying -> Icon(Icons.Rounded.Pause, "إيقاف مؤقت", Modifier.size(32.dp))
-                        else -> Icon(Icons.Rounded.PlayArrow, "تشغيل", Modifier.size(32.dp).graphicsLayer(scaleX = -1f))
+                        else -> Icon(Icons.Rounded.PlayArrow, "تشغيل", Modifier.size(32.dp))
                     }
                 }
                 IconButton(onClick = { vm.step(target.surah, target.number, 1) }) {
