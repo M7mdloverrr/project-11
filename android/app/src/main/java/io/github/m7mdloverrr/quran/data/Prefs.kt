@@ -42,6 +42,8 @@ data class Settings(
     val prayerAlerts: Boolean,
     val germanMode: Int,
     val bgAlpha: Float,
+    val tafsir: Int,
+    val quranFont: Int,
 )
 
 class Prefs(context: Context) {
@@ -72,6 +74,8 @@ class Prefs(context: Context) {
         val prayerAlerts = booleanPreferencesKey("prayer_alerts")
         val germanMode = intPreferencesKey("german_mode")
         val bgAlpha = floatPreferencesKey("bg_alpha")
+        val tafsir = intPreferencesKey("tafsir")
+        val quranFont = intPreferencesKey("quran_font")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -100,6 +104,8 @@ class Prefs(context: Context) {
             prayerAlerts = p[Keys.prayerAlerts] ?: true,
             germanMode = p[Keys.germanMode] ?: 0,
             bgAlpha = p[Keys.bgAlpha] ?: 0.3f,
+            tafsir = p[Keys.tafsir] ?: 0,
+            quranFont = p[Keys.quranFont] ?: 0,
         )
     }
 

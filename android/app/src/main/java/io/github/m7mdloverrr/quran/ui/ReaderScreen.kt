@@ -1,5 +1,13 @@
 package io.github.m7mdloverrr.quran.ui
 
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.staticCompositionLocalOf
+import io.github.m7mdloverrr.quran.data.Prefs
+import io.github.m7mdloverrr.quran.data.Tafsirs
+
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.produceState
@@ -121,6 +129,8 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = (startPage - 1).coerceIn(0, 603))
     var selected by remember { mutableStateOf<Ayah?>(null) }
     var navSheet by remember { mutableStateOf(false) }
+    var tafsirAyah by remember { mutableStateOf<Ayah?>(null) }
+    val onLongPress = remember { { a: Ayah -> tafsirAyah = a } }
     val positions = remember { HashMap<String, Float>() }
     val snackbar = remember { SnackbarHostState() }
     val page by remember { derivedStateOf { listState.firstVisibleItemIndex + 1 } }
@@ -184,6 +194,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
             }
         },
     ) { pad ->
+        CompositionLocalProvider(LocalAyahLongPress provides onLongPress) {
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize().padding(pad),
@@ -200,6 +211,11 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
                 )
             }
         }
+        }
+    }
+
+    tafsirAyah?.let { a ->
+        ModalBottomSheet(onDismissRequest = { tafsirAyah = null }) { TafsirSheet(vm, q, a, st) }
     }
 
     if (navSheet) {
@@ -347,6 +363,7 @@ private fun AyahParagraph(
 ) {
     val colors = LocalPageColors.current
     val tap by rememberUpdatedState(onTap)
+    val longPress by rememberUpdatedState(LocalAyahLongPress.current)
     val starts = remember(segment) { IntArray(segment.size) }
     val text = remember(segment, currentKey, selectedKey, st.bookmarks, colors) {
         buildAnnotatedString {
@@ -372,12 +389,12 @@ private fun AyahParagraph(
     Text(
         text,
         Modifier.fillMaxWidth().pointerInput(segment) {
-            detectTapGestures { pos ->
-                val l = layout ?: return@detectTapGestures
+            fun ayahAt(pos: androidx.compose.ui.geometry.Offset): Ayah? {
+                val l = layout ?: return null
                 val off = l.getOffsetForPosition(pos)
-                val idx = starts.indexOfLast { it <= off }
-                if (idx >= 0) tap(segment[idx])
+                return segment.getOrNull(starts.indexOfLast { it <= off })
             }
+            detectTapGestures(onLongPress = { pos -> ayahAt(pos)?.let(longPress) }) { pos -> ayahAt(pos)?.let(tap) }
         }.onGloballyPositioned { c ->
             val l = layout ?: return@onGloballyPositioned
             val r = root ?: return@onGloballyPositioned
@@ -450,6 +467,41 @@ private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: Playing
                     val opts = listOf(0.75f, 1f, 1.25f, 1.5f, 2f)
                     vm.setSpeed(opts[(opts.indexOf(st.speed).coerceAtLeast(0) + 1) % opts.size])
                 }) { Text("${st.speed}x") }
+            }
+        }
+    }
+}
+
+private val LocalAyahLongPress = staticCompositionLocalOf<(Ayah) -> Unit> { {} }
+
+@Composable
+private fun TafsirSheet(vm: AppViewModel, q: Quran, a: Ayah, st: Settings) {
+    val ctx = LocalContext.current
+    var retry by remember { mutableIntStateOf(0) }
+    val result by produceState<Result<String>?>(null, a.key, st.tafsir, retry) {
+        value = null
+        value = runCatching { Tafsirs.text(ctx, st.tafsir, a.surah, a.number) }
+    }
+    Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp)) {
+        Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp)) {
+            Tafsirs.all.forEachIndexed { i, t ->
+                FilterChip(st.tafsir == i, { vm.setPref(Prefs.Keys.tafsir, i) }, { Text(t.nameAr) }, Modifier.padding(end = 6.dp))
+            }
+        }
+        Column(Modifier.fillMaxWidth().heightIn(max = 520.dp).verticalScroll(rememberScrollState())) {
+            Text(a.text, fontFamily = QuranFont, fontSize = 22.sp, lineHeight = 40.sp, color = MaterialTheme.colorScheme.onSurface)
+            val r = result
+            when {
+                r == null -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))
+                r.isFailure -> {
+                    Text("تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.", Modifier.padding(top = 16.dp), color = MaterialTheme.colorScheme.error)
+                    OutlinedButton({ retry++ }, Modifier.padding(top = 8.dp)) { Text("إعادة المحاولة") }
+                }
+                else -> Text(
+                    r.getOrThrow().ifBlank { "تفسير هذه الآية مذكور مع الآيات المجاورة." },
+                    Modifier.padding(top = 12.dp), style = MaterialTheme.typography.bodyLarge, lineHeight = 30.sp,
+                )
             }
         }
     }

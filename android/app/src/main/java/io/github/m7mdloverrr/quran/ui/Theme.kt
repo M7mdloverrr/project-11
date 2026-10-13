@@ -5,6 +5,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
@@ -16,7 +19,14 @@ val EmeraldBright = Color(0xFF34C08E)
 val DarkGreen = Color(0xFF063D2C)
 val Ink = Color(0xFF0A0D0C)
 
-val QuranFont = FontFamily(Font(R.font.amiri_quran))
+val QuranFonts = listOf(
+    "أميري قرآن" to FontFamily(Font(R.font.amiri_quran)),
+    "أميري" to FontFamily(Font(R.font.amiri)),
+    "شهرزاد" to FontFamily(Font(R.font.scheherazade)),
+    "نسخ" to FontFamily(Font(R.font.noto_naskh)),
+)
+var quranFontIndex by mutableIntStateOf(0)
+val QuranFont: FontFamily get() = QuranFonts.getOrElse(quranFontIndex) { QuranFonts[0] }.second
 
 class PageColors(val page: Color, val text: Color, val mark: Color, val highlight: Color, val selected: Color)
 

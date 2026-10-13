@@ -25,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.SideEffect
+import io.github.m7mdloverrr.quran.ui.quranFontIndex
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -70,6 +72,8 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 if (Build.VERSION.SDK_INT >= 33) notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
+            val fontIndex = settings?.quranFont ?: 0
+            SideEffect { quranFontIndex = fontIndex }
             QuranTheme(dark, settings?.pageStyle ?: 0) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {
@@ -114,11 +118,11 @@ private fun Splash(show: Boolean) {
     LaunchedEffect(Unit) {
         if (visible) {
             withFrameNanos {}
-            delay(2200)
+            delay(1500)
             visible = false
         }
     }
-    AnimatedVisibility(visible, enter = EnterTransition.None, exit = fadeOut(tween(350))) {
+    AnimatedVisibility(visible, enter = EnterTransition.None, exit = fadeOut(tween(250))) {
         Image(
             painterResource(R.drawable.splash),
             contentDescription = null,

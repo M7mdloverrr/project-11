@@ -118,6 +118,22 @@ object Reciters {
         Reciter("sudais", "عبد الرحمن السديس", "Abdul Rahman Al-Sudais", "Abdurrahmaan_As-Sudais_192kbps"),
         Reciter("basit", "عبد الباسط عبد الصمد", "Abdul Basit Abdul Samad", "Abdul_Basit_Murattal_192kbps"),
         Reciter("minshawi", "محمد صديق المنشاوي", "Muhammad Siddiq Al-Minshawi", "Minshawy_Murattal_128kbps"),
+        Reciter("husary", "محمود خليل الحصري", "Mahmoud Khalil Al-Husary", "Husary_128kbps"),
+        Reciter("husary_mj", "الحصري (مجوّد)", "Al-Husary (Mujawwad)", "Husary_Mujawwad_64kbps"),
+        Reciter("minshawi_mj", "المنشاوي (مجوّد)", "Al-Minshawi (Mujawwad)", "Minshawy_Mujawwad_192kbps"),
+        Reciter("ajamy", "أحمد العجمي", "Ahmed Al-Ajamy", "Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net"),
+        Reciter("shuraim", "سعود الشريم", "Saud Al-Shuraim", "Saood_ash-Shuraym_128kbps"),
+        Reciter("ghamdi", "سعد الغامدي", "Saad Al-Ghamdi", "Ghamadi_40kbps"),
+        Reciter("dossari", "ياسر الدوسري", "Yasser Al-Dossari", "Yasser_Ad-Dussary_128kbps"),
+        Reciter("hudhaify", "علي الحذيفي", "Ali Al-Hudhaify", "Hudhaify_128kbps"),
+        Reciter("shatri", "أبو بكر الشاطري", "Abu Bakr Al-Shatri", "Abu_Bakr_Ash-Shaatree_128kbps"),
+        Reciter("ayyoub", "محمد أيوب", "Muhammad Ayyoub", "Muhammad_Ayyoub_128kbps"),
+        Reciter("qatami", "ناصر القطامي", "Nasser Al-Qatami", "Nasser_Alqatami_128kbps"),
+        Reciter("jaber", "علي جابر", "Ali Jaber", "Ali_Jaber_64kbps"),
+        Reciter("abbad", "فارس عباد", "Fares Abbad", "Fares_Abbad_64kbps"),
+        Reciter("basfar", "عبد الله بصفر", "Abdullah Basfar", "Abdullah_Basfar_192kbps"),
+        Reciter("budair", "صلاح البدير", "Salah Al-Budair", "Salah_Al_Budair_128kbps"),
+        Reciter("rifai", "هاني الرفاعي", "Hani Ar-Rifai", "Hani_Rifai_192kbps"),
     )
 
     fun byId(id: String?) = all.firstOrNull { it.id == id } ?: all[0]

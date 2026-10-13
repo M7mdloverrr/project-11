@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.Tafsirs
+
 import io.github.m7mdloverrr.quran.data.Prefs
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -111,6 +113,15 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     )
                 }
             }
+            Section("خط المصحف") {
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    QuranFonts.forEachIndexed { i, (name, family) ->
+                        SegmentedButton(st.quranFont == i, { vm.setPref(Prefs.Keys.quranFont, i) }, SegmentedButtonDefaults.itemShape(i, QuranFonts.size)) {
+                            Text(name, fontFamily = family, fontSize = 13.sp, maxLines = 1)
+                        }
+                    }
+                }
+            }
             Section("وضوح خلفية التطبيق") {
                 var a by remember(st.bgAlpha) { mutableFloatStateOf(st.bgAlpha) }
                 Slider(a, { a = it }, valueRange = 0f..0.7f, onValueChangeFinished = { vm.setPref(Prefs.Keys.bgAlpha, a) })
@@ -131,6 +142,17 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 }
                 SwitchRow("إبقاء الشاشة مضاءة أثناء القراءة", st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
                 SwitchRow("متابعة الآية المتلوة تلقائيًا", st.follow) { vm.setPref(Prefs.Keys.follow, it) }
+            }
+            Section("التفسير (اضغط مطولًا على الآية)") {
+                Tafsirs.all.forEachIndexed { i, t ->
+                    Row(
+                        Modifier.fillMaxWidth().clickable { vm.setPref(Prefs.Keys.tafsir, i) },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = st.tafsir == i, onClick = { vm.setPref(Prefs.Keys.tafsir, i) })
+                        Text(t.nameAr + if (i == 0) " • بدون إنترنت" else "", style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
             }
             Section("الترجمة الألمانية (Deutsch)") {
                 val modes = listOf("إيقاف", "فقاعة", "تحت كل آية")
