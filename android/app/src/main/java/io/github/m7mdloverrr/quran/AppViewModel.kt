@@ -1,5 +1,6 @@
 package io.github.m7mdloverrr.quran
 
+import io.github.m7mdloverrr.quran.prayer.PrayerAlarms
 import androidx.datastore.preferences.core.Preferences
 import android.app.Application
 import android.content.ComponentName
@@ -46,6 +47,10 @@ data class DownloadState(val running: Boolean, val progress: Float)
 class AppViewModel(private val app: Application) : AndroidViewModel(app) {
     val prefs = Prefs(app)
     val settings: StateFlow<Settings?> = prefs.settings.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    init {
+        viewModelScope.launch { PrayerAlarms.schedule(app) }
+    }
 
     private val _quran = MutableStateFlow<Quran?>(null)
     val quran = _quran.asStateFlow()
@@ -207,6 +212,16 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
     fun setFontSize(v: Float) = viewModelScope.launch { prefs.set(Prefs.Keys.fontSize, v.coerceIn(18f, 44f)) }
     fun setTheme(v: Int) = viewModelScope.launch { prefs.set(Prefs.Keys.theme, v) }
     fun <T> setPref(key: Preferences.Key<T>, v: T) = viewModelScope.launch { prefs.set(key, v) }
+
+    fun <T> setPrayerPref(key: Preferences.Key<T>, v: T) = viewModelScope.launch {
+        prefs.set(key, v)
+        PrayerAlarms.schedule(app)
+    }
+
+    fun saveLocation(lat: Double, lon: Double, city: String) = viewModelScope.launch {
+        prefs.saveLocation(lat, lon, city)
+        PrayerAlarms.schedule(app)
+    }
 
     fun stop() {
         controller?.run { stop(); clearMediaItems() }

@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran
 
+import io.github.m7mdloverrr.quran.ui.PrayerScreen
+import io.github.m7mdloverrr.quran.ui.QiblaScreen
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
@@ -49,6 +51,9 @@ class MainActivity : ComponentActivity() {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         val nav = rememberNavController()
+                        LaunchedEffect(Unit) {
+                            if (intent?.getStringExtra("open") == "prayer") nav.navigate("prayer")
+                        }
                         NavHost(nav, startDestination = "home") {
                             composable("home") {
                                 HomeScreen(
@@ -56,6 +61,8 @@ class MainActivity : ComponentActivity() {
                                     openPage = { nav.navigate("reader/$it") },
                                     openSettings = { nav.navigate("settings") },
                                     openDownloads = { nav.navigate("downloads") },
+                                    openPrayer = { nav.navigate("prayer") },
+                                    openQibla = { nav.navigate("qibla") },
                                 )
                             }
                             composable("reader/{page}", arguments = listOf(navArgument("page") { type = NavType.IntType })) {
@@ -63,6 +70,8 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("settings") { SettingsScreen(vm) { nav.popBackStack() } }
                             composable("downloads") { DownloadsScreen(vm) { nav.popBackStack() } }
+                            composable("prayer") { PrayerScreen(vm, { nav.popBackStack() }) { nav.navigate("qibla") } }
+                            composable("qibla") { QiblaScreen(vm) { nav.popBackStack() } }
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package io.github.m7mdloverrr.quran.data
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -33,6 +34,12 @@ data class Settings(
     val keepScreenOn: Boolean,
     val follow: Boolean,
     val backgroundPlay: Boolean,
+    val lat: Double?,
+    val lon: Double?,
+    val city: String,
+    val prayerMethod: Int,
+    val madhab: Int,
+    val prayerAlerts: Boolean,
 )
 
 class Prefs(context: Context) {
@@ -55,6 +62,12 @@ class Prefs(context: Context) {
         val keepScreenOn = booleanPreferencesKey("keep_screen_on")
         val follow = booleanPreferencesKey("follow")
         val backgroundPlay = booleanPreferencesKey("background_play")
+        val lat = doublePreferencesKey("lat")
+        val lon = doublePreferencesKey("lon")
+        val city = stringPreferencesKey("city")
+        val prayerMethod = intPreferencesKey("prayer_method")
+        val madhab = intPreferencesKey("madhab")
+        val prayerAlerts = booleanPreferencesKey("prayer_alerts")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -75,11 +88,25 @@ class Prefs(context: Context) {
             keepScreenOn = p[Keys.keepScreenOn] ?: true,
             follow = p[Keys.follow] ?: true,
             backgroundPlay = p[Keys.backgroundPlay] ?: false,
+            lat = p[Keys.lat],
+            lon = p[Keys.lon],
+            city = p[Keys.city] ?: "",
+            prayerMethod = p[Keys.prayerMethod] ?: 0,
+            madhab = p[Keys.madhab] ?: 0,
+            prayerAlerts = p[Keys.prayerAlerts] ?: true,
         )
     }
 
     suspend fun <T> set(key: Preferences.Key<T>, value: T) {
         store.edit { it[key] = value }
+    }
+
+    suspend fun saveLocation(lat: Double, lon: Double, city: String) {
+        store.edit {
+            it[Keys.lat] = lat
+            it[Keys.lon] = lon
+            it[Keys.city] = city
+        }
     }
 
     suspend fun saveLastRead(surah: Int, ayah: Int, page: Int) {

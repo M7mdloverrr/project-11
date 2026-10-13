@@ -55,5 +55,6 @@ dependencies {
     implementation("androidx.media3:media3-common:$media3")
     implementation("androidx.media3:media3-ui-compose:$media3")
     implementation("androidx.work:work-runtime-ktx:2.12.0")
+    implementation("com.batoulapps.adhan:adhan:1.2.1")
     testImplementation("junit:junit:4.13.2")
 }

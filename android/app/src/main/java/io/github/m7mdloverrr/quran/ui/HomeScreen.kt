@@ -1,5 +1,10 @@
 package io.github.m7mdloverrr.quran.ui
 
+import androidx.compose.material3.Surface
+import androidx.compose.material.icons.rounded.AccessTime
+import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.ui.graphics.vector.ImageVector
+import io.github.m7mdloverrr.quran.prayer.PrayerCalc
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -62,7 +67,14 @@ fun Loading() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(vm: AppViewModel, openPage: (Int) -> Unit, openSettings: () -> Unit, openDownloads: () -> Unit) {
+fun HomeScreen(
+    vm: AppViewModel,
+    openPage: (Int) -> Unit,
+    openSettings: () -> Unit,
+    openDownloads: () -> Unit,
+    openPrayer: () -> Unit,
+    openQibla: () -> Unit,
+) {
     val quran by vm.quran.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
@@ -87,6 +99,16 @@ fun HomeScreen(vm: AppViewModel, openPage: (Int) -> Unit, openSettings: () -> Un
         }
         Column(Modifier.padding(pad)) {
             ContinueCard(q, st, openPage)
+            Row(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                val lat = st.lat
+                val lon = st.lon
+                val sub = if (lat != null && lon != null) {
+                    val (i, t) = PrayerCalc.next(lat, lon, st.prayerMethod, st.madhab)
+                    "${PrayerCalc.names[i]} ${prayerTime(t)}"
+                } else "حدّد موقعك"
+                QuickCard("مواقيت الصلاة", sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
+                QuickCard("القبلة", "البوصلة", Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
+            }
             PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
                 listOf("السور", "الأجزاء", "العلامات").forEachIndexed { i, t ->
                     Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) })
@@ -100,6 +122,19 @@ fun HomeScreen(vm: AppViewModel, openPage: (Int) -> Unit, openSettings: () -> Un
         }
     }
     if (jump) PageJumpDialog({ jump = false }) { jump = false; openPage(it) }
+}
+
+@Composable
+private fun QuickCard(title: String, sub: String, icon: ImageVector, modifier: Modifier, onClick: () -> Unit) {
+    Surface(onClick = onClick, modifier = modifier, shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
+            Column {
+                Text(title, style = MaterialTheme.typography.titleSmall)
+                Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+            }
+        }
+    }
 }
 
 @Composable
