@@ -40,6 +40,7 @@ data class Settings(
     val prayerMethod: Int,
     val madhab: Int,
     val prayerAlerts: Boolean,
+    val germanMode: Int,
 )
 
 class Prefs(context: Context) {
@@ -68,6 +69,7 @@ class Prefs(context: Context) {
         val prayerMethod = intPreferencesKey("prayer_method")
         val madhab = intPreferencesKey("madhab")
         val prayerAlerts = booleanPreferencesKey("prayer_alerts")
+        val germanMode = intPreferencesKey("german_mode")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -94,6 +96,7 @@ class Prefs(context: Context) {
             prayerMethod = p[Keys.prayerMethod] ?: 0,
             madhab = p[Keys.madhab] ?: 0,
             prayerAlerts = p[Keys.prayerAlerts] ?: true,
+            germanMode = p[Keys.germanMode] ?: 0,
         )
     }
 

@@ -1,6 +1,15 @@
 package io.github.m7mdloverrr.quran.ui
 
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.produceState
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import io.github.m7mdloverrr.quran.data.GermanRepository
 import androidx.compose.ui.platform.LocalView
 import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
@@ -116,6 +125,10 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     val snackbar = remember { SnackbarHostState() }
     val page by remember { derivedStateOf { listState.firstVisibleItemIndex + 1 } }
     val pageFirst = q.pages[page - 1].first()
+    val ctx = LocalContext.current
+    val german by produceState<List<List<String>>?>(null, st.germanMode != 0) {
+        if (st.germanMode != 0) value = GermanRepository.load(ctx)
+    }
 
     val view = LocalView.current
     DisposableEffect(st.keepScreenOn) {
@@ -164,7 +177,10 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
         },
         bottomBar = {
             AnimatedVisibility(target != null, enter = slideInVertically { it }, exit = slideOutVertically { it }) {
-                target?.let { PlayerBar(vm, q, st, playing, it) }
+                target?.let {
+                    val de = if (st.germanMode == 1 && !(playing.active && playing.ayah == 0)) german?.getOrNull(it.surah - 1)?.getOrNull(it.number - 1) else null
+                    PlayerBar(vm, q, st, playing, it, de)
+                }
             }
         },
     ) { pad ->
@@ -175,7 +191,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
         ) {
             items(q.pages.size, key = { it + 1 }) { i ->
                 QuranPage(
-                    q, i + 1, q.pages[i], st, currentKey, selected?.key.takeIf { !playing.active },
+                    q, i + 1, q.pages[i], st, currentKey, selected?.key.takeIf { !playing.active }, if (st.germanMode == 2) german else null,
                     onTap = { a ->
                         selected = a
                         vm.play(a.surah, a.number)
@@ -242,6 +258,7 @@ private fun QuranPage(
     st: Settings,
     currentKey: String?,
     selectedKey: String?,
+    split: List<List<String>>?,
     onTap: (Ayah) -> Unit,
     onPositions: (Map<String, Float>) -> Unit,
 ) {
@@ -277,7 +294,10 @@ private fun QuranPage(
                         )
                     }
                 }
-                AyahParagraph(segment, st, currentKey, selectedKey, root, onTap, onPositions)
+                if (split != null) segment.forEach { a ->
+                    AyahParagraph(listOf(a), st, currentKey, selectedKey, root, onTap, onPositions)
+                    GermanText(split.getOrNull(a.surah - 1)?.getOrNull(a.number - 1).orEmpty())
+                } else AyahParagraph(segment, st, currentKey, selectedKey, root, onTap, onPositions)
                 i = j
             }
             Text(
@@ -286,6 +306,14 @@ private fun QuranPage(
                 textAlign = TextAlign.Center, fontSize = 13.sp, color = colors.mark,
             )
         }
+    }
+}
+
+@Composable
+private fun GermanText(text: String, modifier: Modifier = Modifier) {
+    val colors = LocalPageColors.current
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Text(text, modifier.fillMaxWidth().padding(bottom = 6.dp), fontSize = 15.sp, lineHeight = 21.sp, color = colors.text.copy(alpha = 0.78f))
     }
 }
 
@@ -369,9 +397,14 @@ private fun AyahParagraph(
 }
 
 @Composable
-private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: PlayingState, target: Ayah) {
+private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: PlayingState, target: Ayah, german: String?) {
     Surface(color = MaterialTheme.colorScheme.primaryContainer, shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp), shadowElevation = 8.dp) {
         Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp)) {
+            if (german != null) {
+                Surface(color = LocalPageColors.current.page, shape = RoundedCornerShape(14.dp), modifier = Modifier.padding(bottom = 8.dp)) {
+                    GermanText(german, Modifier.heightIn(max = 150.dp).verticalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 8.dp))
+                }
+            }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f).padding(horizontal = 8.dp)) {
                     Text(

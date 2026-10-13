@@ -124,3 +124,32 @@ object Reciters {
 }
 
 fun Int.ar(): String = toString().map { if (it.isDigit()) (it - '0' + 0x0660).toChar() else it }.joinToString("")
+
+object GermanRepository {
+    @Volatile private var cached: List<List<String>>? = null
+
+    suspend fun load(context: Context): List<List<String>> = cached ?: withContext(Dispatchers.IO) {
+        synchronized(this@GermanRepository) { cached ?: parse(context).also { cached = it } }
+    }
+
+    private fun parse(context: Context): List<List<String>> =
+        JsonReader(InputStreamReader(context.assets.open("de_bubenheim.json"), Charsets.UTF_8)).use { r ->
+            val out = ArrayList<List<String>>(114)
+            r.beginObject()
+            while (r.hasNext()) {
+                if (r.nextName() == "s") {
+                    r.beginArray()
+                    while (r.hasNext()) {
+                        val ayahs = ArrayList<String>()
+                        r.beginArray()
+                        while (r.hasNext()) ayahs.add(r.nextString())
+                        r.endArray()
+                        out.add(ayahs)
+                    }
+                    r.endArray()
+                } else r.skipValue()
+            }
+            r.endObject()
+            out
+        }
+}

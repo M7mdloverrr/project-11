@@ -127,6 +127,18 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 SwitchRow("إبقاء الشاشة مضاءة أثناء القراءة", st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
                 SwitchRow("متابعة الآية المتلوة تلقائيًا", st.follow) { vm.setPref(Prefs.Keys.follow, it) }
             }
+            Section("الترجمة الألمانية (Deutsch)") {
+                val modes = listOf("إيقاف", "فقاعة", "تحت كل آية")
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    modes.forEachIndexed { i, l ->
+                        SegmentedButton(st.germanMode == i, { vm.setPref(Prefs.Keys.germanMode, i) }, SegmentedButtonDefaults.itemShape(i, modes.size)) { Text(l, fontSize = 12.sp, maxLines = 1) }
+                    }
+                }
+                Text(
+                    "فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني",
+                    Modifier.padding(top = 6.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             Section("التلاوة") {
                 Text("سرعة التلاوة", style = MaterialTheme.typography.bodyMedium)
                 val speeds = listOf(0.75f, 1f, 1.25f, 1.5f, 2f)
@@ -155,6 +167,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 Text("التلاوات (آية بآية): EveryAyah.com", style = MaterialTheme.typography.bodySmall)
                 Text("everyayah.com", Modifier.clickable { uri.openUri("https://everyayah.com/") }.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.primary)
                 Text("خط المصحف: Amiri Quran (SIL Open Font License)", style = MaterialTheme.typography.bodySmall)
+                Text("Deutsche Übersetzung: A. S. F. Bubenheim & N. Elyas (via Tanzil.net)", style = MaterialTheme.typography.bodySmall)
             }
         }
     }
