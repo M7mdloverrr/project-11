@@ -2,6 +2,7 @@ package io.github.m7mdloverrr.quran
 
 import io.github.m7mdloverrr.quran.ui.PrayerScreen
 import io.github.m7mdloverrr.quran.ui.QiblaScreen
+import io.github.m7mdloverrr.quran.ui.StudioScreen
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                                     openDownloads = { nav.navigate("downloads") },
                                     openPrayer = { nav.navigate("prayer") },
                                     openQibla = { nav.navigate("qibla") },
+                                    openStudio = { nav.navigate("studio") },
                                 )
                             }
                             composable("reader/{page}", arguments = listOf(navArgument("page") { type = NavType.IntType })) {
@@ -72,6 +74,7 @@ class MainActivity : ComponentActivity() {
                             composable("downloads") { DownloadsScreen(vm) { nav.popBackStack() } }
                             composable("prayer") { PrayerScreen(vm, { nav.popBackStack() }) { nav.navigate("qibla") } }
                             composable("qibla") { QiblaScreen(vm) { nav.popBackStack() } }
+                            composable("studio") { StudioScreen(vm) { nav.popBackStack() } }
                         }
                     }
                 }

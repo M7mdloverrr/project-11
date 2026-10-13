@@ -3,6 +3,7 @@ package io.github.m7mdloverrr.quran.ui
 import androidx.compose.material3.Surface
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.Movie
 import androidx.compose.ui.graphics.vector.ImageVector
 import io.github.m7mdloverrr.quran.prayer.PrayerCalc
 import androidx.compose.foundation.background
@@ -74,6 +75,7 @@ fun HomeScreen(
     openDownloads: () -> Unit,
     openPrayer: () -> Unit,
     openQibla: () -> Unit,
+    openStudio: () -> Unit,
 ) {
     val quran by vm.quran.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
@@ -109,6 +111,7 @@ fun HomeScreen(
                 QuickCard("مواقيت الصلاة", sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
                 QuickCard("القبلة", "البوصلة", Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
             }
+            QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
             PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
                 listOf("السور", "الأجزاء", "العلامات").forEachIndexed { i, t ->
                     Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) })
