@@ -1,0 +1,18 @@
+{
+  "name": "القرآن الكريم",
+  "short_name": "القرآن",
+  "description": "القرآن الكريم بالرسم العثماني مع التلاوات ومواقيت الصلاة والقبلة واستوديو الفيديو",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F4F7F5",
+  "theme_color": "#063D2C",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
