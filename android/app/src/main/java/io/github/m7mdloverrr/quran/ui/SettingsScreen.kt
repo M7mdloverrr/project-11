@@ -158,8 +158,8 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 SwitchRow("استمرار التلاوة بعد الخروج من صفحة المصحف", st.backgroundPlay) { vm.setPref(Prefs.Keys.backgroundPlay, it) }
             }
             Section("عن التطبيق") {
-                Text("المؤلف: محمد صالح المحمد", style = MaterialTheme.typography.bodyMedium)
-                Text("Autor: Mouhamad Almuhamad", style = MaterialTheme.typography.bodyMedium)
+                Text("المطور: محمد صالح المحمد", style = MaterialTheme.typography.bodyMedium)
+                Text("Entwickler: Mouhamad Almuhamad", style = MaterialTheme.typography.bodyMedium)
             }
             Section("المصادر") {
                 Text(
