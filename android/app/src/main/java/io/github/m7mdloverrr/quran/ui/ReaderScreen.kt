@@ -1,5 +1,8 @@
 package io.github.m7mdloverrr.quran.ui
 
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -114,11 +117,22 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     val page by remember { derivedStateOf { listState.firstVisibleItemIndex + 1 } }
     val pageFirst = q.pages[page - 1].first()
 
+    val view = LocalView.current
+    DisposableEffect(st.keepScreenOn) {
+        view.keepScreenOn = st.keepScreenOn
+        onDispose { view.keepScreenOn = false }
+    }
+    val activity = LocalActivity.current
+    val keepPlaying by rememberUpdatedState(st.backgroundPlay)
+    DisposableEffect(Unit) {
+        onDispose { if (!keepPlaying && activity?.isChangingConfigurations != true) vm.stop() }
+    }
+
     LaunchedEffect(listState) {
         snapshotFlow { listState.firstVisibleItemIndex + 1 }.distinctUntilChanged().debounce(600).collect { vm.savePage(it) }
     }
     LaunchedEffect(playing.surah, playing.ayah) {
-        if (playing.active) followAyah(q, playing, listState, positions)
+        if (playing.active && st.follow) followAyah(q, playing, listState, positions)
     }
     LaunchedEffect(message) {
         val m = message ?: return@LaunchedEffect
@@ -345,7 +359,7 @@ private fun AyahParagraph(
         style = TextStyle(
             fontFamily = QuranFont,
             fontSize = st.fontSize.sp,
-            lineHeight = (st.fontSize * 2.05f).sp,
+            lineHeight = (st.fontSize * st.lineSpacing).sp,
             textAlign = TextAlign.Justify,
             textDirection = TextDirection.Rtl,
             color = colors.text,

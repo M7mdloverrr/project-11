@@ -28,6 +28,11 @@ data class Settings(
     val lastAyah: Int,
     val bookmarks: Set<String>,
     val downloaded: Set<String>,
+    val pageStyle: Int,
+    val lineSpacing: Float,
+    val keepScreenOn: Boolean,
+    val follow: Boolean,
+    val backgroundPlay: Boolean,
 )
 
 class Prefs(context: Context) {
@@ -45,6 +50,11 @@ class Prefs(context: Context) {
         val lastAyah = intPreferencesKey("last_ayah")
         val bookmarks = stringSetPreferencesKey("bookmarks")
         val downloaded = stringSetPreferencesKey("downloaded")
+        val pageStyle = intPreferencesKey("page_style")
+        val lineSpacing = floatPreferencesKey("line_spacing")
+        val keepScreenOn = booleanPreferencesKey("keep_screen_on")
+        val follow = booleanPreferencesKey("follow")
+        val backgroundPlay = booleanPreferencesKey("background_play")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -60,6 +70,11 @@ class Prefs(context: Context) {
             lastAyah = p[Keys.lastAyah] ?: 0,
             bookmarks = p[Keys.bookmarks] ?: emptySet(),
             downloaded = p[Keys.downloaded] ?: emptySet(),
+            pageStyle = p[Keys.pageStyle] ?: 0,
+            lineSpacing = p[Keys.lineSpacing] ?: 2.05f,
+            keepScreenOn = p[Keys.keepScreenOn] ?: true,
+            follow = p[Keys.follow] ?: true,
+            backgroundPlay = p[Keys.backgroundPlay] ?: false,
         )
     }
 

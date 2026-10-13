@@ -1,5 +1,6 @@
 package io.github.m7mdloverrr.quran
 
+import androidx.datastore.preferences.core.Preferences
 import android.app.Application
 import android.content.ComponentName
 import androidx.core.content.ContextCompat
@@ -205,6 +206,13 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun setFontSize(v: Float) = viewModelScope.launch { prefs.set(Prefs.Keys.fontSize, v.coerceIn(18f, 44f)) }
     fun setTheme(v: Int) = viewModelScope.launch { prefs.set(Prefs.Keys.theme, v) }
+    fun <T> setPref(key: Preferences.Key<T>, v: T) = viewModelScope.launch { prefs.set(key, v) }
+
+    fun stop() {
+        controller?.run { stop(); clearMediaItems() }
+        _playing.value = PlayingState()
+    }
+
     fun setContinuous(v: Boolean) = viewModelScope.launch { prefs.set(Prefs.Keys.continuous, v) }
     fun savePage(page: Int) = viewModelScope.launch { prefs.set(Prefs.Keys.lastPage, page) }
     fun toggleBookmark(key: String) = viewModelScope.launch { prefs.toggle(Prefs.Keys.bookmarks, key) }

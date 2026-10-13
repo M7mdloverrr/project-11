@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 if (Build.VERSION.SDK_INT >= 33) notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
-            QuranTheme(dark) {
+            QuranTheme(dark, settings?.pageStyle ?: 0) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         val nav = rememberNavController()

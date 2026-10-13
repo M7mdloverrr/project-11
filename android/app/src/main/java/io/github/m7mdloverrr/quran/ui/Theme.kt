@@ -68,13 +68,31 @@ private val Dark = darkColorScheme(
     outlineVariant = Color(0xFF26332E),
 )
 
+val PageStyleNames = listOf("ورق المصحف", "كريمي", "أخضر هادئ", "سادة")
+
+private val lightPages = listOf(
+    Color(0xFFFBF3DF) to Color(0xFF1B1B18),
+    Color(0xFFF2E3C2) to Color(0xFF2A1E10),
+    Color(0xFFEAF4EC) to Color(0xFF10201A),
+    Color(0xFFFFFFFF) to Color(0xFF000000),
+)
+
+private val darkPages = listOf(
+    Color(0xFF1E1B14) to Color(0xFFEFE6D2),
+    Color(0xFF2A2116) to Color(0xFFF1E2C4),
+    Color(0xFF0F2A21) to Color(0xFFE8F3EE),
+    Color(0xFF17201D) to Color(0xFFF3F3F0),
+)
+
+fun pageColors(dark: Boolean, style: Int): PageColors {
+    val (bg, fg) = (if (dark) darkPages else lightPages)[style.coerceIn(0, 3)]
+    val m = if (dark) EmeraldBright else Emerald
+    return PageColors(bg, fg, m, m.copy(alpha = if (dark) 0.24f else 0.20f), m.copy(alpha = if (dark) 0.10f else 0.08f))
+}
+
 @Composable
-fun QuranTheme(dark: Boolean, content: @Composable () -> Unit) {
-    val page = if (dark) {
-        PageColors(Color(0xFF0F1513), Color(0xFFF3F3F0), EmeraldBright, EmeraldBright.copy(alpha = 0.24f), EmeraldBright.copy(alpha = 0.10f))
-    } else {
-        PageColors(Color.White, Color.Black, Emerald, Emerald.copy(alpha = 0.20f), Emerald.copy(alpha = 0.08f))
-    }
+fun QuranTheme(dark: Boolean, pageStyle: Int = 0, content: @Composable () -> Unit) {
+    val page = pageColors(dark, pageStyle)
     CompositionLocalProvider(LocalPageColors provides page) {
         MaterialTheme(colorScheme = if (dark) Dark else Light, content = content)
     }

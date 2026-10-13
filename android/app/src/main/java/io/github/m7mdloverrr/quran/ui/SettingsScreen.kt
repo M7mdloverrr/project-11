@@ -1,5 +1,6 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.Prefs
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,18 @@ fun Section(title: String, content: @Composable () -> Unit) {
     }
 }
 
+@Composable
+fun SwitchRow(text: String, value: Boolean, onChange: (Boolean) -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().clickable { onChange(!value) }.padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(text, Modifier.weight(1f))
+        Switch(value, onChange)
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
@@ -89,11 +102,30 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
             Section("حجم خط المصحف") {
                 var size by remember(st.fontSize) { mutableFloatStateOf(st.fontSize) }
                 Slider(size, { size = it }, valueRange = 18f..44f, steps = 12, onValueChangeFinished = { vm.setFontSize(size) })
-                Text(
-                    quran?.basmala ?: "",
-                    Modifier.fillMaxWidth(), fontFamily = QuranFont, fontSize = size.sp, textAlign = TextAlign.Center,
-                    color = LocalPageColors.current.text,
-                )
+                Surface(color = LocalPageColors.current.page, shape = MaterialTheme.shapes.medium) {
+                    Text(
+                        quran?.basmala ?: "",
+                        Modifier.fillMaxWidth().padding(vertical = 8.dp), fontFamily = QuranFont, fontSize = size.sp, textAlign = TextAlign.Center,
+                        color = LocalPageColors.current.text,
+                    )
+                }
+            }
+            Section("القراءة") {
+                Text("لون صفحة المصحف", style = MaterialTheme.typography.bodyMedium)
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                    PageStyleNames.forEachIndexed { i, l ->
+                        SegmentedButton(st.pageStyle == i, { vm.setPref(Prefs.Keys.pageStyle, i) }, SegmentedButtonDefaults.itemShape(i, PageStyleNames.size)) { Text(l, fontSize = 11.sp, maxLines = 1) }
+                    }
+                }
+                Text("تباعد الأسطر", style = MaterialTheme.typography.bodyMedium)
+                val spacings = listOf(1.7f to "ضيق", 2.05f to "عادي", 2.4f to "واسع")
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                    spacings.forEachIndexed { i, (v, l) ->
+                        SegmentedButton(st.lineSpacing == v, { vm.setPref(Prefs.Keys.lineSpacing, v) }, SegmentedButtonDefaults.itemShape(i, spacings.size)) { Text(l) }
+                    }
+                }
+                SwitchRow("إبقاء الشاشة مضاءة أثناء القراءة", st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
+                SwitchRow("متابعة الآية المتلوة تلقائيًا", st.follow) { vm.setPref(Prefs.Keys.follow, it) }
             }
             Section("التلاوة") {
                 Text("سرعة التلاوة", style = MaterialTheme.typography.bodyMedium)
@@ -110,10 +142,8 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                         SegmentedButton(st.repeat == v, { vm.setRepeat(v) }, SegmentedButtonDefaults.itemShape(i, reps.size)) { Text(if (v == 0) "∞" else v.ar()) }
                     }
                 }
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("متابعة التشغيل إلى السورة التالية", Modifier.weight(1f))
-                    Switch(st.continuous, { vm.setContinuous(it) })
-                }
+                SwitchRow("متابعة التشغيل إلى السورة التالية", st.continuous) { vm.setContinuous(it) }
+                SwitchRow("استمرار التلاوة بعد الخروج من صفحة المصحف", st.backgroundPlay) { vm.setPref(Prefs.Keys.backgroundPlay, it) }
             }
             Section("المصادر") {
                 Text(
