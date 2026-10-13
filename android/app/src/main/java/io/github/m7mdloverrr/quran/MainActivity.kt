@@ -12,6 +12,26 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import kotlinx.coroutines.delay
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
@@ -36,7 +56,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        val firstLaunch = savedInstanceState == null
         setContent {
+          Box(Modifier.fillMaxSize()) {
             val vm: AppViewModel = viewModel()
             val settings by vm.settings.collectAsStateWithLifecycle()
             val dark = when (settings?.theme) {
@@ -79,6 +101,28 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+            Splash(firstLaunch)
+          }
         }
+    }
+}
+
+@Composable
+private fun Splash(show: Boolean) {
+    var visible by rememberSaveable { mutableStateOf(show) }
+    LaunchedEffect(Unit) {
+        if (visible) {
+            withFrameNanos {}
+            delay(2200)
+            visible = false
+        }
+    }
+    AnimatedVisibility(visible, enter = EnterTransition.None, exit = fadeOut(tween(350))) {
+        Image(
+            painterResource(R.drawable.splash),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize().background(Color.Black).pointerInput(Unit) { detectTapGestures {} },
+            contentScale = ContentScale.Fit,
+        )
     }
 }

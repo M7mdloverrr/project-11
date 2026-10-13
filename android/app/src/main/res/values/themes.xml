@@ -4,6 +4,6 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
-    <color name="splash">#063D2C</color>
-    <color name="ic_bg">#0E7C5A</color>
+    <color name="splash">#000000</color>
+    <color name="ic_bg">#000000</color>
 </resources>

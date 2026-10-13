@@ -157,6 +157,10 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 SwitchRow("متابعة التشغيل إلى السورة التالية", st.continuous) { vm.setContinuous(it) }
                 SwitchRow("استمرار التلاوة بعد الخروج من صفحة المصحف", st.backgroundPlay) { vm.setPref(Prefs.Keys.backgroundPlay, it) }
             }
+            Section("عن التطبيق") {
+                Text("المؤلف: محمد صالح المحمد", style = MaterialTheme.typography.bodyMedium)
+                Text("Autor: Mouhamad Almuhamad", style = MaterialTheme.typography.bodyMedium)
+            }
             Section("المصادر") {
                 Text(
                     "نص القرآن الكريم: مشروع تنزيل (Tanzil Project) — رسم عثماني، منقول حرفيًا دون أي تعديل. " +
