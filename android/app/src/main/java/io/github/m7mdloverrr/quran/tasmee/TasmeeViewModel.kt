@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,7 +32,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
-class TWord(val surah: Int, val ayah: Int, val text: String, val key: String, val ayahEnd: Boolean)
+class TWord(val surah: Int, val ayah: Int, val text: String, val key: String, val ayahEnd: Boolean, val phon: String = "")
 
 enum class Phase { Setup, Listening, Mistake, Done }
 
@@ -41,6 +42,7 @@ private val space = Regex("\\s+")
 object TasmeeText {
     @Volatile private var qpc: List<List<String>>? = null
     @Volatile private var keys: List<List<String>>? = null
+    @Volatile private var phon: List<List<String>>? = null
     private val letter = Regex("[\u0621-\u064A\u0671]")
 
     private fun read(context: Context, asset: String): List<List<String>> {
@@ -51,6 +53,7 @@ object TasmeeText {
     suspend fun words(context: Context, surah: Int, from: Int, to: Int): List<TWord> = withContext(Dispatchers.IO) {
         val q = qpc ?: read(context, "script_qpc.json").also { qpc = it }
         val k = keys ?: read(context, "tasmee_keys.json").also { keys = it }
+        val ph = phon ?: read(context, "tasmee_phonemes.json").also { phon = it }
         val out = ArrayList<TWord>()
         for (a in from..to) {
             val tokens = ArrayList<String>()
@@ -58,8 +61,10 @@ object TasmeeText {
                 if (letter.containsMatchIn(t) || tokens.isEmpty()) tokens.add(t) else tokens[tokens.size - 1] = tokens.last() + " " + t
             }
             val ks = k[surah - 1][a - 1].split(' ')
+            val ps = ph[surah - 1][a - 1].split(' ')
             tokens.forEachIndexed { i, t ->
-                out.add(TWord(surah, a, t, ks.getOrNull(i)?.takeIf { ks.size == tokens.size } ?: ArabicNorm.norm(t), i == tokens.size - 1))
+                val p = ps.getOrNull(i)?.takeIf { ps.size == tokens.size && it != "-" }.orEmpty()
+                out.add(TWord(surah, a, t, ks.getOrNull(i)?.takeIf { ks.size == tokens.size } ?: ArabicNorm.norm(t), i == tokens.size - 1, p))
             }
         }
         out
@@ -90,6 +95,11 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     val revealed: Int get() = pointer + tentative.size
 
     private var recognizer: QuranRecognizer? = null
+    private var live: LiveRecognizer? = null
+    private var tracker: PhonemeTracker? = null
+    private var trackBase = 0
+    private var loaded = -1
+    private val isLive: Boolean get() = loaded == 1
     private val decoder = Dispatchers.Default.limitedParallelism(1)
     private var job: Job? = null
     private val busy = AtomicBoolean(false)
@@ -110,13 +120,33 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun <T> setPref(key: Preferences.Key<T>, v: T) = viewModelScope.launch { prefs.set(key, v) }
 
     fun prepare() {
-        if (recognizer != null || modelReady) return
-        viewModelScope.launch(decoder) {
-            val r = runCatching { QuranRecognizer(getApplication()) }
-            withContext(Dispatchers.Main) {
-                r.onSuccess { recognizer = it; modelReady = true }
-                    .onFailure { error = "تعذّر تحميل المصحح الصوتي على هذا الجهاز." }
+        if (modelReady) return
+        viewModelScope.launch {
+            val engine = prefs.settings.first().engine
+            if (modelReady && loaded == engine) return@launch
+            val r = withContext(decoder) {
+                runCatching {
+                    if (engine == 1) { if (live == null) live = LiveRecognizer(getApplication()) }
+                    else if (recognizer == null) recognizer = QuranRecognizer(getApplication())
+                }
             }
+            r.onSuccess { loaded = engine; modelReady = true }
+                .onFailure { error = "تعذّر تحميل المصحح الصوتي على هذا الجهاز." }
+        }
+    }
+
+    /** Switches the listening AI; the other model is released to save memory. */
+    fun setEngine(engine: Int) {
+        if (engine == loaded) return
+        stopListening()
+        modelReady = false
+        viewModelScope.launch {
+            prefs.set(TasmeePrefs.Keys.engine, engine)
+            withContext(decoder) {
+                if (engine == 1) { recognizer?.release(); recognizer = null } else { live?.release(); live = null }
+            }
+            loaded = -1
+            prepare()
         }
     }
 
@@ -148,6 +178,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private fun listen() {
         job?.cancel()
         val st = settings.value ?: return
+        if (isLive) { listenLive(st); return }
         val pauseMs = (st.pauseSec * 1000).toInt()
         generation++
         tent = emptyMap()
@@ -200,6 +231,57 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                 withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
             }
         }
+    }
+
+    private fun listenLive(st: TasmeeSettings) {
+        generation++
+        stopping = false
+        val base = pointer
+        trackBase = base
+        val tr = PhonemeTracker(words.drop(base).map { it.phon }, st.limit).also { tracker = it }
+        val gen = generation
+        job = viewModelScope.launch(decoder) {
+            val rec = live ?: return@launch
+            rec.reset()
+            val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
+            var last = ""
+            try {
+                source.frames().collect { f ->
+                    var sum = 0f
+                    for (x in f) sum += x * x
+                    level = min(1f, sqrt(sum / f.size) * 10f)
+                    val h = Phon.norm(rec.accept(f))
+                    if (h == last) return@collect
+                    last = h
+                    val outs = tr.update(h, false)
+                    val t = tr.tentative
+                    withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
+                }
+            } catch (e: IllegalStateException) {
+                withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
+            }
+        }
+    }
+
+    private fun applyLive(outs: List<PhonemeTracker.Out>, tent: Int, base: Int) {
+        if (phase != Phase.Listening) return
+        val st = settings.value ?: return
+        var mistake = false
+        for (o in outs) {
+            val i = base + o.index
+            if (i < pointer || i >= words.size) continue
+            marks[i] = WordResult(o.mark)
+            pointer = i + 1
+            if (o.mark != Mark.Correct) { mistake = true; if (st.onMistake == 1) break }
+        }
+        tentative = if (mistake && st.onMistake == 1) emptyList()
+        else List(min(tent, words.size - pointer)) { WordResult(Mark.Correct, partial = true) }
+        if (mistake && st.vibrate) vibrate()
+        if (mistake && st.onMistake == 1) {
+            mistakeAt = pointer - 1
+            stopListening()
+            phase = Phase.Mistake
+        } else if (pointer >= words.size) finish()
     }
 
     private fun concat(list: Collection<FloatArray>): FloatArray {
@@ -294,6 +376,12 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             j?.cancelAndJoin()
             level = 0f
+            if (isLive) {
+                val tr = tracker
+                val outs = withContext(decoder) { live?.let { r -> tr?.update(Phon.norm(r.finish()), true) } }.orEmpty()
+                if (phase == Phase.Listening) { applyLive(outs, 0, trackBase); if (phase == Phase.Listening) finish() }
+                return@launch
+            }
             val audio = if (c.speech && c.win.isNotEmpty()) concat(c.win) else null
             while (busy.get()) delay(30)
             if (audio == null || recognizer == null || phase != Phase.Listening) finish()
@@ -352,7 +440,9 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     override fun onCleared() {
         job?.cancel()
         val r = recognizer
+        val l = live
         recognizer = null
-        if (r != null) CoroutineScope(decoder).launch { r.release() }
+        live = null
+        CoroutineScope(decoder).launch { r?.release(); l?.release() }
     }
 }

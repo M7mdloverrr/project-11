@@ -10,6 +10,11 @@ import com.k2fsa.sherpa.onnx.OfflineModelConfig
 import com.k2fsa.sherpa.onnx.OfflineRecognizer
 import com.k2fsa.sherpa.onnx.OfflineRecognizerConfig
 import com.k2fsa.sherpa.onnx.OfflineWhisperModelConfig
+import com.k2fsa.sherpa.onnx.OnlineModelConfig
+import com.k2fsa.sherpa.onnx.OnlineRecognizer
+import com.k2fsa.sherpa.onnx.OnlineRecognizerConfig
+import com.k2fsa.sherpa.onnx.OnlineStream
+import com.k2fsa.sherpa.onnx.OnlineZipformer2CtcModelConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
@@ -134,4 +139,39 @@ class WavSource(private val path: String) : AudioSource {
 
 object TasmeeDebug {
     @Volatile var wav: String? = null
+}
+
+/** Streaming Quran-Lab zipformer CTC: emits a cumulative phoneme hypothesis as audio arrives. */
+class LiveRecognizer(context: Context) {
+    private val recognizer = OnlineRecognizer(
+        context.assets,
+        OnlineRecognizerConfig(
+            featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80),
+            modelConfig = OnlineModelConfig(
+                zipformer2Ctc = OnlineZipformer2CtcModelConfig(model = "asr_live/model.int8.onnx"),
+                tokens = "asr_live/tokens.txt",
+                numThreads = 2,
+            ),
+            enableEndpoint = false,
+            decodingMethod = "greedy_search",
+        ),
+    )
+    private var stream: OnlineStream = recognizer.createStream()
+
+    fun reset() { stream.release(); stream = recognizer.createStream() }
+
+    fun accept(samples: FloatArray): String {
+        stream.acceptWaveform(samples, SAMPLE_RATE)
+        while (recognizer.isReady(stream)) recognizer.decode(stream)
+        return recognizer.getResult(stream).text
+    }
+
+    fun finish(): String {
+        stream.acceptWaveform(FloatArray(SAMPLE_RATE), SAMPLE_RATE)
+        stream.inputFinished()
+        while (recognizer.isReady(stream)) recognizer.decode(stream)
+        return recognizer.getResult(stream).text
+    }
+
+    fun release() { stream.release(); recognizer.release() }
 }

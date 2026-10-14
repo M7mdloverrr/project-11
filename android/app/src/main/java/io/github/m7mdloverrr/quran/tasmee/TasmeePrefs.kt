@@ -22,10 +22,13 @@ data class TasmeeSettings(
     val fontSize: Float,
     val vibrate: Boolean,
     val showHeard: Boolean,
+    val engine: Int,
     val surah: Int,
     val from: Int,
     val to: Int,
 ) {
+    /** Phoneme-cost limit for the live engine. */
+    val limit: Float get() = when (strictness) { 0 -> 0.45f; 2 -> 0.25f; else -> 0.35f }
     val threshold: Float get() = when (strictness) { 0 -> 0.6f; 2 -> 0.9f; else -> 0.75f }
 }
 
@@ -40,6 +43,7 @@ class TasmeePrefs(context: Context) {
         val fontSize = floatPreferencesKey("font_size")
         val vibrate = booleanPreferencesKey("vibrate")
         val showHeard = booleanPreferencesKey("show_heard")
+        val engine = intPreferencesKey("engine")
         val surah = intPreferencesKey("surah")
         val from = intPreferencesKey("from")
         val to = intPreferencesKey("to")
@@ -54,6 +58,7 @@ class TasmeePrefs(context: Context) {
             fontSize = p[Keys.fontSize] ?: 30f,
             vibrate = p[Keys.vibrate] ?: true,
             showHeard = p[Keys.showHeard] ?: true,
+            engine = p[Keys.engine] ?: 1,
             surah = p[Keys.surah] ?: 0,
             from = p[Keys.from] ?: 1,
             to = p[Keys.to] ?: 0,

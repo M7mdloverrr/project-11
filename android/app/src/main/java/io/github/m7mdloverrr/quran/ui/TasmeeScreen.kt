@@ -513,10 +513,22 @@ private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismi
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
             Text("إعدادات التسميع", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 20.dp))
+            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper (أبطأ)", "مباشر سريع"), st.engine) { vm.setEngine(it) }
+            Text(
+                if (st.engine == 1) "مباشر: نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية)."
+                else "Whisper: نموذج tarteel-ai/whisper-base-ar-quran، يصحح بعد نحو ثانية.",
+                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 20.dp),
+            )
+            Text(
+                "التصحيح الآلي قد يخطئ ولا يغني عن معلّم متقن.",
+                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+            )
             Choice("دقة التصحيح", listOf("متساهل", "متوسط", "دقيق"), st.strictness) { vm.setPref(TasmeePrefs.Keys.strictness, it) }
             Choice("عند الخطأ", listOf("تابع وعلّم الخطأ", "توقف للتصحيح"), st.onMistake) { vm.setPref(TasmeePrefs.Keys.onMistake, it) }
             Choice("التلميح", listOf("بدون", "زر تلميح", "الكلمة التالية باهتة"), st.hint) { vm.setPref(TasmeePrefs.Keys.hint, it) }
-            Section("تثبيت آخر كلمة بعد سكوت: ${"%.1f".format(st.pauseSec)} ث") {
+            if (st.engine == 0) Section("تثبيت آخر كلمة بعد سكوت: ${"%.1f".format(st.pauseSec)} ث") {
                 var v by remember(st.pauseSec) { mutableFloatStateOf(st.pauseSec) }
                 Slider(v, { v = it }, valueRange = 0.5f..2f, steps = 14, onValueChangeFinished = { vm.setPref(TasmeePrefs.Keys.pauseSec, v) })
                 Text("المدة التي ينتظرها التطبيق بعد توقفك قبل أن يثبّت التصحيح.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
