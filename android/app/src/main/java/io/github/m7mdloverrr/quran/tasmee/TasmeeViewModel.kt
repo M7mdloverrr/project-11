@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -85,6 +86,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     var tentative by mutableStateOf<List<WordResult>>(emptyList()); private set
     var level by mutableFloatStateOf(0f); private set
     /** Download state of an optional model that powers [engine]. */
+    @Stable
     inner class Download(val model: ModelStore.Model, val engine: Int, private val name: String) {
         var ready by mutableStateOf(false); internal set
         var progress by mutableStateOf<Float?>(null); private set
