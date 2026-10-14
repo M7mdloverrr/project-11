@@ -82,7 +82,33 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     var pointer by mutableIntStateOf(0); private set
     var tentative by mutableStateOf<List<WordResult>>(emptyList()); private set
     var level by mutableFloatStateOf(0f); private set
-    var liveHeard by mutableStateOf<String?>(null); private set
+    var whisperReady by mutableStateOf(false); private set
+    var whisperProgress by mutableStateOf<Float?>(null); private set
+    private var download: Job? = null
+
+    fun downloadWhisper() {
+        if (download?.isActive == true) return
+        download = viewModelScope.launch {
+            whisperProgress = 0f
+            val r = runCatching { ModelStore.download(getApplication(), ModelStore.whisper) { whisperProgress = it } }
+            whisperProgress = null
+            whisperReady = ModelStore.ready(getApplication(), ModelStore.whisper)
+            r.onSuccess { setEngine(0) }.onFailure {
+                if (it !is kotlinx.coroutines.CancellationException) error = "تعذّر تنزيل Whisper. تحقق من الإنترنت وحاول مجدداً."
+            }
+        }
+    }
+
+    fun cancelDownload() { download?.cancel() }
+
+    fun deleteWhisper() {
+        viewModelScope.launch {
+            if (prefs.settings.first().engine == 0) setEngine(1)
+            withContext(decoder) { recognizer?.release(); recognizer = null }
+            ModelStore.delete(getApplication(), ModelStore.whisper)
+            whisperReady = false
+        }
+    }
     var decoding by mutableStateOf(false); private set
     var modelReady by mutableStateOf(false); private set
     var error by mutableStateOf<String?>(null)
@@ -123,7 +149,9 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun prepare() {
         if (modelReady) return
         viewModelScope.launch {
-            val engine = prefs.settings.first().engine
+            whisperReady = withContext(Dispatchers.IO) { ModelStore.ready(getApplication(), ModelStore.whisper) }
+            var engine = prefs.settings.first().engine
+            if (engine == 0 && !whisperReady) { engine = 1; prefs.set(TasmeePrefs.Keys.engine, 1) }
             if (modelReady && loaded == engine) return@launch
             val r = withContext(decoder) {
                 runCatching {
@@ -244,7 +272,6 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         job = viewModelScope.launch(decoder) {
             val rec = live ?: return@launch
             rec.reset()
-            withContext(Dispatchers.Main) { liveHeard = "" }
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
             var last = ""
             try {
@@ -257,7 +284,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     last = h
                     val outs = tr.update(h, false)
                     val t = tr.tentative
-                    withContext(Dispatchers.Main) { if (gen == generation) { liveHeard = h.takeLast(28); applyLive(outs, t, base) } }
+                    withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
                 }
             } catch (e: IllegalStateException) {
                 withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }

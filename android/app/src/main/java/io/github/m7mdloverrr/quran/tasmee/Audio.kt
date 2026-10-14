@@ -38,18 +38,18 @@ const val STRIDE_MS = 300
 /** On-device Quran recitation recognizer (Whisper base fine-tuned on Quran recitation, int8 ONNX via sherpa-onnx). */
 class QuranRecognizer(context: Context) {
     private val recognizer = OfflineRecognizer(
-        context.assets,
+        null,
         OfflineRecognizerConfig(
             featConfig = FeatureConfig(sampleRate = SAMPLE_RATE, featureDim = 80),
             modelConfig = OfflineModelConfig(
                 whisper = OfflineWhisperModelConfig(
-                    encoder = "asr/encoder.onnx",
-                    decoder = "asr/decoder.onnx",
+                    encoder = ModelStore.file(context, ModelStore.whisper, "encoder.onnx"),
+                    decoder = ModelStore.file(context, ModelStore.whisper, "decoder.onnx"),
                     language = "ar",
                     task = "transcribe",
                     tailPaddings = 1000,
                 ),
-                tokens = "asr/tokens.txt",
+                tokens = ModelStore.file(context, ModelStore.whisper, "tokens.txt"),
                 numThreads = Runtime.getRuntime().availableProcessors().coerceIn(2, 4),
                 modelType = "whisper",
             ),

@@ -92,8 +92,9 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
         while (k < ws.size) {
             val w = ws[k]; val e = b + w.length
             var after = 0
-            for (t in e until min(bj, e + 4)) if (hi[t] >= 0 && cost[t] <= Phon.CONF) after++
-            if (w.isNotEmpty() && !(final && e <= bj) && after < 2) break
+            var later = 0
+            for (t in e until bj) if (hi[t] >= 0 && cost[t] <= Phon.CONF) { if (t < e + 4) after++ else later++ }
+            if (w.isNotEmpty() && !(final && e <= bj) && after < 2 && later < 8) break
             out.add(Out(pointer++, if (w.isEmpty()) Mark.Correct else verdict(w, hi, cost, b, e)))
             var last = -1
             for (t in b until e) if (hi[t] >= 0) last = hi[t]

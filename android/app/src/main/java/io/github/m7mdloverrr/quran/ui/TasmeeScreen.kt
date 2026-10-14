@@ -414,12 +414,6 @@ private fun Controls(vm: TasmeeViewModel, st: TasmeeSettings) {
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Text("${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                vm.liveHeard?.let { h ->
-                    Text(
-                        if (h.isEmpty()) "لم يُسمع شيء بعد • الصوت ${(vm.level * 100).toInt().ar()}٪" else "يسمع: $h",
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1,
-                    )
-                }
             }
             if (st.hint == 1) {
                 FilledTonalButton(onClick = vm::hint) {
@@ -513,13 +507,39 @@ private fun clock(ms: Long): String {
     return "${(s / 60).toInt().ar()}:${(s % 60).toInt().toString().padStart(2, '0').map { (it - '0' + 0x0660).toChar() }.joinToString("")}"
 }
 
+@Composable
+private fun WhisperRow(vm: TasmeeViewModel) {
+    val p = vm.whisperProgress
+    Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Text("نموذج Whisper", style = MaterialTheme.typography.bodyMedium)
+            Text(
+                when {
+                    p != null -> "جارٍ التنزيل… ${(p * 100).toInt().ar()}٪"
+                    vm.whisperReady -> "منزّل على الجهاز ويعمل دون إنترنت"
+                    else -> "غير منزّل • ٨١ م.ب مرة واحدة"
+                },
+                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            if (p != null) androidx.compose.material3.LinearProgressIndicator(progress = { p }, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
+        }
+        Spacer(Modifier.width(8.dp))
+        when {
+            p != null -> androidx.compose.material3.TextButton(onClick = vm::cancelDownload) { Text("إلغاء") }
+            vm.whisperReady -> androidx.compose.material3.TextButton(onClick = vm::deleteWhisper) { Text("حذف") }
+            else -> FilledTonalButton(onClick = vm::downloadWhisper) { Text("تنزيل") }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismiss: () -> Unit) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
             Text("إعدادات التسميع", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 20.dp))
-            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper (أبطأ)", "مباشر سريع"), st.engine) { vm.setEngine(it) }
+            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper (أبطأ)", "مباشر سريع"), st.engine) { if (it == 0 && !vm.whisperReady) vm.downloadWhisper() else vm.setEngine(it) }
+            WhisperRow(vm)
             Text(
                 if (st.engine == 1) "مباشر: نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية)."
                 else "Whisper: نموذج tarteel-ai/whisper-base-ar-quran، يصحح بعد نحو ثانية.",
