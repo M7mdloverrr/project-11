@@ -289,13 +289,21 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
             rec.reset()
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
             var last = ""
+            var quiet = 0
             try {
                 source.frames().collect { f ->
                     var sum = 0f
                     for (x in f) sum += x * x
                     level = min(1f, sqrt(sum / f.size) * 10f)
                     val h = norm(rec, rec.accept(f))
-                    if (h == last) return@collect
+                    if (h == last) {
+                        quiet += f.size / 16
+                        if (quiet >= END_MS && base + tr.pointer + tr.tentative >= words.size) {
+                            withContext(Dispatchers.Main) { if (gen == generation) stop() }
+                        }
+                        return@collect
+                    }
+                    quiet = 0
                     last = h
                     val outs = tr.update(h, false)
                     val t = tr.tentative

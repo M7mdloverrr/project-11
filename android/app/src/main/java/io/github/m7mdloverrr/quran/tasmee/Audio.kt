@@ -35,6 +35,9 @@ const val FRAME_MS = 30
 const val WINDOW_FRAMES = 4000 / FRAME_MS
 const val STRIDE_MS = 300
 
+/** Silence after the last word before the session finishes by itself. */
+const val END_MS = 1200
+
 /** On-device Quran recitation recognizer (Whisper base fine-tuned on Quran recitation, int8 ONNX via sherpa-onnx). */
 class QuranRecognizer(context: Context) {
     private val recognizer = OfflineRecognizer(
