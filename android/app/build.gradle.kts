@@ -13,12 +13,13 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64") }
     }
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -27,7 +28,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures { compose = true }
-    androidResources { noCompress += "json" }
+    androidResources { noCompress += listOf("json", "onnx", "txt") }
 }
 
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
@@ -57,5 +58,6 @@ dependencies {
     implementation("androidx.media3:media3-ui-compose:$media3")
     implementation("androidx.work:work-runtime-ktx:2.12.0")
     implementation("com.batoulapps.adhan:adhan:1.2.1")
+    implementation(files("libs/sherpa-onnx-1.13.8.aar"))
     testImplementation("junit:junit:4.13.2")
 }

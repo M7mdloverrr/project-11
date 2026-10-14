@@ -6,6 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.Movie
+import androidx.compose.material.icons.rounded.Mic
 import androidx.compose.ui.graphics.vector.ImageVector
 import io.github.m7mdloverrr.quran.prayer.PrayerCalc
 import androidx.compose.foundation.background
@@ -79,6 +80,7 @@ fun HomeScreen(
     openPrayer: () -> Unit,
     openQibla: () -> Unit,
     openStudio: () -> Unit,
+    openTasmee: () -> Unit,
 ) {
     val quran by vm.quran.collectAsStateWithLifecycle()
     val settings by vm.settings.collectAsStateWithLifecycle()
@@ -118,6 +120,9 @@ fun HomeScreen(
             }
             item(key = "studio") {
                 QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
+            }
+            item(key = "tasmee") {
+                QuickCard("التسميع", "سمّع حفظك ويصحّح لك التطبيق كلمةً كلمة", Icons.Rounded.Mic, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openTasmee)
             }
             stickyHeader(key = "tabs") {
                 PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {

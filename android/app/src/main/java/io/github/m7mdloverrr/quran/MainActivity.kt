@@ -3,6 +3,9 @@ package io.github.m7mdloverrr.quran
 import io.github.m7mdloverrr.quran.ui.PrayerScreen
 import io.github.m7mdloverrr.quran.ui.QiblaScreen
 import io.github.m7mdloverrr.quran.ui.StudioScreen
+import io.github.m7mdloverrr.quran.ui.TasmeeScreen
+import io.github.m7mdloverrr.quran.tasmee.TasmeeDebug
+import android.content.pm.ApplicationInfo
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
@@ -82,7 +85,13 @@ class MainActivity : ComponentActivity() {
                         Image(painterResource(R.drawable.app_bg), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, alpha = settings?.bgAlpha ?: 0.3f)
                         val nav = rememberNavController()
                         LaunchedEffect(Unit) {
-                            if (intent?.getStringExtra("open") == "prayer") nav.navigate("prayer")
+                            when (intent?.getStringExtra("open")) {
+                                "prayer" -> nav.navigate("prayer")
+                                "tasmee" -> {
+                                    if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0) TasmeeDebug.wav = intent?.getStringExtra("tasmee_wav")
+                                    nav.navigate("tasmee")
+                                }
+                            }
                         }
                         NavHost(nav, startDestination = "home") {
                             composable("home") {
@@ -94,6 +103,7 @@ class MainActivity : ComponentActivity() {
                                     openPrayer = { nav.navigate("prayer") },
                                     openQibla = { nav.navigate("qibla") },
                                     openStudio = { nav.navigate("studio") },
+                                    openTasmee = { nav.navigate("tasmee") },
                                 )
                             }
                             composable("reader/{page}", arguments = listOf(navArgument("page") { type = NavType.IntType })) {
@@ -104,6 +114,7 @@ class MainActivity : ComponentActivity() {
                             composable("prayer") { PrayerScreen(vm, { nav.popBackStack() }) { nav.navigate("qibla") } }
                             composable("qibla") { QiblaScreen(vm) { nav.popBackStack() } }
                             composable("studio") { StudioScreen(vm) { nav.popBackStack() } }
+                            composable("tasmee") { TasmeeScreen(vm) { nav.popBackStack() } }
                         }
                     }
                 }
