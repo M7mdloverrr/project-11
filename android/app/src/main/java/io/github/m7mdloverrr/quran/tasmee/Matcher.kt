@@ -160,8 +160,10 @@ fun alignWindow(
             relax(dp, op, i + 1, j, c + skip, 4)
         }
     }
+    // Prefer reaching new words: identical words just before [from] (a repeated phrase) should not swallow the window.
+    fun score(j: Int) = dp[n][j] - if (j > c0) 0.4f else 0f
     var bj = 0
-    for (j in 0..w) if (dp[n][j] <= dp[n][bj]) bj = j
+    for (j in 0..w) if (score(j) <= score(bj)) bj = j
     val out = ArrayList<Hit>()
     var i = n
     var j = bj
@@ -186,4 +188,40 @@ fun alignWindow(
     }
     out.reverse()
     return out.filter { it.index >= from }
+}
+
+/** A far-ahead continuation of the recitation: [start] is the first matched expected index, [length] the matched words. */
+class Jump(val start: Int, val length: Int)
+
+/**
+ * Finds where [hyp] continues after skipped words or verses: the longest in-order chain of matched words
+ * (small gaps allowed) that ends near the end of [hyp], searched in expected[from, from + span).
+ */
+fun relocate(expected: List<String>, from: Int, hyp: List<String>, threshold: Float, span: Int = 400): Jump? {
+    val n = hyp.size
+    val m = min(expected.size, from + span) - from
+    if (n < 3 || m <= 0) return null
+    val len = Array(n) { IntArray(m) }
+    val start = Array(n) { IntArray(m) }
+    val chars = Array(n) { IntArray(m) }
+    var best: Jump? = null
+    for (i in 0 until n) for (j in 0 until m) {
+        val e = expected[from + j]
+        if (ArabicNorm.similarity(hyp[i], e) < threshold && !isPrefix(hyp[i], e, i == n - 1)) continue
+        var b = 0
+        var bs = j
+        var bc = 0
+        for (pi in max(0, i - 2) until i) for (pj in max(0, j - 3) until j) {
+            if (len[pi][pj] > b) { b = len[pi][pj]; bs = start[pi][pj]; bc = chars[pi][pj] }
+        }
+        len[i][j] = b + 1
+        start[i][j] = bs
+        chars[i][j] = bc + e.length
+        val l = len[i][j]
+        if (i >= n - 3 && l >= 3 && chars[i][j] >= 9) {
+            val cur = best
+            if (cur == null || l > cur.length || (l == cur.length && from + bs < cur.start)) best = Jump(from + bs, l)
+        }
+    }
+    return best
 }

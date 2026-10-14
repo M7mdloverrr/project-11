@@ -97,6 +97,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private var generation = 0
     private var tent: Map<Int, Mark> = emptyMap()
     private var stopping = false
+    private var jumpSeen = -1
+    private var jumpAge = 0
 
     /** Rolling audio window of the current utterance, owned by one listening job. */
     private class Capture {
@@ -150,6 +152,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         generation++
         tent = emptyMap()
         stopping = false
+        jumpSeen = -1
         val c = Capture().also { cap = it }
         job = viewModelScope.launch(Dispatchers.Default) {
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
@@ -226,7 +229,31 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         val st = settings.value ?: return
         val raw = text.split(space).filter { ArabicNorm.norm(it).isNotEmpty() }
         val hyp = raw.map(ArabicNorm::norm)
-        val res = alignWindow(words.map { it.key }, pointer, hyp, st.threshold, raw, final)
+        val keys = words.map { it.key }
+        var res = alignWindow(keys, pointer, hyp, st.threshold, raw, final)
+        // Skipped words or verses: when the recitation clearly continues further ahead, mark the gap missed and follow it.
+        val skippedFrom = pointer
+        val jump = relocate(keys, pointer, hyp, st.threshold)
+        val matched = res.count { it.result.mark == Mark.Correct && !it.result.partial && it.hyp >= 0 }
+        var jumped = false
+        if (jump != null && jump.start > pointer && jump.length >= matched + 2) {
+            if (final || jump.length >= 4 || (jumpSeen >= 0 && jump.start in jumpSeen - 4..jumpSeen + 20)) {
+                for (k in pointer until jump.start) marks[k] = WordResult(Mark.Missed)
+                pointer = jump.start
+                tent = emptyMap()
+                jumpSeen = -1
+                jumped = true
+                res = alignWindow(keys, pointer, hyp, st.threshold, raw, final)
+            } else { jumpSeen = jump.start; jumpAge = 0 }
+        } else if (jumpSeen >= 0 && ++jumpAge > 3) jumpSeen = -1
+        if (jumped && st.onMistake == 1) {
+            if (st.vibrate) vibrate()
+            tentative = emptyList()
+            mistakeAt = skippedFrom
+            stopListening()
+            phase = Phase.Mistake
+            return
+        }
         val lead = res.count { it.hyp == LEAD }
         // Words heard in the previous window, or cut off at the start of a full window, were recited.
         val fixed = res.map { h ->
@@ -249,7 +276,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         val shown = ArrayList<WordResult>()
         for (h in rest) { if (h.index < pointer) continue; if (h.index != pointer + shown.size || h.result.mark != Mark.Correct) break; shown.add(h.result) }
         tentative = shown
-        if (first >= 0 && st.vibrate) vibrate()
+        if ((first >= 0 || jumped) && st.vibrate) vibrate()
         if (st.onMistake == 1 && first >= 0) {
             mistakeAt = pointer - 1
             stopListening()

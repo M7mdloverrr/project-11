@@ -110,7 +110,7 @@ import io.github.m7mdloverrr.quran.tasmee.WordResult
 import kotlinx.coroutines.delay
 
 private val WrongRed = Color(0xFFD32F2F)
-private val MissedAmber = Color(0xFFE08A00)
+private val MissedRed = Color(0xFFC62828)
 private val QpcFont get() = ScriptFonts[0]!!
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -315,7 +315,7 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
             Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                 Legend(page.text, "صحيحة")
                 Legend(WrongRed, "خطأ")
-                Legend(MissedAmber, "فائتة")
+                Legend(MissedRed, "فائتة")
             }
         }
         val scroll = rememberScrollState()
@@ -366,7 +366,7 @@ private fun WordView(w: TWord, r: WordResult?, tentative: Boolean, hinted: Boole
     val target = when {
         r == null -> ink.copy(alpha = 0.45f)
         r.mark == Mark.Wrong -> WrongRed
-        r.mark == Mark.Missed -> MissedAmber
+        r.mark == Mark.Missed -> MissedRed
         hinted -> MaterialTheme.colorScheme.primary
         else -> ink
     }
@@ -457,7 +457,7 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 Stat(correct, "صحيحة", MaterialTheme.colorScheme.primary)
                 Stat(wrong, "أخطاء", WrongRed)
-                Stat(missed, "فائتة", MissedAmber)
+                Stat(missed, "فائتة", MissedRed)
                 Stat(vm.hinted.size, "تلميحات", MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
@@ -475,7 +475,7 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
                         Text(w.text, fontFamily = QpcFont, fontSize = 22.sp, color = MaterialTheme.colorScheme.primary, modifier = Modifier.weight(1f))
                         Text(
                             if (r!!.mark == Mark.Missed) "لم تُقرأ" else "قرأت: ${r.heard.orEmpty()}",
-                            style = MaterialTheme.typography.bodySmall, color = if (r.mark == Mark.Missed) MissedAmber else WrongRed,
+                            style = MaterialTheme.typography.bodySmall, color = if (r.mark == Mark.Missed) MissedRed else WrongRed,
                         )
                     }
                 }
