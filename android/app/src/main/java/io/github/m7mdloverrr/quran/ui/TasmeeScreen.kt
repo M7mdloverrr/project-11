@@ -428,7 +428,7 @@ private fun Controls(vm: TasmeeViewModel, st: TasmeeSettings) {
                     Modifier.size(64.dp).scale(if (vm.phase == Phase.Listening) wave + lvl * 0.35f else 1f).clip(CircleShape)
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)),
                 )
-                Surface(onClick = vm::finish, shape = CircleShape, color = MaterialTheme.colorScheme.primary, modifier = Modifier.size(54.dp)) {
+                Surface(onClick = vm::stop, shape = CircleShape, color = MaterialTheme.colorScheme.primary, modifier = Modifier.size(54.dp)) {
                     Box(contentAlignment = Alignment.Center) { Icon(Icons.Rounded.Stop, "إنهاء", tint = MaterialTheme.colorScheme.onPrimary) }
                 }
             }
@@ -516,7 +516,7 @@ private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismi
             Choice("دقة التصحيح", listOf("متساهل", "متوسط", "دقيق"), st.strictness) { vm.setPref(TasmeePrefs.Keys.strictness, it) }
             Choice("عند الخطأ", listOf("تابع وعلّم الخطأ", "توقف للتصحيح"), st.onMistake) { vm.setPref(TasmeePrefs.Keys.onMistake, it) }
             Choice("التلميح", listOf("بدون", "زر تلميح", "الكلمة التالية باهتة"), st.hint) { vm.setPref(TasmeePrefs.Keys.hint, it) }
-            Section("مدة السكوت قبل التصحيح: ${"%.1f".format(st.pauseSec)} ث") {
+            Section("تثبيت آخر كلمة بعد سكوت: ${"%.1f".format(st.pauseSec)} ث") {
                 var v by remember(st.pauseSec) { mutableFloatStateOf(st.pauseSec) }
                 Slider(v, { v = it }, valueRange = 0.5f..2f, steps = 14, onValueChangeFinished = { vm.setPref(TasmeePrefs.Keys.pauseSec, v) })
                 Text("المدة التي ينتظرها التطبيق بعد توقفك قبل أن يثبّت التصحيح.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)

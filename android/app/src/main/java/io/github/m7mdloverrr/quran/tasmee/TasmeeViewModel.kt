@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,6 +34,8 @@ import kotlin.math.sqrt
 class TWord(val surah: Int, val ayah: Int, val text: String, val key: String, val ayahEnd: Boolean)
 
 enum class Phase { Setup, Listening, Mistake, Done }
+
+private val space = Regex("\\s+")
 
 /** KFGQPC Hafs words with their normalized matching keys, one key per displayed word. */
 object TasmeeText {
@@ -90,8 +93,17 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private val decoder = Dispatchers.Default.limitedParallelism(1)
     private var job: Job? = null
     private val busy = AtomicBoolean(false)
-    @Volatile private var segment = 0
-    @Volatile private var finalized = 0
+    private var cap = Capture()
+    private var generation = 0
+    private var tent: Map<Int, Mark> = emptyMap()
+    private var stopping = false
+
+    /** Rolling audio window of the current utterance, owned by one listening job. */
+    private class Capture {
+        val win = ArrayDeque<FloatArray>()
+        @Volatile var speech = false
+        @Volatile var cut = false
+    }
 
     fun <T> setPref(key: Preferences.Key<T>, v: T) = viewModelScope.launch { prefs.set(key, v) }
 
@@ -135,17 +147,17 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         job?.cancel()
         val st = settings.value ?: return
         val pauseMs = (st.pauseSec * 1000).toInt()
-        segment++
-        finalized = segment - 1
+        generation++
+        tent = emptyMap()
+        stopping = false
+        val c = Capture().also { cap = it }
         job = viewModelScope.launch(Dispatchers.Default) {
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
-            val buf = ArrayList<FloatArray>()
             val pre = ArrayDeque<FloatArray>()
             var floor = 0.01f
-            var inSpeech = false
             var voicedRun = 0
             var silence = 0
-            var lastPartial = 0
+            var sinceDecode = 0
             try {
                 source.frames().collect { f ->
                     var sum = 0f
@@ -154,31 +166,31 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     level = min(1f, rms * 10f)
                     floor = if (rms < floor) floor * 0.9f + rms * 0.1f else floor * 0.998f + rms * 0.002f
                     val voiced = rms > max(0.008f, floor * 2.5f)
-                    if (!inSpeech) {
+                    if (!c.speech) {
                         pre.addLast(f)
                         if (pre.size > 12) pre.removeFirst()
                         voicedRun = if (voiced) voicedRun + 1 else 0
                         if (voicedRun >= 3) {
-                            inSpeech = true
-                            buf.addAll(pre)
+                            c.win.clear()
+                            c.win.addAll(pre)
                             pre.clear()
+                            c.cut = false
+                            c.speech = true
                             silence = 0
-                            lastPartial = 0
+                            sinceDecode = 0
                         }
                         return@collect
                     }
-                    buf.add(f)
+                    c.win.addLast(f)
+                    if (c.win.size > WINDOW_FRAMES) { c.win.removeFirst(); c.cut = true }
                     silence = if (voiced) 0 else silence + FRAME_MS
-                    val dur = buf.size * FRAME_MS
-                    if (silence >= pauseMs || dur >= 24_000) {
-                        submit(concat(buf), true, segment)
-                        segment++
-                        buf.clear()
-                        inSpeech = false
-                        voicedRun = 0
-                    } else if (dur - lastPartial >= 1200 && !busy.get()) {
-                        lastPartial = dur
-                        submit(concat(buf), false, segment)
+                    sinceDecode += FRAME_MS
+                    if (busy.get()) return@collect
+                    val final = silence >= pauseMs
+                    if (final || sinceDecode >= STRIDE_MS) {
+                        sinceDecode = 0
+                        submit(concat(c.win), final, c.cut)
+                        if (final) { c.speech = false; voicedRun = 0; c.win.clear() }
                     }
                 }
             } catch (e: IllegalStateException) {
@@ -187,49 +199,79 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun concat(list: List<FloatArray>): FloatArray {
+    private fun concat(list: Collection<FloatArray>): FloatArray {
         val out = FloatArray(list.sumOf { it.size })
         var o = 0
         for (a in list) { a.copyInto(out, o); o += a.size }
         return out
     }
 
-    private fun submit(audio: FloatArray, final: Boolean, seg: Int) {
-        if (!final && !busy.compareAndSet(false, true)) return
+    private fun submit(audio: FloatArray, final: Boolean, cut: Boolean, then: (() -> Unit)? = null) {
+        busy.set(true)
+        val gen = generation
         viewModelScope.launch(decoder) {
-            if (final) busy.set(true)
             withContext(Dispatchers.Main) { decoding = true }
             val text = runCatching { recognizer?.transcribe(audio) }.getOrNull().orEmpty()
-            busy.set(false)
             withContext(Dispatchers.Main) {
                 decoding = false
-                apply(text, final, seg)
+                if (gen == generation) apply(text, final, cut)
+                busy.set(false)
+                then?.invoke()
             }
         }
     }
 
-    private fun apply(text: String, final: Boolean, seg: Int) {
-        if (phase != Phase.Listening || seg <= finalized) return
+    private fun apply(text: String, final: Boolean, cut: Boolean) {
+        if (phase != Phase.Listening) return
         val st = settings.value ?: return
-        val raw = text.split(Regex("\\s+")).filter { ArabicNorm.norm(it).isNotEmpty() }
-        val keys = words.map { it.key }
-        if (!final) {
-            val r = raw.dropLast(1)
-            tentative = align(keys, pointer, r.map(ArabicNorm::norm), st.threshold, r)
-            return
+        val raw = text.split(space).filter { ArabicNorm.norm(it).isNotEmpty() }
+        val hyp = raw.map(ArabicNorm::norm)
+        val res = alignWindow(words.map { it.key }, pointer, hyp, st.threshold, raw, final)
+        val lead = res.count { it.hyp == LEAD }
+        // Words heard in the previous window, or cut off at the start of a full window, were recited.
+        val fixed = res.map { h ->
+            if (h.result.mark == Mark.Missed && (tent[h.index] == Mark.Correct || (h.hyp == LEAD && cut && lead <= 3)))
+                Hit(h.index, WordResult(Mark.Correct), h.hyp) else h
         }
-        finalized = seg
-        tentative = emptyList()
-        var res = align(keys, pointer, raw.map(ArabicNorm::norm), st.threshold, raw)
-        val first = res.indexOfFirst { it.mark != Mark.Correct }
-        if (st.onMistake == 1 && first >= 0) res = res.take(first + 1)
-        for (r in res) { marks[pointer] = r; pointer++ }
+        // The last recognized word may still be cut off, so partial results only commit up to the last matched word before it.
+        val last = hyp.size - 1
+        val end = if (final) fixed.indexOfLast { it.result.mark != Mark.Missed }
+        else fixed.indexOfLast { it.result.mark == Mark.Correct && it.hyp >= 0 && it.hyp != last }
+        var take = fixed.take(end + 1)
+        val first = take.indexOfFirst { it.result.mark != Mark.Correct }
+        if (st.onMistake == 1 && first >= 0) take = take.take(first + 1)
+        for (h in take) { marks[h.index] = h.result; pointer = h.index + 1 }
+        val rest = fixed.drop(take.size).filter { it.index >= pointer }
+        val heard = tent.filterKeys { it >= pointer }.toMutableMap()
+        for (h in rest) if (h.result.mark == Mark.Correct && !h.result.partial) heard[h.index] = Mark.Correct
+        if (final) while (heard[pointer] == Mark.Correct) { marks[pointer] = WordResult(Mark.Correct); pointer++ }
+        tent = heard
+        val shown = ArrayList<WordResult>()
+        for (h in rest) { if (h.index < pointer) continue; if (h.index != pointer + shown.size || h.result.mark != Mark.Correct) break; shown.add(h.result) }
+        tentative = shown
         if (first >= 0 && st.vibrate) vibrate()
         if (st.onMistake == 1 && first >= 0) {
             mistakeAt = pointer - 1
             stopListening()
             phase = Phase.Mistake
         } else if (pointer >= words.size) finish()
+    }
+
+    /** Stop button: decodes the audio still in the window before showing the summary. */
+    fun stop() {
+        if (phase != Phase.Listening || stopping) { if (!stopping) finish(); return }
+        stopping = true
+        val j = job
+        job = null
+        val c = cap
+        viewModelScope.launch {
+            j?.cancelAndJoin()
+            level = 0f
+            val audio = if (c.speech && c.win.isNotEmpty()) concat(c.win) else null
+            while (busy.get()) delay(30)
+            if (audio == null || recognizer == null || phase != Phase.Listening) finish()
+            else submit(audio, true, c.cut) { if (phase == Phase.Listening) finish() }
+        }
     }
 
     private fun vibrate() {
@@ -263,6 +305,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private fun stopListening() {
         job?.cancel()
         job = null
+        stopping = false
         tentative = emptyList()
         level = 0f
     }

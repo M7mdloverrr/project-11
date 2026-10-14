@@ -26,6 +26,10 @@ const val SAMPLE_RATE = 16000
 const val FRAME = 480
 const val FRAME_MS = 30
 
+/** Rolling recognition window and how often it is re-decoded. */
+const val WINDOW_FRAMES = 4000 / FRAME_MS
+const val STRIDE_MS = 300
+
 /** On-device Quran recitation recognizer (Whisper base fine-tuned on Quran recitation, int8 ONNX via sherpa-onnx). */
 class QuranRecognizer(context: Context) {
     private val recognizer = OfflineRecognizer(

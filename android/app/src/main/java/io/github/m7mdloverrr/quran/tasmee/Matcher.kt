@@ -56,7 +56,8 @@ object ArabicNorm {
 
 enum class Mark { Correct, Wrong, Missed }
 
-class WordResult(val mark: Mark, val heard: String? = null)
+/** [partial]: the word is still being said and so far matches the start of the expected word. */
+class WordResult(val mark: Mark, val heard: String? = null, val partial: Boolean = false)
 
 /**
  * Aligns recognized words to the expected words starting at [from].
@@ -108,4 +109,81 @@ fun align(expected: List<String>, from: Int, hyp: List<String>, threshold: Float
 
 private fun relax(dp: Array<FloatArray>, op: Array<IntArray>, i: Int, j: Int, v: Float, o: Int) {
     if (v < dp[i][j]) { dp[i][j] = v; op[i][j] = o }
+}
+
+/** [hyp] is the hypothesis word index, -1 for a skipped word, [LEAD] for a word skipped before the window's first word. */
+class Hit(val index: Int, val result: WordResult, val hyp: Int)
+
+const val LEAD = -2
+
+private fun isPrefix(h: String, e: String, ok: Boolean) = ok && h.length >= 3 && h.length < e.length && e.startsWith(h)
+
+/**
+ * Aligns a rolling-window hypothesis against expected words around [from].
+ * The window may begin a few words before [from] (already committed) or after it (audio that scrolled out),
+ * and its last word may be cut off. Returns hits for expected indices >= [from].
+ */
+fun alignWindow(
+    expected: List<String>, from: Int, hyp: List<String>, threshold: Float,
+    raw: List<String>, final: Boolean, back: Int = 6,
+): List<Hit> {
+    val n = hyp.size
+    if (n == 0 || from >= expected.size) return emptyList()
+    val s0 = max(0, from - back)
+    val c0 = from - s0
+    val w = min(expected.size - s0, c0 + n + 12)
+    val inf = Float.MAX_VALUE / 4
+    val dp = Array(n + 1) { FloatArray(w + 1) { inf } }
+    val op = Array(n + 1) { IntArray(w + 1) }
+    for (j in 0..c0) dp[0][j] = 0f
+    val mergeTh = max(threshold, 0.9f)
+    for (i in 0..n) for (j in 0..w) {
+        val c = dp[i][j]
+        if (c >= inf) continue
+        if (j < w) {
+            val e = expected[s0 + j]
+            if (i < n) {
+                var s = ArabicNorm.similarity(hyp[i], e)
+                if (s < threshold && isPrefix(hyp[i], e, !final && i == n - 1)) s = 1f
+                relax(dp, op, i + 1, j + 1, c + if (s >= threshold) 0f else if (s >= 0.4f) 1f else 1.6f, 1)
+                if (i + 1 < n && ArabicNorm.similarity(hyp[i] + hyp[i + 1], e) >= mergeTh) relax(dp, op, i + 2, j + 1, c + 0.1f, 2)
+            }
+            relax(dp, op, i, j + 1, c + if (j < c0) 0f else if (i == 0) 0.35f else 1f, 3)
+        }
+        if (i < n) {
+            val skip = when {
+                i == n - 1 && j > c0 -> if (final) 0.5f else 0f
+                i == 0 -> 0.3f
+                j < c0 -> 0.6f
+                else -> 1f
+            }
+            relax(dp, op, i + 1, j, c + skip, 4)
+        }
+    }
+    var bj = 0
+    for (j in 0..w) if (dp[n][j] <= dp[n][bj]) bj = j
+    val out = ArrayList<Hit>()
+    var i = n
+    var j = bj
+    while (i > 0 || j > 0) {
+        if (i == 0 && j <= c0) break
+        when (op[i][j]) {
+            1 -> {
+                val e = expected[s0 + j - 1]
+                val s = ArabicNorm.similarity(hyp[i - 1], e)
+                val r = when {
+                    s >= threshold -> WordResult(Mark.Correct)
+                    isPrefix(hyp[i - 1], e, !final && i == n) -> WordResult(Mark.Correct, partial = true)
+                    else -> WordResult(Mark.Wrong, raw[i - 1])
+                }
+                out.add(Hit(s0 + j - 1, r, i - 1))
+                i--; j--
+            }
+            2 -> { out.add(Hit(s0 + j - 1, WordResult(Mark.Correct), i - 2)); i -= 2; j-- }
+            3 -> { out.add(Hit(s0 + j - 1, WordResult(Mark.Missed), if (i == 0) LEAD else -1)); j-- }
+            else -> i--
+        }
+    }
+    out.reverse()
+    return out.filter { it.index >= from }
 }
