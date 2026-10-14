@@ -414,6 +414,12 @@ private fun Controls(vm: TasmeeViewModel, st: TasmeeSettings) {
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Text("${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                vm.liveHeard?.let { h ->
+                    Text(
+                        if (h.isEmpty()) "لم يُسمع شيء بعد • الصوت ${(vm.level * 100).toInt().ar()}٪" else "يسمع: $h",
+                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1,
+                    )
+                }
             }
             if (st.hint == 1) {
                 FilledTonalButton(onClick = vm::hint) {

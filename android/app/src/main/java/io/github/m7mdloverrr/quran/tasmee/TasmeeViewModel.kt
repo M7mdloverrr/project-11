@@ -82,6 +82,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     var pointer by mutableIntStateOf(0); private set
     var tentative by mutableStateOf<List<WordResult>>(emptyList()); private set
     var level by mutableFloatStateOf(0f); private set
+    var liveHeard by mutableStateOf<String?>(null); private set
     var decoding by mutableStateOf(false); private set
     var modelReady by mutableStateOf(false); private set
     var error by mutableStateOf<String?>(null)
@@ -243,6 +244,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         job = viewModelScope.launch(decoder) {
             val rec = live ?: return@launch
             rec.reset()
+            withContext(Dispatchers.Main) { liveHeard = "" }
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
             var last = ""
             try {
@@ -255,7 +257,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     last = h
                     val outs = tr.update(h, false)
                     val t = tr.tentative
-                    withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
+                    withContext(Dispatchers.Main) { if (gen == generation) { liveHeard = h.takeLast(28); applyLive(outs, t, base) } }
                 }
             } catch (e: IllegalStateException) {
                 withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
