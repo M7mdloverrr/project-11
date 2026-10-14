@@ -142,7 +142,17 @@ object TasmeeDebug {
 }
 
 /** Streaming Quran-Lab zipformer CTC: emits a cumulative phoneme hypothesis as audio arrives. */
-class LiveRecognizer(context: Context) {
+/** A streaming recognizer returning its cumulative hypothesis; [phonetic] outputs Quran-Lab phonemes, otherwise Arabic text. */
+interface Streamer {
+    val phonetic: Boolean
+    fun reset()
+    fun accept(samples: FloatArray): String
+    fun finish(): String
+    fun release()
+}
+
+class LiveRecognizer(context: Context) : Streamer {
+    override val phonetic = true
     private val recognizer = OnlineRecognizer(
         context.assets,
         OnlineRecognizerConfig(
@@ -158,20 +168,20 @@ class LiveRecognizer(context: Context) {
     )
     private var stream: OnlineStream = recognizer.createStream()
 
-    fun reset() { stream.release(); stream = recognizer.createStream() }
+    override fun reset() { stream.release(); stream = recognizer.createStream() }
 
-    fun accept(samples: FloatArray): String {
+    override fun accept(samples: FloatArray): String {
         stream.acceptWaveform(samples, SAMPLE_RATE)
         while (recognizer.isReady(stream)) recognizer.decode(stream)
         return recognizer.getResult(stream).text
     }
 
-    fun finish(): String {
+    override fun finish(): String {
         stream.acceptWaveform(FloatArray(SAMPLE_RATE), SAMPLE_RATE)
         stream.inputFinished()
         while (recognizer.isReady(stream)) recognizer.decode(stream)
         return recognizer.getResult(stream).text
     }
 
-    fun release() { stream.release(); recognizer.release() }
+    override fun release() { stream.release(); recognizer.release() }
 }

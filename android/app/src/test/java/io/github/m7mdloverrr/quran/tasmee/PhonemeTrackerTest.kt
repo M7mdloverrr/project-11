@@ -60,4 +60,23 @@ class PhonemeTrackerTest {
         assertTrue(tr.pointer >= 27)
         assertEquals(Mark.Wrong, marks[9])
     }
+
+    private val keys: List<List<String>> by lazy {
+        val txt = File("src/main/assets/tasmee_keys.json").readText()
+        val body = txt.substringAfter("[[").substringBeforeLast("]]")
+        body.split("],[").map { s -> Regex("\"([^\"]*)\"").findAll(s).map { it.groupValues[1] }.toList() }
+    }
+
+    private fun fc(file: String, surah: Int, from: Int, to: Int): Map<Int, Mark> {
+        val words = (from..to).flatMap { a -> keys[surah - 1][a - 1].split(' ') }
+        val tr = PhonemeTracker(words, 0.35f)
+        val marks = HashMap<Int, Mark>()
+        val lines = javaClass.getResource("/live/$file")!!.readText().lines().filter { it.isNotBlank() }
+        lines.forEachIndexed { i, l -> for (o in tr.update(ArabicNorm.norm(l), i == lines.lastIndex)) marks[o.index] = o.mark }
+        println("fc $file: ${tr.pointer}/${words.size} " + marks.entries.filter { it.value != Mark.Correct }.joinToString { "${it.key}=${it.value}" } + " words=" + words.take(6))
+        assertEquals(words.size, tr.pointer)
+        return marks
+    }
+
+    @Test fun fcKursi() { assertTrue(fc("fc_kursi.txt", 2, 255, 255).values.count { it == Mark.Correct } >= 46) }
 }

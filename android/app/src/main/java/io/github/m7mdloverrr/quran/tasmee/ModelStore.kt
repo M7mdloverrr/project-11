@@ -23,6 +23,11 @@ object ModelStore {
         listOf("encoder.onnx" to 29_104_812L, "decoder.onnx" to 50_994_860L, "tokens.txt" to 816_730L),
     )
 
+    val fastConformer = Model(
+        "fastconformer",
+        listOf("model.onnx" to 131_957_764L, "tokens.txt" to 12_847L),
+    )
+
     fun dir(context: Context, m: Model) = File(context.filesDir, "models/${m.id}")
 
     fun file(context: Context, m: Model, name: String) = File(dir(context, m), name).absolutePath

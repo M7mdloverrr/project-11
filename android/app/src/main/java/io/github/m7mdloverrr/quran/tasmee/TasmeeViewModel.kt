@@ -77,38 +77,49 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     val settings: StateFlow<TasmeeSettings?> = prefs.settings.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     var phase by mutableStateOf(Phase.Setup); private set
+    /** True when the whole surah is shown and the reciter is followed through it. */
+    var follow by mutableStateOf(false); private set
     var words by mutableStateOf<List<TWord>>(emptyList()); private set
     val marks = mutableStateListOf<WordResult?>()
     var pointer by mutableIntStateOf(0); private set
     var tentative by mutableStateOf<List<WordResult>>(emptyList()); private set
     var level by mutableFloatStateOf(0f); private set
-    var whisperReady by mutableStateOf(false); private set
-    var whisperProgress by mutableStateOf<Float?>(null); private set
-    private var download: Job? = null
+    /** Download state of an optional model that powers [engine]. */
+    inner class Download(val model: ModelStore.Model, val engine: Int, private val name: String) {
+        var ready by mutableStateOf(false); internal set
+        var progress by mutableStateOf<Float?>(null); private set
+        private var job: Job? = null
 
-    fun downloadWhisper() {
-        if (download?.isActive == true) return
-        download = viewModelScope.launch {
-            whisperProgress = 0f
-            val r = runCatching { ModelStore.download(getApplication(), ModelStore.whisper) { whisperProgress = it } }
-            whisperProgress = null
-            whisperReady = ModelStore.ready(getApplication(), ModelStore.whisper)
-            r.onSuccess { setEngine(0) }.onFailure {
-                if (it !is kotlinx.coroutines.CancellationException) error = "تعذّر تنزيل Whisper. تحقق من الإنترنت وحاول مجدداً."
+        fun start() {
+            if (job?.isActive == true) return
+            job = viewModelScope.launch {
+                progress = 0f
+                val r = runCatching { ModelStore.download(getApplication(), model) { progress = it } }
+                progress = null
+                ready = ModelStore.ready(getApplication(), model)
+                r.onSuccess { setEngine(engine) }.onFailure {
+                    if (it !is kotlinx.coroutines.CancellationException) error = "تعذّر تنزيل $name. تحقق من الإنترنت وحاول مجدداً."
+                }
+            }
+        }
+
+        fun cancel() { job?.cancel() }
+
+        fun delete() {
+            viewModelScope.launch {
+                if (prefs.settings.first().engine == engine) setEngine(1)
+                withContext(decoder) {
+                    if (engine == 0) { recognizer?.release(); recognizer = null }
+                    else if (loaded == engine) { live?.release(); live = null }
+                }
+                ModelStore.delete(getApplication(), model)
+                ready = false
             }
         }
     }
 
-    fun cancelDownload() { download?.cancel() }
-
-    fun deleteWhisper() {
-        viewModelScope.launch {
-            if (prefs.settings.first().engine == 0) setEngine(1)
-            withContext(decoder) { recognizer?.release(); recognizer = null }
-            ModelStore.delete(getApplication(), ModelStore.whisper)
-            whisperReady = false
-        }
-    }
+    val whisper = Download(ModelStore.whisper, 0, "Whisper")
+    val fast = Download(ModelStore.fastConformer, 2, "FastConformer")
     var decoding by mutableStateOf(false); private set
     var modelReady by mutableStateOf(false); private set
     var error by mutableStateOf<String?>(null)
@@ -122,11 +133,11 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     val revealed: Int get() = pointer + tentative.size
 
     private var recognizer: QuranRecognizer? = null
-    private var live: LiveRecognizer? = null
+    private var live: Streamer? = null
     private var tracker: PhonemeTracker? = null
     private var trackBase = 0
     private var loaded = -1
-    private val isLive: Boolean get() = loaded == 1
+    private val isLive: Boolean get() = loaded == 1 || loaded == 2
     private val decoder = Dispatchers.Default.limitedParallelism(1)
     private var job: Job? = null
     private val busy = AtomicBoolean(false)
@@ -149,13 +160,14 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun prepare() {
         if (modelReady) return
         viewModelScope.launch {
-            whisperReady = withContext(Dispatchers.IO) { ModelStore.ready(getApplication(), ModelStore.whisper) }
+            withContext(Dispatchers.IO) { for (d in listOf(whisper, fast)) d.ready = ModelStore.ready(getApplication(), d.model) }
             var engine = prefs.settings.first().engine
-            if (engine == 0 && !whisperReady) { engine = 1; prefs.set(TasmeePrefs.Keys.engine, 1) }
+            if ((engine == 0 && !whisper.ready) || (engine == 2 && !fast.ready)) { engine = 1; prefs.set(TasmeePrefs.Keys.engine, 1) }
             if (modelReady && loaded == engine) return@launch
             val r = withContext(decoder) {
                 runCatching {
                     if (engine == 1) { if (live == null) live = LiveRecognizer(getApplication()) }
+                    else if (engine == 2) { if (live == null) live = FastConformerRecognizer(getApplication()) }
                     else if (recognizer == null) recognizer = QuranRecognizer(getApplication())
                 }
             }
@@ -172,16 +184,18 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             prefs.set(TasmeePrefs.Keys.engine, engine)
             withContext(decoder) {
-                if (engine == 1) { recognizer?.release(); recognizer = null } else { live?.release(); live = null }
+                if (engine != 0) { recognizer?.release(); recognizer = null }
+                live?.release(); live = null
             }
             loaded = -1
             prepare()
         }
     }
 
-    fun start(surah: Int, from: Int, to: Int) {
+    fun start(surah: Int, from: Int, to: Int, follow: Boolean = false) {
+        this.follow = follow
         viewModelScope.launch {
-            prefs.saveRange(surah, from, to)
+            if (!follow) prefs.saveRange(surah, from, to)
             range = Triple(surah, from, to)
             words = TasmeeText.words(getApplication(), surah, from, to)
             marks.clear()
@@ -201,7 +215,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun restart() {
         val (s, f, t) = range
         stopListening()
-        start(s, f, t)
+        start(s, f, t, follow)
     }
 
     private fun listen() {
@@ -267,7 +281,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         stopping = false
         val base = pointer
         trackBase = base
-        val tr = PhonemeTracker(words.drop(base).map { it.phon }, st.limit).also { tracker = it }
+        val phonetic = live?.phonetic != false
+        val tr = PhonemeTracker(words.drop(base).map { if (phonetic) it.phon else it.key }, st.limit).also { tracker = it }
         val gen = generation
         job = viewModelScope.launch(decoder) {
             val rec = live ?: return@launch
@@ -279,7 +294,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     var sum = 0f
                     for (x in f) sum += x * x
                     level = min(1f, sqrt(sum / f.size) * 10f)
-                    val h = Phon.norm(rec.accept(f))
+                    val h = norm(rec, rec.accept(f))
                     if (h == last) return@collect
                     last = h
                     val outs = tr.update(h, false)
@@ -291,6 +306,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
     }
+
+    private fun norm(r: Streamer, t: String) = if (r.phonetic) Phon.norm(t) else ArabicNorm.norm(t)
 
     private fun applyLive(outs: List<PhonemeTracker.Out>, tent: Int, base: Int) {
         if (phase != Phase.Listening) return
@@ -407,7 +424,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
             level = 0f
             if (isLive) {
                 val tr = tracker
-                val outs = withContext(decoder) { live?.let { r -> tr?.update(Phon.norm(r.finish()), true) } }.orEmpty()
+                val outs = withContext(decoder) { live?.let { r -> tr?.update(norm(r, r.finish()), true) } }.orEmpty()
                 if (phase == Phase.Listening) { applyLive(outs, 0, trackBase); if (phase == Phase.Listening) finish() }
                 return@launch
             }
@@ -464,6 +481,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun backToSetup() {
         stopListening()
         phase = Phase.Setup
+        follow = false
     }
 
     override fun onCleared() {

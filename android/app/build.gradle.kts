@@ -59,5 +59,6 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.12.0")
     implementation("com.batoulapps.adhan:adhan:1.2.1")
     implementation(files("libs/sherpa-onnx-1.13.0.aar"))
+    implementation(files("libs/onnxruntime-android-1.24.3-jni.aar"))
     testImplementation("junit:junit:4.13.2")
 }

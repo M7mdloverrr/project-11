@@ -9,6 +9,20 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateRectAsState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -19,6 +33,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +56,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.Mic
 import androidx.compose.material.icons.rounded.Refresh
@@ -124,9 +140,19 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
     var showSettings by remember { mutableStateOf(false) }
     var denied by remember { mutableStateOf(false) }
     var pending by remember { mutableStateOf<Triple<Int, Int, Int>?>(null) }
+    var pendingFollow by remember { mutableStateOf(false) }
     val mic = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { ok ->
         val p = pending
-        if (ok && p != null) vm.start(p.first, p.second, p.third) else if (!ok) denied = true
+        if (ok && p != null) vm.start(p.first, p.second, p.third, pendingFollow) else if (!ok) denied = true
+    }
+    fun go(s: Int, f: Int, t: Int, follow: Boolean) {
+        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            vm.start(s, f, t, follow)
+        } else {
+            pending = Triple(s, f, t)
+            pendingFollow = follow
+            mic.launch(Manifest.permission.RECORD_AUDIO)
+        }
     }
     LaunchedEffect(Unit) { vm.prepare() }
     val view = LocalView.current
@@ -154,15 +180,11 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
         }
         Box(Modifier.padding(pad).fillMaxSize()) {
             if (vm.phase == Phase.Setup) {
-                SetupPane(q, st, main?.lastSurah ?: 0, vm.modelReady) { s, f, t ->
-                    if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                        vm.start(s, f, t)
-                    } else {
-                        pending = Triple(s, f, t)
-                        mic.launch(Manifest.permission.RECORD_AUDIO)
-                    }
-                }
-            } else SessionPane(q, st, vm)
+                SetupPane(
+                    q, st, main?.lastSurah ?: 0, vm.modelReady,
+                    onFollow = { sura -> go(sura, 1, q.surah(sura).ayahs.size, true) },
+                ) { s, f, t -> go(s, f, t, false) }
+            } else if (vm.follow) FollowPane(q, st, vm) else SessionPane(q, st, vm)
         }
     }
     val s = ts
@@ -207,7 +229,7 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boolean, onStart: (Int, Int, Int) -> Unit) {
+private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boolean, onFollow: (Int) -> Unit, onStart: (Int, Int, Int) -> Unit) {
     var surah by remember { mutableIntStateOf((if (st.surah > 0) st.surah else lastSurah).coerceIn(1, 114)) }
     val count = q.surah(surah).ayahs.size
     var from by remember(surah) { mutableFloatStateOf(if (surah == st.surah) st.from.coerceIn(1, count).toFloat() else 1f) }
@@ -231,7 +253,7 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
         Surface(onClick = { pick = true }, shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
             Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
-                    Text("سورة ${q.surah(surah).name}", fontFamily = QuranFont, fontSize = 24.sp)
+                    Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 24.sp)
                     Text("${count.ar()} آية • اضغط لاختيار سورة أخرى", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Text(surah.ar(), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
@@ -264,6 +286,16 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
             Spacer(Modifier.width(8.dp))
             Text("ابدأ التسميع", style = MaterialTheme.typography.titleMedium)
         }
+        OutlinedButton(onClick = { onFollow(surah) }, enabled = ready, modifier = Modifier.fillMaxWidth().height(56.dp)) {
+            Icon(Icons.AutoMirrored.Rounded.MenuBook, null)
+            Spacer(Modifier.width(8.dp))
+            Text("تسميع والسورة ظاهرة", style = MaterialTheme.typography.titleMedium)
+        }
+        Text(
+            "تُعرض السورة كاملة، وتُظلَّل الآية التي تقرؤها بالأخضر ويتحرك مربع أخضر مع كل كلمة.",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth(),
+        )
     }
     if (pick) SurahPicker(q, { pick = false }) { surah = it; pick = false }
 }
@@ -307,7 +339,7 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("سورة ${q.surah(surah).name}", fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
+                Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
                 Text("الآيات ${from.ar()}–${to.ar()} • ${clock(elapsed)}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             val progress by animateFloatAsState(if (words.isEmpty()) 0f else vm.pointer.toFloat() / words.size, tween(400), label = "p")
@@ -347,6 +379,110 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
             if (done) Summary(vm, onRevealAll = { revealAll = true }, revealed = revealAll)
         }
         if (!done) Controls(vm, st)
+    }
+}
+
+private val FollowGreen = Color(0xFF3FA66B)
+
+/** Splits the surah into lazily composed passages of whole verses. */
+private fun passages(words: List<TWord>): List<List<Int>> {
+    val out = ArrayList<List<Int>>()
+    var cur = ArrayList<Int>()
+    for (i in words.indices) {
+        cur.add(i)
+        if (words[i].ayahEnd && cur.size >= 90) { out.add(cur); cur = ArrayList() }
+    }
+    if (cur.isNotEmpty()) out.add(cur)
+    return out
+}
+
+@Composable
+private fun FollowPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
+    val words = vm.words
+    val (surah, _, _) = vm.range
+    val page = LocalPageColors.current
+    val done = vm.phase == Phase.Done
+    val parts = remember(words) { passages(words) }
+    val ayahCount = remember(words) { words.lastOrNull()?.ayah ?: 0 }
+    val cur = (vm.revealed - 1).coerceIn(0, (words.size - 1).coerceAtLeast(0))
+    val curAyah = words.getOrNull(cur)?.ayah ?: 1
+    val curPart = parts.indexOfFirst { cur in it }
+    val list = rememberLazyListState()
+    LaunchedEffect(curPart) { if (curPart >= 0 && !done) list.animateScrollToItem(curPart) }
+    Column(Modifier.fillMaxSize()) {
+        Column(Modifier.padding(horizontal = 16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
+                Text("الآية ${curAyah.ar()} من ${ayahCount.ar()}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            val progress by animateFloatAsState(if (words.isEmpty()) 0f else vm.pointer.toFloat() / words.size, tween(400), label = "p")
+            LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp).clip(CircleShape))
+        }
+        LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = list, contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 8.dp)) {
+            itemsIndexed(parts) { k, idx ->
+                Passage(vm, words, idx, if (!done && k == curPart) cur else -1, st, page.text)
+            }
+            if (done) item { Summary(vm, onRevealAll = {}, revealed = true) }
+        }
+        if (!done) Controls(vm, st)
+    }
+}
+
+@Composable
+private fun Passage(vm: TasmeeViewModel, words: List<TWord>, idx: List<Int>, cur: Int, st: TasmeeSettings, ink: Color) {
+    val bounds = remember { mutableStateMapOf<Int, Rect>() }
+    val ayah = if (cur >= 0) words[cur].ayah else -1
+    val target = bounds[cur] ?: Rect.Zero
+    val box by animateRectAsState(target, tween(260, easing = FastOutSlowInEasing), label = "box")
+    val glow by animateFloatAsState(if (cur >= 0) 1f else 0f, tween(350), label = "glow")
+    FlowRow(
+        Modifier.fillMaxWidth()
+            .drawWithContent {
+                if (glow > 0f && ayah > 0) {
+                    val px = 4.dp.toPx()
+                    val lines = idx.filter { words[it].ayah == ayah }.flatMap { listOfNotNull(bounds[it], if (words[it].ayahEnd) bounds[-1 - it] else null) }.groupBy { it.top.toInt() }
+                    for (row in lines.values) {
+                        val l = row.minOf { it.left } - px; val r = row.maxOf { it.right } + px
+                        val t = row.minOf { it.top }; val b = row.maxOf { it.bottom }
+                        drawRoundRect(FollowGreen.copy(alpha = 0.09f * glow), Offset(l, t), Size(r - l, b - t), CornerRadius(6.dp.toPx()))
+                    }
+                    if (target != Rect.Zero) {
+                        val pad = Offset(3.dp.toPx(), 1.dp.toPx())
+                        drawRoundRect(
+                            FollowGreen.copy(alpha = 0.16f * glow), box.topLeft - pad,
+                            Size(box.width + pad.x * 2, box.height + pad.y * 2), CornerRadius(6.dp.toPx()),
+                        )
+                    }
+                }
+                drawContent()
+            },
+        horizontalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+    ) {
+        for (i in idx) {
+            val w = words[i]
+            val r = if (i < vm.pointer) vm.marks.getOrNull(i) else vm.tentative.getOrNull(i - vm.pointer)
+            val c = when (r?.mark) {
+                Mark.Wrong -> WrongRed
+                Mark.Missed -> MissedRed
+                else -> ink
+            }
+            Text(
+                w.text, fontFamily = QpcFont, fontSize = st.fontSize.sp, color = c,
+                textDecoration = if (r?.mark == Mark.Missed) TextDecoration.Underline else null,
+                modifier = Modifier.onGloballyPositioned { bounds[i] = it.boundsInParent() }.padding(horizontal = 3.dp),
+            )
+            if (w.ayahEnd) {
+                Box(
+                    Modifier.padding(horizontal = 3.dp).size((st.fontSize * 1.05f).dp).align(Alignment.CenterVertically)
+                        .border(1.2.dp, ink.copy(alpha = 0.55f), CircleShape)
+                        .onGloballyPositioned { bounds[-1 - i] = it.boundsInParent() },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(w.ayah.ar(), fontSize = (st.fontSize * 0.42f).sp, color = ink.copy(alpha = 0.85f))
+                }
+            }
+        }
     }
 }
 
@@ -508,16 +644,16 @@ private fun clock(ms: Long): String {
 }
 
 @Composable
-private fun WhisperRow(vm: TasmeeViewModel) {
-    val p = vm.whisperProgress
+private fun ModelRow(title: String, size: String, d: TasmeeViewModel.Download) {
+    val p = d.progress
     Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
-            Text("نموذج Whisper", style = MaterialTheme.typography.bodyMedium)
+            Text(title, style = MaterialTheme.typography.bodyMedium)
             Text(
                 when {
                     p != null -> "جارٍ التنزيل… ${(p * 100).toInt().ar()}٪"
-                    vm.whisperReady -> "منزّل على الجهاز ويعمل دون إنترنت"
-                    else -> "غير منزّل • ٨١ م.ب مرة واحدة"
+                    d.ready -> "منزّل على الجهاز ويعمل دون إنترنت"
+                    else -> "غير منزّل • $size مرة واحدة"
                 },
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -525,9 +661,9 @@ private fun WhisperRow(vm: TasmeeViewModel) {
         }
         Spacer(Modifier.width(8.dp))
         when {
-            p != null -> androidx.compose.material3.TextButton(onClick = vm::cancelDownload) { Text("إلغاء") }
-            vm.whisperReady -> androidx.compose.material3.TextButton(onClick = vm::deleteWhisper) { Text("حذف") }
-            else -> FilledTonalButton(onClick = vm::downloadWhisper) { Text("تنزيل") }
+            p != null -> androidx.compose.material3.TextButton(onClick = d::cancel) { Text("إلغاء") }
+            d.ready -> androidx.compose.material3.TextButton(onClick = d::delete) { Text("حذف") }
+            else -> FilledTonalButton(onClick = d::start) { Text("تنزيل") }
         }
     }
 }
@@ -538,10 +674,18 @@ private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismi
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
             Text("إعدادات التسميع", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 20.dp))
-            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper (أبطأ)", "مباشر سريع"), st.engine) { if (it == 0 && !vm.whisperReady) vm.downloadWhisper() else vm.setEngine(it) }
-            WhisperRow(vm)
+            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper", "مباشر ١", "مباشر ٢"), st.engine) {
+                when {
+                    it == 0 && !vm.whisper.ready -> vm.whisper.start()
+                    it == 2 && !vm.fast.ready -> vm.fast.start()
+                    else -> vm.setEngine(it)
+                }
+            }
+            ModelRow("مباشر ٢: FastConformer", "١٣٢ م.ب", vm.fast)
+            ModelRow("Whisper (أبطأ)", "٨١ م.ب", vm.whisper)
             Text(
-                if (st.engine == 1) "مباشر: نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية)."
+                if (st.engine == 1) "مباشر ١ (مدمج): نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية)."
+                else if (st.engine == 2) "مباشر ٢: نموذج FastConformer للقرآن، يكتب الكلمات كل ثانية تقريباً على الجهاز."
                 else "Whisper: نموذج tarteel-ai/whisper-base-ar-quran، يصحح بعد نحو ثانية.",
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 20.dp),
