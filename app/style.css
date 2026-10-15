@@ -81,6 +81,8 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .ay { border-radius: 8px; padding: 0 2px; transition: background .25s; cursor: pointer; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .ay.sel { background: rgba(127,127,127,.12); }
 .ay.on { background: var(--hl); }
+.page .de { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; line-height: 1.55; text-align: left; text-align-last: auto; opacity: .78; margin: 4px 0 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(120,100,60,.18); }
+.bub { background: var(--page); color: var(--ink); border-radius: 14px; padding: 10px 12px; font-size: 15px; line-height: 1.5; text-align: left; max-height: 30vh; overflow: auto; box-shadow: 0 2px 8px rgba(0,0,0,.12); animation: fade .2s ease both; }
 .mk { color: var(--em); white-space: nowrap; }
 [data-theme=dark] .mk { color: var(--emb); }
 .sh { margin: 10px 0 6px; text-align: center; }

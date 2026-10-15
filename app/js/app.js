@@ -42,11 +42,20 @@ const pad3 = n => String(n).padStart(3, '0');
 const audioUrl = (r, s, a) => `https://everyayah.com/data/${rec(r).f}/${pad3(s)}${pad3(a)}.mp3`;
 const AC = 'quran-audio-v1';
 
-const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, method: 'MuslimWorldLeague', hanafi: false, notify: false };
+const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, de: 0, method: 'MuslimWorldLeague', hanafi: false, notify: false };
 const P = Object.assign({}, DEF, load('prefs', {}));
 let last = load('last', { page: 1, s: 1, a: 1 });
 let marks = load('marks', []);
 function setP(k, v) { P[k] = v; save('prefs', P); applyTheme(); onPref(k); }
+let DE = null, deLoading = null;
+function loadDE() {
+  if (DE || deLoading) return deLoading;
+  deLoading = fetch('assets/de.json').then(r => { if (!r.ok) throw 0; return r.json(); })
+    .then(j => { DE = j.s; if (route === 'read') renderReader(curPage); })
+    .catch(() => { deLoading = null; if (typeof toast === 'function') toast('تعذر تحميل الترجمة. تحقق من الاتصال بالإنترنت'); });
+  return deLoading;
+}
+const deText = (s, a) => (DE && DE[s - 1] && DE[s - 1][a - 1]) || '';
 
 /* data */
 let QD = null; const pages = []; const juzStart = [];
@@ -162,14 +171,14 @@ AU.el.preload = 'auto';
 const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
 function unlockAudio() { if (AU.unlocked) return; AU.unlocked = true; try { AU.el.src = SILENT; AU.el.play().catch(() => {}); } catch {} }
 async function audioBlob(r, s, a) {
-  const url = audioUrl(r, s, a), c = await caches.open(AC);
-  let res = await c.match(url);
+  const url = audioUrl(r, s, a), c = await caches.open(AC).catch(() => null);
+  let res = await c?.match(url).catch(() => null);
   if (!res) {
     try { res = await fetch(url); } catch { throw new Error('net'); }
     if (!res.ok) throw new Error(res.status === 404 ? 'missing' : 'net');
-    await c.put(url, res.clone());
+    await c?.put(url, res.clone()).catch(() => {});
   }
-  return res.blob();
+  return new Blob([await res.arrayBuffer()], { type: 'audio/mpeg' });
 }
 async function ensureCached(r, s, a) {
   const url = audioUrl(r, s, a), c = await caches.open(AC);
@@ -185,11 +194,16 @@ async function startCur() {
   const tok = ++AU.tok, { s, a } = AU.cur;
   AU.loading = true; renderBar(); markPlaying(true);
   try {
-    const blob = await audioBlob(P.reciter, s, a);
+    const blob = await audioBlob(P.reciter, s, a).catch(e => { if (e.message === 'missing') throw e; return null; });
     if (tok !== AU.tok) return;
     if (AU.url) URL.revokeObjectURL(AU.url);
-    AU.url = URL.createObjectURL(blob); AU.el.src = AU.url; AU.el.playbackRate = P.speed;
-    await AU.el.play(); AU.el.playbackRate = P.speed;
+    AU.url = blob ? URL.createObjectURL(blob) : null;
+    try { AU.el.src = AU.url || audioUrl(P.reciter, s, a); AU.el.playbackRate = P.speed; await AU.el.play(); }
+    catch (e) {
+      if (!AU.url || e.name === 'NotAllowedError' || tok !== AU.tok) throw e;
+      AU.url = null; AU.el.src = audioUrl(P.reciter, s, a); await AU.el.play();
+    }
+    AU.el.playbackRate = P.speed;
     AU.loading = false; mediaMeta();
     const n = nextAyah(AU.cur); if (n) ensureCached(P.reciter, n.s, n.a).catch(() => {});
   } catch (e) {
@@ -215,7 +229,7 @@ function stopAudio() {
 function togglePlay() {
   unlockAudio();
   if (AU.playing) AU.el.pause();
-  else if (AU.cur && AU.url && AU.el.src === AU.url && !AU.el.ended) AU.el.play().catch(() => startCur());
+  else if (AU.cur && AU.el.src && AU.el.src !== SILENT && !AU.el.ended) AU.el.play().catch(() => startCur());
   else if (AU.cur) startCur();
   else { const [s, a] = (selKey || `${pages[curPage][0][0]}:${pages[curPage][0][1]}`).split(':').map(Number); playAyah(s, a); }
 }
@@ -245,12 +259,15 @@ function pageHtml(p) {
       out += `<div class="sh"><span>${sname(s)}</span></div>`;
       if (s !== 1 && s !== 9) out += `<div class="bas">${QD.basmala}</div>`;
     }
-    para += `<span class="ay" data-k="${s}:${a}">${ay(s, a)[0]}<span class="mk">&nbsp;\u06DD${AR(a)}</span></span> `;
+    const span = `<span class="ay" data-k="${s}:${a}">${ay(s, a)[0]}<span class="mk">&nbsp;\u06DD${AR(a)}</span></span> `;
+    if (P.de === 2 && DE) out += `<p>${span}</p><p class="de" dir="ltr" lang="de">${esc(deText(s, a))}</p>`;
+    else para += span;
   }
   return out + (para ? `<p>${para}</p>` : '');
 }
 function renderReader(p) {
   p = Math.min(604, Math.max(1, p | 0)); curPage = p; route = 'read';
+  if (P.de && !DE) loadDE();
   const [fs, fa] = pages[p][0], first = ay(fs, fa);
   last = { page: p, s: fs, a: fa }; save('last', last);
   $('#view').innerHTML = `
@@ -281,7 +298,7 @@ function renderBar() {
   const k = AU.cur ? `${AU.cur.s}:${AU.cur.a}` : selKey;
   if (!k) { b.innerHTML = `<div class="hint">اضغط على أي آية للاستماع بصوت ${rec(P.reciter).ar}</div>`; return; }
   const [s, a] = k.split(':').map(Number), on = AU.playing || AU.loading;
-  b.innerHTML = `<div class="bi"><b class="q">${sname(s)}</b><small>الآية ${AR(a)} • ${rec(P.reciter).ar}${AU.loading ? ' • جارٍ التحميل…' : ''}</small></div>
+  b.innerHTML = `${P.de === 1 && DE && a > 0 ? `<div class="bub" dir="ltr" lang="de">${esc(deText(s, a))}</div>` : ''}<div class="bi"><b class="q">${sname(s)}</b><small>الآية ${AR(a)} • ${rec(P.reciter).ar}${AU.loading ? ' • جارٍ التحميل…' : ''}</small></div>
   <div class="bc">
     <button class="ib" data-act="bm" data-k="${k}" aria-label="علامة">${ic(marks.includes(k) ? 'bm' : 'bmo')}</button>
     <button class="ib" data-act="speed" aria-label="السرعة"><b style="font-size:14px">${AR(P.speed)}×</b></button>
@@ -312,11 +329,15 @@ function renderSettings() {
       <div class="rowx"><span>متابعة الآية المقروءة<small>تقليب الصفحة تلقائياً مع التلاوة</small></span>${sw('follow')}</div>
       <div class="rowx"><span>متابعة التلاوة بعد الخروج من المصحف</span>${sw('keepPlaying')}</div>
       <div class="rowx"><span>إبقاء الشاشة مضاءة أثناء القراءة</span>${sw('wake')}</div></section>
+    <section class="card"><h3>الترجمة الألمانية (Deutsch)</h3>${seg('de', [[0, 'إيقاف'], [1, 'فقاعة'], [2, 'تحت كل آية']])}
+      <div class="rowx"><span><small>فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني<br>Übersetzung: Bubenheim &amp; Elyas</small></span></div></section>
+    <section class="card"><h3>عن التطبيق</h3><div class="rowx"><span>المطور: محمد صالح المحمد<small>Entwickler: Mouhamad Almuhamad</small></span></div></section>
     <section class="card"><h3>حول</h3><small>نص القرآن: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (الرسم العثماني، CC BY 3.0، دون أي تعديل). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).</small></section>
   </div>`;
   window.scrollTo(0, y);
 }
 function onPref(k) {
+  if (k === 'de' && P.de) loadDE();
   if (k === 'speed') AU.el.playbackRate = P.speed;
   if (k === 'reciter' && AU.cur) startCur();
   if (['method', 'hanafi', 'notify'].includes(k)) Prayer.refresh(k);
