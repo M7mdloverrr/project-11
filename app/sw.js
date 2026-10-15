@@ -1,4 +1,4 @@
-const V = 'quran-shell-v2';
+const V = 'quran-shell-v3';
 const KEEP = [V, 'quran-audio-v1', 'quran-bg-v1'];
 const SHELL = ['./', 'index.html', 'style.css', 'js/app.js', 'js/prayer.js', 'js/studio.js', 'vendor/adhan.js',
   'assets/quran.json', 'assets/fonts/amiri_quran.ttf', 'manifest.webmanifest',
