@@ -162,14 +162,14 @@ AU.el.preload = 'auto';
 const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
 function unlockAudio() { if (AU.unlocked) return; AU.unlocked = true; try { AU.el.src = SILENT; AU.el.play().catch(() => {}); } catch {} }
 async function audioBlob(r, s, a) {
-  const url = audioUrl(r, s, a), c = await caches.open(AC);
-  let res = await c.match(url);
+  const url = audioUrl(r, s, a), c = await caches.open(AC).catch(() => null);
+  let res = await c?.match(url).catch(() => null);
   if (!res) {
     try { res = await fetch(url); } catch { throw new Error('net'); }
     if (!res.ok) throw new Error(res.status === 404 ? 'missing' : 'net');
-    await c.put(url, res.clone());
+    await c?.put(url, res.clone()).catch(() => {});
   }
-  return res.blob();
+  return new Blob([await res.arrayBuffer()], { type: 'audio/mpeg' });
 }
 async function ensureCached(r, s, a) {
   const url = audioUrl(r, s, a), c = await caches.open(AC);
@@ -185,11 +185,16 @@ async function startCur() {
   const tok = ++AU.tok, { s, a } = AU.cur;
   AU.loading = true; renderBar(); markPlaying(true);
   try {
-    const blob = await audioBlob(P.reciter, s, a);
+    const blob = await audioBlob(P.reciter, s, a).catch(e => { if (e.message === 'missing') throw e; return null; });
     if (tok !== AU.tok) return;
     if (AU.url) URL.revokeObjectURL(AU.url);
-    AU.url = URL.createObjectURL(blob); AU.el.src = AU.url; AU.el.playbackRate = P.speed;
-    await AU.el.play(); AU.el.playbackRate = P.speed;
+    AU.url = blob ? URL.createObjectURL(blob) : null;
+    try { AU.el.src = AU.url || audioUrl(P.reciter, s, a); AU.el.playbackRate = P.speed; await AU.el.play(); }
+    catch (e) {
+      if (!AU.url || e.name === 'NotAllowedError' || tok !== AU.tok) throw e;
+      AU.url = null; AU.el.src = audioUrl(P.reciter, s, a); await AU.el.play();
+    }
+    AU.el.playbackRate = P.speed;
     AU.loading = false; mediaMeta();
     const n = nextAyah(AU.cur); if (n) ensureCached(P.reciter, n.s, n.a).catch(() => {});
   } catch (e) {
@@ -215,7 +220,7 @@ function stopAudio() {
 function togglePlay() {
   unlockAudio();
   if (AU.playing) AU.el.pause();
-  else if (AU.cur && AU.url && AU.el.src === AU.url && !AU.el.ended) AU.el.play().catch(() => startCur());
+  else if (AU.cur && AU.el.src && AU.el.src !== SILENT && !AU.el.ended) AU.el.play().catch(() => startCur());
   else if (AU.cur) startCur();
   else { const [s, a] = (selKey || `${pages[curPage][0][0]}:${pages[curPage][0][1]}`).split(':').map(Number); playAyah(s, a); }
 }
