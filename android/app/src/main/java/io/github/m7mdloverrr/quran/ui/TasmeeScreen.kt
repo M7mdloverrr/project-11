@@ -166,15 +166,18 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
         onDispose { view.keepScreenOn = false }
     }
     BackHandler(vm.phase != Phase.Setup) { vm.backToSetup() }
-    Scaffold(containerColor = Color.Transparent, topBar = {
-        TopAppBar(
+    var full by remember { mutableStateOf(false) }
+    FullScreenEffect(full)
+    BackHandler(full) { full = false }
+    Scaffold(containerColor = Color.Transparent, floatingActionButton = { if (full) ExitFullScreenButton { full = false } }, topBar = {
+        if (!full) TopAppBar(
             title = { Text("التسميع") },
             navigationIcon = {
                 IconButton(onClick = { if (vm.phase != Phase.Setup) vm.backToSetup() else onBack() }) {
                     Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع")
                 }
             },
-            actions = { IconButton(onClick = { showSettings = true }) { Icon(Icons.Rounded.Tune, "إعدادات التسميع") } },
+            actions = { FullScreenAction { full = true }; IconButton(onClick = { showSettings = true }) { Icon(Icons.Rounded.Tune, "إعدادات التسميع") } },
         )
     }) { pad ->
         val q = quran

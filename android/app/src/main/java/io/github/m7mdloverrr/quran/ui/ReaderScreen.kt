@@ -24,6 +24,7 @@ import androidx.compose.foundation.verticalScroll
 import io.github.m7mdloverrr.quran.data.GermanRepository
 import androidx.compose.ui.platform.LocalView
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -175,10 +176,14 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     val target: Ayah? = if (playing.active) q.ayah(playing.surah, playing.ayah.coerceAtLeast(1)) else selected
     val currentKey = if (playing.active) "${playing.surah}:${playing.ayah}" else null
 
+    var full by remember { mutableStateOf(false) }
+    FullScreenEffect(full)
+    BackHandler(full) { full = false }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
+        floatingActionButton = { if (full) ExitFullScreenButton { full = false } },
         topBar = {
-            TopAppBar(
+            if (!full) TopAppBar(
                 title = {
                     Column {
                         Text(q.surah(pageFirst.surah).name, fontFamily = QuranFont, fontSize = 22.sp)
@@ -189,6 +194,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
                 actions = {
                     IconButton(onClick = { vm.setFontSize(st.fontSize - 2) }, enabled = st.fontSize > 18) { Icon(Icons.Rounded.TextDecrease, "تصغير الخط") }
                     IconButton(onClick = { vm.setFontSize(st.fontSize + 2) }, enabled = st.fontSize < 44) { Icon(Icons.Rounded.TextIncrease, "تكبير الخط") }
+                    FullScreenAction { full = true }
                     IconButton(onClick = { navSheet = true }) { Icon(Icons.AutoMirrored.Rounded.MenuBook, "الفهرس") }
                 },
             )
