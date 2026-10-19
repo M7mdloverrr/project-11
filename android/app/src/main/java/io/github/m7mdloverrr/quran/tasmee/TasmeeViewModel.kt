@@ -51,6 +51,10 @@ object TasmeeText {
         return List(arr.length()) { si -> arr.getJSONArray(si).let { sa -> List(sa.length()) { sa.getString(it) } } }
     }
 
+    suspend fun ayahCount(context: Context, surah: Int): Int = withContext(Dispatchers.IO) {
+        (qpc ?: read(context, "script_qpc.json").also { qpc = it })[surah - 1].size
+    }
+
     suspend fun words(context: Context, surah: Int, from: Int, to: Int): List<TWord> = withContext(Dispatchers.IO) {
         val q = qpc ?: read(context, "script_qpc.json").also { qpc = it }
         val k = keys ?: read(context, "tasmee_keys.json").also { keys = it }
@@ -80,6 +84,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     var phase by mutableStateOf(Phase.Setup); private set
     /** True when the whole surah is shown and the reciter is followed through it. */
     var follow by mutableStateOf(false); private set
+    /** True while the surah is still being identified from the recitation. */
+    var locating by mutableStateOf(false); private set
     var words by mutableStateOf<List<TWord>>(emptyList()); private set
     val marks = mutableStateListOf<WordResult?>()
     var pointer by mutableIntStateOf(0); private set
@@ -149,6 +155,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private var stopping = false
     private var jumpSeen = -1
     private var jumpAge = 0
+    private var finder: Finder? = null
+    private var stall = 0
 
     /** Rolling audio window of the current utterance, owned by one listening job. */
     private class Capture {
@@ -173,7 +181,11 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     else if (recognizer == null) recognizer = QuranRecognizer(getApplication())
                 }
             }
-            r.onSuccess { loaded = engine; modelReady = true }
+            r.onSuccess {
+                loaded = engine; modelReady = true
+                val ph = live?.phonetic == true
+                launch(Dispatchers.Default) { runCatching { Locator.get(getApplication(), ph) } }
+            }
                 .onFailure { error = "تعذّر تحميل المصحح الصوتي على هذا الجهاز." }
         }
     }
@@ -194,12 +206,16 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    /** Starts listening without a chosen surah: the recited surah is found automatically. */
+    fun startAuto() = start(0, 0, 0, true)
+
     fun start(surah: Int, from: Int, to: Int, follow: Boolean = false) {
         this.follow = follow
+        locating = surah == 0
         viewModelScope.launch {
-            if (!follow) prefs.saveRange(surah, from, to)
+            if (!follow && surah > 0) prefs.saveRange(surah, from, to)
             range = Triple(surah, from, to)
-            words = TasmeeText.words(getApplication(), surah, from, to)
+            words = if (surah == 0) emptyList() else TasmeeText.words(getApplication(), surah, from, to)
             marks.clear()
             repeat(words.size) { marks.add(null) }
             hinted.clear()
@@ -217,7 +233,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     fun restart() {
         val (s, f, t) = range
         stopListening()
-        start(s, f, t, follow)
+        start(if (locating) 0 else s, f, t, follow)
     }
 
     private fun listen() {
@@ -229,6 +245,8 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         tent = emptyMap()
         stopping = false
         jumpSeen = -1
+        finder = Finder(false)
+        stall = 0
         val c = Capture().also { cap = it }
         job = viewModelScope.launch(Dispatchers.Default) {
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
@@ -281,39 +299,106 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     private fun listenLive(st: TasmeeSettings) {
         generation++
         stopping = false
-        val base = pointer
-        trackBase = base
         val phonetic = live?.phonetic != false
-        val tr = PhonemeTracker(words.drop(base).map { if (phonetic) it.phon else it.key }, st.limit).also { tracker = it }
+        trackBase = pointer
+        tracker = if (words.isEmpty()) null else PhonemeTracker(words.drop(pointer).map { if (phonetic) it.phon else it.key }, st.limit)
         val gen = generation
+        val find = Finder(phonetic)
         job = viewModelScope.launch(decoder) {
             val rec = live ?: return@launch
             rec.reset()
             val source = TasmeeDebug.wav?.let { WavSource(it) } ?: MicSource()
             var last = ""
             var quiet = 0
+            var progressAt = 0
             try {
                 source.frames().collect { f ->
                     var sum = 0f
                     for (x in f) sum += x * x
                     level = min(1f, sqrt(sum / f.size) * 10f)
                     val h = norm(rec, rec.accept(f))
+                    find.take()?.let { (l, len) -> if (switchLive(l, len, h, st, phonetic, gen)) progressAt = h.length }
+                    val tr = tracker
                     if (h == last) {
                         quiet += f.size / 16
-                        if (quiet >= END_MS && base + tr.pointer + tr.tentative >= words.size) {
+                        if (quiet >= END_MS && tr != null && words.isNotEmpty() && trackBase + tr.pointer + tr.tentative >= words.size) {
                             withContext(Dispatchers.Main) { if (gen == generation) stop() }
                         }
                         return@collect
                     }
                     quiet = 0
                     last = h
-                    val outs = tr.update(h, false)
-                    val t = tr.tentative
+                    val before = tr?.pointer ?: 0
+                    val outs = tr?.update(h, false).orEmpty()
+                    if (tr != null && (tr.pointer > before || tr.tentative > 0)) progressAt = h.length
+                    if (tr == null || h.length - progressAt >= LOST_CHARS) find.request(h)
+                    val t = tr?.tentative ?: 0
+                    val base = trackBase
                     withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
                 }
             } catch (e: IllegalStateException) {
                 withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
             }
+        }
+    }
+
+    /** Runs [Locator] off the audio thread; a place counts once two searches in a row agree on it. */
+    private inner class Finder(private val phonetic: Boolean) {
+        @Volatile private var busy = false
+        @Volatile private var found: Pair<Location, Int>? = null
+        private var lastLen = Int.MIN_VALUE / 2
+        private var prev: Pair<Location, Int>? = null
+
+        fun request(h: String, everyCall: Boolean = false) {
+            if (busy || h.length < Locator.TAIL || (!everyCall && h.length - lastLen < 10)) return
+            busy = true
+            lastLen = h.length
+            viewModelScope.launch(Dispatchers.Default) {
+                val l = runCatching { Locator.get(getApplication(), phonetic).locate(h) }.getOrNull()
+                val p = prev
+                if (l != null) {
+                    if (p != null && p.first.surah == l.surah && l.start in p.first.start..p.first.start + 15) { found = l to h.length; prev = null }
+                    else prev = l to h.length
+                }
+                busy = false
+            }
+        }
+
+        fun take(): Pair<Location, Int>? = found?.also { found = null }
+    }
+
+    /** Words of the found place: the whole surah on the follow page, otherwise from the found verse to the surah's end. */
+    private suspend fun placeOf(l: Location): Triple<List<TWord>, Int, Int>? {
+        val sw = Locator.surahs(getApplication())[l.surah - 1]
+        val w0 = sw.getOrNull(l.start) ?: return null
+        val (s, f, t) = range
+        if (!locating && s == l.surah && w0.ayah in f..t) return null
+        val first = if (follow) 0 else sw.indexOfFirst { it.ayah == w0.ayah }
+        return Triple(sw.subList(first, sw.size), l.start - first, if (follow) 1 else w0.ayah)
+    }
+
+    private fun moveTo(l: Location, list: List<TWord>, base: Int, from: Int) {
+        words = list
+        marks.clear()
+        repeat(list.size) { marks.add(null) }
+        hinted.clear()
+        pointer = base
+        tentative = emptyList()
+        range = Triple(l.surah, from, list.last().ayah)
+        locating = false
+    }
+
+    private suspend fun switchLive(l: Location, len: Int, h: String, st: TasmeeSettings, phonetic: Boolean, gen: Int): Boolean {
+        val (list, base, from) = placeOf(l) ?: return false
+        val tr = PhonemeTracker(list.drop(base).map { if (phonetic) it.phon else it.key }, st.limit, (len - l.anchorBack).coerceIn(0, h.length))
+        val outs = tr.update(h, false)
+        return withContext(Dispatchers.Main) {
+            if (gen != generation || phase != Phase.Listening) return@withContext false
+            moveTo(l, list, base, from)
+            tracker = tr
+            trackBase = base
+            applyLive(outs, tr.tentative, base)
+            true
         }
     }
 
@@ -337,7 +422,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
             mistakeAt = pointer - 1
             stopListening()
             phase = Phase.Mistake
-        } else if (pointer >= words.size) finish()
+        } else if (pointer >= words.size && words.isNotEmpty()) finish()
     }
 
     private fun concat(list: Collection<FloatArray>): FloatArray {
@@ -367,6 +452,18 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         val st = settings.value ?: return
         val raw = text.split(space).filter { ArabicNorm.norm(it).isNotEmpty() }
         val hyp = raw.map(ArabicNorm::norm)
+        val fd = finder
+        if (fd != null) {
+            fd.take()?.let { (l, _) ->
+                viewModelScope.launch {
+                    val p = placeOf(l) ?: return@launch
+                    if (phase == Phase.Listening) { moveTo(l, p.first, p.second, p.third); tent = emptyMap(); jumpSeen = -1; stall = 0 }
+                }
+            }
+            if (words.isEmpty() || stall >= 2) fd.request(hyp.joinToString(""), true)
+        }
+        if (words.isEmpty()) return
+        val startPointer = pointer
         val keys = words.map { it.key }
         var res = alignWindow(keys, pointer, hyp, st.threshold, raw, final)
         // Skipped words or verses: when the recitation clearly continues further ahead, mark the gap missed and follow it.
@@ -414,6 +511,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         val shown = ArrayList<WordResult>()
         for (h in rest) { if (h.index < pointer) continue; if (h.index != pointer + shown.size || h.result.mark != Mark.Correct) break; shown.add(h.result) }
         tentative = shown
+        stall = if (pointer > startPointer || shown.isNotEmpty()) 0 else stall + 1
         if ((first >= 0 || jumped) && st.vibrate) vibrate()
         if (st.onMistake == 1 && first >= 0) {
             mistakeAt = pointer - 1

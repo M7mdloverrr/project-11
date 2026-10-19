@@ -105,9 +105,9 @@ fun HomeScreen(
             return@Scaffold
         }
         LazyColumn(Modifier.padding(pad).fillMaxSize(), contentPadding = PaddingValues(bottom = 24.dp)) {
-            item(key = "continue") { ContinueCard(q, st, openPage) }
+            item(key = "continue") { Box(Modifier.appear(0)) { ContinueCard(q, st, openPage) } }
             item(key = "quick") {
-                Row(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(Modifier.appear(1).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     val lat = st.lat
                     val lon = st.lon
                     val sub = if (lat != null && lon != null) {
@@ -119,10 +119,10 @@ fun HomeScreen(
                 }
             }
             item(key = "studio") {
-                QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
+                QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.appear(2).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
             }
             item(key = "tasmee") {
-                QuickCard("التسميع", "سمّع حفظك ويصحّح لك التطبيق كلمةً كلمة", Icons.Rounded.Mic, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openTasmee)
+                QuickCard("التسميع", "سمّع حفظك ويصحّح لك التطبيق كلمةً كلمة", Icons.Rounded.Mic, Modifier.appear(3).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openTasmee)
             }
             stickyHeader(key = "tabs") {
                 PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
@@ -143,7 +143,8 @@ fun HomeScreen(
 
 @Composable
 private fun QuickCard(title: String, sub: String, icon: ImageVector, modifier: Modifier, onClick: () -> Unit) {
-    Surface(onClick = onClick, modifier = modifier, shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+    val press = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    Surface(onClick = onClick, modifier = modifier.pressScale(press), shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh, interactionSource = press) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
             Column {
@@ -159,13 +160,15 @@ private fun ContinueCard(q: Quran, st: Settings, openPage: (Int) -> Unit) {
     val page = st.lastPage.coerceIn(1, 604)
     val first = q.pages[page - 1].first()
     val hasHistory = st.lastPage > 0
+    val press = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
     Box(
         Modifier
             .padding(16.dp)
+            .pressScale(press)
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
             .background(Brush.linearGradient(listOf(DarkGreen, Emerald)))
-            .clickable { openPage(page) }
+            .clickable(press, androidx.compose.foundation.LocalIndication.current) { openPage(page) }
             .padding(20.dp),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {

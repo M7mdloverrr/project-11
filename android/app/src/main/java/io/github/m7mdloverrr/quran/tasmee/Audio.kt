@@ -37,6 +37,8 @@ const val STRIDE_MS = 300
 
 /** Silence after the last word before the session finishes by itself. */
 const val END_MS = 1200
+/** Heard sounds without any matched word before the whole Quran is searched again. */
+const val LOST_CHARS = 20
 
 /** On-device Quran recitation recognizer (Whisper base fine-tuned on Quran recitation, int8 ONNX via sherpa-onnx). */
 class QuranRecognizer(context: Context) {

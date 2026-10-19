@@ -19,6 +19,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -93,7 +99,13 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
-                        NavHost(nav, startDestination = "home") {
+                        NavHost(
+                            nav, startDestination = "home",
+                            enterTransition = { fadeIn(tween(320)) + slideInHorizontally(tween(380, easing = FastOutSlowInEasing)) { -it / 5 } + scaleIn(tween(380), initialScale = 0.97f) },
+                            exitTransition = { fadeOut(tween(220)) + scaleOut(tween(300), targetScale = 0.97f) },
+                            popEnterTransition = { fadeIn(tween(320)) + scaleIn(tween(320), initialScale = 0.97f) },
+                            popExitTransition = { fadeOut(tween(220)) + slideOutHorizontally(tween(320, easing = FastOutSlowInEasing)) { -it / 5 } },
+                        ) {
                             composable("home") {
                                 HomeScreen(
                                     vm,

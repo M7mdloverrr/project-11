@@ -35,10 +35,10 @@ object Phon {
  * Follows a recitation word by word. [words] are normalized phoneme words ("" = a word with no sound, such as ۞).
  * [update] takes the recognizer's whole cumulative normalized hypothesis.
  */
-class PhonemeTracker(private val words: List<String>, private val limit: Float, private val look: Int = 10) {
+class PhonemeTracker(private val words: List<String>, private val limit: Float, start: Int = 0, private val look: Int = 10) {
     var pointer = 0; private set
     var tentative = 0; private set
-    private var anchor = 0
+    private var anchor = start
     private var jumpSeen = -1
 
     class Out(val index: Int, val mark: Mark)

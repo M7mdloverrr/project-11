@@ -26,6 +26,9 @@ data class TasmeeSettings(
     val surah: Int,
     val from: Int,
     val to: Int,
+    /** Verse dividers: 0 with number, 1 without number, 2 hidden. */
+    val ayahMark: Int,
+    val autoStart: Boolean,
 ) {
     /** Phoneme-cost limit for the live engine. */
     val limit: Float get() = when (strictness) { 0 -> 0.45f; 2 -> 0.25f; else -> 0.35f }
@@ -47,6 +50,8 @@ class TasmeePrefs(context: Context) {
         val surah = intPreferencesKey("surah")
         val from = intPreferencesKey("from")
         val to = intPreferencesKey("to")
+        val ayahMark = intPreferencesKey("ayah_mark")
+        val autoStart = booleanPreferencesKey("auto_start")
     }
 
     val settings: Flow<TasmeeSettings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -62,6 +67,8 @@ class TasmeePrefs(context: Context) {
             surah = p[Keys.surah] ?: 0,
             from = p[Keys.from] ?: 1,
             to = p[Keys.to] ?: 0,
+            ayahMark = p[Keys.ayahMark] ?: 0,
+            autoStart = p[Keys.autoStart] ?: true,
         )
     }
 
