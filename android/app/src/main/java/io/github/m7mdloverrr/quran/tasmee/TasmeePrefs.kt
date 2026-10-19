@@ -29,6 +29,7 @@ data class TasmeeSettings(
     /** Verse dividers: 0 with number, 1 without number, 2 hidden. */
     val ayahMark: Int,
     val autoStart: Boolean,
+    val autoHidden: Boolean,
 ) {
     /** Phoneme-cost limit for the live engine. */
     val limit: Float get() = when (strictness) { 0 -> 0.45f; 2 -> 0.25f; else -> 0.35f }
@@ -52,6 +53,7 @@ class TasmeePrefs(context: Context) {
         val to = intPreferencesKey("to")
         val ayahMark = intPreferencesKey("ayah_mark")
         val autoStart = booleanPreferencesKey("auto_start")
+        val autoHidden = booleanPreferencesKey("auto_hidden")
     }
 
     val settings: Flow<TasmeeSettings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -69,6 +71,7 @@ class TasmeePrefs(context: Context) {
             to = p[Keys.to] ?: 0,
             ayahMark = p[Keys.ayahMark] ?: 0,
             autoStart = p[Keys.autoStart] ?: true,
+            autoHidden = p[Keys.autoHidden] ?: false,
         )
     }
 

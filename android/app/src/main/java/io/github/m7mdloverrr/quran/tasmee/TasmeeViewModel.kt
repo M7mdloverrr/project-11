@@ -169,6 +169,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
 
     fun prepare() {
         if (modelReady) return
+        viewModelScope.launch { runCatching { loadLexicon() } }
         viewModelScope.launch {
             withContext(Dispatchers.IO) { for (d in listOf(whisper, fast)) d.ready = ModelStore.ready(getApplication(), d.model) }
             var engine = prefs.settings.first().engine
@@ -404,6 +405,44 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun norm(r: Streamer, t: String) = if (r.phonetic) Phon.norm(t) else ArabicNorm.norm(t)
 
+    /** (sound key, text-key, text) of every distinct Quran word, used to name a wrongly recited word. */
+    @Volatile private var lexicon: List<Triple<String, String, String>>? = null
+
+    private suspend fun loadLexicon() {
+        if (lexicon != null) return
+        lexicon = withContext(Dispatchers.Default) {
+            Locator.surahs(getApplication()).flatten().filter { it.key.isNotEmpty() }
+                .distinctBy { it.phon + "|" + it.key }.map { Triple(it.phon, it.key, it.text) }
+        }
+    }
+
+    private fun soundDist(a: String, b: String): Float {
+        var prev = FloatArray(b.length + 1) { j -> if (j == 0) 0f else 0f }
+        for (j in 1..b.length) prev[j] = prev[j - 1] + Phon.del(b, j - 1)
+        for (i in 1..a.length) {
+            val cur = FloatArray(b.length + 1)
+            cur[0] = prev[0] + Phon.ins(a, i - 1)
+            for (j in 1..b.length) cur[j] = min(prev[j - 1] + Phon.sub(a[i - 1], b[j - 1]), min(cur[j - 1] + Phon.del(b, j - 1), prev[j] + Phon.ins(a, i - 1)))
+            prev = cur
+        }
+        return prev[b.length]
+    }
+
+    /** The Quran word that sounds closest to [heard], or the raw heard sounds when nothing is close. */
+    private fun spoken(heard: String?, phonetic: Boolean): String? {
+        if (heard.isNullOrBlank()) return null
+        val lex = lexicon ?: return heard
+        var best: String? = null
+        var bc = Float.MAX_VALUE
+        for ((ph, key, text) in lex) {
+            val k = if (phonetic) ph else key
+            if (k.isEmpty() || kotlin.math.abs(k.length - heard.length) > 3) continue
+            val c = soundDist(heard, k)
+            if (c < bc) { bc = c; best = text }
+        }
+        return if (best != null && bc / Phon.eff(heard) <= 0.4f) best else heard
+    }
+
     private fun applyLive(outs: List<PhonemeTracker.Out>, tent: Int, base: Int) {
         if (phase != Phase.Listening) return
         val st = settings.value ?: return
@@ -411,7 +450,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         for (o in outs) {
             val i = base + o.index
             if (i < pointer || i >= words.size) continue
-            marks[i] = WordResult(o.mark)
+            marks[i] = WordResult(o.mark, if (o.mark == Mark.Wrong) spoken(o.heard, live?.phonetic != false) else null)
             pointer = i + 1
             if (o.mark != Mark.Correct) { mistake = true; if (st.onMistake == 1) break }
         }

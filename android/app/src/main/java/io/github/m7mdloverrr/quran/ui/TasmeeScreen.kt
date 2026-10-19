@@ -158,7 +158,7 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
     LaunchedEffect(Unit) { vm.prepare() }
     var autoDone by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(vm.modelReady, ts?.autoStart) {
-        if (!autoDone && vm.modelReady && ts?.autoStart == true && vm.phase == Phase.Setup) { autoDone = true; go(0, 0, 0, true) }
+        if (!autoDone && vm.modelReady && ts?.autoStart == true && vm.phase == Phase.Setup) { autoDone = true; go(0, 0, 0, ts?.autoHidden != true) }
     }
     val view = LocalView.current
     DisposableEffect(vm.phase) {
@@ -188,7 +188,7 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
                 SetupPane(
                     q, st, main?.lastSurah ?: 0, vm.modelReady,
                     onFollow = { sura -> go(sura, 1, q.surah(sura).ayahs.size, true) },
-                    onAuto = { go(0, 0, 0, true) },
+                    onAuto = { go(0, 0, 0, !st.autoHidden) },
                 ) { s, f, t -> go(s, f, t, false) }
             } else if (vm.follow) FollowPane(q, st, vm) else SessionPane(q, st, vm)
         }
@@ -353,8 +353,8 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
-                Text("الآيات ${from.ar()}–${to.ar()} • ${clock(elapsed)}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(if (surah == 0) "جارٍ تحديد السورة…" else q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
+                Text((if (surah == 0) "" else "الآيات ${from.ar()}–${to.ar()} • ") + clock(elapsed), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             val progress by animateFloatAsState(if (words.isEmpty()) 0f else vm.pointer.toFloat() / words.size, tween(400), label = "p")
             LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp).clip(CircleShape))
@@ -372,7 +372,7 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
                     val shown = if (revealAll) words.size else vm.revealed
                     if (shown == 0 && vm.phase == Phase.Listening) {
                         Text(
-                            "ابدأ التلاوة… ستظهر الكلمات هنا",
+                            if (vm.locating) "ابدأ التلاوة من أي سورة… ستظهر الكلمات هنا" else "ابدأ التلاوة… ستظهر الكلمات هنا",
                             Modifier.fillMaxWidth().padding(top = 70.dp), textAlign = TextAlign.Center,
                             color = page.text.copy(alpha = 0.35f), style = MaterialTheme.typography.titleMedium,
                         )
@@ -550,11 +550,16 @@ private fun Passage(vm: TasmeeViewModel, words: List<TWord>, idx: List<Int>, cur
                 Mark.Missed -> MissedRed
                 else -> ink
             }
-            Text(
-                w.text, fontFamily = QpcFont, fontSize = st.fontSize.sp, color = c,
-                textDecoration = if (r?.mark == Mark.Missed) TextDecoration.Underline else null,
-                modifier = Modifier.onGloballyPositioned { bounds[i] = it.boundsInParent() }.padding(horizontal = 3.dp),
-            )
+            Column(
+                Modifier.onGloballyPositioned { bounds[i] = it.boundsInParent() }.padding(horizontal = 3.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    w.text, fontFamily = QpcFont, fontSize = st.fontSize.sp, color = c,
+                    textDecoration = if (r?.mark == Mark.Missed) TextDecoration.Underline else null,
+                )
+                HeardLabel(r, st)
+            }
             if (w.ayahEnd) AyahMark(w.ayah, st, ink, Modifier.align(Alignment.CenterVertically).onGloballyPositioned { bounds[-1 - i] = it.boundsInParent() })
         }
     }
@@ -601,9 +606,21 @@ private fun WordView(w: TWord, r: WordResult?, tentative: Boolean, hinted: Boole
                 Text(w.ayah.ar(), fontFamily = QpcFont, fontSize = st.fontSize.sp, color = MaterialTheme.colorScheme.primary)
             } else if (w.ayahEnd && st.ayahMark == 1) AyahMark(w.ayah, st, MaterialTheme.colorScheme.primary)
         }
-        if (st.showHeard && r?.mark == Mark.Wrong && !r.heard.isNullOrBlank()) {
-            Text(r.heard, fontSize = 12.sp, color = WrongRed.copy(alpha = 0.8f), textDecoration = TextDecoration.LineThrough)
-        }
+        HeardLabel(r, st)
+    }
+}
+
+/** Under a red word: what was recited instead, or that it was skipped. */
+@Composable
+private fun HeardLabel(r: WordResult?, st: TasmeeSettings) {
+    if (!st.showHeard || r == null || r.partial) return
+    when (r.mark) {
+        Mark.Wrong -> Text(
+            if (r.heard.isNullOrBlank()) "قرأتَ كلمة أخرى" else "قرأتَ: ${r.heard}",
+            fontSize = 12.sp, lineHeight = 16.sp, color = WrongRed.copy(alpha = 0.85f), textAlign = TextAlign.Center,
+        )
+        Mark.Missed -> Text("فاتتك", fontSize = 12.sp, lineHeight = 16.sp, color = MissedRed.copy(alpha = 0.85f))
+        else -> Unit
     }
 }
 
@@ -791,8 +808,9 @@ private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismi
             }
             Section("خيارات") {
                 SwitchRow("ابدأ التسميع التلقائي عند فتح الصفحة", st.autoStart) { vm.setPref(TasmeePrefs.Keys.autoStart, it) }
+                SwitchRow("إخفاء الآيات في التسميع التلقائي", st.autoHidden) { vm.setPref(TasmeePrefs.Keys.autoHidden, it) }
                 SwitchRow("اهتزاز عند الخطأ", st.vibrate) { vm.setPref(TasmeePrefs.Keys.vibrate, it) }
-                SwitchRow("إظهار ما سمعه التطبيق تحت الكلمة الخاطئة", st.showHeard) { vm.setPref(TasmeePrefs.Keys.showHeard, it) }
+                SwitchRow("إظهار ما قرأتَه تحت الكلمة الخاطئة أو الفائتة", st.showHeard) { vm.setPref(TasmeePrefs.Keys.showHeard, it) }
             }
         }
     }

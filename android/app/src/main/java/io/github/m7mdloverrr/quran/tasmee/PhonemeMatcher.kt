@@ -41,7 +41,8 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
     private var anchor = start
     private var jumpSeen = -1
 
-    class Out(val index: Int, val mark: Mark)
+    /** [heard] is the recognized sound string aligned to a wrong word. */
+    class Out(val index: Int, val mark: Mark, val heard: String? = null)
 
     private fun verdict(w: String, hi: IntArray, cost: FloatArray, b: Int, e: Int): Mark {
         var c = 0f; var heard = 0; var sup = 0
@@ -97,9 +98,11 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
             var later = 0
             for (t in e until bj) if (hi[t] >= 0 && cost[t] <= Phon.CONF) { if (t < e + 4) after++ else later++ }
             if (w.isNotEmpty() && !(final && e <= bj && b < heardTo) && after < 2 && later < 8) break
-            out.add(Out(pointer++, if (w.isEmpty()) Mark.Correct else verdict(w, hi, cost, b, e)))
+            val mk = if (w.isEmpty()) Mark.Correct else verdict(w, hi, cost, b, e)
+            var first = -1
             var last = -1
-            for (t in b until e) if (hi[t] >= 0) last = hi[t]
+            for (t in b until e) if (hi[t] >= 0) { if (first < 0) first = hi[t]; last = hi[t] }
+            out.add(Out(pointer++, mk, if (mk == Mark.Wrong && first >= 0) h.substring(first, last + 1) else null))
             if (last >= 0) anchor = hyp.length - h.length + last + 1
             b = e; k++
         }
