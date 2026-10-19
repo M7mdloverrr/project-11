@@ -181,9 +181,8 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     BackHandler(full) { full = false }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
-        floatingActionButton = { if (full) ExitFullScreenButton { full = false } },
         topBar = {
-            if (!full) TopAppBar(
+            if (full) ExitFullScreenBar { full = false } else TopAppBar(
                 title = {
                     Column {
                         Text(q.surah(pageFirst.surah).name, fontFamily = QuranFont, fontSize = 22.sp)

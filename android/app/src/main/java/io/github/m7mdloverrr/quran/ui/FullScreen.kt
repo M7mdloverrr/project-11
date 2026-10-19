@@ -13,6 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -50,3 +55,10 @@ fun ExitFullScreenButton(onExit: () -> Unit) = SmallFloatingActionButton(
     contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
 ) { Icon(Icons.Rounded.FullscreenExit, "الخروج من ملء الشاشة") }
+
+/** Thin top row holding only the exit button, so it never covers the page or the controls. */
+@Composable
+fun ExitFullScreenBar(onExit: () -> Unit) =
+    Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp), horizontalArrangement = Arrangement.End) {
+        ExitFullScreenButton(onExit)
+    }

@@ -169,8 +169,8 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
     var full by remember { mutableStateOf(false) }
     FullScreenEffect(full)
     BackHandler(full) { full = false }
-    Scaffold(containerColor = Color.Transparent, floatingActionButton = { if (full) ExitFullScreenButton { full = false } }, topBar = {
-        if (!full) TopAppBar(
+    Scaffold(containerColor = Color.Transparent, topBar = {
+        if (full) ExitFullScreenBar { full = false } else TopAppBar(
             title = { Text("التسميع") },
             navigationIcon = {
                 IconButton(onClick = { if (vm.phase != Phase.Setup) vm.backToSetup() else onBack() }) {
