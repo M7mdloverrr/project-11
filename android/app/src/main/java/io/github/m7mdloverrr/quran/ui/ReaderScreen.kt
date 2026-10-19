@@ -131,13 +131,14 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     val playing by vm.playing.collectAsStateWithLifecycle()
     val message by vm.message.collectAsStateWithLifecycle()
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = (startPage - 1).coerceIn(0, 603))
+    val curl = remember { CurlState((startPage - 1).coerceIn(0, 603)) }
     var selected by remember { mutableStateOf<Ayah?>(null) }
     var navSheet by remember { mutableStateOf(false) }
     var tafsirAyah by remember { mutableStateOf<Ayah?>(null) }
     val onLongPress = remember { { a: Ayah -> tafsirAyah = a } }
     val positions = remember { HashMap<String, Float>() }
     val snackbar = remember { SnackbarHostState() }
-    val page by remember { derivedStateOf { listState.firstVisibleItemIndex + 1 } }
+    val page by remember(st.pageFlip) { derivedStateOf { if (st.pageFlip) curl.index + 1 else listState.firstVisibleItemIndex + 1 } }
     val pageFirst = q.pages[page - 1].first()
     val ctx = LocalContext.current
     val german by produceState<List<List<String>>?>(null, st.germanMode != 0) {
@@ -155,11 +156,14 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
         onDispose { if (!keepPlaying && activity?.isChangingConfigurations != true) vm.stop() }
     }
 
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex + 1 }.distinctUntilChanged().debounce(600).collect { vm.savePage(it) }
+    LaunchedEffect(listState, st.pageFlip) {
+        snapshotFlow { if (st.pageFlip) curl.index + 1 else listState.firstVisibleItemIndex + 1 }.distinctUntilChanged().debounce(600).collect { vm.savePage(it) }
     }
     LaunchedEffect(playing.surah, playing.ayah) {
-        if (playing.active && st.follow) followAyah(q, playing, listState, positions)
+        if (playing.active && st.follow) {
+            if (st.pageFlip) curl.turnTo(q.ayah(playing.surah, playing.ayah.coerceAtLeast(1)).page - 1, q.pages.size)
+            else followAyah(q, playing, listState, positions)
+        }
     }
     LaunchedEffect(message) {
         val m = message ?: return@LaunchedEffect
@@ -199,20 +203,33 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
         },
     ) { pad ->
         CompositionLocalProvider(LocalAyahLongPress provides onLongPress) {
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize().padding(pad),
-            contentPadding = PaddingValues(vertical = 8.dp),
-        ) {
-            items(q.pages.size, key = { it + 1 }) { i ->
-                QuranPage(
-                    q, i + 1, q.pages[i], st, currentKey, selected?.key.takeIf { !playing.active }, if (st.germanMode == 2) german else null,
-                    onTap = { a ->
-                        selected = a
-                        vm.play(a.surah, a.number)
-                    },
-                    onPositions = { positions.putAll(it) },
-                )
+        val pageAt: @Composable (Int, Boolean) -> Unit = { i, fill ->
+            QuranPage(
+                q, i + 1, q.pages[i], st, currentKey, selected?.key.takeIf { !playing.active }, if (st.germanMode == 2) german else null,
+                onTap = { a ->
+                    selected = a
+                    vm.play(a.surah, a.number)
+                },
+                onPositions = { if (!fill) positions.putAll(it) },
+                fill = fill,
+            )
+        }
+        if (st.pageFlip) {
+            LaunchedEffect(Unit) { curl.index = listState.firstVisibleItemIndex }
+            CurlPager(
+                curl, q.pages.size,
+                Modifier.fillMaxSize().padding(pad).padding(horizontal = 10.dp, vertical = 6.dp),
+                LocalLayoutDirection.current == LayoutDirection.Rtl,
+                LocalPageColors.current.page,
+            ) { i -> pageAt(i, true) }
+        } else {
+            LaunchedEffect(Unit) { if (listState.firstVisibleItemIndex != curl.index) listState.scrollToItem(curl.index) }
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize().padding(pad),
+                contentPadding = PaddingValues(vertical = 8.dp),
+            ) {
+                items(q.pages.size, key = { it + 1 }) { i -> pageAt(i, false) }
             }
         }
         }
@@ -241,7 +258,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     LaunchedEffect(scrollRequest.intValue) {
         val p = scrollRequest.intValue
         if (p > 0) {
-            listState.scrollToItem(p - 1)
+            if (st.pageFlip) curl.index = p - 1 else listState.scrollToItem(p - 1)
             scrollRequest.intValue = 0
         }
     }
@@ -281,16 +298,17 @@ private fun QuranPage(
     split: List<List<String>>?,
     onTap: (Ayah) -> Unit,
     onPositions: (Map<String, Float>) -> Unit,
+    fill: Boolean = false,
 ) {
     val colors = LocalPageColors.current
     var root by remember { mutableStateOf<LayoutCoordinates?>(null) }
     Surface(
-        Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 6.dp).onGloballyPositioned { root = it },
+        (if (fill) Modifier.fillMaxSize() else Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 6.dp)).onGloballyPositioned { root = it },
         shape = RoundedCornerShape(18.dp),
         color = colors.page,
         shadowElevation = 1.dp,
     ) {
-        Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column((if (fill) Modifier.verticalScroll(rememberScrollState()) else Modifier).padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(q.surah(ayahs.first().surah).name, fontFamily = QuranFont, fontSize = 14.sp, color = colors.mark)
                 Text("الجزء ${ayahs.first().juz.ar()}", fontSize = 12.sp, color = colors.mark)
@@ -314,9 +332,10 @@ private fun QuranPage(
                         )
                     }
                 }
-                if (split != null) segment.forEach { a ->
+                if (split != null || st.tafsirUnder) segment.forEach { a ->
                     AyahParagraph(listOf(a), st, currentKey, selectedKey, root, onTap, onPositions)
-                    GermanText(split.getOrNull(a.surah - 1)?.getOrNull(a.number - 1).orEmpty())
+                    if (split != null) GermanText(split.getOrNull(a.surah - 1)?.getOrNull(a.number - 1).orEmpty())
+                    if (st.tafsirUnder) TafsirText(a, st.tafsir)
                 } else AyahParagraph(segment, st, currentKey, selectedKey, root, onTap, onPositions)
                 i = j
             }
@@ -327,6 +346,21 @@ private fun QuranPage(
             )
         }
     }
+}
+
+@Composable
+private fun TafsirText(a: Ayah, index: Int) {
+    val ctx = LocalContext.current
+    val colors = LocalPageColors.current
+    val text by produceState<String?>(null, a.key, index) {
+        value = runCatching { Tafsirs.text(ctx, index, a.surah, a.number) }.getOrDefault("")
+    }
+    val t = text?.takeIf { it.isNotBlank() } ?: return
+    Text(
+        t,
+        Modifier.fillMaxWidth().padding(bottom = 6.dp).background(colors.selected, RoundedCornerShape(10.dp)).padding(horizontal = 10.dp, vertical = 6.dp),
+        fontSize = 15.sp, lineHeight = 25.sp, color = colors.text.copy(alpha = 0.8f),
+    )
 }
 
 @Composable

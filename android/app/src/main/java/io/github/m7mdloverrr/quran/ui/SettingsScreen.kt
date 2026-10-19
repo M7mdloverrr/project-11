@@ -153,6 +153,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 }
                 SwitchRow("إبقاء الشاشة مضاءة أثناء القراءة", st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
                 SwitchRow("متابعة الآية المتلوة تلقائيًا", st.follow) { vm.setPref(Prefs.Keys.follow, it) }
+                SwitchRow("قلب الصفحات مثل المصحف (تأثير الورق)", st.pageFlip) { vm.setPref(Prefs.Keys.pageFlip, it) }
             }
             Section("التفسير (اضغط مطولًا على الآية)") {
                 Tafsirs.all.forEachIndexed { i, t ->
@@ -176,6 +177,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     "فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني",
                     Modifier.padding(top = 6.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+                SwitchRow("عرض التفسير تحت الترجمة", st.tafsirUnder) { vm.setPref(Prefs.Keys.tafsirUnder, it) }
             }
             Section("التلاوة") {
                 Text("سرعة التلاوة", style = MaterialTheme.typography.bodyMedium)

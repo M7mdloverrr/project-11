@@ -45,6 +45,8 @@ data class Settings(
     val tafsir: Int,
     val quranFont: Int,
     val script: Int,
+    val pageFlip: Boolean,
+    val tafsirUnder: Boolean,
 )
 
 class Prefs(context: Context) {
@@ -78,6 +80,8 @@ class Prefs(context: Context) {
         val tafsir = intPreferencesKey("tafsir")
         val quranFont = intPreferencesKey("quran_font")
         val script = intPreferencesKey("script")
+        val pageFlip = booleanPreferencesKey("page_flip")
+        val tafsirUnder = booleanPreferencesKey("tafsir_under")
     }
 
     val settings: Flow<Settings> = store.data.catch { emit(emptyPreferences()) }.map { p ->
@@ -109,6 +113,8 @@ class Prefs(context: Context) {
             tafsir = p[Keys.tafsir] ?: 0,
             quranFont = p[Keys.quranFont] ?: 0,
             script = p[Keys.script] ?: 0,
+            pageFlip = p[Keys.pageFlip] ?: false,
+            tafsirUnder = p[Keys.tafsirUnder] ?: false,
         )
     }
 
