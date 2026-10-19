@@ -8,7 +8,7 @@ android {
     namespace = "io.github.m7mdloverrr.quran"
     compileSdk = 37
     defaultConfig {
-        applicationId = "io.github.m7mdloverrr.quran"
+        applicationId = "io.github.m7mdloverrr.quran.tajweed"
         minSdk = 29
         targetSdk = 36
         versionCode = 1

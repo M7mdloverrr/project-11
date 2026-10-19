@@ -57,7 +57,7 @@ object ArabicNorm {
 enum class Mark { Correct, Wrong, Missed }
 
 /** [partial]: the word is still being said and so far matches the start of the expected word. */
-class WordResult(val mark: Mark, val heard: String? = null, val partial: Boolean = false)
+class WordResult(val mark: Mark, val heard: String? = null, val partial: Boolean = false, val tajweed: String? = null)
 
 /**
  * Aligns recognized words to the expected words starting at [from].

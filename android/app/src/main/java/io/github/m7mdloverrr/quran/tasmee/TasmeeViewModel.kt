@@ -331,11 +331,15 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     last = h
                     val before = tr?.pointer ?: 0
                     val outs = tr?.update(h, false).orEmpty()
+                    val b0 = trackBase
+                    val notes = if (outs.isEmpty()) null else rec.timing()?.let { tm ->
+                        outs.map { o -> if (o.mark != Mark.Correct || o.span == null) null else words.getOrNull(b0 + o.index)?.let { w -> Tajweed.check(w.phon, o.span, tm, w.ayahEnd) } }
+                    }
                     if (tr != null && (tr.pointer > before || tr.tentative > 0)) progressAt = h.length
                     if (tr == null || h.length - progressAt >= LOST_CHARS) find.request(h, progressAt)
                     val t = tr?.tentative ?: 0
                     val base = trackBase
-                    withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
+                    withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base, notes) }
                 }
             } catch (e: IllegalStateException) {
                 withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
@@ -444,14 +448,14 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         return if (best != null && bc / Phon.eff(heard) <= 0.4f) best else heard
     }
 
-    private fun applyLive(outs: List<PhonemeTracker.Out>, tent: Int, base: Int) {
+    private fun applyLive(outs: List<PhonemeTracker.Out>, tent: Int, base: Int, notes: List<String?>? = null) {
         if (phase != Phase.Listening) return
         val st = settings.value ?: return
         var mistake = false
-        for (o in outs) {
+        for ((n, o) in outs.withIndex()) {
             val i = base + o.index
             if (i < pointer || i >= words.size) continue
-            marks[i] = WordResult(o.mark, if (o.mark == Mark.Wrong) spoken(o.heard, live?.phonetic != false) else null)
+            marks[i] = WordResult(o.mark, if (o.mark == Mark.Wrong) spoken(o.heard, live?.phonetic != false) else null, tajweed = notes?.getOrNull(n))
             pointer = i + 1
             if (o.mark != Mark.Correct) { mistake = true; if (st.onMistake == 1) break }
         }

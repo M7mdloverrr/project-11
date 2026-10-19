@@ -1,5 +1,6 @@
 package io.github.m7mdloverrr.quran.tasmee
 
+import com.k2fsa.sherpa.onnx.OnlineRecognizerResult
 import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioFormat
@@ -154,6 +155,7 @@ interface Streamer {
     fun accept(samples: FloatArray): String
     fun finish(): String
     fun release()
+    fun timing(): Tajweed.Timing? = null
 }
 
 class LiveRecognizer(context: Context) : Streamer {
@@ -172,20 +174,23 @@ class LiveRecognizer(context: Context) : Streamer {
         ),
     )
     private var stream: OnlineStream = recognizer.createStream()
+    private var last: OnlineRecognizerResult? = null
+
+    override fun timing() = last?.let { Tajweed.Timing(it.tokens, it.timestamps) }
 
     override fun reset() { stream.release(); stream = recognizer.createStream() }
 
     override fun accept(samples: FloatArray): String {
         stream.acceptWaveform(samples, SAMPLE_RATE)
         while (recognizer.isReady(stream)) recognizer.decode(stream)
-        return recognizer.getResult(stream).text
+        return recognizer.getResult(stream).also { last = it }.text
     }
 
     override fun finish(): String {
         stream.acceptWaveform(FloatArray(SAMPLE_RATE), SAMPLE_RATE)
         stream.inputFinished()
         while (recognizer.isReady(stream)) recognizer.decode(stream)
-        return recognizer.getResult(stream).text
+        return recognizer.getResult(stream).also { last = it }.text
     }
 
     override fun release() { stream.release(); recognizer.release() }

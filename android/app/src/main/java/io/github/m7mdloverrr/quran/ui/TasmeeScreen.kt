@@ -128,6 +128,7 @@ import kotlinx.coroutines.delay
 
 private val WrongRed = Color(0xFFD32F2F)
 private val MissedRed = Color(0xFFC62828)
+private val TajweedOrange = Color(0xFFEF6C00)
 private val QpcFont get() = ScriptFonts[0]!!
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -365,6 +366,7 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
                 Legend(page.text, "صحيحة")
                 Legend(WrongRed, "خطأ")
                 Legend(MissedRed, "فائتة")
+                Legend(TajweedOrange, "تجويد")
             }
         }
         val scroll = rememberScrollState()
@@ -548,9 +550,10 @@ private fun Passage(vm: TasmeeViewModel, words: List<TWord>, idx: List<Int>, cur
         for (i in idx) {
             val w = words[i]
             val r = if (i < vm.pointer) vm.marks.getOrNull(i) else vm.tentative.getOrNull(i - vm.pointer)
-            val c = when (r?.mark) {
-                Mark.Wrong -> WrongRed
-                Mark.Missed -> MissedRed
+            val c = when {
+                r?.mark == Mark.Wrong -> WrongRed
+                r?.mark == Mark.Missed -> MissedRed
+                r?.tajweed != null -> TajweedOrange
                 else -> ink
             }
             Column(
@@ -585,6 +588,7 @@ private fun WordView(w: TWord, r: WordResult?, tentative: Boolean, hinted: Boole
         r == null -> ink.copy(alpha = 0.45f)
         r.mark == Mark.Wrong -> WrongRed
         r.mark == Mark.Missed -> MissedRed
+        r.tajweed != null -> TajweedOrange
         hinted -> MaterialTheme.colorScheme.primary
         else -> ink
     }
@@ -623,7 +627,7 @@ private fun HeardLabel(r: WordResult?, st: TasmeeSettings) {
             fontSize = 12.sp, lineHeight = 16.sp, color = WrongRed.copy(alpha = 0.85f), textAlign = TextAlign.Center,
         )
         Mark.Missed -> Text("فاتتك", fontSize = 12.sp, lineHeight = 16.sp, color = MissedRed.copy(alpha = 0.85f))
-        else -> Unit
+        else -> r.tajweed?.let { Text(it, fontSize = 12.sp, lineHeight = 16.sp, color = TajweedOrange) }
     }
 }
 
@@ -696,7 +700,7 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
                 "${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة • ${clock(vm.elapsedMs)}",
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp),
             )
-            val mistakes = res.withIndex().filter { it.value != null && it.value!!.mark != Mark.Correct }
+            val mistakes = res.withIndex().filter { it.value != null && (it.value!!.mark != Mark.Correct || it.value!!.tajweed != null) }
             if (mistakes.isNotEmpty()) {
                 HorizontalDivider(Modifier.padding(vertical = 12.dp))
                 Text("الأخطاء", style = MaterialTheme.typography.titleMedium, modifier = Modifier.fillMaxWidth())
@@ -706,8 +710,8 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
                         Text("آية ${w.ayah.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(64.dp))
                         Text(w.text, fontFamily = QpcFont, fontSize = 22.sp, color = MaterialTheme.colorScheme.primary, modifier = Modifier.weight(1f))
                         Text(
-                            if (r!!.mark == Mark.Missed) "لم تُقرأ" else "قرأت: ${r.heard.orEmpty()}",
-                            style = MaterialTheme.typography.bodySmall, color = if (r.mark == Mark.Missed) MissedRed else WrongRed,
+                            if (r!!.mark == Mark.Missed) "لم تُقرأ" else if (r.mark == Mark.Correct) r.tajweed.orEmpty() else "قرأت: ${r.heard.orEmpty()}",
+                            style = MaterialTheme.typography.bodySmall, color = if (r.mark == Mark.Missed) MissedRed else if (r.mark == Mark.Correct) TajweedOrange else WrongRed,
                         )
                     }
                 }
