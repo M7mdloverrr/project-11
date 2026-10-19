@@ -523,6 +523,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
     /** Stop button: decodes the audio still in the window before showing the summary. */
     fun stop() {
         if (phase != Phase.Listening || stopping) { if (!stopping) finish(); return }
+        if (words.isEmpty()) { stopListening(); locating = false; phase = Phase.Setup; return }
         stopping = true
         val j = job
         job = null

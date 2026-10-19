@@ -71,13 +71,25 @@ private fun fold(size: Size, p: Float, rtl: Boolean): Fold {
 }
 
 /** Half-plane on the corner side of the fold (keep = false) or on the far side (keep = true). */
-private fun half(f: Fold, keep: Boolean, big: Float): Path {
-    val d = Offset(-f.n.y, f.n.x)
-    val o = f.n * (if (keep) big else -big)
-    val a = f.m + d * big
-    val b = f.m - d * big
+private fun half(f: Fold, keep: Boolean, size: Size): Path {
+    val sign = if (keep) 1f else -1f
+    fun side(q: Offset) = ((q.x - f.m.x) * f.n.x + (q.y - f.m.y) * f.n.y) * sign
+    val rect = listOf(Offset(-2f, -2f), Offset(size.width + 2f, -2f), Offset(size.width + 2f, size.height + 2f), Offset(-2f, size.height + 2f))
+    val pts = ArrayList<Offset>(6)
+    for (i in rect.indices) {
+        val a = rect[i]
+        val b = rect[(i + 1) % rect.size]
+        val sa = side(a)
+        val sb = side(b)
+        if (sa >= 0f) pts += a
+        if ((sa >= 0f) != (sb >= 0f)) pts += a + (b - a) * (sa / (sa - sb))
+    }
     return Path().apply {
-        moveTo(a.x, a.y); lineTo(b.x, b.y); lineTo(b.x + o.x, b.y + o.y); lineTo(a.x + o.x, a.y + o.y); close()
+        if (pts.size >= 3) {
+            moveTo(pts[0].x, pts[0].y)
+            for (k in 1 until pts.size) lineTo(pts[k].x, pts[k].y)
+            close()
+        }
     }
 }
 
@@ -93,13 +105,12 @@ private fun ContentDrawScope.curlTop(p: Float, rtl: Boolean, paper: Color) {
     if (p <= 0.002f) { drawContent(); return }
     if (p >= 0.998f) return
     val f = fold(size, p, rtl)
-    val big = (size.width + size.height) * 3f
-    clipPath(half(f, true, big)) { this@curlTop.drawContent() }
+    clipPath(half(f, true, size)) { this@curlTop.drawContent() }
     val m = f.m
     val sw = size.width * (0.18f + 0.25f * (1f - p))
     withTransform({
         translate(m.x, m.y); transform(reflection(f)); translate(-m.x, -m.y)
-        clipPath(half(f, false, big))
+        clipPath(half(f, false, size))
     }) {
         this@curlTop.drawContent()
         drawRect(paper.copy(alpha = 0.9f))
@@ -111,7 +122,7 @@ private fun ContentDrawScope.curlTop(p: Float, rtl: Boolean, paper: Color) {
         )
     }
     val edge = sin(p * PI).toFloat()
-    clipPath(half(f, true, big)) {
+    clipPath(half(f, true, size)) {
         drawRect(
             Brush.linearGradient(listOf(Color.Black.copy(alpha = 0.18f * edge), Color.Transparent), start = m, end = m + f.n * (sw * 0.15f)),
         )
@@ -122,9 +133,8 @@ private fun ContentDrawScope.curlBottom(p: Float, rtl: Boolean) {
     drawContent()
     if (p <= 0.002f || p >= 0.998f) return
     val f = fold(size, p, rtl)
-    val big = (size.width + size.height) * 3f
     val k = sin(p * PI).toFloat()
-    clipPath(half(f, false, big)) {
+    clipPath(half(f, false, size)) {
         drawRect(Brush.linearGradient(listOf(Color.Black.copy(alpha = 0.45f * k), Color.Transparent), start = f.m, end = f.m - f.n * (size.width * 0.22f)))
     }
 }
