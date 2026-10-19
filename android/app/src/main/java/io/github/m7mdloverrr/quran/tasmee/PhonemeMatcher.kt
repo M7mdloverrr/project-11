@@ -87,6 +87,8 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
         val r = ws.joinToString("")
         val hi = IntArray(r.length); val cost = FloatArray(r.length)
         val bj = align(r, h, hi, cost)
+        var heardTo = 0
+        for (t in 0 until bj) if (hi[t] >= 0 && cost[t] <= Phon.CONF) heardTo = t + 1
         var b = 0
         var k = 0
         while (k < ws.size) {
@@ -94,7 +96,7 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
             var after = 0
             var later = 0
             for (t in e until bj) if (hi[t] >= 0 && cost[t] <= Phon.CONF) { if (t < e + 4) after++ else later++ }
-            if (w.isNotEmpty() && !(final && e <= bj) && after < 2 && later < 8) break
+            if (w.isNotEmpty() && !(final && e <= bj && b < heardTo) && after < 2 && later < 8) break
             out.add(Out(pointer++, if (w.isEmpty()) Mark.Correct else verdict(w, hi, cost, b, e)))
             var last = -1
             for (t in b until e) if (hi[t] >= 0) last = hi[t]
@@ -106,12 +108,12 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
             if (e > bj || verdict(w, hi, cost, b, e) != Mark.Correct) break
             tentative++; b = e; k++
         }
-        relocate(hyp, final, out)
+        if (!final) relocate(hyp, out)
         return out
     }
 
     /** Skipped words or verses: find the last heard sounds further ahead, mark the gap missed and continue there. */
-    private fun relocate(hyp: String, final: Boolean, out: MutableList<Out>) {
+    private fun relocate(hyp: String, out: MutableList<Out>) {
         val h = hyp.substring(min(anchor, hyp.length))
         val tl = 14
         if (h.length < tl || pointer >= words.size) { jumpSeen = -1; return }
@@ -147,7 +149,7 @@ class PhonemeTracker(private val words: List<String>, private val limit: Float, 
         var wi = pointer
         for (x in starts.indices) if (starts[x] <= sc) wi = pointer + x
         if (wi <= pointer + 1) { jumpSeen = -1; return }
-        if (!final && (jumpSeen < 0 || wi !in jumpSeen - 4..jumpSeen + 20)) { jumpSeen = wi; return }
+        if ((jumpSeen < 0 || wi !in jumpSeen - 4..jumpSeen + 20)) { jumpSeen = wi; return }
         for (x in pointer until wi) out.add(Out(x, Mark.Missed))
         pointer = wi
         anchor = hyp.length - tl

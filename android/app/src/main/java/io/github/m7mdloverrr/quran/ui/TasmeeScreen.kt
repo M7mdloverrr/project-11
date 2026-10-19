@@ -402,17 +402,6 @@ private val FollowGreen = Color(0xFF3FA66B)
 private fun mushafPages(q: Quran, words: List<TWord>): List<Pair<Int, List<Int>>> =
     words.indices.groupBy { q.ayah(words[it].surah, words[it].ayah).page }.toList()
 
-/** Turns pages like a book: the leaving page folds around the spine over the next one, which stays in place underneath. */
-private fun Modifier.pageFlip(offset: () -> Float, rtl: Boolean) = graphicsLayer {
-    val o = offset().coerceIn(-1f, 1f)
-    translationX = o * size.width * if (rtl) -1f else 1f
-    if (o > 0f) {
-        transformOrigin = androidx.compose.ui.graphics.TransformOrigin(if (rtl) 1f else 0f, 0.5f)
-        rotationY = o * 90f * if (rtl) -1f else 1f
-        cameraDistance = 18f * density
-    }
-}
-
 @Composable
 private fun FollowPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
     val words = vm.words
@@ -456,10 +445,8 @@ private fun FollowPages(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel, words
     val cur = (vm.revealed - 1).coerceIn(0, words.size - 1)
     val curAyah = words[cur].ayah
     val curPage = pages.indexOfFirst { cur in it.second }.coerceAtLeast(0)
-    val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = curPage) { pages.size }
-    LaunchedEffect(curPage, done) {
-        if (!done && pager.currentPage != curPage) pager.animateScrollToPage(curPage, animationSpec = tween(850, easing = FastOutSlowInEasing))
-    }
+    val curl = remember { CurlState(curPage) }
+    LaunchedEffect(curPage, done) { if (!done) curl.turnTo(curPage, pages.size) }
     val rtl = androidx.compose.ui.platform.LocalLayoutDirection.current == androidx.compose.ui.unit.LayoutDirection.Rtl
     var showResult by remember(done) { mutableStateOf(done) }
     Column(Modifier.fillMaxSize()) {
@@ -467,30 +454,15 @@ private fun FollowPages(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel, words
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
                 Text(
-                    "الآية ${curAyah.ar()} • الصفحة ${pages[pager.currentPage].first.ar()}",
+                    "الآية ${curAyah.ar()} • الصفحة ${pages[curl.index.coerceIn(0, pages.size - 1)].first.ar()}",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             val progress by animateFloatAsState(vm.pointer.toFloat() / words.size, tween(400), label = "p")
             LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp).clip(CircleShape))
         }
-        androidx.compose.foundation.pager.HorizontalPager(
-            pager, Modifier.weight(1f).fillMaxWidth(), beyondViewportPageCount = 1, key = { pages[it].first },
-        ) { i ->
-            Box(
-                Modifier.fillMaxSize()
-                    .zIndex(if ((pager.currentPage - i) + pager.currentPageOffsetFraction > 0f) 1f else 0f)
-                    .pageFlip({ (pager.currentPage - i) + pager.currentPageOffsetFraction }, rtl)
-                    .drawWithContent {
-                        drawContent()
-                        val o = (pager.currentPage - i) + pager.currentPageOffsetFraction
-                        val shade = if (o > 0f) o.coerceAtMost(1f) * 0.35f else if (o < 0f) (1f + o).coerceAtLeast(0f) * 0.22f else 0f
-                        if (shade > 0f) drawRect(Color.Black.copy(alpha = shade))
-                    }
-                    .padding(horizontal = 10.dp, vertical = 6.dp),
-            ) {
-                MushafPage(q, vm, words, pages[i], if (!done && i == curPage) cur else -1, st, page)
-            }
+        CurlPager(curl, pages.size, Modifier.weight(1f).fillMaxWidth().padding(horizontal = 10.dp, vertical = 6.dp), rtl, page.page) { i ->
+            MushafPage(q, vm, words, pages[i], if (!done && i == curPage) cur else -1, st, page)
         }
         if (done) {
             Row(Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
