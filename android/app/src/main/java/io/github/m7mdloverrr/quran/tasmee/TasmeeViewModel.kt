@@ -332,7 +332,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     val before = tr?.pointer ?: 0
                     val outs = tr?.update(h, false).orEmpty()
                     if (tr != null && (tr.pointer > before || tr.tentative > 0)) progressAt = h.length
-                    if (tr == null || h.length - progressAt >= LOST_CHARS) find.request(h)
+                    if (tr == null || h.length - progressAt >= LOST_CHARS) find.request(h, progressAt)
                     val t = tr?.tentative ?: 0
                     val base = trackBase
                     withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
@@ -343,22 +343,23 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** Runs [Locator] off the audio thread; a place counts once two searches in a row agree on it. */
+    /** Runs [Locator] off the audio thread; a place counts when the match is clear or two searches in a row agree on it. */
     private inner class Finder(private val phonetic: Boolean) {
         @Volatile private var busy = false
         @Volatile private var found: Pair<Location, Int>? = null
         private var lastLen = Int.MIN_VALUE / 2
         private var prev: Pair<Location, Int>? = null
 
-        fun request(h: String, everyCall: Boolean = false) {
-            if (busy || h.length < Locator.TAIL || (!everyCall && h.length - lastLen < 10)) return
+        fun request(h: String, from: Int = -1, everyCall: Boolean = false) {
+            if (busy || h.length < Locator.MIN_Q || (!everyCall && h.length - lastLen < 5)) return
             busy = true
             lastLen = h.length
             viewModelScope.launch(Dispatchers.Default) {
-                val l = runCatching { Locator.get(getApplication(), phonetic).locate(h) }.getOrNull()
+                val l = runCatching { Locator.get(getApplication(), phonetic).find(h, from) }.getOrNull()
                 val p = prev
                 if (l != null) {
-                    if (p != null && p.first.surah == l.surah && l.start in p.first.start..p.first.start + 15) { found = l to h.length; prev = null }
+                    if (l.strong) { found = l to h.length; prev = null }
+                    else if (p != null && p.first.surah == l.surah && l.start in p.first.start..p.first.start + 15) { found = l to h.length; prev = null }
                     else prev = l to h.length
                 }
                 busy = false
@@ -499,7 +500,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     if (phase == Phase.Listening) { moveTo(l, p.first, p.second, p.third); tent = emptyMap(); jumpSeen = -1; stall = 0 }
                 }
             }
-            if (words.isEmpty() || stall >= 2) fd.request(hyp.joinToString(""), true)
+            if (words.isEmpty() || stall >= 2) fd.request(hyp.joinToString(""), if (words.isEmpty()) 0 else -1, true)
         }
         if (words.isEmpty()) return
         val startPointer = pointer
