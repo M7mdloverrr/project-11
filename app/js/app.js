@@ -26,27 +26,156 @@ const ICON = {
   del: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z',
   check: 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z',
   plus: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z', minus: 'M19 13H5v-2h14v2z',
+  full: 'M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z',
+  fullx: 'M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z',
   upload: 'M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z',
 };
 const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICON[n]}"/></svg>`;
 
+const MP3Q = 'https://cdn.mp3quran.net/audio/';
 const RECITERS = [
   { id: 'maher', ar: 'ماهر المعيقلي', f: 'MaherAlMuaiqly128kbps' },
   { id: 'alafasy', ar: 'مشاري العفاسي', f: 'Alafasy_128kbps' },
   { id: 'sudais', ar: 'عبد الرحمن السديس', f: 'Abdurrahmaan_As-Sudais_192kbps' },
   { id: 'basit', ar: 'عبد الباسط عبد الصمد', f: 'Abdul_Basit_Murattal_192kbps' },
   { id: 'minshawi', ar: 'محمد صديق المنشاوي', f: 'Minshawy_Murattal_128kbps' },
+  { id: 'husary', ar: 'محمود خليل الحصري', f: 'Husary_128kbps' },
+  { id: 'husary_mj', ar: 'الحصري (مجوّد)', f: 'Husary_Mujawwad_64kbps' },
+  { id: 'minshawi_mj', ar: 'المنشاوي (مجوّد)', f: 'Minshawy_Mujawwad_192kbps' },
+  { id: 'ajamy', ar: 'أحمد العجمي', f: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net' },
+  { id: 'shuraim', ar: 'سعود الشريم', f: 'Saood_ash-Shuraym_128kbps' },
+  { id: 'ghamdi', ar: 'سعد الغامدي', f: 'Ghamadi_40kbps' },
+  { id: 'dossari', ar: 'ياسر الدوسري', f: 'Yasser_Ad-Dussary_128kbps' },
+  { id: 'hudhaify', ar: 'علي الحذيفي', f: 'Hudhaify_128kbps' },
+  { id: 'shatri', ar: 'أبو بكر الشاطري', f: 'Abu_Bakr_Ash-Shaatree_128kbps' },
+  { id: 'ayyoub', ar: 'محمد أيوب', f: 'Muhammad_Ayyoub_128kbps' },
+  { id: 'qatami', ar: 'ناصر القطامي', f: 'Nasser_Alqatami_128kbps' },
+  { id: 'jaber', ar: 'علي جابر', f: 'Ali_Jaber_64kbps' },
+  { id: 'abbad', ar: 'فارس عباد', f: 'Fares_Abbad_64kbps' },
+  { id: 'basfar', ar: 'عبد الله بصفر', f: 'Abdullah_Basfar_192kbps' },
+  { id: 'budair', ar: 'صلاح البدير', f: 'Salah_Al_Budair_128kbps' },
+  { id: 'rifai', ar: 'هاني الرفاعي', f: 'Hani_Rifai_192kbps' },
+  { id: 'sufi_hafs', ar: 'عبد الرشيد صوفي (حفص عن عاصم)', sb: MP3Q + 'abdulrasheed-sufi/r3/', tm: 'sufi' },
+  { id: 'mousa_hafs', ar: 'عبدالله الموسى', sb: MP3Q + 'abdullah-mousa/r1/', tm: 'mousa' },
 ];
 const rec = id => RECITERS.find(r => r.id === id) || RECITERS[0];
 const pad3 = n => String(n).padStart(3, '0');
-const audioUrl = (r, s, a) => `https://everyayah.com/data/${rec(r).f}/${pad3(s)}${pad3(a)}.mp3`;
+const audioUrl = (r, s, a) => { const R = rec(r); return R.sb ? `${R.sb}${pad3(s)}.mp3?ayah=${a}` : `https://everyayah.com/data/${R.f}/${pad3(s)}${pad3(a)}.mp3`; };
+
+/* whole-surah reciters (mp3quran.net): each ayah is cut out of the CBR surah file by byte range using bundled ms timings */
+const TIM = {}, LAY = {};
+const KBPS = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0], SRATE = [44100, 48000, 32000];
+function timing(tm) {
+  return TIM[tm] ||= fetch(`assets/timing/${tm}.json`).then(r => { if (!r.ok) throw new Error('net'); return r.json(); }).then(j => j.s)
+    .catch(() => { delete TIM[tm]; throw new Error('net'); });
+}
+async function getRange(url, a, b) {
+  let r; try { r = await fetch(url, { headers: { Range: `bytes=${a}-${b}` } }); } catch { throw new Error('net'); }
+  if (!r.ok) throw new Error(r.status === 404 ? 'missing' : 'net');
+  const d = new Uint8Array(await r.arrayBuffer());
+  return r.status === 206 ? d : d.subarray(a, b + 1);
+}
+function frameLen(d, i) {
+  if (i + 4 > d.length || d[i] !== 0xFF || (d[i + 1] & 0xFE) !== 0xFA) return 0;
+  const kb = KBPS[d[i + 2] >> 4], sr = SRATE[(d[i + 2] >> 2) & 3];
+  return kb && sr ? Math.floor(144000 * kb / sr) + ((d[i + 2] >> 1) & 1) : 0;
+}
+function syncAt(d) { for (let i = 0; i + 4 < d.length; i++) { const n = frameLen(d, i); if (n && frameLen(d, i + n)) return i; } return -1; }
+async function layout(R, s) {
+  const k = R.id + ':' + s; if (LAY[k]) return LAY[k];
+  const url = `${R.sb}${pad3(s)}.mp3`, h = await getRange(url, 0, 9);
+  const id3 = h[0] === 0x49 && h[1] === 0x44 && h[2] === 0x33 ? 10 + ((h[6] & 127) << 21 | (h[7] & 127) << 14 | (h[8] & 127) << 7 | (h[9] & 127)) : 0;
+  const d = await getRange(url, id3, id3 + 8191), i = syncAt(d); if (i < 0) throw new Error('net');
+  return LAY[k] = { url, first: id3 + i, bpm: KBPS[d[i + 2] >> 4] / 8 };
+}
+async function clipBytes(R, s, a) {
+  const t = (await timing(R.tm))[s - 1], st = t?.[(a - 1) * 2], en = t?.[(a - 1) * 2 + 1];
+  if (st == null || en == null) throw new Error('missing');
+  const L = await layout(R, s), d = await getRange(L.url, L.first + Math.floor(st * L.bpm), L.first + Math.ceil(en * L.bpm) - 1);
+  const i = syncAt(d); if (i < 0) throw new Error('net');
+  return d.subarray(i);
+}
+async function fetchAudio(r, s, a) {
+  const R = rec(r);
+  if (R.sb) return new Response(await clipBytes(R, s, a), { headers: { 'Content-Type': 'audio/mpeg' } });
+  let res; try { res = await fetch(audioUrl(r, s, a)); } catch { throw new Error('net'); }
+  if (!res.ok) throw new Error(res.status === 404 ? 'missing' : 'net');
+  return res;
+}
 const AC = 'quran-audio-v1';
 
-const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, method: 'MuslimWorldLeague', hanafi: false, notify: false };
+const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, script: 0, qfont: 0, tafsir: 0, tafsirUnder: false, pageFlip: false, bgAlpha: 0.3, reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, de: 0, method: 'MuslimWorldLeague', hanafi: false, notify: false };
 const P = Object.assign({}, DEF, load('prefs', {}));
 let last = load('last', { page: 1, s: 1, a: 1 });
 let marks = load('marks', []);
 function setP(k, v) { P[k] = v; save('prefs', P); applyTheme(); onPref(k); }
+let DE = null, deLoading = null;
+function loadDE() {
+  if (DE || deLoading) return deLoading;
+  deLoading = fetch('assets/de.json').then(r => { if (!r.ok) throw 0; return r.json(); })
+    .then(j => { DE = j.s; if (route === 'read') renderReader(curPage); })
+    .catch(() => { deLoading = null; if (typeof toast === 'function') toast('تعذر تحميل الترجمة. تحقق من الاتصال بالإنترنت'); });
+  return deLoading;
+}
+const deText = (s, a) => (DE && DE[s - 1] && DE[s - 1][a - 1]) || '';
+
+/* Mushaf script + font (KFGQPC Hafs default, like the Android app) */
+const SCRIPTS = [['الرسم العثماني • مجمع الملك فهد', 'qpc', 'Hafs'], ['الرسم العثماني • تنزيل', null, null], ['الرسم الإملائي', 'imlaei', null], ['الرسم الهندي/الباكستاني', 'indopak', 'IndoPak']];
+const QFONTS = [['QuranFont', 'أميري قرآن'], ['Amiri', 'أميري'], ['Scheherazade', 'شهرزاد'], ['NotoNaskh', 'نسخ']];
+let SC = null; const scCache = {};
+async function loadScript(i) {
+  const f = SCRIPTS[i]?.[1];
+  if (!f) { SC = null; return; }
+  SC = await (scCache[i] ||= fetch(`assets/script/${f}.json`).then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => j.s)
+    .catch(e => { delete scCache[i]; throw e; }));
+}
+const atext = (s, a) => SC?.[s - 1]?.[a - 1] || ay(s, a)[0];
+const basm = () => SC?.[0]?.[0] || QD.basmala;
+const ayahFont = () => SCRIPTS[P.script]?.[2] || QFONTS[P.qfont]?.[0] || 'QuranFont';
+const mark = a => (P.script === 0 ? '' : '\u06DD') + AR(a);
+
+/* tafsir: Al-Muyassar bundled (offline), the rest online (alquran.cloud / quran.com), cached */
+const TAFSIRS = [['التفسير الميسر'], ['تفسير الجلالين', 0, 'ar.jalalayn'], ['تفسير السعدي', 91], ['تفسير ابن كثير', 14], ['تفسير الطبري', 15], ['تفسير القرطبي', 90], ['تفسير البغوي', 94], ['التفسير الوسيط (طنطاوي)', 93]];
+const TC = 'quran-tafsir-v1';
+let MUY = null;
+function htmlText(h) {
+  const d = new DOMParser().parseFromString(`<div>${String(h).replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|h\d|div)>/gi, '\n\n')}</div>`, 'text/html');
+  return (d.body.textContent || '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+async function tafsirText(i, s, a) {
+  const t = TAFSIRS[i] || TAFSIRS[0];
+  if (!t[1] && !t[2]) {
+    const m = await (MUY ||= fetch('assets/muyassar.json').then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => j.s).catch(e => { MUY = null; throw e; }));
+    return m[s - 1]?.[a - 1] || '';
+  }
+  const url = t[2] ? `https://api.alquran.cloud/v1/ayah/${s}:${a}/${t[2]}` : `https://api.quran.com/api/v4/tafsirs/${t[1]}/by_ayah/${s}:${a}`;
+  const c = await caches.open(TC).catch(() => null);
+  let res = await c?.match(url).catch(() => null);
+  if (!res) { res = await fetch(url); if (!res.ok) throw new Error('net'); await c?.put(url, res.clone()).catch(() => {}); }
+  const j = await res.json();
+  return htmlText((t[2] ? j.data?.text : j.tafsir?.text) || '');
+}
+function showTafsir(s, a) {
+  const m = modal(`<div class="tfh"><h3><span class="q">${sname(s)}</span> • الآية ${AR(a)}</h3><button class="ib" data-close aria-label="إغلاق">${ic('close')}</button></div>
+  <div class="chips tfc">${TAFSIRS.map((t, i) => `<button data-tf="${i}" class="${P.tafsir === i ? 'on' : ''}">${t[0]}</button>`).join('')}</div>
+  <div class="tfb"><div class="tf-ay">${atext(s, a)} <span class="mk">${mark(a)}</span></div><div id="tft"></div></div>`);
+  m.classList.add('bottom');
+  let tok = 0;
+  const fill = async () => {
+    const my = ++tok, el = $('#tft', m);
+    el.innerHTML = '<div class="spin"></div>';
+    try { const txt = await tafsirText(P.tafsir, s, a); if (my === tok) el.textContent = txt || 'تفسير هذه الآية مذكور مع الآيات المجاورة.'; }
+    catch { if (my !== tok) return; el.innerHTML = `<p class="err">تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.</p><button class="btn ghost sm" id="tfr">إعادة المحاولة</button>`; $('#tfr', m).onclick = fill; }
+  };
+  m.addEventListener('click', e => { const b = e.target.closest('[data-tf]'); if (!b) return; setP('tafsir', +b.dataset.tf); $$('[data-tf]', m).forEach(x => x.classList.toggle('on', x === b)); fill(); });
+  fill();
+}
+function fillTafsirUnder() {
+  for (const el of $$('.tfu')) {
+    const [s, a] = el.dataset.tk.split(':').map(Number), i = P.tafsir;
+    tafsirText(i, s, a).then(t => { if (P.tafsir === i) { el.textContent = t; el.hidden = !t; } }).catch(() => { el.hidden = true; });
+  }
+}
 
 /* data */
 let QD = null; const pages = []; const juzStart = [];
@@ -73,6 +202,7 @@ function applyTheme() {
   root.dataset.theme = d ? 'dark' : 'light';
   root.style.setProperty('--page', bg); root.style.setProperty('--ink', ink);
   root.style.setProperty('--qfs', P.font + 'px'); root.style.setProperty('--qlh', P.line);
+  root.style.setProperty('--af', ayahFont()); root.style.setProperty('--bga', P.bgAlpha);
   $('meta[name=theme-color]').content = d ? '#050807' : '#F4F7F5';
 }
 darkMQ.addEventListener?.('change', applyTheme);
@@ -102,6 +232,7 @@ function back() { if (inApp > 0 && history.length > 1) { inApp--; history.back()
 function render() {
   const [name, arg] = (location.hash.slice(1) || 'home').split('/');
   if (route === 'read' && name !== 'read' && !P.keepPlaying) stopAudio();
+  if (name !== 'read') setFull(false);
   if (route === 'studio' && name !== 'studio') Studio.leave();
   if (route === 'qibla' && name !== 'qibla') Qibla.leave();
   route = name; releaseWake(); window.scrollTo(0, 0);
@@ -165,8 +296,7 @@ async function audioBlob(r, s, a) {
   const url = audioUrl(r, s, a), c = await caches.open(AC).catch(() => null);
   let res = await c?.match(url).catch(() => null);
   if (!res) {
-    try { res = await fetch(url); } catch { throw new Error('net'); }
-    if (!res.ok) throw new Error(res.status === 404 ? 'missing' : 'net');
+    res = await fetchAudio(r, s, a);
     await c?.put(url, res.clone()).catch(() => {});
   }
   return new Blob([await res.arrayBuffer()], { type: 'audio/mpeg' });
@@ -174,8 +304,7 @@ async function audioBlob(r, s, a) {
 async function ensureCached(r, s, a) {
   const url = audioUrl(r, s, a), c = await caches.open(AC);
   if (await c.match(url)) return;
-  const res = await fetch(url); if (!res.ok) throw new Error(res.status === 404 ? 'missing' : 'net');
-  await c.put(url, res);
+  await c.put(url, await fetchAudio(r, s, a));
 }
 const audioErr = e => e.message === 'missing' ? 'تلاوة هذه الآية غير متوفرة لهذا القارئ' : 'تعذر تحميل التلاوة. تحقق من الاتصال بالإنترنت';
 function nextAyah({ s, a }) { if (a < QD.surahs[s - 1].ayahs.length) return { s, a: a + 1 }; return s < 114 ? { s: s + 1, a: 1 } : null; }
@@ -185,7 +314,7 @@ async function startCur() {
   const tok = ++AU.tok, { s, a } = AU.cur;
   AU.loading = true; renderBar(); markPlaying(true);
   try {
-    const blob = await audioBlob(P.reciter, s, a).catch(e => { if (e.message === 'missing') throw e; return null; });
+    const blob = await audioBlob(P.reciter, s, a).catch(e => { if (e.message === 'missing' || rec(P.reciter).sb) throw e; return null; });
     if (tok !== AU.tok) return;
     if (AU.url) URL.revokeObjectURL(AU.url);
     AU.url = blob ? URL.createObjectURL(blob) : null;
@@ -248,27 +377,56 @@ function pageHtml(p) {
     if (a === 1) {
       if (para) { out += `<p>${para}</p>`; para = ''; }
       out += `<div class="sh"><span>${sname(s)}</span></div>`;
-      if (s !== 1 && s !== 9) out += `<div class="bas">${QD.basmala}</div>`;
+      if (s !== 1 && s !== 9) out += `<div class="bas">${basm()}</div>`;
     }
-    para += `<span class="ay" data-k="${s}:${a}">${ay(s, a)[0]}<span class="mk">&nbsp;\u06DD${AR(a)}</span></span> `;
+    const span = `<span class="ay" data-k="${s}:${a}">${atext(s, a)}<span class="mk">&nbsp;${mark(a)}</span></span> `;
+    const de = P.de === 2 && DE;
+    if (de || P.tafsirUnder) out += `<p>${span}</p>${de ? `<p class="de" dir="ltr" lang="de">${esc(deText(s, a))}</p>` : ''}${P.tafsirUnder ? `<div class="tfu" data-tk="${s}:${a}"></div>` : ''}`;
+    else para += span;
   }
   return out + (para ? `<p>${para}</p>` : '');
 }
 function renderReader(p) {
   p = Math.min(604, Math.max(1, p | 0)); curPage = p; route = 'read';
+  if (P.de && !DE) loadDE();
   const [fs, fa] = pages[p][0], first = ay(fs, fa);
   last = { page: p, s: fs, a: fa }; save('last', last);
   $('#view').innerHTML = `
-  ${header(`<span class="q">${sname(fs)}</span>`, `الجزء ${AR(first[1])} • الصفحة ${AR(p)}`, `<button class="ib" data-go="settings" aria-label="الإعدادات">${ic('settings')}</button>`)}
-  <div class="page-wrap"><article class="page q" id="page">${pageHtml(p)}</article>
+  ${header(`<span class="q">${sname(fs)}</span>`, `الجزء ${AR(first[1])} • الصفحة ${AR(p)}`, `<button class="ib" data-act="full" aria-label="ملء الشاشة">${ic('full')}</button><button class="ib" data-go="settings" aria-label="الإعدادات">${ic('settings')}</button>`)}
+  <div class="fsx"><button data-act="full">${ic('fullx')}<span>الخروج من ملء الشاشة</span></button><small>${AR(p)}</small></div>
+  <div class="page-wrap"><article class="page ${flipDir ? (flipDir > 0 ? 'flip-n' : 'flip-p') : ''}" id="page">${pageHtml(p)}</article>
   <div class="pager"><button class="ib" data-act="turn" data-d="-1" aria-label="الصفحة السابقة" ${p === 1 ? 'disabled' : ''}>${ic('chr')}</button><span>${AR(p)} / ${AR(604)}</span><button class="ib" data-act="turn" data-d="1" aria-label="الصفحة التالية" ${p === 604 ? 'disabled' : ''}>${ic('chl')}</button></div></div>
   <div id="bar" class="bar"></div>`;
   const pw = $('.page-wrap'); let sx = 0, sy = 0;
   pw.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
   pw.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) turn(dx > 0 ? 1 : -1); });
+  flipDir = 0;
+  let lt = null, lx = 0, ly = 0;
+  const lpCancel = () => { clearTimeout(lt); lt = null; };
+  pw.addEventListener('touchstart', e => {
+    const el = e.target.closest('.ay'); lpCancel(); if (!el || e.touches.length > 1) return;
+    lx = e.touches[0].clientX; ly = e.touches[0].clientY;
+    lt = setTimeout(() => { lt = null; longPress(el); }, 550);
+  }, { passive: true });
+  pw.addEventListener('touchmove', e => { if (lt && Math.hypot(e.touches[0].clientX - lx, e.touches[0].clientY - ly) > 10) lpCancel(); }, { passive: true });
+  pw.addEventListener('touchend', lpCancel, { passive: true });
+  pw.addEventListener('contextmenu', e => { const el = e.target.closest('.ay'); if (el) { e.preventDefault(); longPress(el); } });
   renderBar(); markPlaying(false); acquireWake();
+  if (P.tafsirUnder) fillTafsirUnder();
 }
-function turn(d) { const p = curPage + d; if (p < 1 || p > 604) return; history.replaceState(null, '', '#read/' + p); renderReader(p); }
+let flipDir = 0, lpAt = 0;
+function longPress(el) {
+  if (Date.now() - lpAt < 800) return;
+  lpAt = Date.now(); navigator.vibrate?.(15);
+  const [s, a] = el.dataset.k.split(':').map(Number); showTafsir(s, a);
+}
+function setFull(on) {
+  document.body.classList.toggle('full', on);
+  const d = document;
+  if (on) d.documentElement.requestFullscreen?.().catch(() => {});
+  else if (d.fullscreenElement) d.exitFullscreen?.().catch(() => {});
+}
+function turn(d) { const p = curPage + d; if (p < 1 || p > 604) return; if (P.pageFlip) flipDir = d; history.replaceState(null, '', '#read/' + p); renderReader(p); }
 function markPlaying(scroll) {
   if (route !== 'read') return;
   $$('.ay.on').forEach(e => e.classList.remove('on'));
@@ -286,7 +444,7 @@ function renderBar() {
   const k = AU.cur ? `${AU.cur.s}:${AU.cur.a}` : selKey;
   if (!k) { b.innerHTML = `<div class="hint">اضغط على أي آية للاستماع بصوت ${rec(P.reciter).ar}</div>`; return; }
   const [s, a] = k.split(':').map(Number), on = AU.playing || AU.loading;
-  b.innerHTML = `<div class="bi"><b class="q">${sname(s)}</b><small>الآية ${AR(a)} • ${rec(P.reciter).ar}${AU.loading ? ' • جارٍ التحميل…' : ''}</small></div>
+  b.innerHTML = `${P.de === 1 && DE && a > 0 ? `<div class="bub" dir="ltr" lang="de">${esc(deText(s, a))}</div>` : ''}<div class="bi"><b class="q">${sname(s)}</b><small>الآية ${AR(a)} • ${rec(P.reciter).ar}${AU.loading ? ' • جارٍ التحميل…' : ''}</small><button class="tfbtn" data-act="tafsir" data-k="${k}">${ic('book')}التفسير</button></div>
   <div class="bc">
     <button class="ib" data-act="bm" data-k="${k}" aria-label="علامة">${ic(marks.includes(k) ? 'bm' : 'bmo')}</button>
     <button class="ib" data-act="speed" aria-label="السرعة"><b style="font-size:14px">${AR(P.speed)}×</b></button>
@@ -304,12 +462,19 @@ function renderSettings() {
   const y = window.scrollY;
   $('#view').innerHTML = `${header('الإعدادات')}
   <div class="pad">
-    <section class="card"><h3>القارئ</h3>${seg('reciter', RECITERS.map(r => [r.id, r.ar]), 'col')}</section>
+    <section class="card"><h3>القارئ</h3><select data-sel="reciter" aria-label="القارئ">${RECITERS.map(r => `<option value="${r.id}" ${r.id === rec(P.reciter).id ? 'selected' : ''}>${r.ar}</option>`).join('')}</select></section>
+    <section class="card"><h3>رسم المصحف</h3>${seg('script', SCRIPTS.map((x, i) => [i, x[0]]), 'col')}
+      ${SCRIPTS[P.script]?.[2] ? '' : `<h3>خط المصحف</h3>${seg('qfont', QFONTS.map((f, i) => [i, `<span style="font-family:${f[0]},serif">${f[1]}</span>`]))}`}</section>
     <section class="card"><h3>المظهر</h3>${seg('theme', [['system', 'تلقائي'], ['light', 'فاتح'], ['dark', 'داكن']])}
       <h3>لون الصفحة</h3>${seg('pageStyle', PAGE_STYLES.map((n, i) => [i, `<i class="sw4" style="background:${(isDark() ? PAGE_D : PAGE_L)[i][0]}"></i>${n}`]))}
       <h3>حجم الخط</h3><input type="range" data-rng="font" min="20" max="48" step="1" value="${P.font}">
       <h3>تباعد الأسطر</h3><input type="range" data-rng="line" min="1.5" max="2.6" step="0.1" value="${P.line}">
-      <div class="sample q">${QD.basmala}</div></section>
+      <div class="sample">${basm()}</div>
+      <h3>وضوح خلفية التطبيق</h3><input type="range" data-rng="bgAlpha" min="0" max="0.7" step="0.05" value="${P.bgAlpha}">
+      <div class="rowx"><span>قلب الصفحات مثل المصحف<small>تأثير الورق عند الانتقال بين الصفحات</small></span>${sw('pageFlip')}</div></section>
+    <section class="card"><h3>التفسير</h3><small>اضغط مطولاً على أي آية (أو زر «التفسير» في شريط التلاوة) لعرض تفسيرها.</small>
+      ${seg('tafsir', TAFSIRS.map((t, i) => [i, t[0] + (i === 0 ? ' • بدون إنترنت' : '')]), 'col')}
+      <div class="rowx"><span>عرض التفسير تحت كل آية</span>${sw('tafsirUnder')}</div></section>
     <section class="card"><h3>التلاوة</h3>
       <div class="rowx"><span>سرعة التلاوة</span></div>${seg('speed', [[0.75, '٠٫٧٥×'], [1, '١×'], [1.25, '١٫٢٥×'], [1.5, '١٫٥×'], [2, '٢×']])}
       <div class="rowx"><span>تكرار كل آية</span></div>${seg('repeat', [[1, 'بدون'], [2, '٢'], [3, '٣'], [5, '٥'], [10, '١٠']])}
@@ -317,11 +482,18 @@ function renderSettings() {
       <div class="rowx"><span>متابعة الآية المقروءة<small>تقليب الصفحة تلقائياً مع التلاوة</small></span>${sw('follow')}</div>
       <div class="rowx"><span>متابعة التلاوة بعد الخروج من المصحف</span>${sw('keepPlaying')}</div>
       <div class="rowx"><span>إبقاء الشاشة مضاءة أثناء القراءة</span>${sw('wake')}</div></section>
-    <section class="card"><h3>حول</h3><small>نص القرآن: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (الرسم العثماني، CC BY 3.0، دون أي تعديل). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).</small></section>
+    <section class="card"><h3>الترجمة الألمانية (Deutsch)</h3>${seg('de', [[0, 'إيقاف'], [1, 'فقاعة'], [2, 'تحت كل آية']])}
+      <div class="rowx"><span><small>فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني<br>Übersetzung: Bubenheim &amp; Elyas</small></span></div></section>
+    <section class="card"><h3>عن التطبيق</h3><div class="rowx"><span>المطور: محمد صالح المحمد<small>Entwickler: Mouhamad Almuhamad</small></span></div></section>
+    <section class="card"><h3>حول</h3><small>نص القرآن: مجمع الملك فهد لطباعة المصحف الشريف (الخط والنص العثماني) عبر <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>، و<a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (CC BY 3.0). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a> و<a href="https://mp3quran.net" target="_blank" rel="noopener">mp3quran.net</a>. التفاسير: التفسير الميسر، <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a>، <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).</small></section>
   </div>`;
   window.scrollTo(0, y);
 }
 function onPref(k) {
+  if (k === 'de' && P.de) loadDE();
+  if (k === 'script') loadScript(P.script).then(() => { applyTheme(); if (route === 'settings') renderSettings(); }).catch(() => { toast('تعذر تحميل الرسم. تحقق من الاتصال بالإنترنت'); setP('script', 1); });
+  if ((k === 'tafsir' || k === 'tafsirUnder') && route === 'read' && P.tafsirUnder) renderReader(curPage);
+  if (k === 'tafsirUnder' && route === 'read' && !P.tafsirUnder) renderReader(curPage);
   if (k === 'speed') AU.el.playbackRate = P.speed;
   if (k === 'reciter' && AU.cur) startCur();
   if (['method', 'hanafi', 'notify'].includes(k)) Prayer.refresh(k);
@@ -375,6 +547,8 @@ const ACT = {
     $('#jgo', m).onclick = ok; i.onkeydown = e => { if (e.key === 'Enter') ok(); };
   },
   turn(el) { turn(+el.dataset.d); }, toggle: togglePlay, stop: stopAudio,
+  full() { setFull(!document.body.classList.contains('full')); },
+  tafsir(el) { const [s, a] = el.dataset.k.split(':').map(Number); if (a > 0) showTafsir(s, a); },
   prevA: () => step(-1), nextA: () => step(1),
   speed() { const L = [0.75, 1, 1.25, 1.5, 2]; setP('speed', L[(L.indexOf(P.speed) + 1) % L.length]); renderBar(); },
   repeat() { const L = [1, 2, 3, 5, 10]; setP('repeat', L[(L.indexOf(P.repeat) + 1) % L.length]); renderBar(); },
@@ -388,7 +562,7 @@ const ACT = {
 document.addEventListener('click', e => {
   const t = e.target;
   const ayEl = t.closest('.ay');
-  if (ayEl && route === 'read') { unlockAudio(); const k = ayEl.dataset.k; selKey = k; const [s, a] = k.split(':').map(Number); playAyah(s, a); return; }
+  if (ayEl && route === 'read') { if (Date.now() - lpAt < 800) return; unlockAudio(); const k = ayEl.dataset.k; selKey = k; const [s, a] = k.split(':').map(Number); playAyah(s, a); return; }
   const g = t.closest('[data-go]'); if (g) { go(g.dataset.go); return; }
   const tab = t.closest('[data-tab]'); if (tab) { homeTab = +tab.dataset.tab; $$('.tabs button').forEach(b => b.classList.toggle('on', b === tab)); renderList(); return; }
   const st = t.closest('[data-set]'); if (st) { setP(st.dataset.set, JSON.parse(st.dataset.v)); if (route === 'settings') renderSettings(); return; }
@@ -404,8 +578,9 @@ document.addEventListener('keydown', e => { if (route === 'read' && !e.target.cl
 
 async function init() {
   applyTheme();
-  try { await loadData(); } catch { $('#view').innerHTML = `<div class="empty">تعذر تحميل بيانات القرآن. تحقق من الاتصال ثم <a href="">أعد المحاولة</a>.</div>`; return; }
+  try { await loadData(); await loadScript(P.script).catch(() => { SC = null; }); applyTheme(); } catch { $('#view').innerHTML = `<div class="empty">تعذر تحميل بيانات القرآن. تحقق من الاتصال ثم <a href="">أعد المحاولة</a>.</div>`; return; }
   render(); Prayer.init();
+  const sp = $('#splash'); if (sp) setTimeout(() => { sp.classList.add('out'); setTimeout(() => sp.remove(), 300); }, Math.max(0, 1500 - performance.now()));
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 document.addEventListener('DOMContentLoaded', init);

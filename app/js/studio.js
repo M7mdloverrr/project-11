@@ -25,7 +25,7 @@ const Studio = (() => {
     await new Promise((res, rej) => { v.onerror = () => rej(new Error('bg')); v.play().then(res, rej); });
     return v;
   }
-  const fontStr = px => `${px}px ${ST_FONTS[S.font][0]}`;
+  const fontStr = px => `${px}px ${S.font === 0 ? ayahFont() : ST_FONTS[S.font][0]}`;
   function wrap(g, text, maxW) {
     const words = text.split(' '), lines = []; let cur = '';
     for (const w of words) { const t = cur ? cur + ' ' + w : w; if (g.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
@@ -37,7 +37,7 @@ const Studio = (() => {
     g.fillStyle = `rgba(0,0,0,${S.dim})`; g.fillRect(0, 0, W, H);
   }
   function drawVerse(g, W, H, s, a, fade) {
-    const text = ay(s, a)[0] + '\u00A0\u06DD' + AR(a);
+    const text = atext(s, a) + '\u00A0' + mark(a);
     let px = Math.min(W, H) * 0.064 * S.size, lines; const maxW = W * 0.84, maxH = H * (W > H ? 0.6 : 0.56);
     g.direction = 'rtl'; g.textAlign = 'center'; g.textBaseline = 'middle';
     for (;;) { g.font = fontStr(px); lines = wrap(g, text, maxW); if (lines.length * px * 1.8 <= maxH || px < 12) break; px *= 0.92; }
