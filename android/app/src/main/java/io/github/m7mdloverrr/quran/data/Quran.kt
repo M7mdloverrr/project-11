@@ -152,6 +152,10 @@ object Reciters {
             "sufi_hafs", "عبد الرشيد صوفي (حفص عن عاصم)", "Abdul Rashid Sufi (Hafs)", "abdulrasheed-sufi/r3",
             "https://cdn.mp3quran.net/audio/abdulrasheed-sufi/r3/", "timing_sufi_hafs.json",
         ),
+        Reciter(
+            "mousa_hafs", "عبدالله الموسى", "Abdullah Al-Mousa", "abdullah-mousa/r1",
+            "https://cdn.mp3quran.net/audio/abdullah-mousa/r1/", "timing_mousa_hafs.json",
+        ),
     )
 
     fun byId(id: String?) = all.firstOrNull { it.id == id } ?: all[0]
