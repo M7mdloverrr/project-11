@@ -1,7 +1,8 @@
-const V = 'quran-shell-v3';
-const KEEP = [V, 'quran-audio-v1', 'quran-bg-v1'];
+const V = 'quran-shell-v5';
+const KEEP = [V, 'quran-audio-v1', 'quran-bg-v1', 'quran-tafsir-v1'];
 const SHELL = ['./', 'index.html', 'style.css', 'js/app.js', 'js/prayer.js', 'js/studio.js', 'vendor/adhan.js',
-  'assets/quran.json', 'assets/fonts/amiri_quran.ttf', 'manifest.webmanifest',
+  'assets/quran.json', 'assets/fonts/amiri_quran.ttf', 'assets/fonts/kfgqpc_hafs.ttf', 'assets/script/qpc.json',
+  'assets/splash.webp', 'assets/app_bg.webp', 'assets/timing/sufi.json', 'assets/timing/mousa.json', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   ...['waterfall', 'forest', 'ocean', 'mountains', 'rain', 'sunset'].map(b => `assets/bg/${b}.jpg`)];
 

@@ -1,4 +1,9 @@
 @font-face { font-family: QuranFont; src: url(assets/fonts/amiri_quran.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: Hafs; src: url(assets/fonts/kfgqpc_hafs.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: IndoPak; src: url(assets/fonts/indopak.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: Amiri; src: url(assets/fonts/amiri.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: Scheherazade; src: url(assets/fonts/scheherazade.ttf) format('truetype'); font-display: swap; }
+@font-face { font-family: NotoNaskh; src: url(assets/fonts/noto_naskh.ttf) format('truetype'); font-display: swap; }
 :root {
   --em: #0E7C5A; --emb: #34C08E; --dg: #063D2C;
   --bg: #F4F7F5; --c1: #EDF3F0; --c2: #E6EEEA; --tx: #0A0D0C; --mu: #3F4A45; --ol: #CFDAD5; --pc: #D4F1E4; --pr: #0E7C5A; --on: #fff;
@@ -11,7 +16,12 @@
   --hl: rgba(52,192,142,.24);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; background: var(--bg); color: var(--tx); }
+html { background: var(--bg); }
+html, body { margin: 0; color: var(--tx); }
+body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: url(assets/app_bg.webp) center / cover no-repeat; opacity: var(--bga, .3); }
+#splash { position: fixed; inset: 0; z-index: 100; background: #000; display: grid; place-items: center; transition: opacity .3s; }
+#splash img { width: 100%; height: 100%; object-fit: contain; }
+#splash.out { opacity: 0; pointer-events: none; }
 body { font-family: -apple-system, BlinkMacSystemFont, "SF Arabic", "Segoe UI", Roboto, "Noto Sans Arabic", Tahoma, sans-serif; font-size: 16px; min-height: 100vh; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; }
@@ -77,7 +87,33 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .page-wrap { margin: 4px 10px 0; touch-action: pan-y; }
 .page { background: var(--page); color: var(--ink); border-radius: 22px; padding: 22px 18px 28px; min-height: 60vh; font-size: var(--qfs); line-height: var(--qlh); text-align: justify; text-align-last: center; box-shadow: 0 1px 0 rgba(0,0,0,.04), inset 0 0 0 1px rgba(120,100,60,.12); animation: fade .25s ease both; }
 @keyframes fade { from { opacity: .3; } }
+.page { font-family: var(--af, QuranFont), serif; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .page p { margin: 0; }
+.page.flip-n { animation: flipN .45s ease both; transform-origin: right center; }
+.page.flip-p { animation: flipP .45s ease both; transform-origin: left center; }
+@keyframes flipN { from { transform: perspective(1600px) rotateY(-75deg); opacity: .35; } }
+@keyframes flipP { from { transform: perspective(1600px) rotateY(75deg); opacity: .35; } }
+.sh span, .page .q { font-family: QuranFont, serif; }
+.tfu { font-family: -apple-system, BlinkMacSystemFont, "SF Arabic", "Segoe UI", Roboto, sans-serif; font-size: 15px; line-height: 1.8; text-align: start; text-align-last: auto; margin: 4px 0 12px; padding: 8px 12px; border-radius: 12px; background: rgba(127,127,127,.12); opacity: .85; white-space: pre-line; }
+.fsx { display: none; align-items: center; justify-content: space-between; padding: calc(2px + var(--sa-t)) 12px 2px; color: var(--mu); font-size: 13px; }
+.fsx button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 99px; background: var(--c2); font-size: 13px; }
+.fsx .ic { width: 18px; height: 18px; }
+body.full .hdr { display: none; }
+body.full .fsx { display: flex; }
+.tfbtn { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--ol); font-size: 13px; color: var(--em); align-self: center; }
+[data-theme=dark] .tfbtn { color: var(--emb); }
+.tfbtn .ic { width: 18px; height: 18px; }
+.modal.bottom { place-items: end center; padding: 0; }
+.modal.bottom .sheet { width: min(760px, 100%); max-height: 86vh; border-radius: 26px 26px 0 0; padding-bottom: calc(22px + var(--sa-b)); animation: up .25s ease both; }
+.tfh { display: flex; align-items: center; justify-content: space-between; }
+.tfh h3 { color: var(--em); font-size: 17px; } [data-theme=dark] .tfh h3 { color: var(--emb); }
+.tfh .q { font-size: 22px; font-weight: 400; }
+.tfc { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .tfc button { flex: none; white-space: nowrap; }
+.tfb { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.tf-ay { font-family: var(--af, QuranFont), serif; font-size: 23px; line-height: 1.9; background: var(--page); color: var(--ink); border-radius: 16px; padding: 10px 14px; }
+#tft { white-space: pre-line; font-size: 17px; line-height: 1.95; padding: 12px 2px; }
+#tft .spin { margin: 20px auto; }
+.err { color: #C0392B; }
 .ay { border-radius: 8px; padding: 0 2px; transition: background .25s; cursor: pointer; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .ay.sel { background: rgba(127,127,127,.12); }
 .ay.on { background: var(--hl); }
@@ -119,7 +155,7 @@ button { cursor: pointer; border: 0; background: none; padding: 0; }
 .sw input:checked + span::after { right: 24px; }
 input[type=range] { width: 100%; accent-color: var(--em); }
 select { width: 100%; min-height: 48px; padding: 0 12px; border-radius: 14px; border: 1px solid var(--ol); background: var(--bg); }
-.sample { background: var(--page); color: var(--ink); border-radius: 16px; padding: 12px; text-align: center; font-size: var(--qfs); line-height: var(--qlh); }
+.sample { font-family: var(--af, QuranFont), serif; background: var(--page); color: var(--ink); border-radius: 16px; padding: 12px; text-align: center; font-size: var(--qfs); line-height: var(--qlh); }
 .sw4 { width: 22px; height: 22px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-inline-end: 6px; border: 1px solid var(--ol); }
 .pt { display: flex; justify-content: space-between; padding: 12px 8px; border-bottom: 1px solid var(--ol); font-size: 17px; }
 .pt:last-child { border-bottom: 0; }
