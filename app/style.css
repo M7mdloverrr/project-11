@@ -205,3 +205,17 @@ select { width: 100%; min-height: 48px; padding: 0 12px; border-radius: 14px; bo
 .res { width: 100%; max-height: 50vh; border-radius: 16px; background: #000; }
 .credits { color: var(--mu); font-size: 12px; line-height: 1.7; margin: 4px 16px; }
 .busy .lock { opacity: .5; pointer-events: none; }
+/* German UI (LTR); the Mushaf and Arabic tafsir stay RTL */
+html[lang=de] .q { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 600; }
+html[lang=de] .page .q, html[lang=de] .tf-ay, html[lang=de] .marks-ar { font-family: var(--af, QuranFont), serif; font-weight: 400; }
+html[lang=de] .page, html[lang=de] .tf-ay, html[lang=de] .tfu, html[lang=de] #tft, html[lang=de] .sample, html[lang=de] .bas { direction: rtl; }
+html[lang=de] .hdr .title { font-size: 24px; }
+html[lang=de] .rtitle b.q { font-size: 18px; }
+html[lang=de] .hero-s { font-size: 26px; }
+html[lang=de] .rt .nm, html[lang=de] .dlr .rt .nm { font-size: 17px; line-height: 1.4; }
+html[lang=de] .bi b.q, html[lang=de] .tfh .q { font-size: 16px; }
+html[dir=ltr] [data-act=back] .ic, html[dir=ltr] .pager .ic { transform: scaleX(-1); }
+html[dir=ltr] .ic.mir { transform: none; }
+html[dir=ltr] .sw span::after { right: auto; left: 4px; }
+html[dir=ltr] .sw input:checked + span::after { left: 24px; }
+html[dir=ltr] .ib sup { left: auto; right: 6px; }

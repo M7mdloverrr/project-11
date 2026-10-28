@@ -1,9 +1,9 @@
 'use strict';
 const BACKGROUNDS = [
-  { id: 'waterfall', ar: 'شلال', credit: 'Llywelyn2000, CC BY-SA 4.0' }, { id: 'forest', ar: 'غابة', credit: 'Queen Asali, CC BY-SA 4.0' },
-  { id: 'ocean', ar: 'بحر', credit: 'Nature video, HD - 4K, CC BY 3.0' }, { id: 'mountains', ar: 'جبال', credit: 'Pastelitodepapa, CC0' },
-  { id: 'rain', ar: 'مطر', credit: 'Shishirdasika, CC BY-SA 4.0' }, { id: 'sunset', ar: 'غروب', credit: 'Ian Furst, CC BY-SA 4.0' }];
-const ST_FONTS = [['QuranFont', 'أميري قرآن'], ['"Noto Naskh Arabic","Geeza Pro","Traditional Arabic",serif', 'نسخ']];
+  { id: 'waterfall', ar: TR('شلال', 'Wasserfall'), credit: 'Llywelyn2000, CC BY-SA 4.0' }, { id: 'forest', ar: TR('غابة', 'Wald'), credit: 'Queen Asali, CC BY-SA 4.0' },
+  { id: 'ocean', ar: TR('بحر', 'Meer'), credit: 'Nature video, HD - 4K, CC BY 3.0' }, { id: 'mountains', ar: TR('جبال', 'Berge'), credit: 'Pastelitodepapa, CC0' },
+  { id: 'rain', ar: TR('مطر', 'Regen'), credit: 'Shishirdasika, CC BY-SA 4.0' }, { id: 'sunset', ar: TR('غروب', 'Sonnenuntergang'), credit: 'Ian Furst, CC BY-SA 4.0' }];
+const ST_FONTS = [['QuranFont', TR('أميري قرآن', 'Amiri Quran')], ['"Noto Naskh Arabic","Geeza Pro","Traditional Arabic",serif', TR('نسخ', 'Naskh')]];
 const ST_COLORS = ['#FFFFFF', '#F2D48A', '#BDEFD9', '#111111'];
 const ASPECTS = [['9:16', 9, 16], ['16:9', 16, 9], ['1:1', 1, 1]];
 
@@ -49,8 +49,8 @@ const Studio = (() => {
     if (S.shadow) { g.shadowColor = S.color === '#111111' ? 'rgba(255,255,255,.75)' : 'rgba(0,0,0,.85)'; g.shadowBlur = px * 0.35; g.shadowOffsetY = px * 0.05; }
     let y = cy - block / 2 + lh / 2 + (1 - e) * px * 0.4;
     g.font = fontStr(px); for (const l of lines) { g.fillText(l, W / 2, y); y += lh; }
-    g.font = `${cap}px -apple-system, "Segoe UI", Roboto, sans-serif`; g.globalAlpha = e * 0.85;
-    g.fillText(`${sname(s)} • الآية ${AR(a)} • ${rec(S.reciter).ar}`, W / 2, y - lh / 2 + cap * 1.4);
+    g.direction = DE_UI ? 'ltr' : 'rtl'; g.font = `${cap}px -apple-system, "Segoe UI", Roboto, sans-serif`; g.globalAlpha = e * 0.85;
+    g.fillText(`${sname(s)} • ${TR('الآية', 'Vers')} ${AR(a)} • ${rname(rec(S.reciter))}`, W / 2, y - lh / 2 + cap * 1.4);
     g.restore();
   }
   function thumb(i) { if (!thumbs[i]) { const im = new Image(); im.src = `assets/bg/${BACKGROUNDS[i].id}.jpg`; im.onload = () => { if (!job) drawIdle(); }; thumbs[i] = im; } return thumbs[i]; }
@@ -61,11 +61,11 @@ const Studio = (() => {
     drawBg(g, W, H, src && (src.complete || src.readyState >= 2) ? src : null); drawVerse(g, W, H, S.s, S.from, 1);
   }
   const pickMime = () => typeof MediaRecorder === 'undefined' ? '' : ['video/mp4;codecs=avc1.640028,mp4a.40.2', 'video/mp4;codecs=avc1.4d0028,mp4a.40.2', 'video/mp4;codecs=avc1,mp4a', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find(m => MediaRecorder.isTypeSupported(m)) || '';
-  const errMsg = e => e.message === 'bg' ? 'تعذر تحميل الخلفية' : e.message === 'rec' ? 'هذا المتصفح لا يدعم تسجيل الفيديو. استخدم سفاري أو كروم حديثاً' : e.message === 'hidden' ? 'توقف التصدير لأن التطبيق خرج من الشاشة. أعد المحاولة وأبقِ الشاشة مفتوحة' : audioErr(e);
+  const errMsg = e => e.message === 'bg' ? TR('تعذر تحميل الخلفية', 'Hintergrund konnte nicht geladen werden') : e.message === 'rec' ? TR('هذا المتصفح لا يدعم تسجيل الفيديو. استخدم سفاري أو كروم حديثاً', 'Dieser Browser kann keine Videos aufnehmen. Nutze ein aktuelles Safari oder Chrome.') : e.message === 'hidden' ? TR('توقف التصدير لأن التطبيق خرج من الشاشة. أعد المحاولة وأبقِ الشاشة مفتوحة', 'Export gestoppt, weil die App verlassen wurde. Erneut versuchen und den Bildschirm anlassen.') : audioErr(e);
 
   async function run(kind) {
     const ctx = getCtx(); ctx.resume();
-    stopJob(); const my = { kind, cancelled: false, srcs: [], p: 0, msg: 'جارٍ تجهيز التلاوة…' }; job = my; if (kind === 'export') { result = null; showResult(); } ui();
+    stopJob(); const my = { kind, cancelled: false, srcs: [], p: 0, msg: TR('جارٍ تجهيز التلاوة…', 'Rezitation wird vorbereitet…') }; job = my; if (kind === 'export') { result = null; showResult(); } ui();
     try {
       const clips = []; for (let a = S.from; a <= S.to; a++) clips.push({ s: S.s, a });
       let done = 0, i = 0;
@@ -73,7 +73,7 @@ const Studio = (() => {
         while (i < clips.length && !my.cancelled) {
           const c = clips[i++], blob = await audioBlob(S.reciter, c.s, c.a);
           c.dur = (await ctx.decodeAudioData(await blob.arrayBuffer())).duration;
-          done++; prog(my, done / clips.length * 0.1, `تجهيز التلاوة ${AR(Math.round(done / clips.length * 100))}٪`);
+          done++; prog(my, done / clips.length * 0.1, `${TR('تجهيز التلاوة', 'Rezitation vorbereiten')} ${AR(Math.round(done / clips.length * 100))}${TR('٪', '%')}`);
         }
       }));
       if (my.cancelled) return;
@@ -114,14 +114,14 @@ const Studio = (() => {
         let k = 0; while (k < clips.length - 1 && clips[k + 1].start <= tl) k++;
         drawBg(g, W, H, video); drawVerse(g, W, H, clips[k].s, clips[k].a, (tl - clips[k].start) / 0.45);
         const pct = Math.max(0, Math.min(1, tl / total));
-        prog(my, kind === 'export' ? 0.1 + pct * 0.9 : pct, kind === 'export' ? `جارٍ تسجيل الفيديو ${AR(Math.round(pct * 100))}٪ — أبقِ الشاشة مفتوحة` : `معاينة: الآية ${AR(clips[k].a)}`);
+        prog(my, kind === 'export' ? 0.1 + pct * 0.9 : pct, kind === 'export' ? `${TR('جارٍ تسجيل الفيديو', 'Video wird aufgenommen')} ${AR(Math.round(pct * 100))}${TR('٪', '%')} ${TR('— أبقِ الشاشة مفتوحة', '– Bildschirm anlassen')}` : `${TR('معاينة:', 'Vorschau:')} ${TR('الآية', 'Vers')} ${AR(clips[k].a)}`);
         if (tl >= total + 0.4) { finish(my, chunks, mime); return; }
         my.raf = requestAnimationFrame(tick);
       };
       my.raf = requestAnimationFrame(tick);
     } catch (e) { fail(my, e); }
   }
-  function fail(my, e) { if (job !== my || my.cancelled) return; stopJob(); toast(errMsg(e), 'إعادة المحاولة', () => run(my.kind)); }
+  function fail(my, e) { if (job !== my || my.cancelled) return; stopJob(); toast(errMsg(e), TR('إعادة المحاولة', 'Erneut versuchen'), () => run(my.kind)); }
   function finish(my, chunks, mime) {
     if (my.kind !== 'export') { stopJob(); return; }
     const r = my.rec;
@@ -146,46 +146,46 @@ const Studio = (() => {
   function ui() {
     const el = $('#stjob'); if (!el) return;
     $('#stpad')?.classList.toggle('busy', job?.kind === 'export');
-    $('#pvb').innerHTML = job?.kind === 'preview' ? `${ic('stop')} إيقاف` : `${ic('play')} معاينة`;
+    $('#pvb').innerHTML = job?.kind === 'preview' ? `${ic('stop')} ${TR('إيقاف', 'Stopp')}` : `${ic('play')} ${TR('معاينة', 'Vorschau')}`;
     $('#exb').toggleAttribute('disabled', job?.kind === 'export');
-    el.innerHTML = job ? `<div class="card"><small id="stmsg">${job.msg}</small><div class="prog"><i id="stprog" style="width:${job.p * 100}%"></i></div>${job.kind === 'export' ? `<button class="btn ghost sm" data-act="stCancel">إلغاء التصدير</button>` : ''}</div>` : '';
+    el.innerHTML = job ? `<div class="card"><small id="stmsg">${job.msg}</small><div class="prog"><i id="stprog" style="width:${job.p * 100}%"></i></div>${job.kind === 'export' ? `<button class="btn ghost sm" data-act="stCancel">${TR('إلغاء التصدير', 'Export abbrechen')}</button>` : ''}</div>` : '';
   }
   function showResult() {
     const el = $('#stres'); if (!el) return;
-    el.innerHTML = result ? `<div class="card"><p>${ic('check')} الفيديو جاهز (${result.ext.toUpperCase()} • ${AR((result.blob.size / 1048576).toFixed(1))} م.ب)</p><video class="res" src="${result.url}" controls playsinline></video>
-      <div class="btns"><button class="btn" data-act="stShare">${ic('share')} حفظ / مشاركة</button><a class="btn ghost" href="${result.url}" download="${result.name}">${ic('download')} تنزيل</a></div>
-      <small>على الآيفون: اضغط «حفظ / مشاركة» ثم «حفظ الفيديو» لحفظه في الصور.</small></div>` : '';
+    el.innerHTML = result ? `<div class="card"><p>${ic('check')} ${TR('الفيديو جاهز', 'Video fertig')} (${result.ext.toUpperCase()} • ${AR((result.blob.size / 1048576).toFixed(1))} ${TR('م.ب', 'MB')})</p><video class="res" src="${result.url}" controls playsinline></video>
+      <div class="btns"><button class="btn" data-act="stShare">${ic('share')} ${TR('حفظ / مشاركة', 'Sichern / Teilen')}</button><a class="btn ghost" href="${result.url}" download="${result.name}">${ic('download')} ${TR('تنزيل', 'Herunterladen')}</a></div>
+      <small>${TR('على الآيفون: اضغط «حفظ / مشاركة» ثم «حفظ الفيديو» لحفظه في الصور.', 'Auf dem iPhone: „Sichern / Teilen“ und dann „Video sichern“ tippen, um es in Fotos zu speichern.')}</small></div>` : '';
   }
   function render(v) {
     route = 'studio';
     const n = count();
-    v.innerHTML = `${header('استوديو الفيديو')}
+    v.innerHTML = `${header(TR('استوديو الفيديو', 'Video-Studio'))}
     <div class="pad" id="stpad">
       <div class="stage"><canvas id="stc" dir="rtl"></canvas></div>
-      <div class="btns"><button class="btn" id="exb" data-act="stExport">${ic('movie')} تصدير الفيديو</button><button class="btn ghost" id="pvb" data-act="stPreview"></button></div>
+      <div class="btns"><button class="btn" id="exb" data-act="stExport">${ic('movie')} ${TR('تصدير الفيديو', 'Video exportieren')}</button><button class="btn ghost" id="pvb" data-act="stPreview"></button></div>
       <div id="stjob"></div><div id="stres"></div>
-      <section class="card lock"><h3>الآيات</h3>
-        <select id="sts">${QD.surahs.map(s => `<option value="${s.n}" ${s.n === S.s ? 'selected' : ''}>${AR(s.n)}. ${s.name}</option>`).join('')}</select>
+      <section class="card lock"><h3>${TR('الآيات', 'Verse')}</h3>
+        <select id="sts">${QD.surahs.map(s => `<option value="${s.n}" ${s.n === S.s ? 'selected' : ''}>${AR(s.n)}. ${sname(s.n)}</option>`).join('')}</select>
         <small id="strl"></small>
-        <div class="rowx"><span>من الآية</span><div class="steps"><button class="ib" data-act="stStep" data-k="from" data-d="-1">${ic('minus')}</button><b id="stf"></b><button class="ib" data-act="stStep" data-k="from" data-d="1">${ic('plus')}</button></div></div>
+        <div class="rowx"><span>${TR('من الآية', 'Von Vers')}</span><div class="steps"><button class="ib" data-act="stStep" data-k="from" data-d="-1">${ic('minus')}</button><b id="stf"></b><button class="ib" data-act="stStep" data-k="from" data-d="1">${ic('plus')}</button></div></div>
         <input type="range" id="strf" min="1" max="${n}" value="${S.from}">
-        <div class="rowx"><span>إلى الآية</span><div class="steps"><button class="ib" data-act="stStep" data-k="to" data-d="-1">${ic('minus')}</button><b id="stt"></b><button class="ib" data-act="stStep" data-k="to" data-d="1">${ic('plus')}</button></div></div>
+        <div class="rowx"><span>${TR('إلى الآية', 'Bis Vers')}</span><div class="steps"><button class="ib" data-act="stStep" data-k="to" data-d="-1">${ic('minus')}</button><b id="stt"></b><button class="ib" data-act="stStep" data-k="to" data-d="1">${ic('plus')}</button></div></div>
         <input type="range" id="strt" min="1" max="${n}" value="${S.to}">
-        <div class="chips"><button data-act="stOne">آية واحدة</button><button data-act="stAll">السورة كاملة</button></div></section>
-      <section class="card lock"><h3>القارئ</h3><div class="chips">${RECITERS.map(r => `<button data-st="reciter" data-v="${r.id}">${r.ar}</button>`).join('')}</div></section>
-      <section class="card lock"><h3>الخلفية</h3><div class="thumbs">${BACKGROUNDS.map((b, i) => `<button class="thumb" data-st="bg" data-v="${i}"><img src="assets/bg/${b.id}.jpg" alt="" loading="lazy">${b.ar}</button>`).join('')}
-        <label class="thumb" id="stimp"><span class="imp">${ic('upload')}</span>من جهازك<input type="file" accept="video/*" id="stfile" hidden></label></div></section>
-      <section class="card lock"><h3>النص</h3>
+        <div class="chips"><button data-act="stOne">${TR('آية واحدة', 'Ein Vers')}</button><button data-act="stAll">${TR('السورة كاملة', 'Ganze Sure')}</button></div></section>
+      <section class="card lock"><h3>${TR('القارئ', 'Rezitator')}</h3><div class="chips">${RECITERS.map(r => `<button data-st="reciter" data-v="${r.id}">${rname(r)}</button>`).join('')}</div></section>
+      <section class="card lock"><h3>${TR('الخلفية', 'Hintergrund')}</h3><div class="thumbs">${BACKGROUNDS.map((b, i) => `<button class="thumb" data-st="bg" data-v="${i}"><img src="assets/bg/${b.id}.jpg" alt="" loading="lazy">${b.ar}</button>`).join('')}
+        <label class="thumb" id="stimp"><span class="imp">${ic('upload')}</span>${TR('من جهازك', 'Vom Gerät')}<input type="file" accept="video/*" id="stfile" hidden></label></div></section>
+      <section class="card lock"><h3>${TR('النص', 'Text')}</h3>
         <div class="chips">${ST_FONTS.map((f, i) => `<button data-st="font" data-v="${i}">${f[1]}</button>`).join('')}</div>
-        <small>حجم الخط</small><input type="range" id="stsz" min="0.6" max="1.6" step="0.05" value="${S.size}">
-        <small>اللون</small><div class="chips">${ST_COLORS.map(c => `<button class="dot" data-st="color" data-v="${c}" style="background:${c}" aria-label="${c}"></button>`).join('')}</div>
-        <small>الموضع</small><div class="chips">${['أعلى', 'وسط', 'أسفل'].map((l, i) => `<button data-st="pos" data-v="${i}">${l}</button>`).join('')}</div>
-        <div class="rowx"><span>ظل للنص</span><label class="sw"><input type="checkbox" id="stsh" ${S.shadow ? 'checked' : ''}><span></span></label></div>
-        <small>تعتيم الخلفية</small><input type="range" id="stdim" min="0" max="0.8" step="0.05" value="${S.dim}"></section>
-      <section class="card lock"><h3>الإخراج</h3>
+        <small>${TR('حجم الخط', 'Schriftgröße')}</small><input type="range" id="stsz" min="0.6" max="1.6" step="0.05" value="${S.size}">
+        <small>${TR('اللون', 'Farbe')}</small><div class="chips">${ST_COLORS.map(c => `<button class="dot" data-st="color" data-v="${c}" style="background:${c}" aria-label="${c}"></button>`).join('')}</div>
+        <small>${TR('الموضع', 'Position')}</small><div class="chips">${[TR('أعلى', 'Oben'), TR('وسط', 'Mitte'), TR('أسفل', 'Unten')].map((l, i) => `<button data-st="pos" data-v="${i}">${l}</button>`).join('')}</div>
+        <div class="rowx"><span>${TR('ظل للنص', 'Textschatten')}</span><label class="sw"><input type="checkbox" id="stsh" ${S.shadow ? 'checked' : ''}><span></span></label></div>
+        <small>${TR('تعتيم الخلفية', 'Hintergrund abdunkeln')}</small><input type="range" id="stdim" min="0" max="0.8" step="0.05" value="${S.dim}"></section>
+      <section class="card lock"><h3>${TR('الإخراج', 'Ausgabe')}</h3>
         <div class="chips">${ASPECTS.map((a, i) => `<button data-st="aspect" data-v="${i}">${a[0]}</button>`).join('')}</div>
         <div class="chips"><button data-st="hd" data-v="0">720p</button><button data-st="hd" data-v="1">1080p</button></div><small id="stest"></small></section>
-      <p class="credits">مصادر الخلفيات (Wikimedia Commons): ${BACKGROUNDS.map(b => `${b.ar}: ${b.credit}`).join(' • ')}. التلاوات: EveryAyah.com.</p>
+      <p class="credits">${TR('مصادر الخلفيات (Wikimedia Commons):', 'Hintergrundquellen (Wikimedia Commons):')} ${BACKGROUNDS.map(b => `${b.ar}: ${b.credit}`).join(' • ')}. ${TR('التلاوات:', 'Rezitationen:')} EveryAyah.com.</p>
     </div>`;
     const on = (id, ev, f) => $(id).addEventListener(ev, f);
     on('#sts', 'change', e => { S.s = +e.target.value; S.from = 1; S.to = count(); stopPreview(); render($('#view')); });
@@ -197,7 +197,7 @@ const Studio = (() => {
     on('#stfile', 'change', e => {
       const f = e.target.files[0]; if (!f) return;
       if (S.custom) URL.revokeObjectURL(S.custom); S.custom = URL.createObjectURL(f); stopPreview();
-      makeVideo(S.custom).then(v => { v.pause(); idleVid = v; refresh(); }).catch(() => { toast('تعذر فتح هذا الفيديو. جرّب ملفاً بصيغة MP4 أو MOV'); S.custom = null; refresh(); });
+      makeVideo(S.custom).then(v => { v.pause(); idleVid = v; refresh(); }).catch(() => { toast(TR('تعذر فتح هذا الفيديو. جرّب ملفاً بصيغة MP4 أو MOV', 'Dieses Video kann nicht geöffnet werden. Versuche eine MP4- oder MOV-Datei.')); S.custom = null; refresh(); });
       refresh();
     });
     $('#stpad').addEventListener('click', e => {
@@ -213,11 +213,11 @@ const Studio = (() => {
   function refresh() {
     const n = count();
     $('#stf').textContent = AR(S.from); $('#stt').textContent = AR(S.to); $('#strf').value = S.from; $('#strt').value = S.to;
-    $('#strl').textContent = `من الآية ${AR(S.from)} إلى الآية ${AR(S.to)} (${AR(S.to - S.from + 1)} آية من ${AR(n)})`;
+    $('#strl').textContent = `${TR('من الآية', 'Vers')} ${AR(S.from)} ${TR('إلى الآية', 'bis')} ${AR(S.to)} (${AR(S.to - S.from + 1)} ${TR('آية من', 'von')} ${AR(n)})`;
     $$('#stpad [data-st]').forEach(b => { const k = b.dataset.st, v = b.dataset.v; b.classList.toggle('on', k === 'bg' ? !S.custom && +v === S.bg : k === 'hd' ? (v === '1') === S.hd : String(S[k]) === v); });
     $('#stimp').classList.toggle('on', !!S.custom);
     const [W, H] = dims();
-    $('#stest').textContent = `${W}×${H} — التصدير يتم أثناء تشغيل التلاوة، فيستغرق تقريباً مدة الفيديو نفسها. أبقِ الشاشة مفتوحة.`;
+    $('#stest').textContent = `${W}×${H} — ${TR('التصدير يتم أثناء تشغيل التلاوة، فيستغرق تقريباً مدة الفيديو نفسها. أبقِ الشاشة مفتوحة.', 'Der Export läuft während der Rezitation und dauert etwa so lang wie das Video. Bildschirm anlassen.')}`;
     drawIdle();
   }
   function stopPreview() { if (job?.kind === 'preview') stopJob(); }
@@ -225,14 +225,14 @@ const Studio = (() => {
   const act = {
     stPreview() { if (job?.kind === 'preview') stopJob(); else if (!job) run('preview'); },
     stExport() { if (!job || job.kind === 'preview') run('export'); },
-    stCancel() { stopJob(); toast('تم إلغاء التصدير'); },
+    stCancel() { stopJob(); toast(TR('تم إلغاء التصدير', 'Export abgebrochen')); },
     stStep(el) { if (job?.kind === 'export') return; const k = el.dataset.k, n = count(); S[k] = Math.max(1, Math.min(n, S[k] + +el.dataset.d)); if (k === 'from' && S.to < S.from) S.to = S.from; if (k === 'to' && S.from > S.to) S.from = S.to; stopPreview(); refresh(); },
     stOne() { if (job?.kind === 'export') return; S.to = S.from; stopPreview(); refresh(); },
     stAll() { if (job?.kind === 'export') return; S.from = 1; S.to = count(); stopPreview(); refresh(); },
     async stShare() {
       if (!result) return;
       const f = new File([result.blob], result.name, { type: result.type });
-      if (navigator.canShare?.({ files: [f] })) { try { await navigator.share({ files: [f], title: 'فيديو تلاوة' }); } catch (e) { if (e.name !== 'AbortError') toast('تعذرت المشاركة'); } }
+      if (navigator.canShare?.({ files: [f] })) { try { await navigator.share({ files: [f], title: TR('فيديو تلاوة', 'Rezitationsvideo') }); } catch (e) { if (e.name !== 'AbortError') toast(TR('تعذرت المشاركة', 'Teilen fehlgeschlagen')); } }
       else { const a = document.createElement('a'); a.href = result.url; a.download = result.name; document.body.append(a); a.click(); a.remove(); }
     },
   };
