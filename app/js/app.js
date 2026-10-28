@@ -1,10 +1,14 @@
 'use strict';
-const AR = v => String(v).replace(/\d/g, c => '٠١٢٣٤٥٦٧٨٩'[c]).replace('.', '٫');
+const ARQ = v => String(v).replace(/\d/g, c => '٠١٢٣٤٥٦٧٨٩'[c]).replace('.', '٫');
+const AR = v => DE_UI ? String(v).replace('.', ',') : ARQ(v);
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch { return d; } };
 const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+const DE_UI = load('prefs', {}).lang === 'de';
+const TR = (ar, de) => DE_UI ? de : ar;
+const SDE = ["Die Eröffnung", "Die Kuh", "Die Sippe Imrans", "Die Frauen", "Der Tisch", "Das Vieh", "Die Höhen", "Die Beute", "Die Reue", "Yunus", "Hud", "Yusuf", "Der Donner", "Ibrahim", "Al-Hidschr", "Die Bienen", "Die Nachtreise", "Die Höhle", "Maryam", "Ta-Ha", "Die Propheten", "Die Pilgerfahrt", "Die Gläubigen", "Das Licht", "Die Unterscheidung", "Die Dichter", "Die Ameisen", "Die Geschichte", "Die Spinne", "Die Römer", "Luqman", "Die Niederwerfung", "Die Gruppierungen", "Saba", "Der Erschaffer", "Ya-Sin", "Die sich Reihenden", "Sad", "Die Scharen", "Der Vergebende", "Ausführlich dargelegt", "Die Beratung", "Der Goldprunk", "Der Rauch", "Die Kniende", "Die Sanddünen", "Muhammad", "Der Sieg", "Die Gemächer", "Qaf", "Die Aufwirbelnden", "Der Berg", "Der Stern", "Der Mond", "Der Allerbarmer", "Das eintreffende Ereignis", "Das Eisen", "Der Streit", "Die Versammlung", "Die Geprüfte", "Die Reihe", "Der Freitag", "Die Heuchler", "Die gegenseitige Übervorteilung", "Die Scheidung", "Das Verbieten", "Die Herrschaft", "Das Schreibrohr", "Die fällig Werdende", "Die Himmelsleiter", "Nuh", "Die Dschinn", "Der Eingehüllte", "Der Zugedeckte", "Die Auferstehung", "Der Mensch", "Die Entsandten", "Die Kunde", "Die Entreißenden", "Er runzelte die Stirn", "Das Einrollen", "Das Zerbrechen", "Die das Maß Kürzenden", "Das Zerreißen", "Die Türme", "Der Pochende", "Der Höchste", "Die Überdeckende", "Die Morgendämmerung", "Die Ortschaft", "Die Sonne", "Die Nacht", "Die Morgenhelle", "Das Auftun", "Die Feige", "Das Anhaftende", "Die Bestimmung", "Der klare Beweis", "Das Beben", "Die Rennenden", "Das Verhängnis", "Die Vermehrung", "Das Zeitalter", "Der Stichler", "Der Elefant", "Die Quraisch", "Die Hilfeleistung", "Die Fülle", "Die Ungläubigen", "Die Hilfe", "Die Palmfasern", "Die Aufrichtigkeit", "Das Frühlicht", "Die Menschen"];
 
 const ICON = {
   play: 'M8 5v14l11-7z', pause: 'M6 19h4V5H6v14zm8-14v14h4V5h-4z', stop: 'M6 6h12v12H6z',
@@ -34,29 +38,29 @@ const ic = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hid
 
 const MP3Q = 'https://cdn.mp3quran.net/audio/';
 const RECITERS = [
-  { id: 'maher', ar: 'ماهر المعيقلي', f: 'MaherAlMuaiqly128kbps' },
-  { id: 'alafasy', ar: 'مشاري العفاسي', f: 'Alafasy_128kbps' },
-  { id: 'sudais', ar: 'عبد الرحمن السديس', f: 'Abdurrahmaan_As-Sudais_192kbps' },
-  { id: 'basit', ar: 'عبد الباسط عبد الصمد', f: 'Abdul_Basit_Murattal_192kbps' },
-  { id: 'minshawi', ar: 'محمد صديق المنشاوي', f: 'Minshawy_Murattal_128kbps' },
-  { id: 'husary', ar: 'محمود خليل الحصري', f: 'Husary_128kbps' },
-  { id: 'husary_mj', ar: 'الحصري (مجوّد)', f: 'Husary_Mujawwad_64kbps' },
-  { id: 'minshawi_mj', ar: 'المنشاوي (مجوّد)', f: 'Minshawy_Mujawwad_192kbps' },
-  { id: 'ajamy', ar: 'أحمد العجمي', f: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net' },
-  { id: 'shuraim', ar: 'سعود الشريم', f: 'Saood_ash-Shuraym_128kbps' },
-  { id: 'ghamdi', ar: 'سعد الغامدي', f: 'Ghamadi_40kbps' },
-  { id: 'dossari', ar: 'ياسر الدوسري', f: 'Yasser_Ad-Dussary_128kbps' },
-  { id: 'hudhaify', ar: 'علي الحذيفي', f: 'Hudhaify_128kbps' },
-  { id: 'shatri', ar: 'أبو بكر الشاطري', f: 'Abu_Bakr_Ash-Shaatree_128kbps' },
-  { id: 'ayyoub', ar: 'محمد أيوب', f: 'Muhammad_Ayyoub_128kbps' },
-  { id: 'qatami', ar: 'ناصر القطامي', f: 'Nasser_Alqatami_128kbps' },
-  { id: 'jaber', ar: 'علي جابر', f: 'Ali_Jaber_64kbps' },
-  { id: 'abbad', ar: 'فارس عباد', f: 'Fares_Abbad_64kbps' },
-  { id: 'basfar', ar: 'عبد الله بصفر', f: 'Abdullah_Basfar_192kbps' },
-  { id: 'budair', ar: 'صلاح البدير', f: 'Salah_Al_Budair_128kbps' },
-  { id: 'rifai', ar: 'هاني الرفاعي', f: 'Hani_Rifai_192kbps' },
-  { id: 'sufi_hafs', ar: 'عبد الرشيد صوفي (حفص عن عاصم)', sb: MP3Q + 'abdulrasheed-sufi/r3/', tm: 'sufi' },
-  { id: 'mousa_hafs', ar: 'عبدالله الموسى', sb: MP3Q + 'abdullah-mousa/r1/', tm: 'mousa' },
+  { id: 'maher', ar: 'ماهر المعيقلي', en: 'Maher Al-Muaiqly', f: 'MaherAlMuaiqly128kbps' },
+  { id: 'alafasy', ar: 'مشاري العفاسي', en: 'Mishary Alafasy', f: 'Alafasy_128kbps' },
+  { id: 'sudais', ar: 'عبد الرحمن السديس', en: 'Abdul Rahman Al-Sudais', f: 'Abdurrahmaan_As-Sudais_192kbps' },
+  { id: 'basit', ar: 'عبد الباسط عبد الصمد', en: 'Abdul Basit Abdul Samad', f: 'Abdul_Basit_Murattal_192kbps' },
+  { id: 'minshawi', ar: 'محمد صديق المنشاوي', en: 'Muhammad Siddiq Al-Minshawi', f: 'Minshawy_Murattal_128kbps' },
+  { id: 'husary', ar: 'محمود خليل الحصري', en: 'Mahmoud Khalil Al-Husary', f: 'Husary_128kbps' },
+  { id: 'husary_mj', ar: 'الحصري (مجوّد)', en: 'Al-Husary (Mujawwad)', f: 'Husary_Mujawwad_64kbps' },
+  { id: 'minshawi_mj', ar: 'المنشاوي (مجوّد)', en: 'Al-Minshawi (Mujawwad)', f: 'Minshawy_Mujawwad_192kbps' },
+  { id: 'ajamy', ar: 'أحمد العجمي', en: 'Ahmed Al-Ajamy', f: 'Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net' },
+  { id: 'shuraim', ar: 'سعود الشريم', en: 'Saud Al-Shuraim', f: 'Saood_ash-Shuraym_128kbps' },
+  { id: 'ghamdi', ar: 'سعد الغامدي', en: 'Saad Al-Ghamdi', f: 'Ghamadi_40kbps' },
+  { id: 'dossari', ar: 'ياسر الدوسري', en: 'Yasser Al-Dossari', f: 'Yasser_Ad-Dussary_128kbps' },
+  { id: 'hudhaify', ar: 'علي الحذيفي', en: 'Ali Al-Hudhaify', f: 'Hudhaify_128kbps' },
+  { id: 'shatri', ar: 'أبو بكر الشاطري', en: 'Abu Bakr Al-Shatri', f: 'Abu_Bakr_Ash-Shaatree_128kbps' },
+  { id: 'ayyoub', ar: 'محمد أيوب', en: 'Muhammad Ayyoub', f: 'Muhammad_Ayyoub_128kbps' },
+  { id: 'qatami', ar: 'ناصر القطامي', en: 'Nasser Al-Qatami', f: 'Nasser_Alqatami_128kbps' },
+  { id: 'jaber', ar: 'علي جابر', en: 'Ali Jaber', f: 'Ali_Jaber_64kbps' },
+  { id: 'abbad', ar: 'فارس عباد', en: 'Fares Abbad', f: 'Fares_Abbad_64kbps' },
+  { id: 'basfar', ar: 'عبد الله بصفر', en: 'Abdullah Basfar', f: 'Abdullah_Basfar_192kbps' },
+  { id: 'budair', ar: 'صلاح البدير', en: 'Salah Al-Budair', f: 'Salah_Al_Budair_128kbps' },
+  { id: 'rifai', ar: 'هاني الرفاعي', en: 'Hani Ar-Rifai', f: 'Hani_Rifai_192kbps' },
+  { id: 'sufi_hafs', ar: 'عبد الرشيد صوفي (حفص عن عاصم)', en: 'Abdul Rashid Sufi (Hafs)', sb: MP3Q + 'abdulrasheed-sufi/r3/', tm: 'sufi' },
+  { id: 'mousa_hafs', ar: 'عبدالله الموسى', en: 'Abdullah Al-Mousa', sb: MP3Q + 'abdullah-mousa/r1/', tm: 'mousa' },
 ];
 const rec = id => RECITERS.find(r => r.id === id) || RECITERS[0];
 const pad3 = n => String(n).padStart(3, '0');
@@ -104,7 +108,7 @@ async function fetchAudio(r, s, a) {
 }
 const AC = 'quran-audio-v1';
 
-const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, script: 0, qfont: 0, tafsir: 0, tafsirUnder: false, pageFlip: false, bgAlpha: 0.3, reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, de: 0, method: 'MuslimWorldLeague', hanafi: false, notify: false };
+const DEF = { theme: 'system', pageStyle: 0, font: 28, line: 1.9, script: 0, qfont: 0, tafsir: 0, tafsirUnder: false, pageFlip: false, bgAlpha: 0.3, lang: 'ar', reciter: 'maher', speed: 1, repeat: 1, continuous: true, follow: true, keepPlaying: false, wake: true, de: 0, method: 'MuslimWorldLeague', hanafi: false, notify: false };
 const P = Object.assign({}, DEF, load('prefs', {}));
 let last = load('last', { page: 1, s: 1, a: 1 });
 let marks = load('marks', []);
@@ -114,14 +118,14 @@ function loadDE() {
   if (DE || deLoading) return deLoading;
   deLoading = fetch('assets/de.json').then(r => { if (!r.ok) throw 0; return r.json(); })
     .then(j => { DE = j.s; if (route === 'read') renderReader(curPage); })
-    .catch(() => { deLoading = null; if (typeof toast === 'function') toast('تعذر تحميل الترجمة. تحقق من الاتصال بالإنترنت'); });
+    .catch(() => { deLoading = null; if (typeof toast === 'function') toast(TR('تعذر تحميل الترجمة. تحقق من الاتصال بالإنترنت', 'Übersetzung konnte nicht geladen werden. Bitte Internetverbindung prüfen.')); });
   return deLoading;
 }
 const deText = (s, a) => (DE && DE[s - 1] && DE[s - 1][a - 1]) || '';
 
 /* Mushaf script + font (KFGQPC Hafs default, like the Android app) */
-const SCRIPTS = [['الرسم العثماني • مجمع الملك فهد', 'qpc', 'Hafs'], ['الرسم العثماني • تنزيل', null, null], ['الرسم الإملائي', 'imlaei', null], ['الرسم الهندي/الباكستاني', 'indopak', 'IndoPak']];
-const QFONTS = [['QuranFont', 'أميري قرآن'], ['Amiri', 'أميري'], ['Scheherazade', 'شهرزاد'], ['NotoNaskh', 'نسخ']];
+const SCRIPTS = [[TR('الرسم العثماني • مجمع الملك فهد', 'Uthmani • King-Fahd-Komplex'), 'qpc', 'Hafs'], [TR('الرسم العثماني • تنزيل', 'Uthmani • Tanzil'), null, null], [TR('الرسم الإملائي', 'Imlaei (einfache Schreibweise)'), 'imlaei', null], [TR('الرسم الهندي/الباكستاني', 'IndoPak'), 'indopak', 'IndoPak']];
+const QFONTS = [['QuranFont', TR('أميري قرآن', 'Amiri Quran')], ['Amiri', TR('أميري', 'Amiri')], ['Scheherazade', TR('شهرزاد', 'Scheherazade')], ['NotoNaskh', TR('نسخ', 'Naskh')]];
 let SC = null; const scCache = {};
 async function loadScript(i) {
   const f = SCRIPTS[i]?.[1];
@@ -132,10 +136,10 @@ async function loadScript(i) {
 const atext = (s, a) => SC?.[s - 1]?.[a - 1] || ay(s, a)[0];
 const basm = () => SC?.[0]?.[0] || QD.basmala;
 const ayahFont = () => SCRIPTS[P.script]?.[2] || QFONTS[P.qfont]?.[0] || 'QuranFont';
-const mark = a => (P.script === 0 ? '' : '\u06DD') + AR(a);
+const mark = a => (P.script === 0 ? '' : '\u06DD') + ARQ(a);
 
 /* tafsir: Al-Muyassar bundled (offline), the rest online (alquran.cloud / quran.com), cached */
-const TAFSIRS = [['التفسير الميسر'], ['تفسير الجلالين', 0, 'ar.jalalayn'], ['تفسير السعدي', 91], ['تفسير ابن كثير', 14], ['تفسير الطبري', 15], ['تفسير القرطبي', 90], ['تفسير البغوي', 94], ['التفسير الوسيط (طنطاوي)', 93]];
+const TAFSIRS = [[TR('التفسير الميسر', 'Tafsir al-Muyassar')], [TR('تفسير الجلالين', 'Tafsir al-Dschalalain'), 0, 'ar.jalalayn'], [TR('تفسير السعدي', 'Tafsir as-Saadi'), 91], [TR('تفسير ابن كثير', 'Tafsir Ibn Kathir'), 14], [TR('تفسير الطبري', 'Tafsir at-Tabari'), 15], [TR('تفسير القرطبي', 'Tafsir al-Qurtubi'), 90], [TR('تفسير البغوي', 'Tafsir al-Baghawi'), 94], [TR('التفسير الوسيط (طنطاوي)', 'At-Tafsir al-Wasit (Tantawi)'), 93]];
 const TC = 'quran-tafsir-v1';
 let MUY = null;
 function htmlText(h) {
@@ -156,7 +160,7 @@ async function tafsirText(i, s, a) {
   return htmlText((t[2] ? j.data?.text : j.tafsir?.text) || '');
 }
 function showTafsir(s, a) {
-  const m = modal(`<div class="tfh"><h3><span class="q">${sname(s)}</span> • الآية ${AR(a)}</h3><button class="ib" data-close aria-label="إغلاق">${ic('close')}</button></div>
+  const m = modal(`<div class="tfh"><h3><span class="q">${sname(s)}</span> • ${TR('الآية', 'Vers')} ${AR(a)}</h3><button class="ib" data-close aria-label="${TR('إغلاق', 'Schließen')}">${ic('close')}</button></div>
   <div class="chips tfc">${TAFSIRS.map((t, i) => `<button data-tf="${i}" class="${P.tafsir === i ? 'on' : ''}">${t[0]}</button>`).join('')}</div>
   <div class="tfb"><div class="tf-ay">${atext(s, a)} <span class="mk">${mark(a)}</span></div><div id="tft"></div></div>`);
   m.classList.add('bottom');
@@ -164,8 +168,8 @@ function showTafsir(s, a) {
   const fill = async () => {
     const my = ++tok, el = $('#tft', m);
     el.innerHTML = '<div class="spin"></div>';
-    try { const txt = await tafsirText(P.tafsir, s, a); if (my === tok) el.textContent = txt || 'تفسير هذه الآية مذكور مع الآيات المجاورة.'; }
-    catch { if (my !== tok) return; el.innerHTML = `<p class="err">تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.</p><button class="btn ghost sm" id="tfr">إعادة المحاولة</button>`; $('#tfr', m).onclick = fill; }
+    try { const txt = await tafsirText(P.tafsir, s, a); if (my === tok) el.textContent = txt || TR('تفسير هذه الآية مذكور مع الآيات المجاورة.', 'Die Erklärung dieses Verses steht bei den benachbarten Versen.'); }
+    catch { if (my !== tok) return; el.innerHTML = `<p class="err">${TR('تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.', 'Tafsir konnte nicht geladen werden. Bitte Internetverbindung prüfen.')}</p><button class="btn ghost sm" id="tfr">${TR('إعادة المحاولة', 'Erneut versuchen')}</button>`; $('#tfr', m).onclick = fill; }
   };
   m.addEventListener('click', e => { const b = e.target.closest('[data-tf]'); if (!b) return; setP('tafsir', +b.dataset.tf); $$('[data-tf]', m).forEach(x => x.classList.toggle('on', x === b)); fill(); });
   fill();
@@ -180,7 +184,8 @@ function fillTafsirUnder() {
 /* data */
 let QD = null; const pages = []; const juzStart = [];
 const ay = (s, a) => QD.surahs[s - 1].ayahs[a - 1];
-const sname = s => QD.surahs[s - 1].name;
+const sname = s => DE_UI ? SDE[s - 1] : QD.surahs[s - 1].name;
+const rname = r => DE_UI ? r.en : r.ar;
 async function loadData() {
   const r = await fetch('assets/quran.json');
   if (!r.ok) throw new Error('data');
@@ -192,14 +197,14 @@ async function loadData() {
 }
 
 /* theme */
-const PAGE_STYLES = ['ورق المصحف', 'كريمي', 'أخضر هادئ', 'سادة'];
+const PAGE_STYLES = [TR('ورق المصحف', 'Mushaf-Papier'), TR('كريمي', 'Creme'), TR('أخضر هادئ', 'Sanftes Grün'), TR('سادة', 'Schlicht')];
 const PAGE_L = [['#FBF3DF', '#1B1B18'], ['#F2E3C2', '#2A1E10'], ['#EAF4EC', '#10201A'], ['#FFFFFF', '#000000']];
 const PAGE_D = [['#1E1B14', '#EFE6D2'], ['#2A2116', '#F1E2C4'], ['#0F2A21', '#E8F3EE'], ['#17201D', '#F3F3F0']];
 const darkMQ = matchMedia('(prefers-color-scheme: dark)');
 const isDark = () => P.theme === 'dark' || (P.theme === 'system' && darkMQ.matches);
 function applyTheme() {
   const d = isDark(), root = document.documentElement, [bg, ink] = (d ? PAGE_D : PAGE_L)[P.pageStyle] || PAGE_L[0];
-  root.dataset.theme = d ? 'dark' : 'light';
+  root.dataset.theme = d ? 'dark' : 'light'; root.lang = DE_UI ? 'de' : 'ar'; root.dir = DE_UI ? 'ltr' : 'rtl'; document.title = TR('القرآن الكريم', 'Der edle Koran');
   root.style.setProperty('--page', bg); root.style.setProperty('--ink', ink);
   root.style.setProperty('--qfs', P.font + 'px'); root.style.setProperty('--qlh', P.line);
   root.style.setProperty('--af', ayahFont()); root.style.setProperty('--bga', P.bgAlpha);
@@ -221,7 +226,7 @@ function modal(inner) {
   document.body.append(m); return m;
 }
 const header = (title, sub = '', right = '<span class="ib"></span>') =>
-  `<header class="hdr"><button class="ib" data-act="back" aria-label="رجوع">${ic('back')}</button><div class="rtitle"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</div>${right}</header>`;
+  `<header class="hdr"><button class="ib" data-act="back" aria-label="${TR('رجوع', 'Zurück')}">${ic('back')}</button><div class="rtitle"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</div>${right}</header>`;
 const sw = k => `<label class="sw"><input type="checkbox" data-sw="${k}" ${P[k] ? 'checked' : ''}><span></span></label>`;
 const seg = (k, opts, cls = '') => `<div class="seg ${cls}">${opts.map(([v, l]) => `<button data-set="${k}" data-v='${JSON.stringify(v)}' class="${P[k] === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
 
@@ -250,41 +255,41 @@ function renderHome() {
   const t = ay(last.s, last.a);
   $('#view').innerHTML = `
   <header class="hdr">
-    <button class="ib" data-go="downloads" aria-label="التنزيلات">${ic('download')}</button>
-    <h1 class="title q">القرآن الكريم</h1>
-    <button class="ib" data-act="jump" aria-label="انتقال إلى صفحة"><b>#</b></button>
-    <button class="ib" data-go="settings" aria-label="الإعدادات">${ic('settings')}</button>
+    <button class="ib" data-go="downloads" aria-label="${TR('التنزيلات', 'Downloads')}">${ic('download')}</button>
+    <h1 class="title q">${TR('القرآن الكريم', 'Der edle Koran')}</h1>
+    <button class="ib" data-act="jump" aria-label="${TR('انتقال إلى صفحة', 'Zu Seite springen')}"><b>#</b></button>
+    <button class="ib" data-go="settings" aria-label="${TR('الإعدادات', 'Einstellungen')}">${ic('settings')}</button>
   </header>
   <section class="hero">
-    <div class="hero-k">متابعة القراءة</div>
+    <div class="hero-k">${TR('متابعة القراءة', 'Weiterlesen')}</div>
     <div class="hero-s q">${sname(last.s)}</div>
-    <div class="hero-m">الجزء ${AR(t[1])} • الصفحة ${AR(last.page)} • ${rec(P.reciter).ar}</div>
-    <button class="btn light" data-go="read/${last.page}">${ic('book')} افتح المصحف</button>
+    <div class="hero-m">${TR('الجزء', 'Teil')} ${AR(t[1])} • ${TR('الصفحة', 'Seite')} ${AR(last.page)} • ${rname(rec(P.reciter))}</div>
+    <button class="btn light" data-go="read/${last.page}">${ic('book')} ${TR('افتح المصحف', 'Mushaf öffnen')}</button>
   </section>
   <div class="quick">
-    <button class="qc" data-go="prayer">${ic('clock')}<div><b>مواقيت الصلاة</b><small>${Prayer.homeLine()}</small></div></button>
-    <button class="qc" data-go="qibla">${ic('compass')}<div><b>القبلة</b><small>البوصلة</small></div></button>
+    <button class="qc" data-go="prayer">${ic('clock')}<div><b>${TR('مواقيت الصلاة', 'Gebetszeiten')}</b><small>${Prayer.homeLine()}</small></div></button>
+    <button class="qc" data-go="qibla">${ic('compass')}<div><b>${TR('القبلة', 'Qibla')}</b><small>${TR('البوصلة', 'Kompass')}</small></div></button>
   </div>
-  <button class="qc wide" data-go="studio">${ic('movie')}<div><b>استوديو الفيديو</b><small>اصنع فيديو تلاوة بخلفية طبيعية</small></div></button>
+  <button class="qc wide" data-go="studio">${ic('movie')}<div><b>${TR('استوديو الفيديو', 'Video-Studio')}</b><small>${TR('اصنع فيديو تلاوة بخلفية طبيعية', 'Rezitationsvideo mit Naturhintergrund erstellen')}</small></div></button>
   <div id="install"></div>
-  <nav class="tabs">${['السور', 'الأجزاء', 'العلامات'].map((x, i) => `<button data-tab="${i}" class="${i === homeTab ? 'on' : ''}">${x}</button>`).join('')}</nav>
+  <nav class="tabs">${[TR('السور', 'Suren'), TR('الأجزاء', 'Teile'), TR('العلامات', 'Lesezeichen')].map((x, i) => `<button data-tab="${i}" class="${i === homeTab ? 'on' : ''}">${x}</button>`).join('')}</nav>
   <div id="list"></div>`;
   renderList(); installHint();
 }
 function renderList() {
   const L = $('#list'); if (!L) return;
-  if (homeTab === 0) L.innerHTML = QD.surahs.map(s => `<button class="row" data-go="read/${s.ayahs[0][2]}"><span class="num">${AR(s.n)}</span><span class="rt"><span class="q nm">${s.name}</span><small>${s.en} • ${s.type === 'Meccan' ? 'مكية' : 'مدنية'} • ${AR(s.ayahs.length)} آية</small></span><span class="pg">ص ${AR(s.ayahs[0][2])}</span></button>`).join('');
-  else if (homeTab === 1) L.innerHTML = juzStart.slice(1).map((j, i) => `<button class="row" data-go="read/${j.page}"><span class="num">${AR(i + 1)}</span><span class="rt"><b>الجزء ${AR(i + 1)}</b><small><span class="q">${sname(j.s)}</span> — الآية ${AR(j.a)}</small></span><span class="pg">ص ${AR(j.page)}</span></button>`).join('');
-  else L.innerHTML = marks.length ? marks.map(k => { const [s, a] = k.split(':').map(Number); const t = ay(s, a); return `<button class="row" data-go="read/${t[2]}"><span class="num">${ic('bm')}</span><span class="rt"><span class="q nm">${sname(s)} — ${AR(a)}</span><small class="q">${esc(t[0].split(' ').slice(0, 8).join(' '))}…</small></span><span class="pg">ص ${AR(t[2])}</span></button>`; }).join('')
-    : `<div class="empty">لا توجد علامات بعد.<br>اضغط على آية في المصحف ثم زر العلامة.</div>`;
+  if (homeTab === 0) L.innerHTML = QD.surahs.map(s => `<button class="row" data-go="read/${s.ayahs[0][2]}"><span class="num">${AR(s.n)}</span><span class="rt"><span class="q nm">${sname(s.n)}</span><small>${s.en} • ${s.type === 'Meccan' ? TR('مكية', 'mekkanisch') : TR('مدنية', 'medinensisch')} • ${AR(s.ayahs.length)} ${TR('آية', 'Verse')}</small></span><span class="pg">${TR('ص', 'S.')} ${AR(s.ayahs[0][2])}</span></button>`).join('');
+  else if (homeTab === 1) L.innerHTML = juzStart.slice(1).map((j, i) => `<button class="row" data-go="read/${j.page}"><span class="num">${AR(i + 1)}</span><span class="rt"><b>${TR('الجزء', 'Teil')} ${AR(i + 1)}</b><small><span class="q">${sname(j.s)}</span> — ${TR('الآية', 'Vers')} ${AR(j.a)}</small></span><span class="pg">${TR('ص', 'S.')} ${AR(j.page)}</span></button>`).join('');
+  else L.innerHTML = marks.length ? marks.map(k => { const [s, a] = k.split(':').map(Number); const t = ay(s, a); return `<button class="row" data-go="read/${t[2]}"><span class="num">${ic('bm')}</span><span class="rt"><span class="q nm">${sname(s)} — ${AR(a)}</span><small class="q">${esc(t[0].split(' ').slice(0, 8).join(' '))}…</small></span><span class="pg">${TR('ص', 'S.')} ${AR(t[2])}</span></button>`; }).join('')
+    : `<div class="empty">${TR('لا توجد علامات بعد.', 'Noch keine Lesezeichen.')}<br>${TR('اضغط على آية في المصحف ثم زر العلامة.', 'Tippe im Mushaf auf einen Vers und dann auf das Lesezeichen-Symbol.')}</div>`;
 }
 function installHint() {
   const el = $('#install'); if (!el) return;
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   if (standalone || load('hideInstall', false)) { el.innerHTML = ''; return; }
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (ios) el.innerHTML = `<div class="tip">${ic('share')}<span>لتثبيت التطبيق على الآيفون: افتح الموقع في سفاري، اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</span><button data-act="hideInstall" aria-label="إخفاء">${ic('close')}</button></div>`;
-  else if (deferredPrompt) el.innerHTML = `<div class="tip">${ic('download')}<span>ثبّت التطبيق على جهازك</span><button class="btn sm" data-act="install">تثبيت</button></div>`;
+  if (ios) el.innerHTML = `<div class="tip">${ic('share')}<span>${TR('لتثبيت التطبيق على الآيفون: افتح الموقع في سفاري، اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».', 'So installierst du die App auf dem iPhone: in Safari öffnen, auf „Teilen“ tippen, dann „Zum Home-Bildschirm“.')}</span><button data-act="hideInstall" aria-label="${TR('إخفاء', 'Ausblenden')}">${ic('close')}</button></div>`;
+  else if (deferredPrompt) el.innerHTML = `<div class="tip">${ic('download')}<span>${TR('ثبّت التطبيق على جهازك', 'App auf dem Gerät installieren')}</span><button class="btn sm" data-act="install">${TR('تثبيت', 'Installieren')}</button></div>`;
 }
 
 /* audio */
@@ -306,7 +311,7 @@ async function ensureCached(r, s, a) {
   if (await c.match(url)) return;
   await c.put(url, await fetchAudio(r, s, a));
 }
-const audioErr = e => e.message === 'missing' ? 'تلاوة هذه الآية غير متوفرة لهذا القارئ' : 'تعذر تحميل التلاوة. تحقق من الاتصال بالإنترنت';
+const audioErr = e => e.message === 'missing' ? TR('تلاوة هذه الآية غير متوفرة لهذا القارئ', 'Für diesen Vers gibt es keine Rezitation dieses Rezitators') : TR('تعذر تحميل التلاوة. تحقق من الاتصال بالإنترنت', 'Rezitation konnte nicht geladen werden. Bitte Internetverbindung prüfen.');
 function nextAyah({ s, a }) { if (a < QD.surahs[s - 1].ayahs.length) return { s, a: a + 1 }; return s < 114 ? { s: s + 1, a: 1 } : null; }
 function prevAyah({ s, a }) { if (a > 1) return { s, a: a - 1 }; return s > 1 ? { s: s - 1, a: QD.surahs[s - 2].ayahs.length } : null; }
 function playAyah(s, a) { AU.cur = { s, a }; AU.rep = 0; startCur(); }
@@ -329,7 +334,7 @@ async function startCur() {
   } catch (e) {
     if (tok !== AU.tok) return;
     AU.loading = false; AU.playing = false;
-    toast(e.name === 'NotAllowedError' ? 'اضغط زر التشغيل للمتابعة' : audioErr(e), 'إعادة المحاولة', () => { unlockAudio(); startCur(); });
+    toast(e.name === 'NotAllowedError' ? TR('اضغط زر التشغيل للمتابعة', 'Zum Fortfahren auf Abspielen tippen') : audioErr(e), TR('إعادة المحاولة', 'Erneut versuchen'), () => { unlockAudio(); startCur(); });
   }
   renderBar();
 }
@@ -357,7 +362,7 @@ function step(d) { const base = AU.cur || (selKey && { s: +selKey.split(':')[0],
 function setMS(st) { if ('mediaSession' in navigator) { navigator.mediaSession.playbackState = st; if (st === 'none') navigator.mediaSession.metadata = null; } }
 function mediaMeta() {
   if (!('mediaSession' in navigator) || !AU.cur) return;
-  navigator.mediaSession.metadata = new MediaMetadata({ title: `${sname(AU.cur.s).replace(/[\u064B-\u0652\u0670\u06DF-\u06ED]/g, '')} — الآية ${AR(AU.cur.a)}`, artist: rec(P.reciter).ar, album: 'القرآن الكريم', artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
+  navigator.mediaSession.metadata = new MediaMetadata({ title: `${sname(AU.cur.s).replace(/[\u064B-\u0652\u0670\u06DF-\u06ED]/g, '')} — ${TR('الآية', 'Vers')} ${AR(AU.cur.a)}`, artist: rname(rec(P.reciter)), album: TR('القرآن الكريم', 'Der edle Koran'), artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
 }
 if ('mediaSession' in navigator) {
   const ms = navigator.mediaSession;
@@ -376,7 +381,7 @@ function pageHtml(p) {
   for (const [s, a] of pages[p]) {
     if (a === 1) {
       if (para) { out += `<p>${para}</p>`; para = ''; }
-      out += `<div class="sh"><span>${sname(s)}</span></div>`;
+      out += `<div class="sh"><span>${QD.surahs[s - 1].name}</span></div>`;
       if (s !== 1 && s !== 9) out += `<div class="bas">${basm()}</div>`;
     }
     const span = `<span class="ay" data-k="${s}:${a}">${atext(s, a)}<span class="mk">&nbsp;${mark(a)}</span></span> `;
@@ -392,10 +397,10 @@ function renderReader(p) {
   const [fs, fa] = pages[p][0], first = ay(fs, fa);
   last = { page: p, s: fs, a: fa }; save('last', last);
   $('#view').innerHTML = `
-  ${header(`<span class="q">${sname(fs)}</span>`, `الجزء ${AR(first[1])} • الصفحة ${AR(p)}`, `<button class="ib" data-act="full" aria-label="ملء الشاشة">${ic('full')}</button><button class="ib" data-go="settings" aria-label="الإعدادات">${ic('settings')}</button>`)}
-  <div class="fsx"><button data-act="full">${ic('fullx')}<span>الخروج من ملء الشاشة</span></button><small>${AR(p)}</small></div>
+  ${header(`<span class="q">${sname(fs)}</span>`, `${TR('الجزء', 'Teil')} ${AR(first[1])} • ${TR('الصفحة', 'Seite')} ${AR(p)}`, `<button class="ib" data-act="full" aria-label="${TR('ملء الشاشة', 'Vollbild')}">${ic('full')}</button><button class="ib" data-go="settings" aria-label="${TR('الإعدادات', 'Einstellungen')}">${ic('settings')}</button>`)}
+  <div class="fsx"><button data-act="full">${ic('fullx')}<span>${TR('الخروج من ملء الشاشة', 'Vollbild beenden')}</span></button><small>${AR(p)}</small></div>
   <div class="page-wrap"><article class="page ${flipDir ? (flipDir > 0 ? 'flip-n' : 'flip-p') : ''}" id="page">${pageHtml(p)}</article>
-  <div class="pager"><button class="ib" data-act="turn" data-d="-1" aria-label="الصفحة السابقة" ${p === 1 ? 'disabled' : ''}>${ic('chr')}</button><span>${AR(p)} / ${AR(604)}</span><button class="ib" data-act="turn" data-d="1" aria-label="الصفحة التالية" ${p === 604 ? 'disabled' : ''}>${ic('chl')}</button></div></div>
+  <div class="pager"><button class="ib" data-act="turn" data-d="-1" aria-label="${TR('الصفحة السابقة', 'Vorherige Seite')}" ${p === 1 ? 'disabled' : ''}>${ic('chr')}</button><span>${AR(p)} / ${AR(604)}</span><button class="ib" data-act="turn" data-d="1" aria-label="${TR('الصفحة التالية', 'Nächste Seite')}" ${p === 604 ? 'disabled' : ''}>${ic('chl')}</button></div></div>
   <div id="bar" class="bar"></div>`;
   const pw = $('.page-wrap'); let sx = 0, sy = 0;
   pw.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
@@ -442,17 +447,17 @@ function markPlaying(scroll) {
 function renderBar() {
   const b = $('#bar'); if (!b) return;
   const k = AU.cur ? `${AU.cur.s}:${AU.cur.a}` : selKey;
-  if (!k) { b.innerHTML = `<div class="hint">اضغط على أي آية للاستماع بصوت ${rec(P.reciter).ar}</div>`; return; }
+  if (!k) { b.innerHTML = `<div class="hint">${TR('اضغط على أي آية للاستماع بصوت', 'Tippe auf einen Vers, um ihn zu hören – Rezitator:')} ${rname(rec(P.reciter))}</div>`; return; }
   const [s, a] = k.split(':').map(Number), on = AU.playing || AU.loading;
-  b.innerHTML = `${P.de === 1 && DE && a > 0 ? `<div class="bub" dir="ltr" lang="de">${esc(deText(s, a))}</div>` : ''}<div class="bi"><b class="q">${sname(s)}</b><small>الآية ${AR(a)} • ${rec(P.reciter).ar}${AU.loading ? ' • جارٍ التحميل…' : ''}</small><button class="tfbtn" data-act="tafsir" data-k="${k}">${ic('book')}التفسير</button></div>
+  b.innerHTML = `${P.de === 1 && DE && a > 0 ? `<div class="bub" dir="ltr" lang="de">${esc(deText(s, a))}</div>` : ''}<div class="bi"><b class="q">${sname(s)}</b><small>${TR('الآية', 'Vers')} ${AR(a)} • ${rname(rec(P.reciter))}${AU.loading ? TR(' • جارٍ التحميل…', ' • wird geladen…') : ''}</small><button class="tfbtn" data-act="tafsir" data-k="${k}">${ic('book')}${TR('التفسير', 'Tafsir')}</button></div>
   <div class="bc">
-    <button class="ib" data-act="bm" data-k="${k}" aria-label="علامة">${ic(marks.includes(k) ? 'bm' : 'bmo')}</button>
-    <button class="ib" data-act="speed" aria-label="السرعة"><b style="font-size:14px">${AR(P.speed)}×</b></button>
-    <button class="ib" data-act="prevA" aria-label="الآية السابقة">${ic('prev', 'mir')}</button>
-    <button class="fab" data-act="toggle" aria-label="${on ? 'إيقاف مؤقت' : 'تشغيل'}">${ic(on ? 'pause' : 'play')}</button>
-    <button class="ib" data-act="nextA" aria-label="الآية التالية">${ic('next', 'mir')}</button>
-    <button class="ib ${P.repeat > 1 ? 'on' : ''}" data-act="repeat" aria-label="التكرار">${ic('repeat')}${P.repeat > 1 ? `<sup>${AR(P.repeat)}</sup>` : ''}</button>
-    <button class="ib" data-act="stop" aria-label="إيقاف">${ic('stop')}</button>
+    <button class="ib" data-act="bm" data-k="${k}" aria-label="${TR('علامة', 'Lesezeichen')}">${ic(marks.includes(k) ? 'bm' : 'bmo')}</button>
+    <button class="ib" data-act="speed" aria-label="${TR('السرعة', 'Geschwindigkeit')}"><b style="font-size:14px">${AR(P.speed)}×</b></button>
+    <button class="ib" data-act="prevA" aria-label="${TR('الآية السابقة', 'Vorheriger Vers')}">${ic('prev', 'mir')}</button>
+    <button class="fab" data-act="toggle" aria-label="${on ? TR('إيقاف مؤقت', 'Pause') : TR('تشغيل', 'Abspielen')}">${ic(on ? 'pause' : 'play')}</button>
+    <button class="ib" data-act="nextA" aria-label="${TR('الآية التالية', 'Nächster Vers')}">${ic('next', 'mir')}</button>
+    <button class="ib ${P.repeat > 1 ? 'on' : ''}" data-act="repeat" aria-label="${TR('التكرار', 'Wiederholen')}">${ic('repeat')}${P.repeat > 1 ? `<sup>${AR(P.repeat)}</sup>` : ''}</button>
+    <button class="ib" data-act="stop" aria-label="${TR('إيقاف', 'Stopp')}">${ic('stop')}</button>
   </div>`;
 }
 
@@ -460,38 +465,40 @@ function renderBar() {
 function renderSettings() {
   route = 'settings';
   const y = window.scrollY;
-  $('#view').innerHTML = `${header('الإعدادات')}
+  $('#view').innerHTML = `${header(TR('الإعدادات', 'Einstellungen'))}
   <div class="pad">
-    <section class="card"><h3>القارئ</h3><select data-sel="reciter" aria-label="القارئ">${RECITERS.map(r => `<option value="${r.id}" ${r.id === rec(P.reciter).id ? 'selected' : ''}>${r.ar}</option>`).join('')}</select></section>
-    <section class="card"><h3>رسم المصحف</h3>${seg('script', SCRIPTS.map((x, i) => [i, x[0]]), 'col')}
-      ${SCRIPTS[P.script]?.[2] ? '' : `<h3>خط المصحف</h3>${seg('qfont', QFONTS.map((f, i) => [i, `<span style="font-family:${f[0]},serif">${f[1]}</span>`]))}`}</section>
-    <section class="card"><h3>المظهر</h3>${seg('theme', [['system', 'تلقائي'], ['light', 'فاتح'], ['dark', 'داكن']])}
-      <h3>لون الصفحة</h3>${seg('pageStyle', PAGE_STYLES.map((n, i) => [i, `<i class="sw4" style="background:${(isDark() ? PAGE_D : PAGE_L)[i][0]}"></i>${n}`]))}
-      <h3>حجم الخط</h3><input type="range" data-rng="font" min="20" max="48" step="1" value="${P.font}">
-      <h3>تباعد الأسطر</h3><input type="range" data-rng="line" min="1.5" max="2.6" step="0.1" value="${P.line}">
+    <section class="card"><h3>${TR('اللغة', 'Sprache')} • Language</h3>${seg('lang', [['ar', 'العربية'], ['de', 'Deutsch']])}<small>${TR('Deutsch: التطبيق كله بالألمانية (نص القرآن يبقى بالعربية)', 'Die ganze App auf Deutsch (der Korantext bleibt Arabisch)')}</small></section>
+    <section class="card"><h3>${TR('القارئ', 'Rezitator')}</h3><select data-sel="reciter" aria-label="${TR('القارئ', 'Rezitator')}">${RECITERS.map(r => `<option value="${r.id}" ${r.id === rec(P.reciter).id ? 'selected' : ''}>${rname(r)}</option>`).join('')}</select></section>
+    <section class="card"><h3>${TR('رسم المصحف', 'Schrift')}</h3>${seg('script', SCRIPTS.map((x, i) => [i, x[0]]), 'col')}
+      ${SCRIPTS[P.script]?.[2] ? '' : `<h3>${TR('خط المصحف', 'Schriftart')}</h3>${seg('qfont', QFONTS.map((f, i) => [i, `<span style="font-family:${f[0]},serif">${f[1]}</span>`]))}`}</section>
+    <section class="card"><h3>${TR('المظهر', 'Design')}</h3>${seg('theme', [['system', TR('تلقائي', 'Automatisch')], ['light', TR('فاتح', 'Hell')], ['dark', TR('داكن', 'Dunkel')]])}
+      <h3>${TR('لون الصفحة', 'Seitenfarbe')}</h3>${seg('pageStyle', PAGE_STYLES.map((n, i) => [i, `<i class="sw4" style="background:${(isDark() ? PAGE_D : PAGE_L)[i][0]}"></i>${n}`]))}
+      <h3>${TR('حجم الخط', 'Schriftgröße')}</h3><input type="range" data-rng="font" min="20" max="48" step="1" value="${P.font}">
+      <h3>${TR('تباعد الأسطر', 'Zeilenabstand')}</h3><input type="range" data-rng="line" min="1.5" max="2.6" step="0.1" value="${P.line}">
       <div class="sample">${basm()}</div>
-      <h3>وضوح خلفية التطبيق</h3><input type="range" data-rng="bgAlpha" min="0" max="0.7" step="0.05" value="${P.bgAlpha}">
-      <div class="rowx"><span>قلب الصفحات مثل المصحف<small>تأثير الورق عند الانتقال بين الصفحات</small></span>${sw('pageFlip')}</div></section>
-    <section class="card"><h3>التفسير</h3><small>اضغط مطولاً على أي آية (أو زر «التفسير» في شريط التلاوة) لعرض تفسيرها.</small>
-      ${seg('tafsir', TAFSIRS.map((t, i) => [i, t[0] + (i === 0 ? ' • بدون إنترنت' : '')]), 'col')}
-      <div class="rowx"><span>عرض التفسير تحت كل آية</span>${sw('tafsirUnder')}</div></section>
-    <section class="card"><h3>التلاوة</h3>
-      <div class="rowx"><span>سرعة التلاوة</span></div>${seg('speed', [[0.75, '٠٫٧٥×'], [1, '١×'], [1.25, '١٫٢٥×'], [1.5, '١٫٥×'], [2, '٢×']])}
-      <div class="rowx"><span>تكرار كل آية</span></div>${seg('repeat', [[1, 'بدون'], [2, '٢'], [3, '٣'], [5, '٥'], [10, '١٠']])}
-      <div class="rowx"><span>تشغيل متواصل<small>الانتقال تلقائياً إلى الآية التالية</small></span>${sw('continuous')}</div>
-      <div class="rowx"><span>متابعة الآية المقروءة<small>تقليب الصفحة تلقائياً مع التلاوة</small></span>${sw('follow')}</div>
-      <div class="rowx"><span>متابعة التلاوة بعد الخروج من المصحف</span>${sw('keepPlaying')}</div>
-      <div class="rowx"><span>إبقاء الشاشة مضاءة أثناء القراءة</span>${sw('wake')}</div></section>
-    <section class="card"><h3>الترجمة الألمانية (Deutsch)</h3>${seg('de', [[0, 'إيقاف'], [1, 'فقاعة'], [2, 'تحت كل آية']])}
-      <div class="rowx"><span><small>فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني<br>Übersetzung: Bubenheim &amp; Elyas</small></span></div></section>
-    <section class="card"><h3>عن التطبيق</h3><div class="rowx"><span>المطور: محمد صالح المحمد<small>Entwickler: Mouhamad Almuhamad</small></span></div></section>
-    <section class="card"><h3>حول</h3><small>نص القرآن: مجمع الملك فهد لطباعة المصحف الشريف (الخط والنص العثماني) عبر <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>، و<a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (CC BY 3.0). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a> و<a href="https://mp3quran.net" target="_blank" rel="noopener">mp3quran.net</a>. التفاسير: التفسير الميسر، <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a>، <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).</small></section>
+      <h3>${TR('وضوح خلفية التطبيق', 'Sichtbarkeit des App-Hintergrunds')}</h3><input type="range" data-rng="bgAlpha" min="0" max="0.7" step="0.05" value="${P.bgAlpha}">
+      <div class="rowx"><span>${TR('قلب الصفحات مثل المصحف', 'Umblättern wie im Mushaf')}<small>${TR('تأثير الورق عند الانتقال بين الصفحات', 'Papiereffekt beim Seitenwechsel')}</small></span>${sw('pageFlip')}</div></section>
+    <section class="card"><h3>${TR('التفسير', 'Tafsir')}</h3><small>${TR('اضغط مطولاً على أي آية (أو زر «التفسير» في شريط التلاوة) لعرض تفسيرها.', 'Lange auf einen Vers drücken (oder „Tafsir“ in der Wiedergabeleiste), um die Erklärung zu sehen. Der Tafsir ist auf Arabisch.')}</small>
+      ${seg('tafsir', TAFSIRS.map((t, i) => [i, t[0] + (i === 0 ? TR(' • بدون إنترنت', ' • offline') : '')]), 'col')}
+      <div class="rowx"><span>${TR('عرض التفسير تحت كل آية', 'Tafsir unter jedem Vers anzeigen')}</span>${sw('tafsirUnder')}</div></section>
+    <section class="card"><h3>${TR('التلاوة', 'Rezitation')}</h3>
+      <div class="rowx"><span>${TR('سرعة التلاوة', 'Wiedergabegeschwindigkeit')}</span></div>${seg('speed', [0.75, 1, 1.25, 1.5, 2].map(v => [v, AR(v) + '×']))}
+      <div class="rowx"><span>${TR('تكرار كل آية', 'Jeden Vers wiederholen')}</span></div>${seg('repeat', [[1, TR('بدون', 'Aus')], ...[2, 3, 5, 10].map(v => [v, AR(v)])])}
+      <div class="rowx"><span>${TR('تشغيل متواصل', 'Fortlaufende Wiedergabe')}<small>${TR('الانتقال تلقائياً إلى الآية التالية', 'Automatisch zum nächsten Vers')}</small></span>${sw('continuous')}</div>
+      <div class="rowx"><span>${TR('متابعة الآية المقروءة', 'Aktuellem Vers folgen')}<small>${TR('تقليب الصفحة تلقائياً مع التلاوة', 'Seite automatisch mit der Rezitation umblättern')}</small></span>${sw('follow')}</div>
+      <div class="rowx"><span>${TR('متابعة التلاوة بعد الخروج من المصحف', 'Rezitation nach Verlassen des Mushaf fortsetzen')}</span>${sw('keepPlaying')}</div>
+      <div class="rowx"><span>${TR('إبقاء الشاشة مضاءة أثناء القراءة', 'Bildschirm beim Lesen anlassen')}</span>${sw('wake')}</div></section>
+    <section class="card"><h3>${TR('الترجمة الألمانية (Deutsch)', 'Deutsche Übersetzung')}</h3>${seg('de', [[0, TR('إيقاف', 'Aus')], [1, TR('فقاعة', 'Sprechblase')], [2, TR('تحت كل آية', 'Unter jedem Vers')]])}
+      <div class="rowx"><span><small>${TR('فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني', 'Sprechblase: Übersetzung erscheint beim Antippen eines Verses • Unter jedem Vers: geteilte Ansicht Arabisch / Deutsch')}<br>Übersetzung: Bubenheim &amp; Elyas</small></span></div></section>
+    <section class="card"><h3>${TR('عن التطبيق', 'Über die App')}</h3><div class="rowx"><span>${TR('المطور: محمد صالح المحمد<small>Entwickler: Mouhamad Almuhamad</small>', 'Entwickler: Mouhamad Almuhamad<small>المطور: محمد صالح المحمد</small>')}</span></div></section>
+    <section class="card"><h3>${TR('حول', 'Quellen')}</h3><small>${TR('نص القرآن: مجمع الملك فهد لطباعة المصحف الشريف (الخط والنص العثماني) عبر <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>، و<a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (CC BY 3.0). التلاوات: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a> و<a href="https://mp3quran.net" target="_blank" rel="noopener">mp3quran.net</a>. التفاسير: التفسير الميسر، <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a>، <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>. مواقيت الصلاة: مكتبة Adhan (MIT).', 'Korantext: King-Fahd-Komplex zum Druck des Heiligen Koran (Uthmani-Schrift und -Text) über <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a> und <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (CC BY 3.0). Rezitationen: <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah.com</a> und <a href="https://mp3quran.net" target="_blank" rel="noopener">mp3quran.net</a>. Tafsir: Tafsir al-Muyassar, <a href="https://alquran.cloud" target="_blank" rel="noopener">alquran.cloud</a>, <a href="https://quran.com" target="_blank" rel="noopener">Quran.com</a>. Gebetszeiten: Adhan-Bibliothek (MIT). Übersetzung: Bubenheim &amp; Elyas.')}</small></section>
   </div>`;
   window.scrollTo(0, y);
 }
 function onPref(k) {
+  if (k === 'lang') { if (P.lang === 'de' && !P.de) { P.de = 2; save('prefs', P); } location.reload(); return; }
   if (k === 'de' && P.de) loadDE();
-  if (k === 'script') loadScript(P.script).then(() => { applyTheme(); if (route === 'settings') renderSettings(); }).catch(() => { toast('تعذر تحميل الرسم. تحقق من الاتصال بالإنترنت'); setP('script', 1); });
+  if (k === 'script') loadScript(P.script).then(() => { applyTheme(); if (route === 'settings') renderSettings(); }).catch(() => { toast(TR('تعذر تحميل الرسم. تحقق من الاتصال بالإنترنت', 'Schrift konnte nicht geladen werden. Bitte Internetverbindung prüfen.')); setP('script', 1); });
   if ((k === 'tafsir' || k === 'tafsirUnder') && route === 'read' && P.tafsirUnder) renderReader(curPage);
   if (k === 'tafsirUnder' && route === 'read' && !P.tafsirUnder) renderReader(curPage);
   if (k === 'speed') AU.el.playbackRate = P.speed;
@@ -506,11 +513,11 @@ const dlDone = () => load(dlKey(), []);
 function renderDownloads() {
   route = 'downloads';
   const done = dlDone();
-  $('#view').innerHTML = `${header('التنزيلات', rec(P.reciter).ar)}
-  <div class="pad"><div class="card"><p class="note">نزّل السور للاستماع بدون إنترنت. يمكن تغيير القارئ من الإعدادات. كل آية تستمع إليها تحفظ تلقائياً أيضاً.</p>
-    <div class="btns"><button class="btn" data-act="dlAll">${ic('download')} تنزيل القرآن كاملاً</button>${DL.cur || DL.q.length ? `<button class="btn ghost" data-act="dlCancel">إلغاء</button>` : ''}</div>
-    ${DL.cur ? `<small>جارٍ تنزيل <span class="q">${sname(DL.cur)}</span> ${AR(DL.done)}/${AR(DL.total)}${DL.q.length ? ` • ${AR(DL.q.length)} في الانتظار` : ''}</small><div class="prog"><i style="width:${DL.total ? DL.done / DL.total * 100 : 0}%"></i></div>` : ''}</div>
-  <div>${QD.surahs.map(s => `<div class="dlr"><span class="num">${AR(s.n)}</span><span class="rt"><span class="q nm">${s.name}</span><small>${AR(s.ayahs.length)} آية</small></span>${done.includes(s.n) ? `${ic('check')}<button class="ib" data-act="dlDel" data-n="${s.n}" aria-label="حذف">${ic('del')}</button>` : DL.cur === s.n || DL.q.includes(s.n) ? `<small>${DL.cur === s.n ? AR(Math.round(DL.done / Math.max(1, DL.total) * 100)) + '٪' : 'في الانتظار'}</small>` : `<button class="ib" data-act="dl" data-n="${s.n}" aria-label="تنزيل">${ic('download')}</button>`}</div>`).join('')}</div></div>`;
+  $('#view').innerHTML = `${header(TR('التنزيلات', 'Downloads'), rname(rec(P.reciter)))}
+  <div class="pad"><div class="card"><p class="note">${TR('نزّل السور للاستماع بدون إنترنت. يمكن تغيير القارئ من الإعدادات. كل آية تستمع إليها تحفظ تلقائياً أيضاً.', 'Lade Suren herunter, um offline zu hören. Den Rezitator änderst du in den Einstellungen. Jeder gehörte Vers wird auch automatisch gespeichert.')}</p>
+    <div class="btns"><button class="btn" data-act="dlAll">${ic('download')} ${TR('تنزيل القرآن كاملاً', 'Ganzen Koran herunterladen')}</button>${DL.cur || DL.q.length ? `<button class="btn ghost" data-act="dlCancel">${TR('إلغاء', 'Abbrechen')}</button>` : ''}</div>
+    ${DL.cur ? `<small>${TR('جارٍ تنزيل', 'Lade')} <span class="q">${sname(DL.cur)}</span> ${AR(DL.done)}/${AR(DL.total)}${DL.q.length ? ` • ${AR(DL.q.length)} ${TR('في الانتظار', 'wartend')}` : ''}</small><div class="prog"><i style="width:${DL.total ? DL.done / DL.total * 100 : 0}%"></i></div>` : ''}</div>
+  <div>${QD.surahs.map(s => `<div class="dlr"><span class="num">${AR(s.n)}</span><span class="rt"><span class="q nm">${sname(s.n)}</span><small>${AR(s.ayahs.length)} ${TR('آية', 'Verse')}</small></span>${done.includes(s.n) ? `${ic('check')}<button class="ib" data-act="dlDel" data-n="${s.n}" aria-label="${TR('حذف', 'Löschen')}">${ic('del')}</button>` : DL.cur === s.n || DL.q.includes(s.n) ? `<small>${DL.cur === s.n ? AR(Math.round(DL.done / Math.max(1, DL.total) * 100)) + TR('٪', '%') : TR('في الانتظار', 'wartend')}</small>` : `<button class="ib" data-act="dl" data-n="${s.n}" aria-label="${TR('تنزيل', 'Herunterladen')}">${ic('download')}</button>`}</div>`).join('')}</div></div>`;
 }
 function enqueue(ns) { navigator.storage?.persist?.(); for (const n of ns) if (!DL.q.includes(n) && DL.cur !== n && !dlDone().includes(n)) DL.q.push(n); if (!DL.cur) runDL(); else if (route === 'downloads') renderDownloads(); }
 async function runDL() {
@@ -526,7 +533,7 @@ async function runDL() {
         if (route === 'downloads') { const bar = $('.prog i'); if (bar) bar.style.width = DL.done / DL.total * 100 + '%'; }
       }
     }));
-    if (failed) { toast(audioErr(failed), 'إعادة المحاولة', () => enqueue([n])); DL.q = []; }
+    if (failed) { toast(audioErr(failed), TR('إعادة المحاولة', 'Erneut versuchen'), () => enqueue([n])); DL.q = []; }
     else if (!DL.cancel) { const k = 'dl:' + r, d = load(k, []); d.push(n); save(k, d); }
     DL.cur = null; if (route === 'downloads') renderDownloads();
   }
@@ -541,9 +548,9 @@ async function deleteSurah(n) {
 /* events */
 const ACT = {
   back, jump() {
-    const m = modal(`<h3>انتقال إلى صفحة</h3><input type="number" inputmode="numeric" min="1" max="604" placeholder="١ – ٦٠٤" id="jp"><div class="acts"><button class="btn ghost" data-close>إلغاء</button><button class="btn" id="jgo">انتقال</button></div>`);
+    const m = modal(`<h3>${TR('انتقال إلى صفحة', 'Zu Seite springen')}</h3><input type="number" inputmode="numeric" min="1" max="604" placeholder="${AR(1)} – ${AR(604)}" id="jp"><div class="acts"><button class="btn ghost" data-close>${TR('إلغاء', 'Abbrechen')}</button><button class="btn" id="jgo">${TR('انتقال', 'Los')}</button></div>`);
     const i = $('#jp', m); i.focus();
-    const ok = () => { const p = parseInt(String(i.value).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)), 10); if (p >= 1 && p <= 604) { m.remove(); go('read/' + p); } else toast('أدخل رقم صفحة من ١ إلى ٦٠٤'); };
+    const ok = () => { const p = parseInt(String(i.value).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)), 10); if (p >= 1 && p <= 604) { m.remove(); go('read/' + p); } else toast(TR('أدخل رقم صفحة من ١ إلى ٦٠٤', 'Seitenzahl von 1 bis 604 eingeben')); };
     $('#jgo', m).onclick = ok; i.onkeydown = e => { if (e.key === 'Enter') ok(); };
   },
   turn(el) { turn(+el.dataset.d); }, toggle: togglePlay, stop: stopAudio,
@@ -552,11 +559,11 @@ const ACT = {
   prevA: () => step(-1), nextA: () => step(1),
   speed() { const L = [0.75, 1, 1.25, 1.5, 2]; setP('speed', L[(L.indexOf(P.speed) + 1) % L.length]); renderBar(); },
   repeat() { const L = [1, 2, 3, 5, 10]; setP('repeat', L[(L.indexOf(P.repeat) + 1) % L.length]); renderBar(); },
-  bm(el) { const k = el.dataset.k; marks = marks.includes(k) ? marks.filter(x => x !== k) : [...marks, k]; save('marks', marks); toast(marks.includes(k) ? 'تمت إضافة العلامة' : 'تمت إزالة العلامة'); renderBar(); },
+  bm(el) { const k = el.dataset.k; marks = marks.includes(k) ? marks.filter(x => x !== k) : [...marks, k]; save('marks', marks); toast(marks.includes(k) ? TR('تمت إضافة العلامة', 'Lesezeichen gesetzt') : TR('تمت إزالة العلامة', 'Lesezeichen entfernt')); renderBar(); },
   hideInstall() { save('hideInstall', true); installHint(); },
   async install() { if (!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; installHint(); },
   dl(el) { enqueue([+el.dataset.n]); }, dlDel(el) { deleteSurah(+el.dataset.n); },
-  dlAll() { if (confirm('تنزيل القرآن كاملاً يحتاج مساحة كبيرة (قرابة ١ جيجابايت). هل تريد المتابعة؟')) enqueue(QD.surahs.map(s => s.n)); },
+  dlAll() { if (confirm(TR('تنزيل القرآن كاملاً يحتاج مساحة كبيرة (قرابة ١ جيجابايت). هل تريد المتابعة؟', 'Der ganze Koran braucht viel Speicherplatz (ca. 1 GB). Fortfahren?'))) enqueue(QD.surahs.map(s => s.n)); },
   dlCancel() { DL.cancel = true; DL.q = []; renderDownloads(); },
 };
 document.addEventListener('click', e => {
@@ -578,7 +585,7 @@ document.addEventListener('keydown', e => { if (route === 'read' && !e.target.cl
 
 async function init() {
   applyTheme();
-  try { await loadData(); await loadScript(P.script).catch(() => { SC = null; }); applyTheme(); } catch { $('#view').innerHTML = `<div class="empty">تعذر تحميل بيانات القرآن. تحقق من الاتصال ثم <a href="">أعد المحاولة</a>.</div>`; return; }
+  try { await loadData(); await loadScript(P.script).catch(() => { SC = null; }); applyTheme(); } catch { $('#view').innerHTML = `<div class="empty">${TR('تعذر تحميل بيانات القرآن. تحقق من الاتصال ثم', 'Korandaten konnten nicht geladen werden. Verbindung prüfen und')} <a href="">${TR('أعد المحاولة', 'erneut versuchen')}</a>.</div>`; return; }
   render(); Prayer.init();
   const sp = $('#splash'); if (sp) setTimeout(() => { sp.classList.add('out'); setTimeout(() => sp.remove(), 300); }, Math.max(0, 1500 - performance.now()));
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
