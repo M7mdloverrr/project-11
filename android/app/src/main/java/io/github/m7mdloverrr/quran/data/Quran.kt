@@ -161,7 +161,8 @@ object Reciters {
     fun byId(id: String?) = all.firstOrNull { it.id == id } ?: all[0]
 }
 
-fun Int.ar(): String = toString().map { if (it.isDigit()) (it - '0' + 0x0660).toChar() else it }.joinToString("")
+fun Int.ar(): String = if (Lang.de) toString() else arq()
+fun Int.arq(): String = toString().map { if (it.isDigit()) (it - '0' + 0x0660).toChar() else it }.joinToString("")
 
 object GermanRepository {
     @Volatile private var cached: List<List<String>>? = null
@@ -197,10 +198,10 @@ class QuranScript(val nameAr: String, val asset: String?)
 
 object Scripts {
     val all = listOf(
-        QuranScript("الرسم العثماني • مجمع الملك فهد", "script_qpc.json"),
-        QuranScript("الرسم العثماني • تنزيل", null),
-        QuranScript("الرسم الإملائي", "script_imlaei.json"),
-        QuranScript("الرسم الهندي/الباكستاني", "script_indopak.json"),
+        QuranScript(TR("الرسم العثماني • مجمع الملك فهد", "Uthmani • King-Fahd-Komplex"), "script_qpc.json"),
+        QuranScript(TR("الرسم العثماني • تنزيل", "Uthmani • Tanzil"), null),
+        QuranScript(TR("الرسم الإملائي", "Imlaei (einfache Schreibweise)"), "script_imlaei.json"),
+        QuranScript(TR("الرسم الهندي/الباكستاني", "IndoPak"), "script_indopak.json"),
     )
     var index by mutableIntStateOf(0)
         private set

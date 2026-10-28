@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.data.Scripts
 import io.github.m7mdloverrr.quran.data.shownBasmala
 
@@ -78,12 +80,27 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
     val uri = LocalUriHandler.current
     Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
-            title = { Text("الإعدادات") },
-            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+            title = { Text(TR("الإعدادات", "Einstellungen")) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
         )
     }) { pad ->
         Column(Modifier.padding(pad).verticalScroll(rememberScrollState())) {
-            Section("القارئ") {
+            Section(TR("اللغة • Language", "Sprache • Language")) {
+                val ctx = androidx.compose.ui.platform.LocalContext.current
+                val langs = listOf("العربية", "Deutsch")
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    langs.forEachIndexed { i, l ->
+                        SegmentedButton((if (Lang.de) 1 else 0) == i, {
+                            if ((i == 1) != Lang.de) {
+                                if (i == 1 && st.germanMode == 0) kotlinx.coroutines.runBlocking { Prefs(ctx).set(Prefs.Keys.germanMode, 2) }
+                                Lang.switch(ctx, i == 1)
+                            }
+                        }, SegmentedButtonDefaults.itemShape(i, langs.size)) { Text(l) }
+                    }
+                }
+                Text(TR("Deutsch: التطبيق كله بالألمانية (نص القرآن يبقى بالعربية)", "Die ganze App auf Deutsch (der Korantext bleibt Arabisch)"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Section(TR("القارئ", "Rezitator")) {
                 Reciters.all.forEach { r ->
                     Row(
                         Modifier.fillMaxWidth().clickable { vm.setReciter(r) }.padding(vertical = 4.dp),
@@ -91,21 +108,21 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     ) {
                         RadioButton(selected = st.reciter.id == r.id, onClick = { vm.setReciter(r) })
                         Column {
-                            Text(r.nameAr, style = MaterialTheme.typography.bodyLarge)
-                            Text(r.nameEn, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(r.label, style = MaterialTheme.typography.bodyLarge)
+                            Text(if (Lang.de) r.nameAr else r.nameEn, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }
             }
-            Section("المظهر") {
-                val labels = listOf("تلقائي", "فاتح", "داكن")
+            Section(TR("المظهر", "Design")) {
+                val labels = listOf(TR("تلقائي", "Automatisch"), TR("فاتح", "Hell"), TR("داكن", "Dunkel"))
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     labels.forEachIndexed { i, l ->
                         SegmentedButton(st.theme == i, { vm.setTheme(i) }, SegmentedButtonDefaults.itemShape(i, labels.size)) { Text(l) }
                     }
                 }
             }
-            Section("حجم خط المصحف") {
+            Section(TR("حجم خط المصحف", "Schriftgröße im Mushaf")) {
                 var size by remember(st.fontSize) { mutableFloatStateOf(st.fontSize) }
                 Slider(size, { size = it }, valueRange = 18f..44f, steps = 12, onValueChangeFinished = { vm.setFontSize(size) })
                 Surface(color = LocalPageColors.current.page, shape = MaterialTheme.shapes.medium) {
@@ -116,7 +133,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     )
                 }
             }
-            Section("رسم المصحف") {
+            Section(TR("رسم المصحف", "Schrift")) {
                 Scripts.all.forEachIndexed { i, sc ->
                     Row(Modifier.fillMaxWidth().clickable { vm.setPref(Prefs.Keys.script, i) }, verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(selected = st.script == i, onClick = { vm.setPref(Prefs.Keys.script, i) })
@@ -124,7 +141,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     }
                 }
             }
-            if (ScriptFonts.getOrNull(st.script) == null) Section("خط المصحف") {
+            if (ScriptFonts.getOrNull(st.script) == null) Section(TR("خط المصحف", "Schriftart")) {
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     QuranFonts.forEachIndexed { i, (name, family) ->
                         SegmentedButton(st.quranFont == i, { vm.setPref(Prefs.Keys.quranFont, i) }, SegmentedButtonDefaults.itemShape(i, QuranFonts.size)) {
@@ -133,84 +150,84 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit) {
                     }
                 }
             }
-            Section("وضوح خلفية التطبيق") {
+            Section(TR("وضوح خلفية التطبيق", "Sichtbarkeit des App-Hintergrunds")) {
                 var a by remember(st.bgAlpha) { mutableFloatStateOf(st.bgAlpha) }
                 Slider(a, { a = it }, valueRange = 0f..0.7f, onValueChangeFinished = { vm.setPref(Prefs.Keys.bgAlpha, a) })
             }
-            Section("القراءة") {
-                Text("لون صفحة المصحف", style = MaterialTheme.typography.bodyMedium)
+            Section(TR("القراءة", "Lesen")) {
+                Text(TR("لون صفحة المصحف", "Seitenfarbe"), style = MaterialTheme.typography.bodyMedium)
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     PageStyleNames.forEachIndexed { i, l ->
                         SegmentedButton(st.pageStyle == i, { vm.setPref(Prefs.Keys.pageStyle, i) }, SegmentedButtonDefaults.itemShape(i, PageStyleNames.size)) { Text(l, fontSize = 11.sp, maxLines = 1) }
                     }
                 }
-                Text("تباعد الأسطر", style = MaterialTheme.typography.bodyMedium)
-                val spacings = listOf(1.7f to "ضيق", 2.05f to "عادي", 2.4f to "واسع")
+                Text(TR("تباعد الأسطر", "Zeilenabstand"), style = MaterialTheme.typography.bodyMedium)
+                val spacings = listOf(1.7f to TR("ضيق", "Eng"), 2.05f to TR("عادي", "Normal"), 2.4f to TR("واسع", "Weit"))
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     spacings.forEachIndexed { i, (v, l) ->
                         SegmentedButton(st.lineSpacing == v, { vm.setPref(Prefs.Keys.lineSpacing, v) }, SegmentedButtonDefaults.itemShape(i, spacings.size)) { Text(l) }
                     }
                 }
-                SwitchRow("إبقاء الشاشة مضاءة أثناء القراءة", st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
-                SwitchRow("متابعة الآية المتلوة تلقائيًا", st.follow) { vm.setPref(Prefs.Keys.follow, it) }
-                SwitchRow("قلب الصفحات مثل المصحف (تأثير الورق)", st.pageFlip) { vm.setPref(Prefs.Keys.pageFlip, it) }
+                SwitchRow(TR("إبقاء الشاشة مضاءة أثناء القراءة", "Bildschirm beim Lesen anlassen"), st.keepScreenOn) { vm.setPref(Prefs.Keys.keepScreenOn, it) }
+                SwitchRow(TR("متابعة الآية المتلوة تلقائيًا", "Rezitiertem Vers automatisch folgen"), st.follow) { vm.setPref(Prefs.Keys.follow, it) }
+                SwitchRow(TR("قلب الصفحات مثل المصحف (تأثير الورق)", "Umblättern wie im Mushaf (Papiereffekt)"), st.pageFlip) { vm.setPref(Prefs.Keys.pageFlip, it) }
             }
-            Section("التفسير (اضغط مطولًا على الآية)") {
+            Section(TR("التفسير (اضغط مطولًا على الآية)", "Tafsir (lange auf einen Vers drücken; auf Arabisch)")) {
                 Tafsirs.all.forEachIndexed { i, t ->
                     Row(
                         Modifier.fillMaxWidth().clickable { vm.setPref(Prefs.Keys.tafsir, i) },
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         RadioButton(selected = st.tafsir == i, onClick = { vm.setPref(Prefs.Keys.tafsir, i) })
-                        Text(t.nameAr + if (i == 0) " • بدون إنترنت" else "", style = MaterialTheme.typography.bodyLarge)
+                        Text(t.nameAr + if (i == 0) TR(" • بدون إنترنت", " • offline") else "", style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
-            Section("الترجمة الألمانية (Deutsch)") {
-                val modes = listOf("إيقاف", "فقاعة", "تحت كل آية")
+            Section(TR("الترجمة الألمانية (Deutsch)", "Deutsche Übersetzung")) {
+                val modes = listOf(TR("إيقاف", "Aus"), TR("فقاعة", "Sprechblase"), TR("تحت كل آية", "Unter jedem Vers"))
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     modes.forEachIndexed { i, l ->
                         SegmentedButton(st.germanMode == i, { vm.setPref(Prefs.Keys.germanMode, i) }, SegmentedButtonDefaults.itemShape(i, modes.size)) { Text(l, fontSize = 12.sp, maxLines = 1) }
                     }
                 }
                 Text(
-                    "فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني",
+                    TR("فقاعة: تظهر الترجمة عند الضغط على الآية • تحت كل آية: عرض مقسوم عربي / ألماني", "Sprechblase: Übersetzung erscheint beim Antippen eines Verses • Unter jedem Vers: geteilte Ansicht Arabisch / Deutsch"),
                     Modifier.padding(top = 6.dp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                SwitchRow("عرض التفسير تحت الترجمة", st.tafsirUnder) { vm.setPref(Prefs.Keys.tafsirUnder, it) }
+                SwitchRow(TR("عرض التفسير تحت الترجمة", "Tafsir unter der Übersetzung anzeigen"), st.tafsirUnder) { vm.setPref(Prefs.Keys.tafsirUnder, it) }
             }
-            Section("التلاوة") {
-                Text("سرعة التلاوة", style = MaterialTheme.typography.bodyMedium)
+            Section(TR("التلاوة", "Rezitation")) {
+                Text(TR("سرعة التلاوة", "Wiedergabegeschwindigkeit"), style = MaterialTheme.typography.bodyMedium)
                 val speeds = listOf(0.75f, 1f, 1.25f, 1.5f, 2f)
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     speeds.forEachIndexed { i, v ->
                         SegmentedButton(st.speed == v, { vm.setSpeed(v) }, SegmentedButtonDefaults.itemShape(i, speeds.size)) { Text("${v}x", fontSize = 12.sp) }
                     }
                 }
-                Text("تكرار كل آية", style = MaterialTheme.typography.bodyMedium)
+                Text(TR("تكرار كل آية", "Jeden Vers wiederholen"), style = MaterialTheme.typography.bodyMedium)
                 val reps = listOf(1, 2, 3, 5, 0)
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                     reps.forEachIndexed { i, v ->
                         SegmentedButton(st.repeat == v, { vm.setRepeat(v) }, SegmentedButtonDefaults.itemShape(i, reps.size)) { Text(if (v == 0) "∞" else v.ar()) }
                     }
                 }
-                SwitchRow("متابعة التشغيل إلى السورة التالية", st.continuous) { vm.setContinuous(it) }
-                SwitchRow("استمرار التلاوة بعد الخروج من صفحة المصحف", st.backgroundPlay) { vm.setPref(Prefs.Keys.backgroundPlay, it) }
+                SwitchRow(TR("متابعة التشغيل إلى السورة التالية", "Mit der nächsten Sure weiterspielen"), st.continuous) { vm.setContinuous(it) }
+                SwitchRow(TR("استمرار التلاوة بعد الخروج من صفحة المصحف", "Rezitation nach Verlassen des Mushaf fortsetzen"), st.backgroundPlay) { vm.setPref(Prefs.Keys.backgroundPlay, it) }
             }
-            Section("عن التطبيق") {
-                Text("المطور: محمد صالح المحمد", style = MaterialTheme.typography.bodyMedium)
+            Section(TR("عن التطبيق", "Über die App")) {
+                Text(TR("المطور: محمد صالح المحمد", "Entwickler: Mouhamad Almuhamad"), style = MaterialTheme.typography.bodyMedium)
                 Text("Entwickler: Mouhamad Almuhamad", style = MaterialTheme.typography.bodyMedium)
             }
-            Section("المصادر") {
+            Section(TR("المصادر", "Quellen")) {
                 Text(
-                    "نص القرآن الكريم: مشروع تنزيل (Tanzil Project) — رسم عثماني، منقول حرفيًا دون أي تعديل. " +
+                    TR("نص القرآن الكريم: مشروع تنزيل (Tanzil Project) — رسم عثماني، منقول حرفيًا دون أي تعديل. ", "Korantext: Tanzil Project – Uthmani-Schrift, unverändert übernommen. ") +
                         "Tanzil Quran Text, Copyright (C) 2007-2021 Tanzil Project, CC BY 3.0.",
                     style = MaterialTheme.typography.bodySmall,
                 )
                 Text("tanzil.net", Modifier.clickable { uri.openUri("https://tanzil.net/") }.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.primary)
-                Text("التلاوات (آية بآية): EveryAyah.com", style = MaterialTheme.typography.bodySmall)
+                Text(TR("التلاوات (آية بآية): EveryAyah.com", "Rezitationen (Vers für Vers): EveryAyah.com"), style = MaterialTheme.typography.bodySmall)
                 Text("everyayah.com", Modifier.clickable { uri.openUri("https://everyayah.com/") }.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.primary)
-                Text("خط المصحف: Amiri Quran (SIL Open Font License)", style = MaterialTheme.typography.bodySmall)
+                Text(TR("خط المصحف: Amiri Quran (SIL Open Font License)", "Mushaf-Schrift: Amiri Quran (SIL Open Font License)"), style = MaterialTheme.typography.bodySmall)
                 Text("Deutsche Übersetzung: A. S. F. Bubenheim & N. Elyas (via Tanzil.net)", style = MaterialTheme.typography.bodySmall)
             }
         }

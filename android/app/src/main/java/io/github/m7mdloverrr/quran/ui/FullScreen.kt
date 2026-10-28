@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -46,7 +48,7 @@ fun FullScreenEffect(on: Boolean) {
 
 @Composable
 fun FullScreenAction(onClick: () -> Unit) =
-    IconButton(onClick = onClick) { Icon(Icons.Rounded.Fullscreen, "ملء الشاشة") }
+    IconButton(onClick = onClick) { Icon(Icons.Rounded.Fullscreen, TR("ملء الشاشة", "Vollbild")) }
 
 @Composable
 fun ExitFullScreenButton(onExit: () -> Unit) = SmallFloatingActionButton(
@@ -54,7 +56,7 @@ fun ExitFullScreenButton(onExit: () -> Unit) = SmallFloatingActionButton(
     containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f),
     contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
     elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
-) { Icon(Icons.Rounded.FullscreenExit, "الخروج من ملء الشاشة") }
+) { Icon(Icons.Rounded.FullscreenExit, TR("الخروج من ملء الشاشة", "Vollbild beenden")) }
 
 /** Thin top row holding only the exit button, so it never covers the page or the controls. */
 @Composable

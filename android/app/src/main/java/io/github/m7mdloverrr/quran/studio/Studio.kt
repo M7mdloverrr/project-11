@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.studio
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.data.shown
 import android.content.ContentValues
 import android.content.Context
@@ -57,12 +59,12 @@ class Background(val id: String, val nameAr: String, val thumb: Int, val credit:
 }
 
 val Backgrounds = listOf(
-    Background("waterfall", "شلال", R.drawable.bg_waterfall, "Llywelyn2000, CC BY-SA 4.0 — Wikimedia Commons"),
-    Background("forest", "غابة", R.drawable.bg_forest, "Queen Asali, CC BY-SA 4.0 — Wikimedia Commons"),
-    Background("ocean", "بحر", R.drawable.bg_ocean, "Nature video, HD - 4K, CC BY 3.0 — Wikimedia Commons"),
-    Background("mountains", "جبال", R.drawable.bg_mountains, "Pastelitodepapa, CC0 — Wikimedia Commons"),
-    Background("rain", "مطر", R.drawable.bg_rain, "Shishirdasika, CC BY-SA 4.0 — Wikimedia Commons"),
-    Background("sunset", "غروب", R.drawable.bg_sunset, "Ian Furst, CC BY-SA 4.0 — Wikimedia Commons"),
+    Background("waterfall", TR("شلال", "Wasserfall"), R.drawable.bg_waterfall, "Llywelyn2000, CC BY-SA 4.0 — Wikimedia Commons"),
+    Background("forest", TR("غابة", "Wald"), R.drawable.bg_forest, "Queen Asali, CC BY-SA 4.0 — Wikimedia Commons"),
+    Background("ocean", TR("بحر", "Meer"), R.drawable.bg_ocean, "Nature video, HD - 4K, CC BY 3.0 — Wikimedia Commons"),
+    Background("mountains", TR("جبال", "Berge"), R.drawable.bg_mountains, "Pastelitodepapa, CC0 — Wikimedia Commons"),
+    Background("rain", TR("مطر", "Regen"), R.drawable.bg_rain, "Shishirdasika, CC BY-SA 4.0 — Wikimedia Commons"),
+    Background("sunset", TR("غروب", "Sonnenuntergang"), R.drawable.bg_sunset, "Ian Furst, CC BY-SA 4.0 — Wikimedia Commons"),
 )
 
 val TextColors = listOf(0xFFFFFFFF, 0xFFF4D58D, 0xFFBDEFD9, 0xFF111111)
@@ -101,7 +103,7 @@ class VerseRenderer(context: Context, val cfg: StudioStyle, private val surahNam
             textSize = 72f * unit * cfg.size
             if (cfg.shadow) setShadowLayer(14f * unit, 0f, 4f * unit, 0xD0000000.toInt())
         }
-        val text = ayah.shown + (if (io.github.m7mdloverrr.quran.data.Scripts.index == 0) " " else " \u06DD") + ayah.number.ar()
+        val text = ayah.shown + (if (io.github.m7mdloverrr.quran.data.Scripts.index == 0) " " else " \u06DD") + ayah.number.arq()
         val maxW = (w * 0.86f).toInt()
         val maxH = h * 0.62f
         var layout: StaticLayout
@@ -131,7 +133,7 @@ class VerseRenderer(context: Context, val cfg: StudioStyle, private val surahNam
             if (cfg.shadow) setShadowLayer(10f * unit, 0f, 3f * unit, 0xD0000000.toInt())
         }
         val capY = if (cfg.position == 2) top - 36f * unit else top + layout.height + 64f * unit
-        canvas.drawText("$surahName • الآية ${ayah.number.ar()} • $reciterName", w / 2f, capY, cap)
+        canvas.drawText(TR("$surahName • الآية ${ayah.number.ar()} • $reciterName", "$surahName • Vers ${ayah.number.ar()} • $reciterName"), w / 2f, capY, cap)
         return bmp
     }
 }

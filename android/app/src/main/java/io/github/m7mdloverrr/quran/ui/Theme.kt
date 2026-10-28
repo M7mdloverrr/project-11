@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -20,14 +22,15 @@ val DarkGreen = Color(0xFF063D2C)
 val Ink = Color(0xFF0A0D0C)
 
 val QuranFonts = listOf(
-    "أميري قرآن" to FontFamily(Font(R.font.amiri_quran)),
-    "أميري" to FontFamily(Font(R.font.amiri)),
-    "شهرزاد" to FontFamily(Font(R.font.scheherazade)),
-    "نسخ" to FontFamily(Font(R.font.noto_naskh)),
+    TR("أميري قرآن", "Amiri Quran") to FontFamily(Font(R.font.amiri_quran)),
+    TR("أميري", "Amiri") to FontFamily(Font(R.font.amiri)),
+    TR("شهرزاد", "Scheherazade") to FontFamily(Font(R.font.scheherazade)),
+    TR("نسخ", "Naskh") to FontFamily(Font(R.font.noto_naskh)),
 )
 var quranFontIndex by mutableIntStateOf(0)
 val QuranFont: FontFamily get() = QuranFonts.getOrElse(quranFontIndex) { QuranFonts[0] }.second
 val ScriptFonts: List<FontFamily?> = listOf(FontFamily(Font(R.font.kfgqpc_hafs)), null, null, FontFamily(Font(R.font.indopak)))
+val NameFont: FontFamily get() = if (Lang.de) FontFamily.Default else QuranFont
 val AyahFont: FontFamily get() = ScriptFonts.getOrNull(io.github.m7mdloverrr.quran.data.Scripts.index) ?: QuranFont
 
 class PageColors(val page: Color, val text: Color, val mark: Color, val highlight: Color, val selected: Color)
@@ -80,7 +83,7 @@ private val Dark = darkColorScheme(
     outlineVariant = Color(0xFF26332E),
 )
 
-val PageStyleNames = listOf("ورق المصحف", "كريمي", "أخضر هادئ", "سادة")
+val PageStyleNames = listOf(TR("ورق المصحف", "Mushaf-Papier"), TR("كريمي", "Creme"), TR("أخضر هادئ", "Sanftes Grün"), TR("سادة", "Schlicht"))
 
 private val lightPages = listOf(
     Color(0xFFFBF3DF) to Color(0xFF1B1B18),

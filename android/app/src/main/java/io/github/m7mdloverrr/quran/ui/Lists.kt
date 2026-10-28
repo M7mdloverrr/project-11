@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,7 +41,7 @@ fun NumberBadge(n: Int, modifier: Modifier = Modifier) {
 
 @Composable
 fun SurahRow(surah: Surah, onClick: () -> Unit, trailing: @Composable () -> Unit = {
-    Text("ص ${surah.startPage.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    Text(TR("ص ${surah.startPage.ar()}", "S. ${surah.startPage.ar()}"), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }) {
     Row(
         Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 16.dp, vertical = 10.dp),
@@ -48,9 +50,9 @@ fun SurahRow(surah: Surah, onClick: () -> Unit, trailing: @Composable () -> Unit
     ) {
         NumberBadge(surah.number)
         Column(Modifier.weight(1f)) {
-            Text(surah.name, fontFamily = QuranFont, fontSize = 21.sp, color = MaterialTheme.colorScheme.onSurface)
+            Text(surah.title, fontFamily = NameFont, fontSize = 21.sp, color = MaterialTheme.colorScheme.onSurface)
             Text(
-                "${if (surah.isMeccan) "مكية" else "مدنية"} • ${surah.ayahs.size.ar()} آية • ${surah.englishName}",
+                "${if (surah.isMeccan) TR("مكية", "mekkanisch") else TR("مدنية", "medinensisch")} • ${surah.ayahs.size.ar()} ${TR("آية", "Verse")} • ${surah.englishName}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -86,18 +88,18 @@ fun LazyListScope.juzItems(quran: Quran, onOpenPage: (Int) -> Unit) {
         ) {
             NumberBadge(i + 1)
             Column(Modifier.weight(1f)) {
-                Text("الجزء ${(i + 1).ar()}", style = MaterialTheme.typography.titleMedium)
+                Text(TR("الجزء ${(i + 1).ar()}", "Teil ${(i + 1).ar()}"), style = MaterialTheme.typography.titleMedium)
                 Text(
                     a.text.split(" ").take(5).joinToString(" "),
                     fontFamily = QuranFont, fontSize = 16.sp, maxLines = 1,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    "${quran.surah(a.surah).name} • الآية ${a.number.ar()}",
+                    "${quran.surah(a.surah).title} • ${TR("الآية", "Vers")} ${a.number.ar()}",
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            Text("ص ${a.page.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(TR("ص ${a.page.ar()}", "S. ${a.page.ar()}"), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
     }

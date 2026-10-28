@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -171,13 +173,13 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
     BackHandler(full) { full = false }
     Scaffold(containerColor = Color.Transparent, topBar = {
         if (full) ExitFullScreenBar { full = false } else TopAppBar(
-            title = { Text("التسميع") },
+            title = { Text(TR("التسميع", "Tasmee")) },
             navigationIcon = {
                 IconButton(onClick = { if (vm.phase != Phase.Setup) vm.backToSetup() else onBack() }) {
-                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع")
+                    Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück"))
                 }
             },
-            actions = { FullScreenAction { full = true }; IconButton(onClick = { showSettings = true }) { Icon(Icons.Rounded.Tune, "إعدادات التسميع") } },
+            actions = { FullScreenAction { full = true }; IconButton(onClick = { showSettings = true }) { Icon(Icons.Rounded.Tune, TR("إعدادات التسميع", "Tasmee-Einstellungen")) } },
         )
     }) { pad ->
         val q = quran
@@ -203,36 +205,36 @@ fun TasmeeScreen(app: AppViewModel, onBack: () -> Unit) {
         val r = vm.marks.getOrNull(vm.mistakeAt)
         if (w != null) AlertDialog(
             onDismissRequest = {},
-            title = { Text(if (r?.mark == Mark.Missed) "فاتتك كلمة" else "خطأ في التلاوة") },
+            title = { Text(if (r?.mark == Mark.Missed) TR("فاتتك كلمة", "Wort ausgelassen") else TR("خطأ في التلاوة", "Rezitationsfehler")) },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                    Text("الصواب", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(TR("الصواب", "Richtig"), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(w.text, fontFamily = QpcFont, fontSize = 34.sp, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center)
                     r?.heard?.let {
                         Spacer(Modifier.height(8.dp))
-                        Text("سمعتُ: $it", style = MaterialTheme.typography.bodyMedium, color = WrongRed)
+                        Text(TR("سمعتُ: $it", "Gehört: $it"), style = MaterialTheme.typography.bodyMedium, color = WrongRed)
                     }
-                    Text("الآية ${w.ayah.ar()}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(TR("الآية ${w.ayah.ar()}", "Vers ${w.ayah.ar()}"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             },
-            confirmButton = { Button(onClick = vm::continueAfterMistake) { Text("تابع") } },
-            dismissButton = { TextButton(onClick = vm::retryMistake) { Text("أعد من هذه الكلمة") } },
+            confirmButton = { Button(onClick = vm::continueAfterMistake) { Text(TR("تابع", "Weiter")) } },
+            dismissButton = { TextButton(onClick = vm::retryMistake) { Text(TR("أعد من هذه الكلمة", "Ab diesem Wort wiederholen")) } },
         )
     }
     if (denied) AlertDialog(
         onDismissRequest = { denied = false },
-        title = { Text("إذن الميكروفون") },
-        text = { Text("يحتاج التسميع إلى الميكروفون ليستمع إلى تلاوتك. الصوت يُعالج على هاتفك فقط ولا يُرسل إلى أي مكان.") },
+        title = { Text(TR("إذن الميكروفون", "Mikrofonberechtigung")) },
+        text = { Text(TR("يحتاج التسميع إلى الميكروفون ليستمع إلى تلاوتك. الصوت يُعالج على هاتفك فقط ولا يُرسل إلى أي مكان.", "Tasmee braucht das Mikrofon, um deine Rezitation zu hören. Der Ton wird nur auf deinem Handy verarbeitet und nirgendwohin gesendet.")) },
         confirmButton = {
             TextButton(onClick = {
                 denied = false
                 ctx.startActivity(Intent(AndroidSettings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", ctx.packageName, null)))
-            }) { Text("فتح الإعدادات") }
+            }) { Text(TR("فتح الإعدادات", "Einstellungen öffnen")) }
         },
-        dismissButton = { TextButton(onClick = { denied = false }) { Text("إلغاء") } },
+        dismissButton = { TextButton(onClick = { denied = false }) { Text(TR("إلغاء", "Abbrechen")) } },
     )
     vm.error?.let { e ->
-        AlertDialog(onDismissRequest = { vm.error = null }, text = { Text(e) }, confirmButton = { TextButton(onClick = { vm.error = null }) { Text("حسناً") } })
+        AlertDialog(onDismissRequest = { vm.error = null }, text = { Text(e) }, confirmButton = { TextButton(onClick = { vm.error = null }) { Text(TR("حسناً", "OK")) } })
     }
 }
 
@@ -251,9 +253,9 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
                     Icon(Icons.Rounded.Mic, null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(34.dp))
                 }
                 Spacer(Modifier.height(10.dp))
-                Text("سمِّع حفظك", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text(TR("سمِّع حفظك", "Sag deinen Hifz auf"), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 Text(
-                    "الآيات مخفية. ابدأ التلاوة وستظهر كل كلمة عند قراءتها، وتُعلَّم الأخطاء والكلمات الفائتة.",
+                    TR("الآيات مخفية. ابدأ التلاوة وستظهر كل كلمة عند قراءتها، وتُعلَّم الأخطاء والكلمات الفائتة.", "Die Verse sind verborgen. Beginne zu rezitieren – jedes Wort erscheint, wenn du es liest; Fehler und ausgelassene Wörter werden markiert."),
                     style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
@@ -262,23 +264,23 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
             Icon(Icons.Rounded.Mic, null)
             Spacer(Modifier.width(8.dp))
             Column {
-                Text("تسميع تلقائي", style = MaterialTheme.typography.titleMedium)
-                Text("اقرأ من أي سورة وسيعرفها التطبيق", style = MaterialTheme.typography.bodySmall)
+                Text(TR("تسميع تلقائي", "Automatisches Tasmee"), style = MaterialTheme.typography.titleMedium)
+                Text(TR("اقرأ من أي سورة وسيعرفها التطبيق", "Rezitiere aus einer beliebigen Sure – die App erkennt sie"), style = MaterialTheme.typography.bodySmall)
             }
         }
-        Text("المقطع", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Text(TR("المقطع", "Abschnitt"), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
         Surface(onClick = { pick = true }, shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
             Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
-                    Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 24.sp)
-                    Text("${count.ar()} آية • اضغط لاختيار سورة أخرى", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(q.surah(surah).title, fontFamily = NameFont, fontSize = 24.sp)
+                    Text(TR("${count.ar()} آية • اضغط لاختيار سورة أخرى", "${count.ar()} Verse • tippen, um eine andere Sure zu wählen"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Text(surah.ar(), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
             }
         }
         Surface(shape = MaterialTheme.shapes.large, color = MaterialTheme.colorScheme.surfaceContainer) {
             Column(Modifier.fillMaxWidth().padding(16.dp)) {
-                Text("من الآية ${from.toInt().ar()} إلى الآية ${to.toInt().ar()}", style = MaterialTheme.typography.titleMedium)
+                Text(TR("من الآية ${from.toInt().ar()} إلى الآية ${to.toInt().ar()}", "Vers ${from.toInt().ar()} bis ${to.toInt().ar()}"), style = MaterialTheme.typography.titleMedium)
                 if (count > 1) RangeSlider(
                     value = from..to,
                     onValueChange = { from = it.start.toInt().toFloat(); to = it.endInclusive.toInt().toFloat() },
@@ -291,7 +293,7 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
             if (ready) Icon(Icons.Rounded.CheckCircle, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
             else CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
             Text(
-                if (ready) "المصحح الصوتي جاهز • يعمل دون إنترنت" else "جارٍ تجهيز المصحح الصوتي…",
+                if (ready) TR("المصحح الصوتي جاهز • يعمل دون إنترنت", "Sprachkorrektur bereit • funktioniert offline") else TR("جارٍ تجهيز المصحح الصوتي…", "Sprachkorrektur wird vorbereitet…"),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -301,15 +303,15 @@ private fun SetupPane(q: Quran, st: TasmeeSettings, lastSurah: Int, ready: Boole
         ) {
             Icon(Icons.Rounded.Mic, null)
             Spacer(Modifier.width(8.dp))
-            Text("ابدأ التسميع", style = MaterialTheme.typography.titleMedium)
+            Text(TR("ابدأ التسميع", "Tasmee starten"), style = MaterialTheme.typography.titleMedium)
         }
         OutlinedButton(onClick = { onFollow(surah) }, enabled = ready, modifier = Modifier.fillMaxWidth().height(56.dp)) {
             Icon(Icons.AutoMirrored.Rounded.MenuBook, null)
             Spacer(Modifier.width(8.dp))
-            Text("تسميع والسورة ظاهرة", style = MaterialTheme.typography.titleMedium)
+            Text(TR("تسميع والسورة ظاهرة", "Tasmee mit sichtbarer Sure"), style = MaterialTheme.typography.titleMedium)
         }
         Text(
-            "تُعرض السورة كاملة، وتُظلَّل الآية التي تقرؤها بالأخضر ويتحرك مربع أخضر مع كل كلمة.",
+            TR("تُعرض السورة كاملة، وتُظلَّل الآية التي تقرؤها بالأخضر ويتحرك مربع أخضر مع كل كلمة.", "Die ganze Sure wird angezeigt; der Vers, den du liest, wird grün markiert und ein grünes Kästchen folgt jedem Wort."),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth(),
         )
@@ -322,23 +324,23 @@ private fun SurahPicker(q: Quran, onDismiss: () -> Unit, onPick: (Int) -> Unit) 
     var query by remember { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("اختر السورة") },
+        title = { Text(TR("اختر السورة", "Sure wählen")) },
         text = {
             Column {
-                OutlinedTextField(query, { query = it }, singleLine = true, label = { Text("بحث") }, modifier = Modifier.fillMaxWidth())
-                val list = q.surahs.filter { query.isBlank() || it.name.contains(query.trim()) || it.number.toString() == query.trim() || it.englishName.contains(query.trim(), true) }
+                OutlinedTextField(query, { query = it }, singleLine = true, label = { Text(TR("بحث", "Suchen")) }, modifier = Modifier.fillMaxWidth())
+                val list = q.surahs.filter { query.isBlank() || it.name.contains(query.trim()) || it.number.toString() == query.trim() || it.englishName.contains(query.trim(), true) || it.title.contains(query.trim(), true) }
                 LazyColumn(Modifier.heightIn(max = 420.dp)) {
                     items(list, key = { it.number }) { s ->
                         Row(Modifier.fillMaxWidth().clickable { onPick(s.number) }.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                             Text(s.number.ar(), Modifier.width(40.dp), color = MaterialTheme.colorScheme.primary)
-                            Text(s.name, fontFamily = QuranFont, fontSize = 20.sp, modifier = Modifier.weight(1f))
-                            Text("${s.ayahs.size.ar()} آية", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(s.title, fontFamily = NameFont, fontSize = 20.sp, modifier = Modifier.weight(1f))
+                            Text(TR("${s.ayahs.size.ar()} آية", "${s.ayahs.size.ar()} Verse"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("إغلاق") } },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(TR("إغلاق", "Schließen")) } },
     )
 }
 
@@ -356,15 +358,15 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(if (surah == 0) "جارٍ تحديد السورة…" else q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
-                Text((if (surah == 0) "" else "الآيات ${from.ar()}–${to.ar()} • ") + clock(elapsed), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(if (surah == 0) TR("جارٍ تحديد السورة…", "Sure wird erkannt…") else q.surah(surah).title, fontFamily = NameFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
+                Text((if (surah == 0) "" else TR("الآيات ${from.ar()}–${to.ar()} • ", "Verse ${from.ar()}–${to.ar()} • ")) + clock(elapsed), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             val progress by animateFloatAsState(if (words.isEmpty()) 0f else vm.pointer.toFloat() / words.size, tween(400), label = "p")
             LinearProgressIndicator(progress = { progress }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp).clip(CircleShape))
             Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-                Legend(page.text, "صحيحة")
-                Legend(WrongRed, "خطأ")
-                Legend(MissedRed, "فائتة")
+                Legend(page.text, TR("صحيحة", "Richtig"))
+                Legend(WrongRed, TR("خطأ", "Fehler"))
+                Legend(MissedRed, TR("فائتة", "Ausgelassen"))
             }
         }
         val scroll = rememberScrollState()
@@ -375,12 +377,12 @@ private fun SessionPane(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel) {
                     val shown = if (revealAll) words.size else vm.revealed
                     if (shown == 0 && vm.phase == Phase.Listening) {
                         Text(
-                            if (vm.locating) "ابدأ التلاوة من أي سورة… ستظهر الكلمات هنا" else "ابدأ التلاوة… ستظهر الكلمات هنا",
+                            if (vm.locating) TR("ابدأ التلاوة من أي سورة… ستظهر الكلمات هنا", "Rezitiere aus einer beliebigen Sure… die Wörter erscheinen hier") else TR("ابدأ التلاوة… ستظهر الكلمات هنا", "Beginne zu rezitieren… die Wörter erscheinen hier"),
                             Modifier.fillMaxWidth().padding(top = 70.dp), textAlign = TextAlign.Center,
                             color = page.text.copy(alpha = 0.35f), style = MaterialTheme.typography.titleMedium,
                         )
                     }
-                    FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    RtlFlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         for (i in 0 until shown) {
                             val committed = i < vm.pointer
                             val r = if (committed) vm.marks.getOrNull(i) else vm.tentative.getOrNull(i - vm.pointer)
@@ -431,9 +433,9 @@ private fun Locating() {
             Icon(Icons.AutoMirrored.Rounded.MenuBook, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(44.dp))
         }
         Spacer(Modifier.height(18.dp))
-        Text("ابدأ التلاوة من أي سورة", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+        Text(TR("ابدأ التلاوة من أي سورة", "Rezitiere aus einer beliebigen Sure"), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
         Text(
-            "سأتعرف على السورة والآية بعد بضع كلمات، وأتابعك صفحةً صفحة.",
+            TR("سأتعرف على السورة والآية بعد بضع كلمات، وأتابعك صفحةً صفحة.", "Nach ein paar Wörtern erkenne ich Sure und Vers und folge dir Seite für Seite."),
             style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center,
         )
     }
@@ -450,14 +452,14 @@ private fun FollowPages(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel, words
     val curPage = pages.indexOfFirst { cur in it.second }.coerceAtLeast(0)
     val curl = remember { CurlState(curPage) }
     LaunchedEffect(curPage, done) { if (!done) curl.turnTo(curPage, pages.size) }
-    val rtl = androidx.compose.ui.platform.LocalLayoutDirection.current == androidx.compose.ui.unit.LayoutDirection.Rtl
+    val rtl = true
     var showResult by remember(done) { mutableStateOf(done) }
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(q.surah(surah).name, fontFamily = QuranFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
+                Text(q.surah(surah).title, fontFamily = NameFont, fontSize = 22.sp, modifier = Modifier.weight(1f))
                 Text(
-                    "الآية ${curAyah.ar()} • الصفحة ${pages[curl.index.coerceIn(0, pages.size - 1)].first.ar()}",
+                    TR("الآية ${curAyah.ar()} • الصفحة ${pages[curl.index.coerceIn(0, pages.size - 1)].first.ar()}", "Vers ${curAyah.ar()} • Seite ${pages[curl.index.coerceIn(0, pages.size - 1)].first.ar()}"),
                     style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -469,8 +471,8 @@ private fun FollowPages(q: Quran, st: TasmeeSettings, vm: TasmeeViewModel, words
         }
         if (done) {
             Row(Modifier.fillMaxWidth().padding(12.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Button(onClick = { showResult = true }, modifier = Modifier.weight(1f)) { Text("النتيجة") }
-                OutlinedButton(onClick = vm::restart, modifier = Modifier.weight(1f)) { Text("إعادة") }
+                Button(onClick = { showResult = true }, modifier = Modifier.weight(1f)) { Text(TR("النتيجة", "Ergebnis")) }
+                OutlinedButton(onClick = vm::restart, modifier = Modifier.weight(1f)) { Text(TR("إعادة", "Wiederholen")) }
             }
         } else Controls(vm, st)
     }
@@ -510,7 +512,7 @@ private fun AyahMark(n: Int, st: TasmeeSettings, ink: Color, modifier: Modifier 
         modifier.padding(horizontal = 3.dp).size((st.fontSize * 1.05f).dp).border(1.2.dp, ink.copy(alpha = 0.55f), CircleShape),
         contentAlignment = Alignment.Center,
     ) {
-        if (st.ayahMark == 0) Text(n.ar(), fontSize = (st.fontSize * 0.42f).sp, color = ink.copy(alpha = 0.85f))
+        if (st.ayahMark == 0) Text(n.arq(), fontSize = (st.fontSize * 0.42f).sp, color = ink.copy(alpha = 0.85f))
     }
 }
 
@@ -521,7 +523,7 @@ private fun Passage(vm: TasmeeViewModel, words: List<TWord>, idx: List<Int>, cur
     val target = bounds[cur] ?: Rect.Zero
     val box by animateRectAsState(target, tween(260, easing = FastOutSlowInEasing), label = "box")
     val glow by animateFloatAsState(if (cur >= 0) 1f else 0f, tween(350), label = "glow")
-    FlowRow(
+    RtlFlowRow(
         Modifier.fillMaxWidth()
             .drawWithContent {
                 if (glow > 0f && ayah > 0) {
@@ -606,7 +608,7 @@ private fun WordView(w: TWord, r: WordResult?, tentative: Boolean, hinted: Boole
             )
             if (w.ayahEnd && st.ayahMark == 0) {
                 Spacer(Modifier.width(4.dp))
-                Text(w.ayah.ar(), fontFamily = QpcFont, fontSize = st.fontSize.sp, color = MaterialTheme.colorScheme.primary)
+                Text(w.ayah.arq(), fontFamily = QpcFont, fontSize = st.fontSize.sp, color = MaterialTheme.colorScheme.primary)
             } else if (w.ayahEnd && st.ayahMark == 1) AyahMark(w.ayah, st, MaterialTheme.colorScheme.primary)
         }
         HeardLabel(r, st)
@@ -619,10 +621,10 @@ private fun HeardLabel(r: WordResult?, st: TasmeeSettings) {
     if (!st.showHeard || r == null || r.partial) return
     when (r.mark) {
         Mark.Wrong -> Text(
-            if (r.heard.isNullOrBlank()) "قرأتَ كلمة أخرى" else "قرأتَ: ${r.heard}",
+            if (r.heard.isNullOrBlank()) TR("قرأتَ كلمة أخرى", "Du hast ein anderes Wort gelesen") else TR("قرأتَ: ${r.heard}", "Gelesen: ${r.heard}"),
             fontSize = 12.sp, lineHeight = 16.sp, color = WrongRed.copy(alpha = 0.85f), textAlign = TextAlign.Center,
         )
-        Mark.Missed -> Text("فاتتك", fontSize = 12.sp, lineHeight = 16.sp, color = MissedRed.copy(alpha = 0.85f))
+        Mark.Missed -> Text(TR("فاتتك", "Ausgelassen"), fontSize = 12.sp, lineHeight = 16.sp, color = MissedRed.copy(alpha = 0.85f))
         else -> Unit
     }
 }
@@ -637,19 +639,19 @@ private fun Controls(vm: TasmeeViewModel, st: TasmeeSettings) {
             Column(Modifier.weight(1f)) {
                 Text(
                     when {
-                        vm.phase == Phase.Mistake -> "متوقف عند خطأ"
-                        vm.decoding -> "أستمع وأصحّح…"
-                        else -> "أستمع إليك…"
+                        vm.phase == Phase.Mistake -> TR("متوقف عند خطأ", "Bei Fehler angehalten")
+                        vm.decoding -> TR("أستمع وأصحّح…", "Ich höre zu und korrigiere…")
+                        else -> TR("أستمع إليك…", "Ich höre dir zu…")
                     },
                     style = MaterialTheme.typography.titleSmall,
                 )
-                Text("${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(TR("${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة", "${vm.pointer.ar()} von ${vm.words.size.ar()} Wörtern"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             if (st.hint == 1) {
                 FilledTonalButton(onClick = vm::hint) {
                     Icon(Icons.Rounded.Lightbulb, null, Modifier.size(18.dp))
                     Spacer(Modifier.width(4.dp))
-                    Text("تلميح")
+                    Text(TR("تلميح", "Hinweis"))
                 }
                 Spacer(Modifier.width(12.dp))
             }
@@ -659,7 +661,7 @@ private fun Controls(vm: TasmeeViewModel, st: TasmeeSettings) {
                         .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.18f)),
                 )
                 Surface(onClick = vm::stop, shape = CircleShape, color = MaterialTheme.colorScheme.primary, modifier = Modifier.size(54.dp)) {
-                    Box(contentAlignment = Alignment.Center) { Icon(Icons.Rounded.Stop, "إنهاء", tint = MaterialTheme.colorScheme.onPrimary) }
+                    Box(contentAlignment = Alignment.Center) { Icon(Icons.Rounded.Stop, TR("إنهاء", "Beenden"), tint = MaterialTheme.colorScheme.onPrimary) }
                 }
             }
         }
@@ -678,35 +680,35 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
     Box(Modifier.appear()) {
     Surface(shape = MaterialTheme.shapes.extraLarge, color = MaterialTheme.colorScheme.surfaceContainer) {
         Column(Modifier.fillMaxWidth().padding(18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("نتيجة التسميع", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(TR("نتيجة التسميع", "Tasmee-Ergebnis"), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(12.dp))
             Box(contentAlignment = Alignment.Center) {
                 val a by animateFloatAsState(pct / 100f, tween(900), label = "pct")
                 CircularProgressIndicator(progress = { a }, modifier = Modifier.size(96.dp), strokeWidth = 8.dp, trackColor = MaterialTheme.colorScheme.surfaceContainerHighest)
-                Text("${pct.ar()}٪", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(TR("${pct.ar()}٪", "${pct.ar()} %"), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             }
             Spacer(Modifier.height(12.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Stat(correct, "صحيحة", MaterialTheme.colorScheme.primary)
-                Stat(wrong, "أخطاء", WrongRed)
-                Stat(missed, "فائتة", MissedRed)
-                Stat(vm.hinted.size, "تلميحات", MaterialTheme.colorScheme.onSurfaceVariant)
+                Stat(correct, TR("صحيحة", "Richtig"), MaterialTheme.colorScheme.primary)
+                Stat(wrong, TR("أخطاء", "Fehler"), WrongRed)
+                Stat(missed, TR("فائتة", "Ausgelassen"), MissedRed)
+                Stat(vm.hinted.size, TR("تلميحات", "Hinweise"), MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
-                "${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة • ${clock(vm.elapsedMs)}",
+                TR("${vm.pointer.ar()} من ${vm.words.size.ar()} كلمة • ${clock(vm.elapsedMs)}", "${vm.pointer.ar()} von ${vm.words.size.ar()} Wörtern • ${clock(vm.elapsedMs)}"),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp),
             )
             val mistakes = res.withIndex().filter { it.value != null && it.value!!.mark != Mark.Correct }
             if (mistakes.isNotEmpty()) {
                 HorizontalDivider(Modifier.padding(vertical = 12.dp))
-                Text("الأخطاء", style = MaterialTheme.typography.titleMedium, modifier = Modifier.fillMaxWidth())
+                Text(TR("الأخطاء", "Fehler"), style = MaterialTheme.typography.titleMedium, modifier = Modifier.fillMaxWidth())
                 mistakes.forEach { (i, r) ->
                     val w = vm.words[i]
                     Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text("آية ${w.ayah.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(64.dp))
+                        Text(TR("آية ${w.ayah.ar()}", "Vers ${w.ayah.ar()}"), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(64.dp))
                         Text(w.text, fontFamily = QpcFont, fontSize = 22.sp, color = MaterialTheme.colorScheme.primary, modifier = Modifier.weight(1f))
                         Text(
-                            if (r!!.mark == Mark.Missed) "لم تُقرأ" else "قرأت: ${r.heard.orEmpty()}",
+                            if (r!!.mark == Mark.Missed) TR("لم تُقرأ", "Nicht gelesen") else TR("قرأت: ${r.heard.orEmpty()}", "Gelesen: ${r.heard.orEmpty()}"),
                             style = MaterialTheme.typography.bodySmall, color = if (r.mark == Mark.Missed) MissedRed else WrongRed,
                         )
                     }
@@ -717,11 +719,11 @@ private fun Summary(vm: TasmeeViewModel, onRevealAll: () -> Unit, revealed: Bool
                 Button(onClick = vm::restart) {
                     Icon(Icons.Rounded.Refresh, null, Modifier.size(18.dp))
                     Spacer(Modifier.width(6.dp))
-                    Text("إعادة")
+                    Text(TR("إعادة", "Wiederholen"))
                 }
-                OutlinedButton(onClick = vm::backToSetup) { Text("مقطع آخر") }
+                OutlinedButton(onClick = vm::backToSetup) { Text(TR("مقطع آخر", "Anderer Abschnitt")) }
             }
-            if (vm.pointer < vm.words.size && !revealed) TextButton(onClick = onRevealAll) { Text("إظهار بقية المقطع") }
+            if (vm.pointer < vm.words.size && !revealed) TextButton(onClick = onRevealAll) { Text(TR("إظهار بقية المقطع", "Rest des Abschnitts zeigen")) }
         }
     }
     if (judged > 0 && pct >= 80) Confetti(Modifier.matchParentSize())
@@ -749,9 +751,9 @@ private fun ModelRow(title: String, size: String, d: TasmeeViewModel.Download) {
             Text(title, style = MaterialTheme.typography.bodyMedium)
             Text(
                 when {
-                    p != null -> "جارٍ التنزيل… ${(p * 100).toInt().ar()}٪"
-                    d.ready -> "منزّل على الجهاز ويعمل دون إنترنت"
-                    else -> "غير منزّل • $size مرة واحدة"
+                    p != null -> TR("جارٍ التنزيل… ${(p * 100).toInt().ar()}٪", "Wird geladen… ${(p * 100).toInt().ar()} %")
+                    d.ready -> TR("منزّل على الجهاز ويعمل دون إنترنت", "Auf dem Gerät gespeichert, funktioniert offline")
+                    else -> TR("غير منزّل • $size مرة واحدة", "Nicht geladen • einmalig $size")
                 },
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -759,9 +761,9 @@ private fun ModelRow(title: String, size: String, d: TasmeeViewModel.Download) {
         }
         Spacer(Modifier.width(8.dp))
         when {
-            p != null -> androidx.compose.material3.TextButton(onClick = d::cancel) { Text("إلغاء") }
-            d.ready -> androidx.compose.material3.TextButton(onClick = d::delete) { Text("حذف") }
-            else -> FilledTonalButton(onClick = d::start) { Text("تنزيل") }
+            p != null -> androidx.compose.material3.TextButton(onClick = d::cancel) { Text(TR("إلغاء", "Abbrechen")) }
+            d.ready -> androidx.compose.material3.TextButton(onClick = d::delete) { Text(TR("حذف", "Löschen")) }
+            else -> FilledTonalButton(onClick = d::start) { Text(TR("تنزيل", "Herunterladen")) }
         }
     }
 }
@@ -771,49 +773,49 @@ private fun ModelRow(title: String, size: String, d: TasmeeViewModel.Download) {
 private fun TasmeeSettingsSheet(vm: TasmeeViewModel, st: TasmeeSettings, onDismiss: () -> Unit) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.verticalScroll(rememberScrollState()).padding(bottom = 24.dp)) {
-            Text("إعدادات التسميع", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 20.dp))
-            Choice("المستمع (الذكاء الاصطناعي)", listOf("Whisper", "مباشر ١", "مباشر ٢"), st.engine) {
+            Text(TR("إعدادات التسميع", "Tasmee-Einstellungen"), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 20.dp))
+            Choice(TR("المستمع (الذكاء الاصطناعي)", "Zuhörer (KI)"), listOf("Whisper", TR("مباشر ١", "Live 1"), TR("مباشر ٢", "Live 2")), st.engine) {
                 when {
                     it == 0 && !vm.whisper.ready -> vm.whisper.start()
                     it == 2 && !vm.fast.ready -> vm.fast.start()
                     else -> vm.setEngine(it)
                 }
             }
-            ModelRow("مباشر ٢: FastConformer", "١٣٢ م.ب", vm.fast)
-            ModelRow("Whisper (أبطأ)", "٨١ م.ب", vm.whisper)
+            ModelRow(TR("مباشر ٢: FastConformer", "Live 2: FastConformer"), TR("١٣٢ م.ب", "132 MB"), vm.fast)
+            ModelRow(TR("Whisper (أبطأ)", "Whisper (langsamer)"), TR("٨١ م.ب", "81 MB"), vm.whisper)
             Text(
-                if (st.engine == 1) "مباشر ١ (مدمج): نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية)."
-                else if (st.engine == 2) "مباشر ٢: نموذج FastConformer للقرآن، يكتب الكلمات كل ثانية تقريباً على الجهاز."
-                else "Whisper: نموذج tarteel-ai/whisper-base-ar-quran، يصحح بعد نحو ثانية.",
+                if (st.engine == 1) TR("مباشر ١ (مدمج): نموذج Quran-Lab zipformer_p-arabic-v3 يسمع الأصوات لحظة بلحظة على الجهاز (رخصة غير ربحية).", "Live 1 (integriert): Modell Quran-Lab zipformer_p-arabic-v3 hört die Laute in Echtzeit auf dem Gerät (nicht-kommerzielle Lizenz).")
+                else if (st.engine == 2) TR("مباشر ٢: نموذج FastConformer للقرآن، يكتب الكلمات كل ثانية تقريباً على الجهاز.", "Live 2: FastConformer-Modell für den Koran, schreibt die Wörter etwa jede Sekunde auf dem Gerät.")
+                else TR("Whisper: نموذج tarteel-ai/whisper-base-ar-quran، يصحح بعد نحو ثانية.", "Whisper: Modell tarteel-ai/whisper-base-ar-quran, korrigiert nach etwa einer Sekunde."),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 20.dp),
             )
             Text(
-                "التصحيح الآلي قد يخطئ ولا يغني عن معلّم متقن.",
+                TR("التصحيح الآلي قد يخطئ ولا يغني عن معلّم متقن.", "Die automatische Korrektur kann sich irren und ersetzt keinen kundigen Lehrer."),
                 style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
             )
-            Choice("فواصل الآيات", listOf("بالرقم", "بدون رقم", "مخفية"), st.ayahMark) { vm.setPref(TasmeePrefs.Keys.ayahMark, it) }
-            Choice("دقة التصحيح", listOf("متساهل", "متوسط", "دقيق"), st.strictness) { vm.setPref(TasmeePrefs.Keys.strictness, it) }
-            Choice("عند الخطأ", listOf("تابع وعلّم الخطأ", "توقف للتصحيح"), st.onMistake) { vm.setPref(TasmeePrefs.Keys.onMistake, it) }
-            Choice("التلميح", listOf("بدون", "زر تلميح", "الكلمة التالية باهتة"), st.hint) { vm.setPref(TasmeePrefs.Keys.hint, it) }
-            if (st.engine == 0) Section("تثبيت آخر كلمة بعد سكوت: ${"%.1f".format(st.pauseSec)} ث") {
+            Choice(TR("فواصل الآيات", "Verstrenner"), listOf(TR("بالرقم", "Mit Nummer"), TR("بدون رقم", "Ohne Nummer"), TR("مخفية", "Versteckt")), st.ayahMark) { vm.setPref(TasmeePrefs.Keys.ayahMark, it) }
+            Choice(TR("دقة التصحيح", "Korrekturstrenge"), listOf(TR("متساهل", "Locker"), TR("متوسط", "Mittel"), TR("دقيق", "Streng")), st.strictness) { vm.setPref(TasmeePrefs.Keys.strictness, it) }
+            Choice(TR("عند الخطأ", "Bei Fehler"), listOf(TR("تابع وعلّم الخطأ", "Weiter und markieren"), TR("توقف للتصحيح", "Zum Korrigieren anhalten")), st.onMistake) { vm.setPref(TasmeePrefs.Keys.onMistake, it) }
+            Choice(TR("التلميح", "Hinweis"), listOf(TR("بدون", "Ohne"), TR("زر تلميح", "Hinweis-Taste"), TR("الكلمة التالية باهتة", "Nächstes Wort blass")), st.hint) { vm.setPref(TasmeePrefs.Keys.hint, it) }
+            if (st.engine == 0) Section(TR("تثبيت آخر كلمة بعد سكوت: ", "Letztes Wort fixieren nach Pause: ") + "${"%.1f".format(st.pauseSec)} " + TR("ث", "s")) {
                 var v by remember(st.pauseSec) { mutableFloatStateOf(st.pauseSec) }
                 Slider(v, { v = it }, valueRange = 0.5f..2f, steps = 14, onValueChangeFinished = { vm.setPref(TasmeePrefs.Keys.pauseSec, v) })
-                Text("المدة التي ينتظرها التطبيق بعد توقفك قبل أن يثبّت التصحيح.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(TR("المدة التي ينتظرها التطبيق بعد توقفك قبل أن يثبّت التصحيح.", "Wie lange die App nach deiner Pause wartet, bevor sie die Korrektur festlegt."), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Section("حجم الخط") {
+            Section(TR("حجم الخط", "Schriftgröße")) {
                 var v by remember(st.fontSize) { mutableFloatStateOf(st.fontSize) }
                 Slider(v, { v = it }, valueRange = 22f..44f, steps = 10, onValueChangeFinished = { vm.setPref(TasmeePrefs.Keys.fontSize, v) })
                 Surface(color = LocalPageColors.current.page, shape = MaterialTheme.shapes.medium) {
                     Text("ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ", Modifier.fillMaxWidth().padding(8.dp), fontFamily = QpcFont, fontSize = v.sp, textAlign = TextAlign.Center, color = LocalPageColors.current.text)
                 }
             }
-            Section("خيارات") {
-                SwitchRow("ابدأ التسميع التلقائي عند فتح الصفحة", st.autoStart) { vm.setPref(TasmeePrefs.Keys.autoStart, it) }
-                SwitchRow("إخفاء الآيات في التسميع التلقائي", st.autoHidden) { vm.setPref(TasmeePrefs.Keys.autoHidden, it) }
-                SwitchRow("اهتزاز عند الخطأ", st.vibrate) { vm.setPref(TasmeePrefs.Keys.vibrate, it) }
-                SwitchRow("إظهار ما قرأتَه تحت الكلمة الخاطئة أو الفائتة", st.showHeard) { vm.setPref(TasmeePrefs.Keys.showHeard, it) }
+            Section(TR("خيارات", "Optionen")) {
+                SwitchRow(TR("ابدأ التسميع التلقائي عند فتح الصفحة", "Automatisches Tasmee beim Öffnen starten"), st.autoStart) { vm.setPref(TasmeePrefs.Keys.autoStart, it) }
+                SwitchRow(TR("إخفاء الآيات في التسميع التلقائي", "Verse im automatischen Tasmee verbergen"), st.autoHidden) { vm.setPref(TasmeePrefs.Keys.autoHidden, it) }
+                SwitchRow(TR("اهتزاز عند الخطأ", "Bei Fehler vibrieren"), st.vibrate) { vm.setPref(TasmeePrefs.Keys.vibrate, it) }
+                SwitchRow(TR("إظهار ما قرأتَه تحت الكلمة الخاطئة أو الفائتة", "Gelesenes unter falschen oder ausgelassenen Wörtern anzeigen"), st.showHeard) { vm.setPref(TasmeePrefs.Keys.showHeard, it) }
             }
         }
     }
@@ -827,5 +829,18 @@ private fun Choice(title: String, labels: List<String>, value: Int, onChange: (I
                 SegmentedButton(value == i, { onChange(i) }, SegmentedButtonDefaults.itemShape(i, labels.size)) { Text(l, maxLines = 1, fontSize = 13.sp) }
             }
         }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun RtlFlowRow(
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    content: @Composable androidx.compose.foundation.layout.FlowRowScope.() -> Unit,
+) {
+    androidx.compose.runtime.CompositionLocalProvider(androidx.compose.ui.platform.LocalLayoutDirection provides androidx.compose.ui.unit.LayoutDirection.Rtl) {
+        FlowRow(modifier, horizontalArrangement, verticalArrangement, content = content)
     }
 }

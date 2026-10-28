@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.prayer.PrayerAlarms
 import androidx.datastore.preferences.core.Preferences
 import android.app.Application
@@ -92,7 +94,7 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
                 sync(it)
                 pending?.let { (s, a) -> pending = null; play(s, a) }
             }
-            if (controller == null) _message.value = UiMessage("تعذّر تشغيل مشغل الصوت")
+            if (controller == null) _message.value = UiMessage(TR("تعذّر تشغيل مشغل الصوت", "Audioplayer konnte nicht gestartet werden"))
         }, ContextCompat.getMainExecutor(app))
     }
 
@@ -117,12 +119,12 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
         val missing = error.errorCode == PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS ||
             error.errorCode == PlaybackException.ERROR_CODE_IO_FILE_NOT_FOUND
         if (missing && c.hasNextMediaItem()) {
-            _message.value = UiMessage("تلاوة هذه الآية غير متوفرة لدى هذا القارئ، تم الانتقال إلى التالية")
+            _message.value = UiMessage(TR("تلاوة هذه الآية غير متوفرة لدى هذا القارئ، تم الانتقال إلى التالية", "Für diesen Vers gibt es keine Rezitation dieses Rezitators – weiter zum nächsten"))
             c.seekToNextMediaItem()
             c.prepare()
             c.play()
         } else {
-            _message.value = UiMessage("تعذّر تشغيل التلاوة. تحقّق من الاتصال بالإنترنت أو حمّل السورة للاستماع دون اتصال.", retry = true)
+            _message.value = UiMessage(TR("تعذّر تشغيل التلاوة. تحقّق من الاتصال بالإنترنت أو حمّل السورة للاستماع دون اتصال.", "Rezitation konnte nicht abgespielt werden. Prüfe die Internetverbindung oder lade die Sure für offline herunter."), retry = true)
         }
     }
 
@@ -157,11 +159,11 @@ class AppViewModel(private val app: Application) : AndroidViewModel(app) {
 
     private fun item(r: Reciter, sura: Surah, ayah: Int, k: Int): MediaItem {
         val id = "${sura.number}:$ayah:$k:${r.id}"
-        val title = if (ayah == 0) "سورة ${sura.name} • البسملة" else "${sura.name} • الآية ${ayah.ar()}"
+        val title = if (ayah == 0) TR("سورة ${sura.name} • البسملة", "${sura.title} • Basmala") else "${sura.title} • ${TR("الآية", "Vers")} ${ayah.ar()}"
         return MediaItem.Builder()
             .setMediaId(id)
             .recitation(app, id)
-            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).setArtist(r.nameAr).setAlbumTitle("القرآن الكريم").build())
+            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).setArtist(r.label).setAlbumTitle(TR("القرآن الكريم", "Der edle Koran")).build())
             .build()
     }
 
