@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,8 +61,8 @@ fun DownloadsScreen(vm: AppViewModel, onBack: () -> Unit) {
     LaunchedEffect(downloads.size, st?.downloaded) { vm.refreshCacheSize() }
     Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
-            title = { Text("التحميل للاستماع دون اتصال") },
-            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+            title = { Text(TR("التحميل للاستماع دون اتصال", "Downloads für offline")) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
         )
     }) { pad ->
         if (st == null || q == null) return@Scaffold Loading()
@@ -75,16 +77,16 @@ fun DownloadsScreen(vm: AppViewModel, onBack: () -> Unit) {
                         }
                     }
                     Text(
-                        "تم تحميل $doneCount من 114 سورة • المساحة المستخدمة: ${String.format(Locale.US, "%.1f", bytes / 1_048_576.0)} ميجابايت",
+                        TR("تم تحميل $doneCount من 114 سورة • المساحة المستخدمة: ", "$doneCount von 114 Suren geladen • belegter Speicher: ") + "${String.format(Locale.US, "%.1f", bytes / 1_048_576.0)} " + TR("ميجابايت", "MB"),
                         style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        "الآيات التي تستمع إليها تُحفظ تلقائيًا أيضًا للاستماع لاحقًا دون اتصال.",
+                        TR("الآيات التي تستمع إليها تُحفظ تلقائيًا أيضًا للاستماع لاحقًا دون اتصال.", "Gehörte Verse werden auch automatisch für später offline gespeichert."),
                         style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { vm.downloadAll(reciter) }, enabled = doneCount < 114) { Text("تحميل المصحف كاملًا") }
-                        OutlinedButton(onClick = { confirmDelete = true }) { Text("حذف التحميلات") }
+                        Button(onClick = { vm.downloadAll(reciter) }, enabled = doneCount < 114) { Text(TR("تحميل المصحف كاملًا", "Ganzen Koran herunterladen")) }
+                        OutlinedButton(onClick = { confirmDelete = true }) { Text(TR("حذف التحميلات", "Downloads löschen")) }
                     }
                 }
             }
@@ -93,10 +95,10 @@ fun DownloadsScreen(vm: AppViewModel, onBack: () -> Unit) {
                 val job = downloads[DownloadWorker.name(reciter.id, s.number)]
                 SurahRow(s, onClick = { if (key !in st.downloaded && job == null) vm.download(reciter, s) }) {
                     when {
-                        key in st.downloaded -> Icon(Icons.Rounded.CheckCircle, "تم التحميل", tint = MaterialTheme.colorScheme.primary)
+                        key in st.downloaded -> Icon(Icons.Rounded.CheckCircle, TR("تم التحميل", "Heruntergeladen"), tint = MaterialTheme.colorScheme.primary)
                         job != null && job.running -> CircularProgressIndicator(progress = { job.progress }, modifier = Modifier.size(28.dp))
                         job != null -> CircularProgressIndicator(Modifier.size(28.dp), strokeWidth = 2.dp)
-                        else -> IconButton(onClick = { vm.download(reciter, s) }) { Icon(Icons.Rounded.Download, "تحميل") }
+                        else -> IconButton(onClick = { vm.download(reciter, s) }) { Icon(Icons.Rounded.Download, TR("تحميل", "Herunterladen")) }
                     }
                 }
                 HorizontalDivider(Modifier.padding(start = 72.dp), color = MaterialTheme.colorScheme.outlineVariant)
@@ -106,10 +108,10 @@ fun DownloadsScreen(vm: AppViewModel, onBack: () -> Unit) {
             AlertDialog(
                 onDismissRequest = { confirmDelete = false },
                 icon = { Icon(Icons.Rounded.Delete, null) },
-                title = { Text("حذف تلاوات ${reciter.nameAr}؟") },
-                text = { Text("سيتم حذف جميع الملفات المحفوظة لهذا القارئ من جهازك.") },
-                confirmButton = { TextButton(onClick = { confirmDelete = false; vm.deleteDownloads(reciter) }) { Text("حذف") } },
-                dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("إلغاء") } },
+                title = { Text(TR("حذف تلاوات ${reciter.label}؟", "Rezitationen von ${reciter.label} löschen?")) },
+                text = { Text(TR("سيتم حذف جميع الملفات المحفوظة لهذا القارئ من جهازك.", "Alle gespeicherten Dateien dieses Rezitators werden von deinem Gerät gelöscht.")) },
+                confirmButton = { TextButton(onClick = { confirmDelete = false; vm.deleteDownloads(reciter) }) { Text(TR("حذف", "Löschen")) } },
+                dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(TR("إلغاء", "Abbrechen")) } },
             )
         }
     }

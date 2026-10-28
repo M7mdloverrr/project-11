@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.Manifest
 import android.content.Context
 import android.hardware.GeomagneticField
@@ -91,7 +93,7 @@ import kotlin.math.roundToInt
 
 private val arLocale: Locale = Locale.forLanguageTag("ar")
 
-fun prayerTime(d: Date): String = SimpleDateFormat("h:mm a", arLocale).format(d)
+fun prayerTime(d: Date): String = if (Lang.de) SimpleDateFormat("HH:mm", Locale.GERMAN).format(d) else SimpleDateFormat("h:mm a", arLocale).format(d)
 
 class LocationRequest(val request: () -> Unit, val locating: Boolean, val error: String?)
 
@@ -107,7 +109,7 @@ fun rememberLocationRequest(vm: AppViewModel): LocationRequest {
             error = null
             val loc = LocationHelper.current(ctx)
             if (loc == null) {
-                error = "تعذّر تحديد موقعك. فعّل خدمة الموقع في الهاتف ثم أعد المحاولة."
+                error = TR("تعذّر تحديد موقعك. فعّل خدمة الموقع في الهاتف ثم أعد المحاولة.", "Standort konnte nicht bestimmt werden. Aktiviere die Standortdienste und versuche es erneut.")
             } else {
                 vm.saveLocation(loc.latitude, loc.longitude, LocationHelper.cityName(ctx, loc.latitude, loc.longitude))
             }
@@ -115,7 +117,7 @@ fun rememberLocationRequest(vm: AppViewModel): LocationRequest {
         }
     }
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { r ->
-        if (r.values.any { it }) locate() else error = "يلزم إذن الموقع لحساب مواقيت الصلاة واتجاه القبلة."
+        if (r.values.any { it }) locate() else error = TR("يلزم إذن الموقع لحساب مواقيت الصلاة واتجاه القبلة.", "Für Gebetszeiten und Qibla-Richtung wird die Standortberechtigung benötigt.")
     }
     return LocationRequest(
         request = {
@@ -132,7 +134,7 @@ private fun NeedLocation(loc: LocationRequest, text: String) {
     Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Icon(Icons.Rounded.MyLocation, null, Modifier.size(48.dp), tint = MaterialTheme.colorScheme.primary)
         Text(text, textAlign = TextAlign.Center)
-        if (loc.locating) CircularProgressIndicator() else Button(onClick = loc.request) { Text("تحديد موقعي") }
+        if (loc.locating) CircularProgressIndicator() else Button(onClick = loc.request) { Text(TR("تحديد موقعي", "Meinen Standort bestimmen")) }
         loc.error?.let { Text(it, color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center) }
     }
 }
@@ -146,11 +148,11 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
     LaunchedEffect(Unit) { if (st.lat == null) loc.request() }
     Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
-            title = { Text("مواقيت الصلاة") },
-            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+            title = { Text(TR("مواقيت الصلاة", "Gebetszeiten")) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
             actions = {
                 if (loc.locating) CircularProgressIndicator(Modifier.size(24.dp).padding(end = 4.dp), strokeWidth = 2.dp)
-                else IconButton(onClick = loc.request) { Icon(Icons.Rounded.MyLocation, "تحديث الموقع") }
+                else IconButton(onClick = loc.request) { Icon(Icons.Rounded.MyLocation, TR("تحديث الموقع", "Standort aktualisieren")) }
             },
         )
     }) { pad ->
@@ -158,7 +160,7 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
             val lat = st.lat
             val lon = st.lon
             if (lat == null || lon == null) {
-                NeedLocation(loc, "نحتاج موقعك لحساب مواقيت الصلاة بدقة. يتم الحساب على هاتفك دون إنترنت.")
+                NeedLocation(loc, TR("نحتاج موقعك لحساب مواقيت الصلاة بدقة. يتم الحساب على هاتفك دون إنترنت.", "Wir brauchen deinen Standort, um die Gebetszeiten genau zu berechnen. Die Berechnung erfolgt offline auf deinem Handy."))
                 return@Column
             }
             loc.error?.let { Text(it, Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error) }
@@ -166,9 +168,9 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
             FilledTonalButton(onClick = openQibla, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
                 Icon(Icons.Rounded.Explore, null)
                 Spacer(Modifier.size(8.dp))
-                Text("اتجاه القبلة")
+                Text(TR("اتجاه القبلة", "Qibla-Richtung"))
             }
-            Section("طريقة الحساب") {
+            Section(TR("طريقة الحساب", "Berechnungsmethode")) {
                 PrayerCalc.methods.forEachIndexed { i, (_, name) ->
                     Row(
                         Modifier.fillMaxWidth().clickable { vm.setPrayerPref(Prefs.Keys.prayerMethod, i) },
@@ -179,8 +181,8 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
                     }
                 }
             }
-            Section("صلاة العصر") {
-                val opts = listOf("الجمهور (شافعي، مالكي، حنبلي)", "الحنفي")
+            Section(TR("صلاة العصر", "Asr-Gebet")) {
+                val opts = listOf(TR("الجمهور (شافعي، مالكي، حنبلي)", "Mehrheit (Schafii, Maliki, Hanbali)"), TR("الحنفي", "Hanafi"))
                 SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                     opts.forEachIndexed { i, l ->
                         SegmentedButton(st.madhab == i, { vm.setPrayerPref(Prefs.Keys.madhab, i) }, SegmentedButtonDefaults.itemShape(i, opts.size)) {
@@ -189,8 +191,8 @@ fun PrayerScreen(vm: AppViewModel, onBack: () -> Unit, openQibla: () -> Unit) {
                     }
                 }
             }
-            Section("التنبيهات") {
-                SwitchRow("تنبيه عند دخول وقت كل صلاة", st.prayerAlerts) { vm.setPrayerPref(Prefs.Keys.prayerAlerts, it) }
+            Section(TR("التنبيهات", "Erinnerungen")) {
+                SwitchRow(TR("تنبيه عند دخول وقت كل صلاة", "Erinnerung zu jeder Gebetszeit"), st.prayerAlerts) { vm.setPrayerPref(Prefs.Keys.prayerAlerts, it) }
             }
             Spacer(Modifier.height(16.dp))
         }
@@ -216,10 +218,10 @@ private fun PrayerTimesCard(st: Settings, lat: Double, lon: Double) {
             .background(Brush.linearGradient(listOf(DarkGreen, Emerald))).padding(20.dp),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(st.city.ifBlank { "موقعي" }, color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelLarge)
-            Text("صلاة ${PrayerCalc.names[next]} • ${prayerTime(nextTime)}", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            Text(st.city.ifBlank { TR("موقعي", "Mein Standort") }, color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelLarge)
+            Text(TR("صلاة ${PrayerCalc.names[next]} • ${prayerTime(nextTime)}", "${PrayerCalc.names[next]} • ${prayerTime(nextTime)}"), color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
             Text(
-                "متبقٍ " + String.format(arLocale, "%02d:%02d:%02d", left / 3600, left / 60 % 60, left % 60),
+                TR("متبقٍ ", "noch ") + String.format(arLocale, "%02d:%02d:%02d", left / 3600, left / 60 % 60, left % 60),
                 color = Color.White.copy(alpha = 0.9f), fontSize = 18.sp,
             )
         }
@@ -251,14 +253,14 @@ fun QiblaScreen(vm: AppViewModel, onBack: () -> Unit) {
     val loc = rememberLocationRequest(vm)
     Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
-            title = { Text("اتجاه القبلة") },
-            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+            title = { Text(TR("اتجاه القبلة", "Qibla-Richtung")) },
+            navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
         )
     }) { pad ->
         Box(Modifier.padding(pad).fillMaxSize()) {
             val lat = st.lat
             val lon = st.lon
-            if (lat == null || lon == null) NeedLocation(loc, "نحتاج موقعك لتحديد اتجاه القبلة.")
+            if (lat == null || lon == null) NeedLocation(loc, TR("نحتاج موقعك لتحديد اتجاه القبلة.", "Wir brauchen deinen Standort, um die Qibla-Richtung zu bestimmen."))
             else Compass(LocalContext.current, lat, lon, st.city)
         }
     }
@@ -303,10 +305,10 @@ private fun Compass(ctx: Context, lat: Double, lon: Double, city: String) {
     val outline = MaterialTheme.colorScheme.outline
     val onSurface = MaterialTheme.colorScheme.onSurface
     Column(Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(city.ifBlank { "موقعي" }, style = MaterialTheme.typography.titleMedium)
-        Text("القبلة على بعد ${qibla.roundToInt()}° من الشمال", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(city.ifBlank { TR("موقعي", "Mein Standort") }, style = MaterialTheme.typography.titleMedium)
+        Text(TR("القبلة على بعد ${qibla.roundToInt()}° من الشمال", "Qibla: ${qibla.roundToInt()}° von Norden"), color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (!available) {
-            Text("لا يحتوي هاتفك على مستشعر بوصلة. اتجاه القبلة ${qibla.roundToInt()}° من الشمال الحقيقي.", color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center)
+            Text(TR("لا يحتوي هاتفك على مستشعر بوصلة. اتجاه القبلة ${qibla.roundToInt()}° من الشمال الحقيقي.", "Dein Handy hat keinen Kompasssensor. Qibla-Richtung: ${qibla.roundToInt()}° von geografisch Nord."), color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center)
             return@Column
         }
         Box(Modifier.size(300.dp), contentAlignment = Alignment.Center) {
@@ -326,7 +328,7 @@ private fun Compass(ctx: Context, lat: Double, lon: Double, city: String) {
                         }
                     }
                 }
-                listOf("ش" to 0.0, "ق" to 90.0, "ج" to 180.0, "غ" to 270.0).forEach { (l, a) ->
+                listOf(TR("ش", "N") to 0.0, TR("ق", "O") to 90.0, TR("ج", "S") to 180.0, TR("غ", "W") to 270.0).forEach { (l, a) ->
                     val rad = Math.toRadians(a)
                     Text(
                         l,
@@ -354,13 +356,13 @@ private fun Compass(ctx: Context, lat: Double, lon: Double, city: String) {
             }
         }
         Text(
-            if (facing) "أنت متجه نحو القبلة" else if (diff > 0) "استدر يمينًا ${abs(diff).roundToInt()}°" else "استدر يسارًا ${abs(diff).roundToInt()}°",
+            if (facing) TR("أنت متجه نحو القبلة", "Du bist zur Qibla ausgerichtet") else if (diff > 0) TR("استدر يمينًا ${abs(diff).roundToInt()}°", "Dreh dich ${abs(diff).roundToInt()}° nach rechts") else TR("استدر يسارًا ${abs(diff).roundToInt()}°", "Dreh dich ${abs(diff).roundToInt()}° nach links"),
             color = if (facing) primary else onSurface, fontSize = 20.sp, fontWeight = FontWeight.Bold,
         )
         if (accuracy <= SensorManager.SENSOR_STATUS_ACCURACY_LOW) {
-            Text("دقة البوصلة منخفضة: حرّك الهاتف على شكل الرقم 8 للمعايرة، وابتعد عن المعادن والمغناطيس.", color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center)
+            Text(TR("دقة البوصلة منخفضة: حرّك الهاتف على شكل الرقم 8 للمعايرة، وابتعد عن المعادن والمغناطيس.", "Geringe Kompassgenauigkeit: Handy in Form einer 8 bewegen und von Metall und Magneten fernhalten."), color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center)
         } else {
-            Text("ضع الهاتف بشكل مسطح وبعيدًا عن المعادن.", color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+            Text(TR("ضع الهاتف بشكل مسطح وبعيدًا عن المعادن.", "Halte das Handy flach und fern von Metall."), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
         }
     }
 }

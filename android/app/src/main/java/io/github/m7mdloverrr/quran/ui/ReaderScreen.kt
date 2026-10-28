@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.data.Scripts
 import io.github.m7mdloverrr.quran.data.shown
 import io.github.m7mdloverrr.quran.data.shownBasmala
@@ -168,7 +170,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
     }
     LaunchedEffect(message) {
         val m = message ?: return@LaunchedEffect
-        val r = snackbar.showSnackbar(m.text, actionLabel = if (m.retry) "إعادة المحاولة" else null, duration = SnackbarDuration.Long)
+        val r = snackbar.showSnackbar(m.text, actionLabel = if (m.retry) TR("إعادة المحاولة", "Erneut versuchen") else null, duration = SnackbarDuration.Long)
         if (r == SnackbarResult.ActionPerformed) vm.retry()
         vm.consumeMessage(m.id)
     }
@@ -185,16 +187,16 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
             if (full) ExitFullScreenBar { full = false } else TopAppBar(
                 title = {
                     Column {
-                        Text(q.surah(pageFirst.surah).name, fontFamily = QuranFont, fontSize = 22.sp)
-                        Text("الجزء ${pageFirst.juz.ar()} • الصفحة ${page.ar()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(q.surah(pageFirst.surah).title, fontFamily = NameFont, fontSize = 22.sp)
+                        Text(TR("الجزء ${pageFirst.juz.ar()} • الصفحة ${page.ar()}", "Teil ${pageFirst.juz.ar()} • Seite ${page.ar()}"), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
                 actions = {
-                    IconButton(onClick = { vm.setFontSize(st.fontSize - 2) }, enabled = st.fontSize > 18) { Icon(Icons.Rounded.TextDecrease, "تصغير الخط") }
-                    IconButton(onClick = { vm.setFontSize(st.fontSize + 2) }, enabled = st.fontSize < 44) { Icon(Icons.Rounded.TextIncrease, "تكبير الخط") }
+                    IconButton(onClick = { vm.setFontSize(st.fontSize - 2) }, enabled = st.fontSize > 18) { Icon(Icons.Rounded.TextDecrease, TR("تصغير الخط", "Schrift verkleinern")) }
+                    IconButton(onClick = { vm.setFontSize(st.fontSize + 2) }, enabled = st.fontSize < 44) { Icon(Icons.Rounded.TextIncrease, TR("تكبير الخط", "Schrift vergrößern")) }
                     FullScreenAction { full = true }
-                    IconButton(onClick = { navSheet = true }) { Icon(Icons.AutoMirrored.Rounded.MenuBook, "الفهرس") }
+                    IconButton(onClick = { navSheet = true }) { Icon(Icons.AutoMirrored.Rounded.MenuBook, TR("الفهرس", "Inhalt")) }
                 },
             )
         },
@@ -208,7 +210,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
         },
     ) { pad ->
         CompositionLocalProvider(LocalAyahLongPress provides onLongPress) {
-        val pageAt: @Composable (Int, Boolean) -> Unit = { i, fill ->
+        val pageAt: @Composable (Int, Boolean) -> Unit = { i, fill -> CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             QuranPage(
                 q, i + 1, q.pages[i], st, currentKey, selected?.key.takeIf { !playing.active }, if (st.germanMode == 2) german else null,
                 onTap = { a ->
@@ -218,13 +220,13 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
                 onPositions = { if (!fill) positions.putAll(it) },
                 fill = fill,
             )
-        }
+        } }
         if (st.pageFlip) {
             LaunchedEffect(Unit) { curl.index = listState.firstVisibleItemIndex }
             CurlPager(
                 curl, q.pages.size,
                 Modifier.fillMaxSize().padding(pad).padding(horizontal = 10.dp, vertical = 6.dp),
-                LocalLayoutDirection.current == LayoutDirection.Rtl,
+                true,
                 LocalPageColors.current.page,
             ) { i -> pageAt(i, true) }
         } else {
@@ -250,7 +252,7 @@ fun ReaderScreen(vm: AppViewModel, startPage: Int, onBack: () -> Unit) {
             var pageDialog by remember { mutableStateOf(false) }
             val go: (Int) -> Unit = { p -> navSheet = false; listStateScrollRequest(listState, p) }
             PrimaryTabRow(selectedTabIndex = tab) {
-                listOf("السور", "الأجزاء", "صفحة").forEachIndexed { idx, t ->
+                listOf(TR("السور", "Suren"), TR("الأجزاء", "Teile"), TR("صفحة", "Seite")).forEachIndexed { idx, t ->
                     Tab(selected = tab == idx, onClick = { if (idx == 2) pageDialog = true else tab = idx }, text = { Text(t) })
                 }
             }
@@ -316,7 +318,7 @@ private fun QuranPage(
         Column((if (fill) Modifier.verticalScroll(rememberScrollState()) else Modifier).padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(q.surah(ayahs.first().surah).name, fontFamily = QuranFont, fontSize = 14.sp, color = colors.mark)
-                Text("الجزء ${ayahs.first().juz.ar()}", fontSize = 12.sp, color = colors.mark)
+                Text(TR("الجزء ${ayahs.first().juz.ar()}", "Teil ${ayahs.first().juz.ar()}"), fontSize = 12.sp, color = colors.mark)
             }
             var i = 0
             while (i < ayahs.size) {
@@ -345,7 +347,7 @@ private fun QuranPage(
                 i = j
             }
             Text(
-                pageNo.ar(),
+                pageNo.arq(),
                 Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center, fontSize = 13.sp, color = colors.mark,
             )
@@ -389,7 +391,7 @@ private fun SurahBanner(name: String, count: Int, meccan: Boolean) {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(name, fontFamily = QuranFont, fontSize = 24.sp, color = Color.White)
-            Text("${if (meccan) "مكية" else "مدنية"} • ${count.ar()} آية", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f))
+            Text("${if (meccan) "مكية" else "مدنية"} • ${count.arq()} آية", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f))
         }
     }
 }
@@ -421,7 +423,7 @@ private fun AyahParagraph(
                     append(a.shown)
                     append(' ')
                     withStyle(SpanStyle(color = if (a.key in st.bookmarks) Color(0xFFC9A227) else colors.mark)) {
-                        append((if (Scripts.index == 0) "" else AYAH_MARK) + a.number.ar())
+                        append((if (Scripts.index == 0) "" else AYAH_MARK) + a.number.arq())
                     }
                 }
                 append(' ')
@@ -468,14 +470,14 @@ private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: Playing
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f).padding(horizontal = 8.dp)) {
                     Text(
-                        if (playing.active && playing.ayah == 0) "${q.surah(target.surah).name} • البسملة"
-                        else "${q.surah(target.surah).name} • الآية ${target.number.ar()}",
+                        if (playing.active && playing.ayah == 0) "${q.surah(target.surah).title} • ${TR("البسملة", "Basmala")}"
+                        else "${q.surah(target.surah).title} • ${TR("الآية", "Vers")} ${target.number.ar()}",
                         style = MaterialTheme.typography.titleSmall,
                     )
-                    Text(st.reciter.nameAr, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(st.reciter.label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 IconButton(onClick = { vm.toggleBookmark(target.key) }) {
-                    Icon(if (target.key in st.bookmarks) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder, "علامة")
+                    Icon(if (target.key in st.bookmarks) Icons.Rounded.Bookmark else Icons.Rounded.BookmarkBorder, TR("علامة", "Lesezeichen"))
                 }
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
@@ -485,11 +487,11 @@ private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: Playing
                         vm.setRepeat(opts[(opts.indexOf(st.repeat).coerceAtLeast(0) + 1) % opts.size])
                     },
                     label = { Text(if (st.repeat <= 0) "∞" else "×${st.repeat.ar()}") },
-                    leadingIcon = { Icon(Icons.Rounded.Repeat, "تكرار الآية", Modifier.size(18.dp)) },
+                    leadingIcon = { Icon(Icons.Rounded.Repeat, TR("تكرار الآية", "Vers wiederholen"), Modifier.size(18.dp)) },
                     colors = AssistChipDefaults.assistChipColors(),
                 )
                 IconButton(onClick = { vm.step(target.surah, target.number, -1) }) {
-                    Icon(Icons.Rounded.SkipPrevious, "الآية السابقة", Modifier.graphicsLayer(scaleX = -1f))
+                    Icon(Icons.Rounded.SkipPrevious, TR("الآية السابقة", "Vorheriger Vers"), Modifier.graphicsLayer(scaleX = -1f))
                 }
                 FilledIconButton(
                     onClick = { vm.togglePlay(target.surah, target.number) },
@@ -499,12 +501,12 @@ private fun PlayerBar(vm: AppViewModel, q: Quran, st: Settings, playing: Playing
                 ) {
                     when {
                         playing.buffering -> CircularProgressIndicator(Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
-                        playing.isPlaying -> Icon(Icons.Rounded.Pause, "إيقاف مؤقت", Modifier.size(32.dp))
-                        else -> Icon(Icons.Rounded.PlayArrow, "تشغيل", Modifier.size(32.dp))
+                        playing.isPlaying -> Icon(Icons.Rounded.Pause, TR("إيقاف مؤقت", "Pause"), Modifier.size(32.dp))
+                        else -> Icon(Icons.Rounded.PlayArrow, TR("تشغيل", "Abspielen"), Modifier.size(32.dp))
                     }
                 }
                 IconButton(onClick = { vm.step(target.surah, target.number, 1) }) {
-                    Icon(Icons.Rounded.SkipNext, "الآية التالية", Modifier.graphicsLayer(scaleX = -1f))
+                    Icon(Icons.Rounded.SkipNext, TR("الآية التالية", "Nächster Vers"), Modifier.graphicsLayer(scaleX = -1f))
                 }
                 TextButton(onClick = {
                     val opts = listOf(0.75f, 1f, 1.25f, 1.5f, 2f)
@@ -526,7 +528,7 @@ private fun TafsirSheet(vm: AppViewModel, q: Quran, a: Ayah, st: Settings) {
         value = runCatching { Tafsirs.text(ctx, st.tafsir, a.surah, a.number) }
     }
     Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp)) {
-        Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+        Text("${q.surah(a.surah).title} • ${TR("الآية", "Vers")} ${a.number.ar()}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp)) {
             Tafsirs.all.forEachIndexed { i, t ->
                 FilterChip(st.tafsir == i, { vm.setPref(Prefs.Keys.tafsir, i) }, { Text(t.nameAr) }, Modifier.padding(end = 6.dp))
@@ -538,11 +540,11 @@ private fun TafsirSheet(vm: AppViewModel, q: Quran, a: Ayah, st: Settings) {
             when {
                 r == null -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))
                 r.isFailure -> {
-                    Text("تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.", Modifier.padding(top = 16.dp), color = MaterialTheme.colorScheme.error)
-                    OutlinedButton({ retry++ }, Modifier.padding(top = 8.dp)) { Text("إعادة المحاولة") }
+                    Text(TR("تعذّر تحميل التفسير. تحقق من الاتصال بالإنترنت.", "Tafsir konnte nicht geladen werden. Bitte Internetverbindung prüfen."), Modifier.padding(top = 16.dp), color = MaterialTheme.colorScheme.error)
+                    OutlinedButton({ retry++ }, Modifier.padding(top = 8.dp)) { Text(TR("إعادة المحاولة", "Erneut versuchen")) }
                 }
                 else -> Text(
-                    r.getOrThrow().ifBlank { "تفسير هذه الآية مذكور مع الآيات المجاورة." },
+                    r.getOrThrow().ifBlank { TR("تفسير هذه الآية مذكور مع الآيات المجاورة.", "Die Erklärung dieses Verses steht bei den benachbarten Versen.") },
                     Modifier.padding(top = 12.dp), style = MaterialTheme.typography.bodyLarge, lineHeight = 30.sp,
                 )
             }

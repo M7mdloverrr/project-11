@@ -13,14 +13,14 @@ class Tafsir(val nameAr: String, val quranComId: Int? = null, val alquranCloud: 
 
 object Tafsirs {
     val all = listOf(
-        Tafsir("التفسير الميسر"),
-        Tafsir("تفسير الجلالين", alquranCloud = "ar.jalalayn"),
-        Tafsir("تفسير السعدي", quranComId = 91),
-        Tafsir("تفسير ابن كثير", quranComId = 14),
-        Tafsir("تفسير الطبري", quranComId = 15),
-        Tafsir("تفسير القرطبي", quranComId = 90),
-        Tafsir("تفسير البغوي", quranComId = 94),
-        Tafsir("التفسير الوسيط (طنطاوي)", quranComId = 93),
+        Tafsir(TR("التفسير الميسر", "Tafsir al-Muyassar")),
+        Tafsir(TR("تفسير الجلالين", "Tafsir al-Dschalalain"), alquranCloud = "ar.jalalayn"),
+        Tafsir(TR("تفسير السعدي", "Tafsir as-Saadi"), quranComId = 91),
+        Tafsir(TR("تفسير ابن كثير", "Tafsir Ibn Kathir"), quranComId = 14),
+        Tafsir(TR("تفسير الطبري", "Tafsir at-Tabari"), quranComId = 15),
+        Tafsir(TR("تفسير القرطبي", "Tafsir al-Qurtubi"), quranComId = 90),
+        Tafsir(TR("تفسير البغوي", "Tafsir al-Baghawi"), quranComId = 94),
+        Tafsir(TR("التفسير الوسيط (طنطاوي)", "At-Tafsir al-Wasit (Tantawi)"), quranComId = 93),
     )
 
     @Volatile private var muyassar: List<List<String>>? = null

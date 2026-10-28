@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.ui.PrayerScreen
 import io.github.m7mdloverrr.quran.ui.QiblaScreen
 import io.github.m7mdloverrr.quran.ui.StudioScreen
@@ -65,6 +67,7 @@ import io.github.m7mdloverrr.quran.ui.SettingsScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        Lang.init(this)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         val firstLaunch = savedInstanceState == null
@@ -86,7 +89,7 @@ class MainActivity : ComponentActivity() {
             val scriptIndex = settings?.script ?: 0
             LaunchedEffect(scriptIndex) { io.github.m7mdloverrr.quran.data.Scripts.select(applicationContext, scriptIndex) }
             QuranTheme(dark, settings?.pageStyle ?: 0) {
-                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                CompositionLocalProvider(LocalLayoutDirection provides if (Lang.de) LayoutDirection.Ltr else LayoutDirection.Rtl) {
                     Surface(color = MaterialTheme.colorScheme.background) {
                         Image(painterResource(R.drawable.app_bg), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, alpha = settings?.bgAlpha ?: 0.3f)
                         val nav = rememberNavController()

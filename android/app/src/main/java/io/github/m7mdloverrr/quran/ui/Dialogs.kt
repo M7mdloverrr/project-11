@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField
@@ -23,18 +25,18 @@ fun PageJumpDialog(onDismiss: () -> Unit, onGo: (Int) -> Unit) {
     val valid = n != null && n in 1..604
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("الانتقال إلى صفحة") },
+        title = { Text(TR("الانتقال إلى صفحة", "Zu Seite springen")) },
         text = {
             OutlinedTextField(
                 value = text,
                 onValueChange = { text = it.take(3) },
-                label = { Text("رقم الصفحة (${1.ar()}–${604.ar()})") },
+                label = { Text(TR("رقم الصفحة (${1.ar()}–${604.ar()})", "Seitenzahl (${1.ar()}–${604.ar()})")) },
                 singleLine = true,
                 isError = text.isNotEmpty() && !valid,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
         },
-        confirmButton = { TextButton(onClick = { n?.let(onGo) }, enabled = valid) { Text("انتقال") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("إلغاء") } },
+        confirmButton = { TextButton(onClick = { n?.let(onGo) }, enabled = valid) { Text(TR("انتقال", "Los")) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(TR("إلغاء", "Abbrechen")) } },
     )
 }

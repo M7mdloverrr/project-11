@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
@@ -109,15 +111,15 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
 
     private suspend fun clips(q: Quran): List<VerseClip> {
         val ayahs = q.surah(surah).ayahs.subList(from - 1, to)
-        status = "تجهيز التلاوة…"
+        status = TR("تجهيز التلاوة…", "Rezitation wird vorbereitet…")
         progress = 0f
         return prepareAudio(getApplication(), reciter!!, ayahs) { progress = it }
     }
 
     private fun errorText(e: Exception) = when (e) {
-        is AudioMissing -> "تلاوة الآية ${e.ayah.number.ar()} غير متوفرة لهذا القارئ. اختر قارئًا آخر."
-        is IOException -> "تعذّر تنزيل التلاوة. تحقّق من الاتصال ثم أعد المحاولة."
-        else -> "حدث خطأ: ${e.message}"
+        is AudioMissing -> TR("تلاوة الآية ${e.ayah.number.ar()} غير متوفرة لهذا القارئ. اختر قارئًا آخر.", "Vers ${e.ayah.number.ar()} ist bei diesem Rezitator nicht verfügbar. Wähle einen anderen.")
+        is IOException -> TR("تعذّر تنزيل التلاوة. تحقّق من الاتصال ثم أعد المحاولة.", "Rezitation konnte nicht geladen werden. Verbindung prüfen und erneut versuchen.")
+        else -> TR("حدث خطأ: ${e.message}", "Fehler: ${e.message}")
     }
 
     fun preview(q: Quran) {
@@ -153,8 +155,8 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
                 val (w, h) = aspect.size(if (hd) 1080 else 720)
                 outDir.mkdirs()
                 val out = File(outDir, "quran_${System.currentTimeMillis()}.mp4")
-                val renderer = VerseRenderer(getApplication(), style, s.name, reciter!!.nameAr)
-                status = "جارٍ إنشاء الفيديو…"
+                val renderer = VerseRenderer(getApplication(), style, s.title, reciter!!.label)
+                status = TR("جارٍ إنشاء الفيديو…", "Video wird erstellt…")
                 exporting = true
                 progress = 0f
                 transformer = startExport(getApplication(), c, custom ?: Backgrounds[bgIndex].uri, w, h, renderer, out,
@@ -164,9 +166,9 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
                             try {
                                 val name = "Quran_${s.number}_${from}-${to}_${System.currentTimeMillis() / 1000}.mp4"
                                 result = withContext(Dispatchers.IO) { saveToGallery(getApplication(), out, name) }
-                                status = "تم حفظ الفيديو في المعرض (Movies/Quran)"
+                                status = TR("تم حفظ الفيديو في المعرض (Movies/Quran)", "Video in der Galerie gespeichert (Movies/Quran)")
                             } catch (e: Exception) {
-                                status = "تعذّر حفظ الفيديو: ${e.message}"
+                                status = TR("تعذّر حفظ الفيديو: ${e.message}", "Video konnte nicht gespeichert werden: ${e.message}")
                             } finally {
                                 out.delete()
                                 finish()
@@ -176,7 +178,7 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
                     onError = {
                         transformer = null
                         out.delete()
-                        status = "تعذّر التصدير (${it.errorCodeName}). أعد المحاولة."
+                        status = TR("تعذّر التصدير (${it.errorCodeName}). أعد المحاولة.", "Export fehlgeschlagen (${it.errorCodeName}). Bitte erneut versuchen.")
                         finish()
                     },
                 )
@@ -206,7 +208,7 @@ class StudioViewModel(app: Application) : AndroidViewModel(app) {
         transformer = null
         outDir.listFiles()?.forEach { it.delete() }
         stopPreview()
-        if (busy && !silent) status = "تم الإلغاء"
+        if (busy && !silent) status = TR("تم الإلغاء", "Abgebrochen")
         finish()
     }
 
@@ -244,8 +246,8 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
 
     Scaffold(containerColor = Color.Transparent, topBar = {
         TopAppBar(
-            title = { Text("استوديو الفيديو") },
-            navigationIcon = { IconButton(back) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "رجوع") } },
+            title = { Text(TR("استوديو الفيديو", "Video-Studio")) },
+            navigationIcon = { IconButton(back) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, TR("رجوع", "Zurück")) } },
         )
     }) { pad ->
         Column(
@@ -255,7 +257,7 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
             val ratio = vm.aspect.w.toFloat() / vm.aspect.h
             val idx = vm.playingIndex.coerceAtLeast(0)
             val ayah = surah.ayahs[(vm.from - 1 + idx).coerceAtMost(vm.to - 1)]
-            val renderer = remember(vm.style, vm.surah, vm.reciter) { VerseRenderer(ctx, vm.style, surah.name, vm.reciter?.nameAr ?: "") }
+            val renderer = remember(vm.style, vm.surah, vm.reciter) { VerseRenderer(ctx, vm.style, surah.title, vm.reciter?.label ?: "") }
             val (pw, ph) = vm.aspect.size(540)
             val bmp = remember(renderer, ayah, vm.aspect) { renderer.render(pw, ph, ayah).asImageBitmap() }
             Box(
@@ -275,11 +277,11 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
 
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
                 if (vm.playingIndex >= 0) {
-                    OutlinedButton({ vm.stopPreview() }, Modifier.weight(1f)) { Icon(Icons.Rounded.Stop, null); Spacer(Modifier.width(6.dp)); Text("إيقاف") }
+                    OutlinedButton({ vm.stopPreview() }, Modifier.weight(1f)) { Icon(Icons.Rounded.Stop, null); Spacer(Modifier.width(6.dp)); Text(TR("إيقاف", "Stopp")) }
                 } else {
-                    OutlinedButton({ vm.preview(q) }, Modifier.weight(1f), enabled = !vm.busy) { Icon(Icons.Rounded.PlayArrow, null); Spacer(Modifier.width(6.dp)); Text("معاينة") }
+                    OutlinedButton({ vm.preview(q) }, Modifier.weight(1f), enabled = !vm.busy) { Icon(Icons.Rounded.PlayArrow, null); Spacer(Modifier.width(6.dp)); Text(TR("معاينة", "Vorschau")) }
                 }
-                Button({ vm.export(q) }, Modifier.weight(1f), enabled = !vm.busy) { Icon(Icons.Rounded.Movie, null); Spacer(Modifier.width(6.dp)); Text("تصدير MP4") }
+                Button({ vm.export(q) }, Modifier.weight(1f), enabled = !vm.busy) { Icon(Icons.Rounded.Movie, null); Spacer(Modifier.width(6.dp)); Text(TR("تصدير MP4", "MP4 exportieren")) }
             }
             if (vm.busy || vm.status != null) {
                 Card(Modifier.fillMaxWidth()) {
@@ -287,29 +289,29 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
                         vm.status?.let { Text(it, fontWeight = FontWeight.Medium) }
                         if (vm.progress >= 0f) {
                             LinearProgressIndicator({ vm.progress }, Modifier.fillMaxWidth())
-                            Text("${(vm.progress * 100).roundToInt().ar()}٪", fontSize = 12.sp)
+                            Text(TR("${(vm.progress * 100).roundToInt().ar()}٪", "${(vm.progress * 100).roundToInt().ar()} %"), fontSize = 12.sp)
                         }
-                        if (vm.exporting) Text("أبقِ التطبيق مفتوحًا حتى ينتهي التصدير.", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        if (vm.busy) TextButton({ vm.cancel() }) { Text("إلغاء") }
+                        if (vm.exporting) Text(TR("أبقِ التطبيق مفتوحًا حتى ينتهي التصدير.", "Lass die App geöffnet, bis der Export fertig ist."), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (vm.busy) TextButton({ vm.cancel() }) { Text(TR("إلغاء", "Abbrechen")) }
                         vm.result?.let { uri ->
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                                 Button({
                                     val i = Intent(Intent.ACTION_SEND).setType("video/mp4").putExtra(Intent.EXTRA_STREAM, uri)
                                         .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                    ctx.startActivity(Intent.createChooser(i, "مشاركة الفيديو"))
-                                }) { Icon(Icons.Rounded.Share, null); Spacer(Modifier.width(6.dp)); Text("مشاركة") }
+                                    ctx.startActivity(Intent.createChooser(i, TR("مشاركة الفيديو", "Video teilen")))
+                                }) { Icon(Icons.Rounded.Share, null); Spacer(Modifier.width(6.dp)); Text(TR("مشاركة", "Teilen")) }
                                 OutlinedButton({
                                     ctx.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, "video/mp4").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
-                                }) { Text("تشغيل") }
+                                }) { Text(TR("تشغيل", "Abspielen")) }
                             }
                         }
                     }
                 }
             }
 
-            StudioSection("الآيات") {
-                OutlinedButton({ pickSurah = true }, Modifier.fillMaxWidth(), enabled = !vm.busy) { Text("${surah.number.ar()}. ${surah.name}") }
-                Text("من الآية ${vm.from.ar()} إلى الآية ${vm.to.ar()} (${(vm.to - vm.from + 1).ar()} آية)")
+            StudioSection(TR("الآيات", "Verse")) {
+                OutlinedButton({ pickSurah = true }, Modifier.fillMaxWidth(), enabled = !vm.busy) { Text("${surah.number.ar()}. ${surah.title}") }
+                Text(TR("من الآية ${vm.from.ar()} إلى الآية ${vm.to.ar()} (${(vm.to - vm.from + 1).ar()} آية)", "Vers ${vm.from.ar()} bis ${vm.to.ar()} (${(vm.to - vm.from + 1).ar()} Verse)"))
                 RangeSlider(
                     value = vm.from.toFloat()..vm.to.toFloat(),
                     onValueChange = { r -> vm.from = r.start.roundToInt(); vm.to = r.endInclusive.roundToInt().coerceAtLeast(vm.from); changed() },
@@ -317,16 +319,16 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
                     enabled = !vm.busy,
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Stepper("من", vm.from, 1, vm.to, !vm.busy) { vm.from = it; changed() }
-                    Stepper("إلى", vm.to, vm.from, count, !vm.busy) { vm.to = it; changed() }
+                    Stepper(TR("من", "Von"), vm.from, 1, vm.to, !vm.busy) { vm.from = it; changed() }
+                    Stepper(TR("إلى", "Bis"), vm.to, vm.from, count, !vm.busy) { vm.to = it; changed() }
                 }
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    AssistChip({ vm.to = vm.from; changed() }, { Text("آية واحدة") }, enabled = !vm.busy)
-                    AssistChip({ vm.from = 1; vm.to = count; changed() }, { Text("السورة كاملة") }, enabled = !vm.busy)
+                    AssistChip({ vm.to = vm.from; changed() }, { Text(TR("آية واحدة", "Ein Vers")) }, enabled = !vm.busy)
+                    AssistChip({ vm.from = 1; vm.to = count; changed() }, { Text(TR("السورة كاملة", "Ganze Sure")) }, enabled = !vm.busy)
                 }
             }
 
-            StudioSection("القارئ") {
+            StudioSection(TR("القارئ", "Rezitator")) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Reciters.all.forEach { r ->
                         FilterChip(vm.reciter?.id == r.id, { vm.reciter = r; changed() }, { Text(r.nameAr) }, enabled = !vm.busy)
@@ -334,7 +336,7 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
                 }
             }
 
-            StudioSection("الخلفية") {
+            StudioSection(TR("الخلفية", "Hintergrund")) {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     items(Backgrounds.size) { i ->
                         val b = Backgrounds[i]
@@ -359,19 +361,19 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
                                     .clickable(enabled = !vm.busy) { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly)) },
                                 contentAlignment = Alignment.Center,
                             ) { Icon(Icons.Rounded.VideoLibrary, null) }
-                            Text("من الهاتف", fontSize = 12.sp)
+                            Text(TR("من الهاتف", "Vom Handy"), fontSize = 12.sp)
                         }
                     }
                 }
             }
 
-            StudioSection("النص") {
+            StudioSection(TR("النص", "Text")) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("خط المصحف", "نسخ").forEachIndexed { i, t -> FilterChip(vm.style.font == i, { vm.style = vm.style.copy(font = i) }, { Text(t) }) }
+                    listOf(TR("خط المصحف", "Schriftart"), TR("نسخ", "Naskh")).forEachIndexed { i, t -> FilterChip(vm.style.font == i, { vm.style = vm.style.copy(font = i) }, { Text(t) }) }
                 }
-                Text("حجم الخط")
+                Text(TR("حجم الخط", "Schriftgröße"))
                 Slider(vm.style.size, { vm.style = vm.style.copy(size = it) }, valueRange = 0.6f..1.6f)
-                Text("اللون")
+                Text(TR("اللون", "Farbe"))
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     TextColors.forEach { c ->
                         Box(
@@ -381,16 +383,16 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
                         )
                     }
                 }
-                Text("الموضع")
+                Text(TR("الموضع", "Position"))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("أعلى", "وسط", "أسفل").forEachIndexed { i, t -> FilterChip(vm.style.position == i, { vm.style = vm.style.copy(position = i) }, { Text(t) }) }
+                    listOf(TR("أعلى", "Oben"), TR("وسط", "Mitte"), TR("أسفل", "Unten")).forEachIndexed { i, t -> FilterChip(vm.style.position == i, { vm.style = vm.style.copy(position = i) }, { Text(t) }) }
                 }
-                SwitchRow("ظل للنص", vm.style.shadow) { vm.style = vm.style.copy(shadow = it) }
-                Text("تعتيم الخلفية")
+                SwitchRow(TR("ظل للنص", "Textschatten"), vm.style.shadow) { vm.style = vm.style.copy(shadow = it) }
+                Text(TR("تعتيم الخلفية", "Hintergrund abdunkeln"))
                 Slider(vm.style.dim, { vm.style = vm.style.copy(dim = it) }, valueRange = 0f..0.75f)
             }
 
-            StudioSection("الإخراج") {
+            StudioSection(TR("الإخراج", "Ausgabe")) {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Aspect.entries.forEach { a -> FilterChip(vm.aspect == a, { vm.aspect = a; vm.result = null }, { Text(a.label) }, enabled = !vm.busy) }
                 }
@@ -401,7 +403,7 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
             }
 
             Text(
-                "مصادر الخلفيات: " + Backgrounds.joinToString(" • ") { "${it.nameAr}: ${it.credit}" } + ". التلاوات: EveryAyah.com",
+                TR("مصادر الخلفيات: ", "Hintergrundquellen: ") + Backgrounds.joinToString(" • ") { "${it.nameAr}: ${it.credit}" } + TR(". التلاوات: EveryAyah.com", ". Rezitationen: EveryAyah.com"),
                 fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
@@ -410,8 +412,8 @@ fun StudioScreen(app: AppViewModel, back: () -> Unit) {
     if (pickSurah) {
         AlertDialog(
             onDismissRequest = { pickSurah = false },
-            confirmButton = { TextButton({ pickSurah = false }) { Text("إغلاق") } },
-            title = { Text("اختر السورة") },
+            confirmButton = { TextButton({ pickSurah = false }) { Text(TR("إغلاق", "Schließen")) } },
+            title = { Text(TR("اختر السورة", "Sure wählen")) },
             text = {
                 LazyColumn(Modifier.heightIn(max = 420.dp)) {
                     items(q.surahs) { s ->

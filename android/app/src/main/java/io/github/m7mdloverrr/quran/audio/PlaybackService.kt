@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.audio
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.app.PendingIntent
 import android.content.Intent
 import androidx.annotation.OptIn
@@ -50,6 +52,7 @@ class PlaybackService : MediaSessionService() {
 
     override fun onCreate() {
         super.onCreate()
+        Lang.init(this)
         val player = ExoPlayer.Builder(this)
             .setMediaSourceFactory(DefaultMediaSourceFactory(
                     AudioCache.dataSourceFactory(this),

@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.ui
 
+import io.github.m7mdloverrr.quran.data.*
+
 import io.github.m7mdloverrr.quran.data.shown
 
 import androidx.compose.material3.Surface
@@ -89,11 +91,11 @@ fun HomeScreen(
     Scaffold(containerColor = Color.Transparent, 
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("القرآن الكريم", fontFamily = QuranFont, fontSize = 28.sp) },
-                navigationIcon = { IconButton(onClick = openDownloads) { Icon(Icons.Rounded.CloudDownload, "التحميلات") } },
+                title = { Text(TR("القرآن الكريم", "Der edle Koran"), fontFamily = QuranFont, fontSize = 28.sp) },
+                navigationIcon = { IconButton(onClick = openDownloads) { Icon(Icons.Rounded.CloudDownload, TR("التحميلات", "Downloads")) } },
                 actions = {
-                    IconButton(onClick = { jump = true }) { Icon(Icons.Rounded.Numbers, "الانتقال إلى صفحة") }
-                    IconButton(onClick = openSettings) { Icon(Icons.Rounded.Settings, "الإعدادات") }
+                    IconButton(onClick = { jump = true }) { Icon(Icons.Rounded.Numbers, TR("الانتقال إلى صفحة", "Zu Seite springen")) }
+                    IconButton(onClick = openSettings) { Icon(Icons.Rounded.Settings, TR("الإعدادات", "Einstellungen")) }
                 },
             )
         },
@@ -113,20 +115,20 @@ fun HomeScreen(
                     val sub = if (lat != null && lon != null) {
                         val (i, t) = PrayerCalc.next(lat, lon, st.prayerMethod, st.madhab)
                         "${PrayerCalc.names[i]} ${prayerTime(t)}"
-                    } else "حدّد موقعك"
-                    QuickCard("مواقيت الصلاة", sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
-                    QuickCard("القبلة", "البوصلة", Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
+                    } else TR("حدّد موقعك", "Standort festlegen")
+                    QuickCard(TR("مواقيت الصلاة", "Gebetszeiten"), sub, Icons.Rounded.AccessTime, Modifier.weight(1f), openPrayer)
+                    QuickCard(TR("القبلة", "Qibla"), TR("البوصلة", "Kompass"), Icons.Rounded.Explore, Modifier.weight(1f), openQibla)
                 }
             }
             item(key = "studio") {
-                QuickCard("استوديو الفيديو", "اصنع فيديو تلاوة بخلفية طبيعية", Icons.Rounded.Movie, Modifier.appear(2).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
+                QuickCard(TR("استوديو الفيديو", "Video-Studio"), TR("اصنع فيديو تلاوة بخلفية طبيعية", "Rezitationsvideo mit Naturhintergrund erstellen"), Icons.Rounded.Movie, Modifier.appear(2).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openStudio)
             }
             item(key = "tasmee") {
-                QuickCard("التسميع", "سمّع حفظك ويصحّح لك التطبيق كلمةً كلمة", Icons.Rounded.Mic, Modifier.appear(3).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openTasmee)
+                QuickCard(TR("التسميع", "Tasmee"), TR("سمّع حفظك ويصحّح لك التطبيق كلمةً كلمة", "Sag deinen Hifz auf – die App korrigiert Wort für Wort"), Icons.Rounded.Mic, Modifier.appear(3).padding(start = 16.dp, end = 16.dp, bottom = 8.dp).fillMaxWidth(), openTasmee)
             }
             stickyHeader(key = "tabs") {
                 PrimaryTabRow(selectedTabIndex = tab, containerColor = MaterialTheme.colorScheme.background) {
-                    listOf("السور", "الأجزاء", "العلامات").forEachIndexed { i, t ->
+                    listOf(TR("السور", "Suren"), TR("الأجزاء", "Teile"), TR("العلامات", "Lesezeichen")).forEachIndexed { i, t ->
                         Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) })
                     }
                 }
@@ -172,10 +174,10 @@ private fun ContinueCard(q: Quran, st: Settings, openPage: (Int) -> Unit) {
             .padding(20.dp),
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(if (hasHistory) "متابعة القراءة" else "ابدأ القراءة", color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelLarge)
-            Text(q.surah(first.surah).name, color = Color.White, fontFamily = QuranFont, fontSize = 26.sp)
+            Text(if (hasHistory) TR("متابعة القراءة", "Weiterlesen") else TR("ابدأ القراءة", "Mit dem Lesen beginnen"), color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelLarge)
+            Text(q.surah(first.surah).title, color = Color.White, fontFamily = NameFont, fontSize = 26.sp)
             Text(
-                "الجزء ${first.juz.ar()} • الصفحة ${page.ar()} • ${st.reciter.nameAr}",
+                TR("الجزء ${first.juz.ar()} • الصفحة ${page.ar()} • ${st.reciter.label}", "Teil ${first.juz.ar()} • Seite ${page.ar()} • ${st.reciter.label}"),
                 color = Color.White.copy(alpha = 0.85f), style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(Modifier.height(4.dp))
@@ -184,7 +186,7 @@ private fun ContinueCard(q: Quran, st: Settings, openPage: (Int) -> Unit) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = DarkGreen),
             ) {
                 Icon(Icons.AutoMirrored.Rounded.MenuBook, null)
-                Text("  افتح المصحف")
+                Text(TR("  افتح المصحف", "  Mushaf öffnen"))
             }
         }
     }
@@ -194,7 +196,7 @@ private fun LazyListScope.bookmarkItems(q: Quran, st: Settings, openPage: (Int) 
     val list = st.bookmarks.mapNotNull { q.ayahOrNull(it) }.sortedWith(compareBy({ it.surah }, { it.number }))
     if (list.isEmpty()) item(key = "empty") {
         Text(
-            "لا توجد علامات بعد.\nاضغط على أي آية في المصحف ثم على رمز العلامة.",
+            TR("لا توجد علامات بعد.\nاضغط على أي آية في المصحف ثم على رمز العلامة.", "Noch keine Lesezeichen.\nTippe im Mushaf auf einen Vers und dann auf das Lesezeichen-Symbol."),
             Modifier.fillMaxWidth().padding(32.dp),
             textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -205,10 +207,10 @@ private fun LazyListScope.bookmarkItems(q: Quran, st: Settings, openPage: (Int) 
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(Modifier.weight(1f)) {
-                Text("${q.surah(a.surah).name} • الآية ${a.number.ar()}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+                Text("${q.surah(a.surah).title} • ${TR("الآية", "Vers")} ${a.number.ar()}", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
                 Text(a.shown, fontFamily = AyahFont, fontSize = 18.sp, maxLines = 1)
             }
-            IconButton(onClick = { remove(a.key) }) { Icon(Icons.Rounded.BookmarkRemove, "حذف العلامة") }
+            IconButton(onClick = { remove(a.key) }) { Icon(Icons.Rounded.BookmarkRemove, TR("حذف العلامة", "Lesezeichen entfernen")) }
         }
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }

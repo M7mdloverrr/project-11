@@ -1,5 +1,7 @@
 package io.github.m7mdloverrr.quran.tasmee
 
+import io.github.m7mdloverrr.quran.data.*
+
 import android.app.Application
 import android.content.Context
 import android.os.VibrationEffect
@@ -106,7 +108,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                 progress = null
                 ready = ModelStore.ready(getApplication(), model)
                 r.onSuccess { setEngine(engine) }.onFailure {
-                    if (it !is kotlinx.coroutines.CancellationException) error = "تعذّر تنزيل $name. تحقق من الإنترنت وحاول مجدداً."
+                    if (it !is kotlinx.coroutines.CancellationException) error = TR("تعذّر تنزيل $name. تحقق من الإنترنت وحاول مجدداً.", "$name konnte nicht geladen werden. Internet prüfen und erneut versuchen.")
                 }
             }
         }
@@ -187,7 +189,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                 val ph = live?.phonetic == true
                 launch(Dispatchers.Default) { runCatching { Locator.get(getApplication(), ph) } }
             }
-                .onFailure { error = "تعذّر تحميل المصحح الصوتي على هذا الجهاز." }
+                .onFailure { error = TR("تعذّر تحميل المصحح الصوتي على هذا الجهاز.", "Die Sprachkorrektur kann auf diesem Gerät nicht geladen werden.") }
         }
     }
 
@@ -292,7 +294,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     }
                 }
             } catch (e: IllegalStateException) {
-                withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
+                withContext(Dispatchers.Main) { error = TR("تعذّر تشغيل الميكروفون.", "Mikrofon konnte nicht gestartet werden."); finish() }
             }
         }
     }
@@ -338,7 +340,7 @@ class TasmeeViewModel(app: Application) : AndroidViewModel(app) {
                     withContext(Dispatchers.Main) { if (gen == generation) applyLive(outs, t, base) }
                 }
             } catch (e: IllegalStateException) {
-                withContext(Dispatchers.Main) { error = "تعذّر تشغيل الميكروفون."; finish() }
+                withContext(Dispatchers.Main) { error = TR("تعذّر تشغيل الميكروفون.", "Mikrofon konnte nicht gestartet werden."); finish() }
             }
         }
     }
