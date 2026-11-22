@@ -227,4 +227,35 @@ select pg_temp.as_user('00000000-0000-0000-0000-00000000000d');
 do $$ begin assert (select count(*) from public.lesson_progress) = 1, 'admin sees progress'; end $$;
 reset role;
 
+-- Homework ---------------------------------------------------------------------
+-- Herr Müller (a) gets Sara (c) as an active student via the admin.
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000d');
+select role from public.admin_update_profile('00000000-0000-0000-0000-00000000000a', p_role => 'teacher');
+select status from public.admin_link_student('00000000-0000-0000-0000-00000000000a', '00000000-0000-0000-0000-00000000000c');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000a');
+insert into public.lesson_assignments (teacher_id, student_id, lesson_id, note)
+values (auth.uid(), '00000000-0000-0000-0000-00000000000c', (select id from public.lessons where position = 1 and published), 'Bis Freitag');
+select pg_temp.expect_error($$insert into public.lesson_assignments (teacher_id, student_id, lesson_id) values (auth.uid(), '00000000-0000-0000-0000-00000000000b', (select id from public.lessons where position = 2))$$, 'assign to unlinked student');
+select pg_temp.expect_error($$insert into public.lesson_assignments (teacher_id, student_id, lesson_id) values (auth.uid(), '00000000-0000-0000-0000-00000000000c', (select id from public.lessons where position = 8))$$, 'assign unpublished lesson');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000c');
+do $$ begin assert (select count(*) from public.lesson_assignments) = 1, 'student sees own homework'; end $$;
+select pg_temp.expect_error($$insert into public.lesson_assignments (teacher_id, student_id, lesson_id) values ('00000000-0000-0000-0000-00000000000a', auth.uid(), (select id from public.lessons where position = 2))$$, 'student assigns homework');
+delete from public.lesson_assignments;
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000b');
+do $$ begin assert (select count(*) from public.lesson_assignments) = 0, 'other student sees no homework'; end $$;
+reset role;
+do $$ begin assert (select count(*) from public.lesson_assignments) = 1, 'student delete was ignored'; end $$;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000a');
+do $$ declare n int; begin
+  -- Teacher sees the linked student's progress once Sara finishes a lesson.
+  assert (select count(*) from public.lesson_progress where student_id = '00000000-0000-0000-0000-00000000000c') = 0;
+  delete from public.lesson_assignments;
+  get diagnostics n = row_count;
+  assert n = 1, 'teacher removes homework';
+end $$;
+reset role;
+
 select 'ALL SQL TESTS PASSED' as result;

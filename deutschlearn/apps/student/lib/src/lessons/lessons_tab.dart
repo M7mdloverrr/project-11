@@ -29,9 +29,11 @@ class LessonsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = ref.watch(progressSummaryProvider);
+    final assigned = {...?ref.watch(myAssignmentsProvider).value?.map((a) => a.lessonId)};
     void retry() => ref
       ..invalidate(lessonsProvider)
-      ..invalidate(myProgressProvider);
+      ..invalidate(myProgressProvider)
+      ..invalidate(myAssignmentsProvider);
     return RefreshIndicator(
       onRefresh: () async => retry(),
       child: ListView(
@@ -57,7 +59,7 @@ class LessonsTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: DLSpacing.md),
                   for (final l in s.lessons.where((x) => x.level == level)) ...[
-                    LessonCard(lesson: l, progress: s.progress[l.id]),
+                    LessonCard(lesson: l, progress: s.progress[l.id], assigned: assigned.contains(l.id)),
                     const SizedBox(height: DLSpacing.md),
                   ],
                   const SizedBox(height: DLSpacing.md),
@@ -72,10 +74,11 @@ class LessonsTab extends ConsumerWidget {
 }
 
 class LessonCard extends StatelessWidget {
-  const LessonCard({super.key, required this.lesson, this.progress});
+  const LessonCard({super.key, required this.lesson, this.progress, this.assigned = false});
 
   final Lesson lesson;
   final LessonProgress? progress;
+  final bool assigned;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +107,10 @@ class LessonCard extends StatelessWidget {
                       : 'مكتمل • ${p.bestScore}/${p.maxScore}',
                   style: t.bodySmall,
                 ),
+                if (assigned) ...[
+                  const SizedBox(height: DLSpacing.xs),
+                  const DLStatusChip(label: 'واجب • Hausaufgabe', tone: DLStatusTone.warning),
+                ],
               ],
             ),
           ),

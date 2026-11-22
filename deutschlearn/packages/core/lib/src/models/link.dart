@@ -139,7 +139,12 @@ class LinkRequest {
 
 /// Result of resolve-teacher-code.
 class LinkRequestResult {
-  const LinkRequestResult({required this.linkId, required this.status, required this.teacherDisplayName, this.requestId});
+  const LinkRequestResult({
+    required this.linkId,
+    required this.status,
+    required this.teacherDisplayName,
+    this.requestId,
+  });
 
   factory LinkRequestResult.fromJson(Map<String, dynamic> json) => LinkRequestResult(
     linkId: json['link_id'] as String,

@@ -192,3 +192,34 @@ class ProgressSummary {
     return null;
   }
 }
+
+/// A lesson a teacher assigned to a linked student as homework.
+class LessonAssignment {
+  const LessonAssignment({
+    required this.id,
+    required this.teacherId,
+    required this.studentId,
+    required this.lessonId,
+    required this.createdAt,
+    this.note = '',
+    this.dueOn,
+  });
+
+  factory LessonAssignment.fromJson(Map<String, dynamic> j) => LessonAssignment(
+    id: j['id'] as String,
+    teacherId: j['teacher_id'] as String,
+    studentId: j['student_id'] as String,
+    lessonId: j['lesson_id'] as String,
+    note: (j['note'] as String?) ?? '',
+    dueOn: j['due_on'] == null ? null : DateTime.parse(j['due_on'] as String),
+    createdAt: DateTime.parse(j['created_at'] as String),
+  );
+
+  final String id;
+  final String teacherId;
+  final String studentId;
+  final String lessonId;
+  final String note;
+  final DateTime? dueOn;
+  final DateTime createdAt;
+}

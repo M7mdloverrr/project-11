@@ -11,6 +11,7 @@ class SupabaseLessonRepository implements LessonRepository {
 
   static const _lessonColumns = 'id, cefr_level, position, title_de, title_ar, description_ar, published';
   static const _itemColumns = 'id, position, kind, german, arabic, example_de, example_ar, options, answer';
+  static const _assignmentColumns = 'id, teacher_id, student_id, lesson_id, note, due_on, created_at';
   static const _progressColumns = 'student_id, lesson_id, best_score, max_score, attempts, completed_at';
 
   @override
@@ -80,4 +81,36 @@ class SupabaseLessonRepository implements LessonRepository {
       for (final (i, item) in items.indexed) {...item.toJson(), 'lesson_id': lessonId, 'position': i + 1},
     ]);
   });
+
+  @override
+  Future<List<LessonAssignment>> fetchAssignments({String? studentId}) => guardSupabase(() async {
+    final id = studentId ?? _client.auth.currentUser?.id;
+    if (id == null) return const <LessonAssignment>[];
+    final rows = await _client
+        .from('lesson_assignments')
+        .select(_assignmentColumns)
+        .eq('student_id', id)
+        .order('created_at', ascending: false);
+    return rows.map(LessonAssignment.fromJson).toList();
+  });
+
+  @override
+  Future<LessonAssignment> assignLesson({required String studentId, required String lessonId, String note = ''}) =>
+      guardSupabase(() async {
+        final row = await _client
+            .from('lesson_assignments')
+            .insert({
+              'teacher_id': _client.auth.currentUser?.id,
+              'student_id': studentId,
+              'lesson_id': lessonId,
+              'note': note.trim(),
+            })
+            .select(_assignmentColumns)
+            .single();
+        return LessonAssignment.fromJson(row);
+      });
+
+  @override
+  Future<void> removeAssignment(String assignmentId) =>
+      guardSupabase(() => _client.from('lesson_assignments').delete().eq('id', assignmentId));
 }

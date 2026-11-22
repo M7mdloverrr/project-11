@@ -135,4 +135,14 @@ class UnconfiguredLessonRepository implements LessonRepository {
   Future<void> deleteLesson(String lessonId) => Future.error(_notConfigured);
   @override
   Future<void> saveItems(String lessonId, List<LessonItem> items) => Future.error(_notConfigured);
+
+  @override
+  Future<List<LessonAssignment>> fetchAssignments({String? studentId}) => Future.error(_notConfigured);
+
+  @override
+  Future<LessonAssignment> assignLesson({required String studentId, required String lessonId, String note = ''}) =>
+      Future.error(_notConfigured);
+
+  @override
+  Future<void> removeAssignment(String assignmentId) => Future.error(_notConfigured);
 }

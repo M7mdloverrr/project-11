@@ -4,11 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'dashboard/dashboard_screen.dart';
+
+import 'package:core/core.dart';
+
 import 'profile_setup_screen.dart';
+import 'students/student_detail_screen.dart';
 
 abstract final class TeacherRoutes {
   static const dashboard = '/dashboard';
   static const profileSetup = '/profile-setup';
+  static String student(String id) => '/dashboard/student/$id';
 }
 
 const _appSubtitle = 'لوحة المعلّم • Lehrer-Dashboard';
@@ -56,7 +61,17 @@ final teacherRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const WrongRoleScreen(otherAppArabic: 'تطبيق الطالب', otherAppGerman: 'Schüler-App'),
       ),
       GoRoute(path: TeacherRoutes.profileSetup, builder: (_, _) => const ProfileSetupScreen()),
-      GoRoute(path: TeacherRoutes.dashboard, builder: (_, _) => const DashboardScreen()),
+      GoRoute(
+        path: TeacherRoutes.dashboard,
+        builder: (_, _) => const DashboardScreen(),
+        routes: [
+          GoRoute(
+            path: 'student/:id',
+            builder: (_, state) =>
+                StudentDetailScreen(studentId: state.pathParameters['id']!, student: state.extra as LinkParty?),
+          ),
+        ],
+      ),
     ],
   );
   ref.onDispose(router.dispose);

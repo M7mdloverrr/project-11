@@ -534,9 +534,11 @@ class FakeAdminRepository implements AdminRepository {
 
 /// In-memory lessons and progress.
 class FakeLessonRepository implements LessonRepository {
-  FakeLessonRepository({this.studentId = 'student-1'});
+  FakeLessonRepository({this.studentId = 'student-1', this.teacherId = 'teacher-1'});
 
   final String studentId;
+  final String teacherId;
+  final List<LessonAssignment> assignments = [];
   final List<Lesson> lessons = [];
   final Map<String, LessonProgress> progress = {};
   final completions = <({String lessonId, int score, int max})>[];
@@ -662,5 +664,33 @@ class FakeLessonRepository implements LessonRepository {
           answer: it.answer,
         ),
     ]);
+  }
+
+  @override
+  Future<List<LessonAssignment>> fetchAssignments({String? studentId}) async {
+    await _tick();
+    final id = studentId ?? this.studentId;
+    return assignments.where((a) => a.studentId == id).toList();
+  }
+
+  @override
+  Future<LessonAssignment> assignLesson({required String studentId, required String lessonId, String note = ''}) async {
+    await _tick();
+    final a = LessonAssignment(
+      id: 'assignment-${++_seq}',
+      teacherId: teacherId,
+      studentId: studentId,
+      lessonId: lessonId,
+      note: note,
+      createdAt: DateTime.now(),
+    );
+    assignments.add(a);
+    return a;
+  }
+
+  @override
+  Future<void> removeAssignment(String assignmentId) async {
+    await _tick();
+    assignments.removeWhere((a) => a.id == assignmentId);
   }
 }

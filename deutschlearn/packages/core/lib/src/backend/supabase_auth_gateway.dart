@@ -25,8 +25,9 @@ class SupabaseAuthGateway implements AuthGateway {
   @override
   Stream<AuthEvent> get events => _auth.onAuthStateChange.map((s) {
     final kind = switch (s.event) {
-      sb.AuthChangeEvent.signedIn || sb.AuthChangeEvent.initialSession || sb.AuthChangeEvent.tokenRefreshed =>
-        s.session == null ? AuthEventKind.other : AuthEventKind.signedIn,
+      sb.AuthChangeEvent.signedIn ||
+      sb.AuthChangeEvent.initialSession ||
+      sb.AuthChangeEvent.tokenRefreshed => s.session == null ? AuthEventKind.other : AuthEventKind.signedIn,
       sb.AuthChangeEvent.signedOut => AuthEventKind.signedOut,
       sb.AuthChangeEvent.passwordRecovery => AuthEventKind.passwordRecovery,
       _ => AuthEventKind.other,

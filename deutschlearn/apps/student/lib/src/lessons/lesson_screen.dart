@@ -84,7 +84,11 @@ class _LessonPlayerState extends ConsumerState<_LessonPlayer> {
           const SizedBox(height: DLSpacing.xl),
           Center(child: DLProgressRing(value: max == 0 ? 1 : _score / max, size: 120)),
           const SizedBox(height: DLSpacing.xl),
-          const DLBilingualTitle(arabic: 'أحسنت! انتهى الدرس', german: 'Super! Lektion geschafft', align: CrossAxisAlignment.center),
+          const DLBilingualTitle(
+            arabic: 'أحسنت! انتهى الدرس',
+            german: 'Super! Lektion geschafft',
+            align: CrossAxisAlignment.center,
+          ),
           const SizedBox(height: DLSpacing.md),
           Text(
             'النتيجة • Ergebnis: $_score / $max',
