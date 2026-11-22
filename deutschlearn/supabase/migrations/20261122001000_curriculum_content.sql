@@ -3425,5 +3425,136 @@ die Zeitschrift (المجلة)، der Artikel، die sozialen Medien، der Bericht
     (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Bescheid = القرار", "der Kredit = القرض", "die Ausstellung = المعرض", "der Schimmel = العفن", "gültig = صالح"]'::jsonb, null),
     (l, 9, 'order', 'Ich habe gegen den Bescheid Widerspruch eingelegt.', 'اعترضت على القرار.', null, null, null, null),
     (l, 10, 'write', 'Das kann ich mir nicht leisten.|Das kann ich mir nicht leisten', 'اكتب: لا أقدر على ذلك ماديّاً.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-grammatik-2', 'B1', 4, 'Grammatik B1 – Teil 2', 'قواعد B1 — الجزء الثاني', 'Konjunktiv II في الماضي، الـ Genitiv وحروف جره، أدوات الربط obwohl/trotzdem/deshalb، الروابط الثنائية، المستقبل Futur I، وتصريف n-Deklination.', 'grammar') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-konjunktiv-vergangenheit', m, 'B1', 401, 'lesson', 'Konjunktiv II – Irreales und Vergangenheit', 'Konjunktiv II — غير الواقعي وفي الماضي', '', 'أن تعبّر عن أمنيات وشروط غير واقعية في الحاضر والماضي.', '## الحاضر غير الواقعي
+> Wenn ich reich **wäre**, **würde** ich um die Welt reisen.
+> Wenn ich doch mehr Zeit **hätte**! (ليت عندي وقت أكثر)
+## الماضي غير الواقعي: hätte/wäre + Partizip II
+> Wenn ich früher aufgestanden **wäre**, **hätte** ich den Zug nicht **verpasst**.
+> Ich **hätte** dich anrufen **sollen**. (كان يجب أن أتصل بك)
+## als ob = كأنّ
+> Er tut so, **als ob** er alles **wüsste**.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Wenn ich Zeit ___, würde ich dir helfen.', '', null, null, '["hätte", "habe", "hatte"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wenn ich du ___, würde ich das nicht machen.', '', null, null, '["wäre", "bin", "war"]'::jsonb, 0),
+    (l, 3, 'gap', 'Wenn du mich gefragt ___, hätte ich dir geholfen.', '', null, null, '["hättest", "hast", "wärst"]'::jsonb, 0),
+    (l, 4, 'gap', 'Wenn wir früher losgefahren ___, wären wir pünktlich gewesen.', '', null, null, '["wären", "hätten", "sind"]'::jsonb, 0),
+    (l, 5, 'gap', 'Ich ___ besser lernen sollen.', '', null, null, '["hätte", "wäre", "würde"]'::jsonb, 0),
+    (l, 6, 'gap', 'Er tut so, als ob er krank ___.', '', null, null, '["wäre", "ist", "sei gewesen"]'::jsonb, 0),
+    (l, 7, 'quiz', '', '''Wenn ich das gewusst hätte, …'' — ما المعنى؟', null, null, '["لو كنت أعرف ذلك (لكنني لم أعرف)", "عندما عرفت ذلك", "لأنني عرفت ذلك", "قبل أن أعرف"]'::jsonb, 0),
+    (l, 8, 'order', 'Wenn ich mehr Geld hätte, würde ich ein Haus kaufen.', 'لو كان لدي مال أكثر لاشتريت بيتاً.', null, null, null, null),
+    (l, 9, 'write', 'Ich hätte dich anrufen sollen.|Ich hätte dich anrufen sollen', 'اكتب: كان يجب أن أتصل بك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-genitiv', m, 'B1', 402, 'lesson', 'Der Genitiv und Präpositionen mit Genitiv', 'حالة الـ Genitiv وحروف جرّها', '', 'أن تفهم وتستخدم الـ Genitiv للملكية ومع wegen, trotz, während, statt.', '## الأدوات
+| | مذكر | مؤنث | محايد | جمع |
+|---|---|---|---|---|
+| Gen. | **des** Mann**es** | **der** Frau | **des** Kind**es** | **der** Kinder |
+| | eines Mann**es** | einer Frau | eines Kind**es** | — |
+المذكر والمحايد يأخذان **-s / -es** في الاسم.
+## الملكية
+> das Auto **meines Vaters** (سيارة أبي) — in der Mitte **der Stadt**
+> في الكلام اليومي: das Auto **von meinem** Vater.
+## حروف جر مع Genitiv
+**wegen** (بسبب)، **trotz** (رغم)، **während** (أثناء)، **statt** (بدلاً من)، **innerhalb/außerhalb** (داخل/خارج)
+> **Wegen des** schlechten Wetters bleiben wir zu Hause.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Das ist das Auto ___ Nachbarn.', '', null, null, '["des", "dem", "der"]'::jsonb, 0),
+    (l, 2, 'gap', 'Die Farbe ___ Tür gefällt mir nicht.', '', null, null, '["der", "des", "die"]'::jsonb, 0),
+    (l, 3, 'gap', 'Das Zimmer ___ Kindes ist klein.', '', null, null, '["des", "der", "dem"]'::jsonb, 0),
+    (l, 4, 'gap', '___ des Regens sind wir spazieren gegangen.', '', null, null, '["Trotz", "Wegen", "Statt"]'::jsonb, 0),
+    (l, 5, 'gap', '___ des Streiks fahren heute keine Busse.', '', null, null, '["Wegen", "Trotz", "Während"]'::jsonb, 0),
+    (l, 6, 'gap', '___ der Ferien ist die Schule geschlossen.', '', null, null, '["Während", "Trotz", "Statt"]'::jsonb, 0),
+    (l, 7, 'gap', 'Die Antwort muss innerhalb einer ___ kommen.', '', null, null, '["Woche", "Woches", "Wochen"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["wegen = بسبب", "trotz = رغم", "während = أثناء", "statt = بدلاً من", "außerhalb = خارج"]'::jsonb, null),
+    (l, 9, 'order', 'Wegen der Verspätung haben wir den Anschluss verpasst.', 'بسبب التأخير فاتنا القطار التالي.', null, null, null, null),
+    (l, 10, 'write', 'das Haus meiner Eltern', 'اكتب بالـ Genitiv: بيت والديّ (das Haus + meine Eltern)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-konnektoren', m, 'B1', 403, 'lesson', 'Konnektoren – obwohl, trotzdem, deshalb, sodass', 'أدوات الربط — obwohl و trotzdem و deshalb و sodass', '', 'أن تربط الجمل لتعبّر عن السبب والنتيجة والتعارض بترتيب صحيح.', '## ثلاثة أنواع حسب مكان الفعل
+| النوع | الكلمات | مكان الفعل |
+|---|---|---|
+| روابط (مكان 0) | und, aber, oder, denn, sondern | ترتيب عادي |
+| ظروف (مكان 1) | deshalb, deswegen, trotzdem, dann, sonst, außerdem | **الفعل مباشرة بعدها** |
+| روابط فرعية | weil, obwohl, sodass, damit, falls, während | **الفعل في الآخر** |
+## المعنى
+> Es regnet, **trotzdem** gehe ich spazieren. (مع ذلك)
+> **Obwohl** es regnet, gehe ich spazieren. (رغم أن)
+> Ich war krank, **deshalb** bin ich zu Hause geblieben. (لذلك)
+> Er sprach so leise, **sodass** niemand ihn verstand. (بحيث)
+> Nimm einen Schirm, **sonst** wirst du nass. (وإلا)
+> **Falls** du Hilfe brauchst, ruf mich an. (في حال)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich bin müde, trotzdem gehe ich zur Arbeit.", "Ich bin müde, trotzdem ich gehe zur Arbeit.", "Ich bin müde, trotzdem zur Arbeit ich gehe.", "Ich bin müde, trotzdem ich zur Arbeit gehe."]'::jsonb, 0),
+    (l, 2, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Obwohl ich müde bin, gehe ich zur Arbeit.", "Obwohl ich bin müde, gehe ich zur Arbeit.", "Obwohl ich müde bin, ich gehe zur Arbeit.", "Obwohl müde ich bin, gehe ich zur Arbeit."]'::jsonb, 0),
+    (l, 3, 'gap', 'Der Bus kam nicht, ___ bin ich zu Fuß gegangen.', '', null, null, '["deshalb", "obwohl", "weil"]'::jsonb, 0),
+    (l, 4, 'gap', '___ er viel gelernt hat, hat er die Prüfung nicht bestanden.', '', null, null, '["Obwohl", "Trotzdem", "Deshalb"]'::jsonb, 0),
+    (l, 5, 'gap', 'Beeil dich, ___ verpassen wir den Zug.', '', null, null, '["sonst", "trotzdem", "obwohl"]'::jsonb, 0),
+    (l, 6, 'gap', '___ es morgen regnet, bleiben wir zu Hause.', '', null, null, '["Falls", "Trotzdem", "Sonst"]'::jsonb, 0),
+    (l, 7, 'gap', 'Es war so laut, ___ ich nicht schlafen konnte.', '', null, null, '["sodass", "deshalb", "damit"]'::jsonb, 0),
+    (l, 8, 'gap', 'Das ist nicht mein Buch, ___ das Buch meiner Schwester.', '', null, null, '["sondern", "aber", "oder"]'::jsonb, 0),
+    (l, 9, 'order', 'Es war kalt, trotzdem sind wir schwimmen gegangen.', 'كان الجو بارداً، ومع ذلك ذهبنا للسباحة.', null, null, null, null),
+    (l, 10, 'write', 'Obwohl es regnet|Obwohl es regnet,', 'اكتب: رغم أنها تمطر (Obwohl …)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-zweiteilig', m, 'B1', 404, 'lesson', 'Zweiteilige Konnektoren', 'الروابط الثنائية', '', 'أن تستخدم sowohl…als auch، weder…noch، entweder…oder، nicht nur…sondern auch، je…desto.', '| الرابط | المعنى | مثال |
+|---|---|---|
+| sowohl … als auch | كلاً من … و | Ich spreche **sowohl** Arabisch **als auch** Deutsch. |
+| weder … noch | لا … ولا | Er trinkt **weder** Kaffee **noch** Tee. |
+| entweder … oder | إمّا … أو | **Entweder** kommst du mit, **oder** du bleibst hier. |
+| nicht nur … sondern auch | ليس فقط … بل أيضاً | Sie ist **nicht nur** klug, **sondern auch** fleißig. |
+| zwar … aber | صحيح أن … لكن | Die Wohnung ist **zwar** klein, **aber** billig. |
+| je … desto | كلما … كلما | **Je** mehr ich lerne, **desto** besser **spreche** ich. |
+في **je … desto**: الفعل في آخر الجزء الأول، وبعد desto + صفة يأتي الفعل مباشرة.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich habe ___ Zeit noch Geld.', '', null, null, '["weder", "entweder", "sowohl"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wir fahren ___ mit dem Zug oder mit dem Auto.', '', null, null, '["entweder", "weder", "sowohl"]'::jsonb, 0),
+    (l, 3, 'gap', 'Er spricht ___ Englisch als auch Französisch.', '', null, null, '["sowohl", "weder", "nicht nur"]'::jsonb, 0),
+    (l, 4, 'gap', 'Das Hotel war nicht nur schön, ___ auch günstig.', '', null, null, '["sondern", "aber", "oder"]'::jsonb, 0),
+    (l, 5, 'gap', 'Die Arbeit ist ___ anstrengend, aber interessant.', '', null, null, '["zwar", "weder", "je"]'::jsonb, 0),
+    (l, 6, 'gap', 'Je länger ich in Deutschland lebe, ___ besser verstehe ich die Kultur.', '', null, null, '["desto", "als", "so"]'::jsonb, 0),
+    (l, 7, 'match', '', 'طابق الجزء الأول بالثاني', null, null, '["weder = noch", "entweder = oder", "sowohl = als auch", "nicht nur = sondern auch", "je = desto"]'::jsonb, null),
+    (l, 8, 'order', 'Je mehr ich übe, desto besser spreche ich.', 'كلما تمرّنت أكثر تكلمت أفضل.', null, null, null, null),
+    (l, 9, 'write', 'weder noch|weder … noch|weder ... noch', 'ما الرابط الذي يعني ''لا … ولا''؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-futur-n', m, 'B1', 405, 'lesson', 'Futur I und n-Deklination', 'المستقبل Futur I وتصريف n-Deklination', '', 'أن تتكلم عن المستقبل والتوقعات بـ werden، وتعرف الأسماء المذكرة التي تأخذ -n.', '## Futur I = werden + مصدر (في الآخر)
+> Ich **werde** nächstes Jahr in Berlin **studieren**. (خطة/وعد)
+> Es **wird** morgen **regnen**. (توقّع)
+> Er **wird** wohl krank **sein**. (افتراض)
+في الكلام كثيراً نستعمل المضارع + كلمة زمن: Morgen fahre ich nach Köln.
+## n-Deklination
+أسماء مذكرة (غالباً لأشخاص وحيوانات، ومنتهية بـ -e أو -ent/-ant/-ist) تأخذ **-n/-en** في كل الحالات ما عدا Nominativ المفرد:
+| Nom. | Akk./Dat./Gen. |
+|---|---|
+| der Kollege | den/dem/des Kolleg**en** |
+| der Student | den/dem/des Student**en** |
+| der Nachbar | den/dem/des Nachbar**n** |
+| der Herr | den/dem/des Herr**n** |
+| der Mensch | den/dem/des Mensch**en** |', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Nächstes Jahr ___ ich meinen Führerschein machen.', '', null, null, '["werde", "wird", "wurde"]'::jsonb, 0),
+    (l, 2, 'gap', 'Morgen wird es kalt ___.', '', null, null, '["sein", "ist", "gewesen"]'::jsonb, 0),
+    (l, 3, 'gap', 'Er ist nicht da. Er ___ wohl noch im Büro sein.', '', null, null, '["wird", "werden", "würde"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich habe ___ Kollegen gefragt.', '', null, null, '["den", "der", "dem"]'::jsonb, 0),
+    (l, 5, 'gap', 'Kennst du den neuen ___?', '', null, null, '["Studenten", "Student", "Studente"]'::jsonb, 0),
+    (l, 6, 'gap', 'Ich spreche mit dem ___ von nebenan.', '', null, null, '["Nachbarn", "Nachbar", "Nachbars"]'::jsonb, 0),
+    (l, 7, 'gap', 'Guten Tag, Herr Schulz! – Ich habe einen Brief für ___ Schulz.', '', null, null, '["Herrn", "Herr", "Herren"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Wir werden euch nächste Woche besuchen.", "Wir werden euch besuchen nächste Woche werden.", "Wir wird euch nächste Woche besuchen.", "Wir werden euch nächste Woche besucht."]'::jsonb, 0),
+    (l, 9, 'order', 'Ich werde dir morgen alles erklären.', 'سأشرح لك كل شيء غداً.', null, null, null, null),
+    (l, 10, 'write', 'Ich werde dich anrufen.|Ich werde dich anrufen', 'اكتب بالـ Futur: سأتصل بك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-grammatik-2-test', m, 'B1', 406, 'test', 'Modultest – Grammatik B1 Teil 2', 'اختبار قواعد B1 — الجزء الثاني', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Wenn ich das gewusst ___, wäre ich gekommen.', '', null, null, '["hätte", "wäre", "habe"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wenn ich Bürgermeister ___, würde ich mehr Parks bauen.', '', null, null, '["wäre", "bin", "würde"]'::jsonb, 0),
+    (l, 3, 'gap', 'Die Wohnung ___ Freundes ist sehr groß.', '', null, null, '["meines", "meinem", "meinen"]'::jsonb, 0),
+    (l, 4, 'gap', '___ des schlechten Wetters fand das Fest statt.', '', null, null, '["Trotz", "Wegen", "Während"]'::jsonb, 0),
+    (l, 5, 'gap', 'Er hatte Kopfschmerzen, ___ ist er früher nach Hause gegangen.', '', null, null, '["deshalb", "obwohl", "trotzdem er"]'::jsonb, 0),
+    (l, 6, 'gap', '___ sie wenig Geld hat, ist sie glücklich.', '', null, null, '["Obwohl", "Trotzdem", "Deshalb"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich esse ___ Fleisch noch Fisch.', '', null, null, '["weder", "entweder", "sowohl"]'::jsonb, 0),
+    (l, 8, 'gap', 'Je früher wir losfahren, ___ weniger Stau gibt es.', '', null, null, '["desto", "als", "wie"]'::jsonb, 0),
+    (l, 9, 'gap', 'Im Sommer ___ wir nach Spanien fliegen.', '', null, null, '["werden", "wird", "wurden"]'::jsonb, 0),
+    (l, 10, 'gap', 'Ich habe dem ___ einen Kaffee gebracht.', '', null, null, '["Kollegen", "Kollege", "Kolleges"]'::jsonb, 0),
+    (l, 11, 'order', 'Obwohl er krank war, ist er zur Arbeit gegangen.', 'رغم أنه كان مريضاً ذهب إلى العمل.', null, null, null, null),
+    (l, 12, 'order', 'Die Wohnung ist zwar klein, aber sehr gemütlich.', 'الشقة صحيح أنها صغيرة لكنها مريحة جداً.', null, null, null, null),
+    (l, 13, 'write', 'Wenn ich Zeit hätte|Wenn ich Zeit hätte,', 'اكتب: لو كان عندي وقت (Wenn …)', null, null, null, null);
 end
 $$;
