@@ -1978,5 +1978,326 @@ Liebe Grüße, Jonas', 'مرحباً كيرستين، أنا الآن في فر�
     (l, 18, 'order', 'Ich habe gestern meine Freunde getroffen.', 'أمس التقيت أصدقائي.', null, null, null, null),
     (l, 19, 'write', 'Mit freundlichen Grüßen', 'اكتب ختام رسالة رسمية:', null, null, null, null),
     (l, 20, 'write', 'Ich wohne in Berlin.|Ich wohne in Berlin', 'اكتب: أسكن في برلين.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-menschen', 'A2', 1, 'Menschen, Beziehungen und Feste', 'الناس والعلاقات والمناسبات', 'مفردات Goethe A2 — وصف الشكل والشخصية، العلاقات، المشاعر، الأعياد والدعوات والتهاني.', 'people') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-aussehen', m, 'A2', 101, 'lesson', 'Aussehen und Charakter', 'الشكل والشخصية', '', 'أن تصف شكل شخص وشخصيته بجمل كاملة.', '## الشكل (das Aussehen)
+> Er ist groß und schlank. Er hat kurze, schwarze Haare und braune Augen.
+> Sie trägt eine Brille und hat lange, blonde Haare.
+## الشخصية (der Charakter)
+| positiv | negativ |
+|---|---|
+| freundlich, ehrlich, fleißig, lustig, geduldig | unfreundlich, faul, ungeduldig, langweilig |
+**un-** في أول الصفة = عكسها: freundlich ↔ unfreundlich.
+## Wie sieht er aus? / Wie ist er?
+الأول عن الشكل، الثاني عن الشخصية.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'aus|sehen – er sieht aus', 'يبدو (شكلاً)', 'Wie sieht dein Bruder aus?', 'كيف يبدو أخوك؟', null, null),
+    (l, 2, 'vocab', 'das Aussehen', 'المظهر', null, null, null, null),
+    (l, 3, 'vocab', 'das Haar, -e', 'الشعر', 'Sie hat lange Haare.', 'شعرها طويل.', null, null),
+    (l, 4, 'vocab', 'blond / dunkel / lockig', 'أشقر / داكن / مجعّد', null, null, null, null),
+    (l, 5, 'vocab', 'der Bart, ¨-e', 'اللحية', null, null, null, null),
+    (l, 6, 'vocab', 'die Brille, -n', 'النظارة', null, null, null, null),
+    (l, 7, 'vocab', 'schlank / dick', 'نحيف / سمين', null, null, null, null),
+    (l, 8, 'vocab', 'hübsch', 'جميل / وسيم', null, null, null, null),
+    (l, 9, 'vocab', 'das Gesicht, -er', 'الوجه', null, null, null, null),
+    (l, 10, 'vocab', 'die Nase, -n', 'الأنف', null, null, null, null),
+    (l, 11, 'vocab', 'der Zahn, ¨-e', 'السن', null, null, null, null),
+    (l, 12, 'vocab', 'der Charakter', 'الشخصية', null, null, null, null),
+    (l, 13, 'vocab', 'ehrlich', 'صادق', 'Sie ist immer ehrlich.', 'هي صادقة دائماً.', null, null),
+    (l, 14, 'vocab', 'fleißig ↔ faul', 'مجتهد ↔ كسول', null, null, null, null),
+    (l, 15, 'vocab', 'lustig', 'مضحك / مرِح', null, null, null, null),
+    (l, 16, 'vocab', 'geduldig ↔ ungeduldig', 'صبور ↔ غير صبور', null, null, null, null),
+    (l, 17, 'vocab', 'langweilig ↔ interessant', 'ممل ↔ مثير للاهتمام', null, null, null, null),
+    (l, 18, 'vocab', 'höflich ↔ unhöflich', 'مهذّب ↔ غير مهذّب', null, null, null, null),
+    (l, 19, 'vocab', 'sympathisch', 'لطيف / محبوب', null, null, null, null),
+    (l, 20, 'vocab', 'ruhig ↔ nervös', 'هادئ ↔ عصبي/متوتر', null, null, null, null),
+    (l, 21, 'vocab', 'klug / intelligent', 'ذكي', null, null, null, null),
+    (l, 22, 'vocab', 'stark ↔ schwach', 'قوي ↔ ضعيف', null, null, null, null),
+    (l, 23, 'vocab', 'ähnlich', 'مشابه', 'Du siehst deiner Mutter ähnlich.', 'تشبه أمك.', null, null),
+    (l, 24, 'vocab', 'die Person, -en', 'الشخص', null, null, null, null),
+    (l, 25, 'vocab', 'der Mensch, -en', 'الإنسان', null, null, null, null),
+    (l, 26, 'text', 'Mein bester Freund heißt Karim. Er ist 28 Jahre alt, ziemlich groß und hat einen kurzen Bart. Er trägt fast immer Jeans und ein T-Shirt. Karim ist sehr hilfsbereit und lustig, aber manchmal ein bisschen ungeduldig. Wir kennen uns seit der Schule.', 'صديقي المفضّل اسمه كريم. عمره 28 سنة، طويل نوعاً ما وله لحية قصيرة. يلبس دائماً تقريباً جينز وتيشيرت. كريم يحب المساعدة ومرح جداً، لكنه أحياناً قليل الصبر. نعرف بعضنا منذ المدرسة.', null, null, null, null),
+    (l, 27, 'quiz', '', 'حسب النص — ما عيب كريم؟', null, null, '["قليل الصبر أحياناً", "كسول", "ممل", "غير مهذب"]'::jsonb, 0),
+    (l, 28, 'gap', 'Wie ___ deine Schwester aus?', '', null, null, '["sieht", "siehst", "sehen"]'::jsonb, 0),
+    (l, 29, 'gap', 'Er arbeitet nie, er ist sehr ___.', '', null, null, '["faul", "fleißig", "ehrlich"]'::jsonb, 0),
+    (l, 30, 'gap', 'Das Gegenteil von ''höflich'' ist ___.', '', null, null, '["unhöflich", "nicht höflich sein", "höflichlos"]'::jsonb, 0),
+    (l, 31, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["ehrlich = صادق", "fleißig = مجتهد", "geduldig = صبور", "lustig = مرح", "die Brille = النظارة"]'::jsonb, null),
+    (l, 32, 'order', 'Sie hat lange blonde Haare.', 'لها شعر أشقر طويل.', null, null, null, null),
+    (l, 33, 'write', 'Er ist sehr freundlich.|Er ist sehr freundlich', 'اكتب: هو ودود جداً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-beziehungen', m, 'A2', 102, 'lesson', 'Beziehungen und Gefühle', 'العلاقات والمشاعر', '', 'أن تتكلم عن العلاقات (الصداقة، الزواج، الجيران) والمشاعر.', '## المشاعر
+> Ich freue mich. (أنا مسرور) — Ich ärgere mich. (أنا منزعج) — Ich habe Angst. (أنا خائف)
+> Ich bin traurig / wütend / überrascht / zufrieden.
+## العلاقات
+> Wir haben uns im Kurs kennengelernt. (تعرّفنا في الدورة)
+> Sie haben letztes Jahr geheiratet. — Sie haben sich getrennt.
+## uns / sich = بعضنا / أنفسهم', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Beziehung, -en', 'العلاقة', null, null, null, null),
+    (l, 2, 'vocab', 'die Freundschaft, -en', 'الصداقة', null, null, null, null),
+    (l, 3, 'vocab', 'kennen|lernen', 'يتعرّف على', 'Ich habe ihn im Urlaub kennengelernt.', 'تعرّفت عليه في العطلة.', null, null),
+    (l, 4, 'vocab', 'heiraten', 'يتزوّج', 'Wir heiraten im Mai.', 'سنتزوج في أيار.', null, null),
+    (l, 5, 'vocab', 'die Hochzeit, -en', 'حفل الزفاف', null, null, null, null),
+    (l, 6, 'vocab', 'der Ehemann / die Ehefrau', 'الزوج / الزوجة', null, null, null, null),
+    (l, 7, 'vocab', 'der Partner, - / die Partnerin, -nen', 'الشريك / الشريكة', null, null, null, null),
+    (l, 8, 'vocab', 'sich trennen', 'ينفصل', null, null, null, null),
+    (l, 9, 'vocab', 'sich verlieben', 'يقع في الحب', 'Er hat sich in sie verliebt.', 'وقع في حبها.', null, null),
+    (l, 10, 'vocab', 'das Gefühl, -e', 'الشعور', null, null, null, null),
+    (l, 11, 'vocab', 'sich freuen', 'يفرح', 'Ich freue mich auf das Wochenende.', 'أتطلع بفرح لعطلة الأسبوع.', null, null),
+    (l, 12, 'vocab', 'sich ärgern', 'ينزعج / يغضب', 'Er ärgert sich über den Lärm.', 'ينزعج من الضجيج.', null, null),
+    (l, 13, 'vocab', 'die Angst, ¨-e', 'الخوف', 'Ich habe Angst vor Hunden.', 'أخاف من الكلاب.', null, null),
+    (l, 14, 'vocab', 'wütend', 'غاضب', null, null, null, null),
+    (l, 15, 'vocab', 'überrascht', 'متفاجئ', null, null, null, null),
+    (l, 16, 'vocab', 'zufrieden', 'راضٍ', null, null, null, null),
+    (l, 17, 'vocab', 'die Liebe', 'الحب', null, null, null, null),
+    (l, 18, 'vocab', 'der Streit', 'الشجار', 'Sie haben oft Streit.', 'يتشاجران كثيراً.', null, null),
+    (l, 19, 'vocab', 'sich streiten', 'يتشاجر', null, null, null, null),
+    (l, 20, 'vocab', 'vermissen', 'يشتاق', 'Ich vermisse meine Familie.', 'أشتاق لعائلتي.', null, null),
+    (l, 21, 'vocab', 'sich kümmern um', 'يهتم بـ', 'Sie kümmert sich um ihre Mutter.', 'تعتني بأمها.', null, null),
+    (l, 22, 'vocab', 'das Vertrauen', 'الثقة', null, null, null, null),
+    (l, 23, 'vocab', 'allein / einsam', 'وحيد', null, null, null, null),
+    (l, 24, 'gap', 'Ich freue ___ auf deinen Besuch.', '', null, null, '["mich", "dich", "sich"]'::jsonb, 0),
+    (l, 25, 'gap', 'Wir haben ___ im Deutschkurs kennengelernt.', '', null, null, '["uns", "sich", "euch"]'::jsonb, 0),
+    (l, 26, 'gap', 'Sie ___ ihre Familie in Syrien sehr.', '', null, null, '["vermisst", "verliebt", "trennt"]'::jsonb, 0),
+    (l, 27, 'gap', 'Ich habe ___ vor Spinnen.', '', null, null, '["Angst", "Streit", "Liebe"]'::jsonb, 0),
+    (l, 28, 'listen', 'Ahmed und Lena haben sich vor drei Jahren an der Uni kennengelernt. Nächsten Sommer heiraten sie.', 'متى سيتزوجان؟', null, null, '["الصيف القادم", "بعد ثلاث سنوات", "هذا الشتاء", "تزوجا من قبل"]'::jsonb, 0),
+    (l, 29, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["sich freuen = يفرح", "sich ärgern = ينزعج", "vermissen = يشتاق", "heiraten = يتزوّج", "zufrieden = راضٍ"]'::jsonb, null),
+    (l, 30, 'order', 'Ich freue mich auf die Ferien.', 'أتطلع بشوق للعطلة.', null, null, null, null),
+    (l, 31, 'write', 'Ich vermisse dich.|Ich vermisse dich', 'اكتب: أشتاق إليك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-feste', m, 'A2', 103, 'lesson', 'Feste, Einladungen und Glückwünsche', 'الأعياد والدعوات والتهاني', '', 'أن تدعو شخصاً، تقبل أو ترفض بأدب، وتهنئ في المناسبات.', '## التهاني
+| المناسبة | التهنئة |
+|---|---|
+| عيد الميلاد | Alles Gute zum Geburtstag! / Herzlichen Glückwunsch! |
+| الزواج | Herzlichen Glückwunsch zur Hochzeit! |
+| رأس السنة | Frohes neues Jahr! / Guten Rutsch! |
+| العيد | Frohes Fest! / Eid Mubarak! |
+| النجاح | Herzlichen Glückwunsch zur bestandenen Prüfung! |
+## الدعوة
+> Ich möchte dich zu meiner Party einladen. — Danke für die Einladung!
+> Ich komme gern. / Leider kann ich nicht kommen, weil ich arbeiten muss.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'das Fest, -e', 'العيد / الاحتفال', null, null, null, null),
+    (l, 2, 'vocab', 'feiern', 'يحتفل', 'Wir feiern Ramadan zusammen.', 'نحتفل برمضان معاً.', null, null),
+    (l, 3, 'vocab', 'die Feier, -n / die Party, -s', 'الحفلة', null, null, null, null),
+    (l, 4, 'vocab', 'ein|laden – er lädt ein', 'يدعو', 'Ich lade dich zum Essen ein.', 'أدعوك للطعام.', null, null),
+    (l, 5, 'vocab', 'die Einladung, -en', 'الدعوة', null, null, null, null),
+    (l, 6, 'vocab', 'der Gast, ¨-e', 'الضيف', null, null, null, null),
+    (l, 7, 'vocab', 'das Geschenk, -e', 'الهدية', null, null, null, null),
+    (l, 8, 'vocab', 'schenken', 'يُهدي', 'Was schenkst du deiner Mutter?', 'ماذا تهدي أمك؟', null, null),
+    (l, 9, 'vocab', 'der Geburtstag, -e', 'عيد الميلاد', null, null, null, null),
+    (l, 10, 'vocab', 'gratulieren', 'يهنّئ', 'Ich gratuliere dir!', 'أهنّئك!', null, null),
+    (l, 11, 'vocab', 'der Glückwunsch, ¨-e', 'التهنئة', null, null, null, null),
+    (l, 12, 'vocab', 'Weihnachten / Ostern / Silvester', 'الميلاد / الفصح / ليلة رأس السنة', null, null, null, null),
+    (l, 13, 'vocab', 'der Feiertag, -e', 'يوم العطلة الرسمية', null, null, null, null),
+    (l, 14, 'vocab', 'die Kerze, -n', 'الشمعة', null, null, null, null),
+    (l, 15, 'vocab', 'der Kuchen, -', 'الكعكة', null, null, null, null),
+    (l, 16, 'vocab', 'zu|sagen / ab|sagen', 'يقبل الدعوة / يعتذر', null, null, null, null),
+    (l, 17, 'vocab', 'die Überraschung, -en', 'المفاجأة', null, null, null, null),
+    (l, 18, 'phrase', 'Herzlichen Glückwunsch zum Geburtstag!', 'عيد ميلاد سعيد!', null, null, null, null),
+    (l, 19, 'phrase', 'Danke für die Einladung!', 'شكراً على الدعوة!', null, null, null, null),
+    (l, 20, 'text', 'Liebe Nachbarn,
+am Samstag, den 14. Juni, feiern wir unser Sommerfest im Hof. Es beginnt um 16 Uhr. Für Getränke und Grillen sorgen wir. Bitte bringt einen Salat oder einen Kuchen mit. Bitte sagt bis Mittwoch Bescheid, ob ihr kommt.
+Familie Yilmaz', 'جيراننا الأعزاء، يوم السبت 14 حزيران نحتفل بحفلة الصيف في الفناء. تبدأ الساعة 16. نتكفل بالمشروبات والشواء. أحضروا سلطة أو كعكة. أخبرونا حتى الأربعاء إن كنتم ستأتون. عائلة يلماز.', null, null, null, null),
+    (l, 21, 'quiz', '', 'ماذا يجب أن يُحضر الجيران؟', null, null, '["سلطة أو كعكة", "مشروبات", "لحماً للشواء", "لا شيء"]'::jsonb, 0),
+    (l, 22, 'quiz', '', 'حتى متى يجب الرد؟', null, null, '["حتى الأربعاء", "حتى السبت", "حتى 14 حزيران", "لا حاجة للرد"]'::jsonb, 0),
+    (l, 23, 'gap', 'Ich ___ dich herzlich zu meiner Hochzeit ein.', '', null, null, '["lade", "lädt", "lädst"]'::jsonb, 0),
+    (l, 24, 'gap', 'Herzlichen ___ zum Geburtstag!', '', null, null, '["Glückwunsch", "Gratulation", "Geschenk"]'::jsonb, 0),
+    (l, 25, 'quiz', '', 'كيف ترفض دعوة بأدب؟', null, null, '["Vielen Dank, aber leider kann ich nicht kommen.", "Nein, ich will nicht.", "Ich komme gern.", "Frohes Fest!"]'::jsonb, 0),
+    (l, 26, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["das Geschenk = الهدية", "der Gast = الضيف", "feiern = يحتفل", "die Einladung = الدعوة", "absagen = يعتذر عن موعد"]'::jsonb, null),
+    (l, 27, 'order', 'Vielen Dank für die Einladung.', 'شكراً جزيلاً على الدعوة.', null, null, null, null),
+    (l, 28, 'write', 'Frohes neues Jahr!|Frohes neues Jahr', 'اكتب: سنة جديدة سعيدة!', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-menschen-test', m, 'A2', 104, 'test', 'Modultest – Menschen und Feste', 'اختبار وحدة الناس والمناسبات', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Wie ___ dein neuer Kollege aus?', '', null, null, '["sieht", "siehst", "sehen"]'::jsonb, 0),
+    (l, 2, 'gap', 'Sie arbeitet sehr viel. Sie ist ___.', '', null, null, '["fleißig", "faul", "langweilig"]'::jsonb, 0),
+    (l, 3, 'gap', 'Wir freuen ___ auf das Fest.', '', null, null, '["uns", "sich", "euch"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich ___ meine Freunde zum Essen ein.', '', null, null, '["lade", "lädt", "lade an"]'::jsonb, 0),
+    (l, 5, 'gap', 'Er hat ___ in eine Kollegin verliebt.', '', null, null, '["sich", "ihn", "ihm"]'::jsonb, 0),
+    (l, 6, 'gap', 'Herzlichen Glückwunsch ___ Hochzeit!', '', null, null, '["zur", "zum", "für"]'::jsonb, 0),
+    (l, 7, 'listen', 'Leider kann ich am Samstag nicht kommen, weil meine Mutter Geburtstag hat.', 'لماذا لا يستطيع المجيء؟', null, null, '["عيد ميلاد أمه", "هو مريض", "يعمل", "مسافر"]'::jsonb, 0),
+    (l, 8, 'listen', 'Mein Vater ist sehr geduldig, aber meine Mutter ist oft nervös.', 'كيف الأم؟', null, null, '["عصبية غالباً", "صبورة", "هادئة", "مرحة"]'::jsonb, 0),
+    (l, 9, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["ehrlich = صادق", "die Hochzeit = الزفاف", "vermissen = يشتاق", "schenken = يُهدي", "überrascht = متفاجئ"]'::jsonb, null),
+    (l, 10, 'order', 'Wir haben uns vor zwei Jahren kennengelernt.', 'تعرّفنا على بعض قبل سنتين.', null, null, null, null),
+    (l, 11, 'write', 'Alles Gute zum Geburtstag!|Alles Gute zum Geburtstag', 'اكتب: كل عام وأنت بخير بمناسبة عيد ميلادك! (Alles Gute…)', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-grammatik-1', 'A2', 2, 'Grammatik A2 – Teil 1', 'قواعد A2 — الجزء الأول', 'حالة Dativ، حروف الجر المتغيرة، الـ Perfekt الكامل، الـ Präteritum للأفعال الناقصة، والأفعال الانعكاسية.', 'grammar') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-dativ', m, 'A2', 201, 'lesson', 'Der Dativ – Artikel und Pronomen', 'حالة الـ Dativ — الأدوات والضمائر', '', 'أن تستخدم الـ Dativ للمفعول غير المباشر (لمن؟) ومع الأفعال التي تأخذه.', '## ما هو الـ Dativ؟
+يجيب عن سؤال **Wem?** (لمن؟). غالباً هو الشخص الذي يستلم شيئاً.
+> Ich gebe **dem Mann** das Buch. (أعطي الرجلَ الكتاب)
+## الأدوات
+| | مذكر | مؤنث | محايد | جمع |
+|---|---|---|---|---|
+| Nom. | der / ein | die / eine | das / ein | die |
+| Akk. | den / einen | die / eine | das / ein | die |
+| **Dat.** | **dem / einem** | **der / einer** | **dem / einem** | **den** + n |
+الجمع في الـ Dativ يأخذ **-n**: die Kinder → mit den Kinder**n**.
+## الضمائر
+| ich → mir | du → dir | er → ihm | sie → ihr | es → ihm |
+|---|---|---|---|---|
+| wir → uns | ihr → euch | sie → ihnen | Sie → Ihnen | |
+## أفعال تأخذ Dativ فقط
+helfen, danken, gefallen, gehören, schmecken, passen, antworten, gratulieren
+> Das Essen schmeckt **mir**. — Die Jacke gehört **ihm**. — Ich helfe **dir**.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Ich schenke dem Vater eine Uhr.
+Ich gebe der Frau die Karte.
+Ich helfe den Kindern.', '**Dativ** = لمن؟ — dem (مذكر/محايد)، der (مؤنث)، den…n (جمع).', null, null, null, null),
+    (l, 2, 'gap', 'Ich gebe ___ Lehrer mein Heft.', '', null, null, '["dem", "den", "der"]'::jsonb, 0),
+    (l, 3, 'gap', 'Er schenkt ___ Freundin Blumen.', '', null, null, '["seiner", "seine", "seinem"]'::jsonb, 0),
+    (l, 4, 'gap', 'Wir helfen ___ Kindern.', '', null, null, '["den", "die", "dem"]'::jsonb, 0),
+    (l, 5, 'gap', 'Kannst du ___ helfen? (أنا)', '', null, null, '["mir", "mich", "ich"]'::jsonb, 0),
+    (l, 6, 'gap', 'Das Kleid gefällt ___. (هي)', '', null, null, '["ihr", "sie", "ihm"]'::jsonb, 0),
+    (l, 7, 'gap', 'Wem gehört das Handy? – Es gehört ___. (هو)', '', null, null, '["ihm", "ihn", "er"]'::jsonb, 0),
+    (l, 8, 'gap', 'Schmeckt ___ die Suppe, Frau Klein?', '', null, null, '["Ihnen", "Sie", "ihnen"]'::jsonb, 0),
+    (l, 9, 'gap', 'Ich danke ___ für die Hilfe. (أنتم)', '', null, null, '["euch", "ihr", "uns"]'::jsonb, 0),
+    (l, 10, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich helfe meinem Bruder.", "Ich helfe meinen Bruder.", "Ich helfe mein Bruder.", "Ich helfe meines Bruder."]'::jsonb, 0),
+    (l, 11, 'match', '', 'طابق الضمير بصيغته في الـ Dativ', null, null, '["ich = mir", "du = dir", "er = ihm", "sie (هي) = ihr", "wir = uns"]'::jsonb, null),
+    (l, 12, 'order', 'Ich schenke meiner Mutter ein Buch.', 'أهدي أمي كتاباً.', null, null, null, null),
+    (l, 13, 'write', 'Das gefällt mir.|Das gefällt mir', 'اكتب: هذا يعجبني.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-dativ-praep', m, 'A2', 202, 'lesson', 'Präpositionen mit Dativ und Akkusativ', 'حروف الجر مع Dativ ومع Akkusativ', '', 'أن تعرف حروف الجر الثابتة مع Dativ ومع Akkusativ.', '## دائماً Dativ
+**aus, bei, mit, nach, seit, von, zu, gegenüber**
+> Ich komme **aus dem** Haus. — Ich wohne **bei meinen** Eltern. — Seit **einem** Jahr.
+## دائماً Akkusativ
+**durch, für, gegen, ohne, um**
+> Das Geschenk ist **für dich**. — Ich trinke Kaffee **ohne** Zucker. — Wir gehen **durch den** Park.
+## اختصارات
+zu dem = **zum**، zu der = **zur**، bei dem = **beim**، von dem = **vom**', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich fahre mit ___ Fahrrad.', '', null, null, '["dem", "das", "den"]'::jsonb, 0),
+    (l, 2, 'gap', 'Das Geschenk ist für ___ Vater.', '', null, null, '["meinen", "meinem", "mein"]'::jsonb, 0),
+    (l, 3, 'gap', 'Seit ___ Woche bin ich krank.', '', null, null, '["einer", "eine", "einem"]'::jsonb, 0),
+    (l, 4, 'gap', 'Wir gehen durch ___ Stadt.', '', null, null, '["die", "der", "dem"]'::jsonb, 0),
+    (l, 5, 'gap', 'Ich trinke Tee ohne ___.', '', null, null, '["Zucker", "dem Zucker", "Zuckers"]'::jsonb, 0),
+    (l, 6, 'gap', 'Nach ___ Unterricht gehe ich nach Hause.', '', null, null, '["dem", "den", "der"]'::jsonb, 0),
+    (l, 7, 'gap', 'Sie arbeitet ___ einer Firma in Köln.', '', null, null, '["bei", "mit", "für"]'::jsonb, 0),
+    (l, 8, 'gap', 'Die Apotheke ist gegenüber ___ Bank.', '', null, null, '["der", "die", "dem"]'::jsonb, 0),
+    (l, 9, 'match', '', 'طابق حرف الجر بحالته', null, null, '["mit = Dativ", "für = Akkusativ", "bei = Dativ", "ohne = Akkusativ", "seit = Dativ"]'::jsonb, null),
+    (l, 10, 'order', 'Ich gehe heute Abend zum Arzt.', 'أذهب هذا المساء إلى الطبيب.', null, null, null, null),
+    (l, 11, 'write', 'Das ist für dich.|Das ist für dich', 'اكتب: هذا لك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-wechsel', m, 'A2', 203, 'lesson', 'Wechselpräpositionen – Wo? oder Wohin?', 'حروف الجر المتغيرة — أين؟ أم إلى أين؟', '', 'أن تختار بين Dativ (المكان) و Akkusativ (الاتجاه) مع in, an, auf, unter, über, vor, hinter, neben, zwischen.', '## تسعة حروف جر تتغير
+in, an, auf, unter, über, vor, hinter, neben, zwischen
+| السؤال | الحالة | المعنى | مثال |
+|---|---|---|---|
+| **Wo?** | Dativ | مكان ثابت | Das Buch liegt **auf dem** Tisch. |
+| **Wohin?** | Akkusativ | حركة / اتجاه | Ich lege das Buch **auf den** Tisch. |
+## أزواج الأفعال
+| الحركة (Akk.) | المكان (Dat.) |
+|---|---|
+| legen (يضع أفقياً) | liegen |
+| stellen (يضع عمودياً) | stehen |
+| hängen (يعلّق) | hängen |
+| setzen (يُجلس) | sitzen |
+> Ich **stelle** die Flasche **in den** Kühlschrank. → Die Flasche **steht im** Kühlschrank.
+## اختصارات: in dem = im، in das = ins، an dem = am، an das = ans', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Ich gehe in die Küche. (Wohin?)
+Ich bin in der Küche. (Wo?)', '**Wo?** → Dativ (ثابت). **Wohin?** → Akkusativ (حركة).', null, null, null, null),
+    (l, 2, 'gap', 'Die Lampe hängt über ___ Tisch.', '', null, null, '["dem", "den", "der"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich hänge das Bild an ___ Wand.', '', null, null, '["die", "der", "dem"]'::jsonb, 0),
+    (l, 4, 'gap', 'Das Bild hängt an ___ Wand.', '', null, null, '["der", "die", "den"]'::jsonb, 0),
+    (l, 5, 'gap', 'Wir gehen heute ___ Kino.', '', null, null, '["ins", "im", "in"]'::jsonb, 0),
+    (l, 6, 'gap', 'Die Kinder spielen ___ Garten.', '', null, null, '["im", "in den", "ins"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich lege das Handy auf ___ Tisch.', '', null, null, '["den", "dem", "der"]'::jsonb, 0),
+    (l, 8, 'gap', 'Die Katze schläft unter ___ Bett.', '', null, null, '["dem", "das", "den"]'::jsonb, 0),
+    (l, 9, 'gap', 'Stell die Milch bitte ___ Kühlschrank.', '', null, null, '["in den", "im", "in dem"]'::jsonb, 0),
+    (l, 10, 'quiz', '', 'Das Auto ___ vor dem Haus.', null, null, '["steht", "stellt", "legt", "setzt"]'::jsonb, 0),
+    (l, 11, 'order', 'Ich stelle die Blumen auf den Tisch.', 'أضع الزهور على الطاولة.', null, null, null, null),
+    (l, 12, 'write', 'Ich bin im Büro.|Ich bin im Büro', 'اكتب: أنا في المكتب.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-perfekt', m, 'A2', 204, 'lesson', 'Das Perfekt – alle Verben', 'الـ Perfekt — كل الأنواع', '', 'أن تتقن الـ Perfekt مع الأفعال غير المنتظمة الشائعة في A2 واختيار haben أو sein.', '## تذكير
+haben/sein في المكان 2 + Partizip II في الآخر.
+## أهم الأفعال غير المنتظمة (احفظها)
+| المصدر | Partizip II | المصدر | Partizip II |
+|---|---|---|---|
+| gehen | ist gegangen | schreiben | geschrieben |
+| kommen | ist gekommen | sprechen | gesprochen |
+| bleiben | ist geblieben | trinken | getrunken |
+| fahren | ist gefahren | finden | gefunden |
+| fliegen | ist geflogen | helfen | geholfen |
+| werden | ist geworden | nehmen | genommen |
+| passieren | ist passiert | denken | gedacht |
+| sein | ist gewesen | bringen | gebracht |
+| aufstehen | ist aufgestanden | wissen | gewusst |
+## حالات خاصة
+- البادئات غير المنفصلة be-, ver-, er-, ent-, zer-, ge-: **بدون ge**: bekommen → bekommen، verstehen → verstanden.
+- الأفعال المنتهية بـ -ieren: telefoniert, repariert.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Gestern ___ ich lange im Büro geblieben.', '', null, null, '["bin", "habe", "war"]'::jsonb, 0),
+    (l, 2, 'gap', 'Was ist ___? – Ich hatte einen Unfall.', '', null, null, '["passiert", "gepassiert", "passieren"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich habe dir eine E-Mail ___.', '', null, null, '["geschrieben", "geschreibt", "schreibt"]'::jsonb, 0),
+    (l, 4, 'gap', 'Hast du das ___? (verstehen)', '', null, null, '["verstanden", "geversteht", "verstehen"]'::jsonb, 0),
+    (l, 5, 'gap', 'Er hat einen Brief ___. (bekommen)', '', null, null, '["bekommen", "gebekommen", "bekommt"]'::jsonb, 0),
+    (l, 6, 'gap', 'Wir haben das Auto ___. (reparieren)', '', null, null, '["repariert", "gerepariert", "reparierten"]'::jsonb, 0),
+    (l, 7, 'gap', 'Sie ist Ärztin ___.', '', null, null, '["geworden", "gewordet", "gewerden"]'::jsonb, 0),
+    (l, 8, 'gap', 'Ich habe nicht ___, dass du kommst.', '', null, null, '["gewusst", "gewisst", "gewissen"]'::jsonb, 0),
+    (l, 9, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Wir sind gestern nach Hause geflogen.", "Wir haben gestern nach Hause geflogen.", "Wir sind gestern nach Hause gefliegt.", "Wir sind gestern geflogen nach Hause."]'::jsonb, 0),
+    (l, 10, 'match', '', 'طابق الفعل بالـ Partizip II', null, null, '["bringen = gebracht", "denken = gedacht", "helfen = geholfen", "nehmen = genommen", "finden = gefunden"]'::jsonb, null),
+    (l, 11, 'order', 'Ich habe meinen Schlüssel nicht gefunden.', 'لم أجد مفتاحي.', null, null, null, null),
+    (l, 12, 'write', 'Ich bin zu Hause geblieben.|Ich bin zu Hause geblieben', 'اكتب بالـ Perfekt: بقيت في البيت.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-praeteritum', m, 'A2', 205, 'lesson', 'Präteritum – Modalverben, sein, haben', 'الـ Präteritum — الأفعال الناقصة و sein و haben', '', 'أن تستخدم الماضي البسيط للأفعال الناقصة و war/hatte كما يستعمله الألمان في الكلام.', '## في الكلام اليومي
+نستعمل **Perfekt** لأغلب الأفعال، لكن **Präteritum** مع sein, haben والأفعال الناقصة.
+## Modalverben im Präteritum: بدون Umlaut + -te
+| | können | müssen | wollen | dürfen | sollen |
+|---|---|---|---|---|---|
+| ich/er | konnte | musste | wollte | durfte | sollte |
+| du | konntest | musstest | wolltest | durftest | solltest |
+| wir/sie | konnten | mussten | wollten | durften | sollten |
+> Gestern **musste** ich lange arbeiten. — Als Kind **konnte** ich nicht schwimmen.
+## مع es gibt
+> Früher **gab es** hier keinen Supermarkt.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Gestern ___ ich nicht kommen, ich war krank.', '', null, null, '["konnte", "kann", "könnte"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wir ___ am Samstag arbeiten.', '', null, null, '["mussten", "müssten", "musste"]'::jsonb, 0),
+    (l, 3, 'gap', 'Als Kind ___ ich Pilot werden.', '', null, null, '["wollte", "will", "wolle"]'::jsonb, 0),
+    (l, 4, 'gap', 'Früher ___ man hier rauchen.', '', null, null, '["durfte", "darf", "dürfte"]'::jsonb, 0),
+    (l, 5, 'gap', '___ du gestern auch im Kurs?', '', null, null, '["Warst", "Hattest", "Bist"]'::jsonb, 0),
+    (l, 6, 'gap', 'Wir ___ keine Zeit.', '', null, null, '["hatten", "waren", "hattet"]'::jsonb, 0),
+    (l, 7, 'gap', 'Früher ___ es hier viele Bäume.', '', null, null, '["gab", "gibt", "gebt"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich musste gestern früh aufstehen.", "Ich musste gestern früh aufgestanden.", "Ich muss gestern früh aufstehen.", "Ich mussten gestern früh aufstehen."]'::jsonb, 0),
+    (l, 9, 'order', 'Leider konnte ich dich nicht anrufen.', 'للأسف لم أستطع الاتصال بك.', null, null, null, null),
+    (l, 10, 'write', 'Ich war krank.|Ich war krank', 'اكتب: كنت مريضاً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-reflexiv', m, 'A2', 206, 'lesson', 'Reflexive Verben', 'الأفعال الانعكاسية', '', 'أن تستخدم الأفعال مع mich, dich, sich… مثل sich waschen, sich freuen, sich interessieren.', '## الضمير الانعكاسي
+| ich | du | er/sie/es | wir | ihr | sie/Sie |
+|---|---|---|---|---|---|
+| mich | dich | **sich** | uns | euch | **sich** |
+> Ich wasche **mich**. — Er rasiert **sich**. — Wir treffen **uns** um acht.
+## أفعال انعكاسية شائعة في A2
+sich anziehen (يلبس)، sich ausruhen (يرتاح)، sich beeilen (يستعجل)، sich duschen، sich fühlen (يشعر)، sich interessieren für، sich erinnern an، sich setzen، sich vorstellen (يعرّف بنفسه)، sich entschuldigen (يعتذر)، sich anmelden
+## الترتيب في Perfekt والأمر
+> Ich habe **mich** beeilt. — Beeil **dich**! — Setzen Sie **sich**, bitte!', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich ziehe ___ schnell an.', '', null, null, '["mich", "mir", "sich"]'::jsonb, 0),
+    (l, 2, 'gap', 'Er interessiert ___ für Fußball.', '', null, null, '["sich", "ihn", "ihm"]'::jsonb, 0),
+    (l, 3, 'gap', 'Wir treffen ___ vor dem Kino.', '', null, null, '["uns", "sich", "euch"]'::jsonb, 0),
+    (l, 4, 'gap', 'Beeil ___! Der Bus kommt.', '', null, null, '["dich", "dir", "sich"]'::jsonb, 0),
+    (l, 5, 'gap', 'Wie fühlen Sie ___ heute?', '', null, null, '["sich", "Sie", "Ihnen"]'::jsonb, 0),
+    (l, 6, 'gap', 'Ich möchte ___ für die Verspätung entschuldigen.', '', null, null, '["mich", "mir", "sich"]'::jsonb, 0),
+    (l, 7, 'gap', 'Erinnerst du ___ an unseren Lehrer?', '', null, null, '["dich", "dir", "sich"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["sich beeilen = يستعجل", "sich ausruhen = يرتاح", "sich erinnern = يتذكّر", "sich anziehen = يلبس", "sich entschuldigen = يعتذر"]'::jsonb, null),
+    (l, 9, 'order', 'Ich interessiere mich für Musik.', 'أهتم بالموسيقى.', null, null, null, null),
+    (l, 10, 'write', 'Setzen Sie sich bitte!|Setzen Sie sich bitte|Bitte setzen Sie sich!', 'اكتب (رسمي): تفضّل اجلس!', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-grammatik-1-test', m, 'A2', 207, 'test', 'Modultest – Grammatik A2 Teil 1', 'اختبار قواعد A2 — الجزء الأول', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich gebe ___ Kind einen Apfel.', '', null, null, '["dem", "das", "den"]'::jsonb, 0),
+    (l, 2, 'gap', 'Die Schuhe gefallen ___ nicht. (أنا)', '', null, null, '["mir", "mich", "ich"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich fahre mit ___ Kollegen zur Arbeit.', '', null, null, '["meinem", "meinen", "mein"]'::jsonb, 0),
+    (l, 4, 'gap', 'Der Kaffee ist für ___ Chef.', '', null, null, '["den", "dem", "der"]'::jsonb, 0),
+    (l, 5, 'gap', 'Ich lege die Zeitung auf ___ Sofa.', '', null, null, '["das", "dem", "den"]'::jsonb, 0),
+    (l, 6, 'gap', 'Die Zeitung liegt auf ___ Sofa.', '', null, null, '["dem", "das", "den"]'::jsonb, 0),
+    (l, 7, 'gap', 'Wir sind gestern ins Kino ___.', '', null, null, '["gegangen", "gegeht", "gehen"]'::jsonb, 0),
+    (l, 8, 'gap', 'Ich habe dich nicht ___. (verstehen)', '', null, null, '["verstanden", "geverstanden", "versteht"]'::jsonb, 0),
+    (l, 9, 'gap', 'Gestern ___ ich zum Arzt gehen.', '', null, null, '["musste", "muss", "müsste"]'::jsonb, 0),
+    (l, 10, 'gap', 'Er rasiert ___ jeden Morgen.', '', null, null, '["sich", "ihn", "ihm"]'::jsonb, 0),
+    (l, 11, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich hänge das Bild an die Wand.", "Ich hänge das Bild an der Wand.", "Ich hänge das Bild an dem Wand.", "Ich hänge das Bild an den Wand."]'::jsonb, 0),
+    (l, 12, 'order', 'Hast du dich schon angemeldet?', 'هل سجّلت نفسك بالفعل؟', null, null, null, null),
+    (l, 13, 'order', 'Das Buch gehört meiner Schwester.', 'الكتاب لأختي.', null, null, null, null),
+    (l, 14, 'write', 'Ich konnte nicht kommen.|Ich konnte nicht kommen', 'اكتب: لم أستطع المجيء.', null, null, null, null);
 end
 $$;

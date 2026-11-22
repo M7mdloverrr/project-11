@@ -1,0 +1,296 @@
+module:
+  slug: a2-grammatik-1
+  level: A2
+  position: 2
+  icon: grammar
+  title_de: Grammatik A2 – Teil 1
+  title_ar: قواعد A2 — الجزء الأول
+  description_ar: حالة Dativ، حروف الجر المتغيرة، الـ Perfekt الكامل، الـ Präteritum للأفعال الناقصة، والأفعال الانعكاسية.
+
+lessons:
+  - slug: a2-g-dativ
+    title_de: Der Dativ – Artikel und Pronomen
+    title_ar: حالة الـ Dativ — الأدوات والضمائر
+    goal_ar: أن تستخدم الـ Dativ للمفعول غير المباشر (لمن؟) ومع الأفعال التي تأخذه.
+    explanation_ar: |
+      ## ما هو الـ Dativ؟
+      يجيب عن سؤال **Wem?** (لمن؟). غالباً هو الشخص الذي يستلم شيئاً.
+      > Ich gebe **dem Mann** das Buch. (أعطي الرجلَ الكتاب)
+      ## الأدوات
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Nom. | der / ein | die / eine | das / ein | die |
+      | Akk. | den / einen | die / eine | das / ein | die |
+      | **Dat.** | **dem / einem** | **der / einer** | **dem / einem** | **den** + n |
+      الجمع في الـ Dativ يأخذ **-n**: die Kinder → mit den Kinder**n**.
+      ## الضمائر
+      | ich → mir | du → dir | er → ihm | sie → ihr | es → ihm |
+      |---|---|---|---|---|
+      | wir → uns | ihr → euch | sie → ihnen | Sie → Ihnen | |
+      ## أفعال تأخذ Dativ فقط
+      helfen, danken, gefallen, gehören, schmecken, passen, antworten, gratulieren
+      > Das Essen schmeckt **mir**. — Die Jacke gehört **ihm**. — Ich helfe **dir**.
+    items:
+      - {rule: "**Dativ** = لمن؟ — dem (مذكر/محايد)، der (مؤنث)، den…n (جمع).", de: "Ich schenke dem Vater eine Uhr.\nIch gebe der Frau die Karte.\nIch helfe den Kindern."}
+      - gap: "Ich gebe ___ Lehrer mein Heft."
+        options: [dem, den, der]
+      - gap: "Er schenkt ___ Freundin Blumen."
+        options: [seiner, seine, seinem]
+      - gap: "Wir helfen ___ Kindern."
+        options: [den, die, dem]
+      - gap: "Kannst du ___ helfen? (أنا)"
+        options: [mir, mich, ich]
+      - gap: "Das Kleid gefällt ___. (هي)"
+        options: [ihr, sie, ihm]
+      - gap: "Wem gehört das Handy? – Es gehört ___. (هو)"
+        options: [ihm, ihn, er]
+      - gap: "Schmeckt ___ die Suppe, Frau Klein?"
+        options: [Ihnen, Sie, ihnen]
+      - gap: "Ich danke ___ für die Hilfe. (أنتم)"
+        options: [euch, ihr, uns]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich helfe meinem Bruder.", "Ich helfe meinen Bruder.", "Ich helfe mein Bruder.", "Ich helfe meines Bruder."]
+      - match: ["ich = mir", "du = dir", "er = ihm", "sie (هي) = ihr", "wir = uns"]
+        ar: طابق الضمير بصيغته في الـ Dativ
+      - order: "Ich schenke meiner Mutter ein Buch."
+        ar: أهدي أمي كتاباً.
+      - write: "Das gefällt mir.|Das gefällt mir"
+        ar: "اكتب: هذا يعجبني."
+
+  - slug: a2-g-dativ-praep
+    title_de: Präpositionen mit Dativ und Akkusativ
+    title_ar: حروف الجر مع Dativ ومع Akkusativ
+    goal_ar: أن تعرف حروف الجر الثابتة مع Dativ ومع Akkusativ.
+    explanation_ar: |
+      ## دائماً Dativ
+      **aus, bei, mit, nach, seit, von, zu, gegenüber**
+      > Ich komme **aus dem** Haus. — Ich wohne **bei meinen** Eltern. — Seit **einem** Jahr.
+      ## دائماً Akkusativ
+      **durch, für, gegen, ohne, um**
+      > Das Geschenk ist **für dich**. — Ich trinke Kaffee **ohne** Zucker. — Wir gehen **durch den** Park.
+      ## اختصارات
+      zu dem = **zum**، zu der = **zur**، bei dem = **beim**، von dem = **vom**
+    items:
+      - gap: "Ich fahre mit ___ Fahrrad."
+        options: [dem, das, den]
+      - gap: "Das Geschenk ist für ___ Vater."
+        options: [meinen, meinem, mein]
+      - gap: "Seit ___ Woche bin ich krank."
+        options: [einer, eine, einem]
+      - gap: "Wir gehen durch ___ Stadt."
+        options: [die, der, dem]
+      - gap: "Ich trinke Tee ohne ___."
+        options: [Zucker, dem Zucker, Zuckers]
+      - gap: "Nach ___ Unterricht gehe ich nach Hause."
+        options: [dem, den, der]
+      - gap: "Sie arbeitet ___ einer Firma in Köln."
+        options: [bei, mit, für]
+      - gap: "Die Apotheke ist gegenüber ___ Bank."
+        options: [der, die, dem]
+      - match: ["mit = Dativ", "für = Akkusativ", "bei = Dativ", "ohne = Akkusativ", "seit = Dativ"]
+        ar: طابق حرف الجر بحالته
+      - order: "Ich gehe heute Abend zum Arzt."
+        ar: أذهب هذا المساء إلى الطبيب.
+      - write: "Das ist für dich.|Das ist für dich"
+        ar: "اكتب: هذا لك."
+
+  - slug: a2-g-wechsel
+    title_de: Wechselpräpositionen – Wo? oder Wohin?
+    title_ar: حروف الجر المتغيرة — أين؟ أم إلى أين؟
+    goal_ar: أن تختار بين Dativ (المكان) و Akkusativ (الاتجاه) مع in, an, auf, unter, über, vor, hinter, neben, zwischen.
+    explanation_ar: |
+      ## تسعة حروف جر تتغير
+      in, an, auf, unter, über, vor, hinter, neben, zwischen
+      | السؤال | الحالة | المعنى | مثال |
+      |---|---|---|---|
+      | **Wo?** | Dativ | مكان ثابت | Das Buch liegt **auf dem** Tisch. |
+      | **Wohin?** | Akkusativ | حركة / اتجاه | Ich lege das Buch **auf den** Tisch. |
+      ## أزواج الأفعال
+      | الحركة (Akk.) | المكان (Dat.) |
+      |---|---|
+      | legen (يضع أفقياً) | liegen |
+      | stellen (يضع عمودياً) | stehen |
+      | hängen (يعلّق) | hängen |
+      | setzen (يُجلس) | sitzen |
+      > Ich **stelle** die Flasche **in den** Kühlschrank. → Die Flasche **steht im** Kühlschrank.
+      ## اختصارات: in dem = im، in das = ins، an dem = am، an das = ans
+    items:
+      - {rule: "**Wo?** → Dativ (ثابت). **Wohin?** → Akkusativ (حركة).", de: "Ich gehe in die Küche. (Wohin?)\nIch bin in der Küche. (Wo?)"}
+      - gap: "Die Lampe hängt über ___ Tisch."
+        options: [dem, den, der]
+      - gap: "Ich hänge das Bild an ___ Wand."
+        options: [die, der, dem]
+      - gap: "Das Bild hängt an ___ Wand."
+        options: [der, die, den]
+      - gap: "Wir gehen heute ___ Kino."
+        options: [ins, im, in]
+      - gap: "Die Kinder spielen ___ Garten."
+        options: [im, in den, ins]
+      - gap: "Ich lege das Handy auf ___ Tisch."
+        options: [den, dem, der]
+      - gap: "Die Katze schläft unter ___ Bett."
+        options: [dem, das, den]
+      - gap: "Stell die Milch bitte ___ Kühlschrank."
+        options: [in den, im, in dem]
+      - quiz: "Das Auto ___ vor dem Haus."
+        options: [steht, stellt, legt, setzt]
+      - order: "Ich stelle die Blumen auf den Tisch."
+        ar: أضع الزهور على الطاولة.
+      - write: "Ich bin im Büro.|Ich bin im Büro"
+        ar: "اكتب: أنا في المكتب."
+
+  - slug: a2-g-perfekt
+    title_de: Das Perfekt – alle Verben
+    title_ar: الـ Perfekt — كل الأنواع
+    goal_ar: أن تتقن الـ Perfekt مع الأفعال غير المنتظمة الشائعة في A2 واختيار haben أو sein.
+    explanation_ar: |
+      ## تذكير
+      haben/sein في المكان 2 + Partizip II في الآخر.
+      ## أهم الأفعال غير المنتظمة (احفظها)
+      | المصدر | Partizip II | المصدر | Partizip II |
+      |---|---|---|---|
+      | gehen | ist gegangen | schreiben | geschrieben |
+      | kommen | ist gekommen | sprechen | gesprochen |
+      | bleiben | ist geblieben | trinken | getrunken |
+      | fahren | ist gefahren | finden | gefunden |
+      | fliegen | ist geflogen | helfen | geholfen |
+      | werden | ist geworden | nehmen | genommen |
+      | passieren | ist passiert | denken | gedacht |
+      | sein | ist gewesen | bringen | gebracht |
+      | aufstehen | ist aufgestanden | wissen | gewusst |
+      ## حالات خاصة
+      - البادئات غير المنفصلة be-, ver-, er-, ent-, zer-, ge-: **بدون ge**: bekommen → bekommen، verstehen → verstanden.
+      - الأفعال المنتهية بـ -ieren: telefoniert, repariert.
+    items:
+      - gap: "Gestern ___ ich lange im Büro geblieben."
+        options: [bin, habe, war]
+      - gap: "Was ist ___? – Ich hatte einen Unfall."
+        options: [passiert, gepassiert, passieren]
+      - gap: "Ich habe dir eine E-Mail ___."
+        options: [geschrieben, geschreibt, schreibt]
+      - gap: "Hast du das ___? (verstehen)"
+        options: [verstanden, geversteht, verstehen]
+      - gap: "Er hat einen Brief ___. (bekommen)"
+        options: [bekommen, gebekommen, bekommt]
+      - gap: "Wir haben das Auto ___. (reparieren)"
+        options: [repariert, gerepariert, reparierten]
+      - gap: "Sie ist Ärztin ___."
+        options: [geworden, gewordet, gewerden]
+      - gap: "Ich habe nicht ___, dass du kommst."
+        options: [gewusst, gewisst, gewissen]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Wir sind gestern nach Hause geflogen.", "Wir haben gestern nach Hause geflogen.", "Wir sind gestern nach Hause gefliegt.", "Wir sind gestern geflogen nach Hause."]
+      - match: ["bringen = gebracht", "denken = gedacht", "helfen = geholfen", "nehmen = genommen", "finden = gefunden"]
+        ar: طابق الفعل بالـ Partizip II
+      - order: "Ich habe meinen Schlüssel nicht gefunden."
+        ar: لم أجد مفتاحي.
+      - write: "Ich bin zu Hause geblieben.|Ich bin zu Hause geblieben"
+        ar: "اكتب بالـ Perfekt: بقيت في البيت."
+
+  - slug: a2-g-praeteritum
+    title_de: Präteritum – Modalverben, sein, haben
+    title_ar: الـ Präteritum — الأفعال الناقصة و sein و haben
+    goal_ar: أن تستخدم الماضي البسيط للأفعال الناقصة و war/hatte كما يستعمله الألمان في الكلام.
+    explanation_ar: |
+      ## في الكلام اليومي
+      نستعمل **Perfekt** لأغلب الأفعال، لكن **Präteritum** مع sein, haben والأفعال الناقصة.
+      ## Modalverben im Präteritum: بدون Umlaut + -te
+      | | können | müssen | wollen | dürfen | sollen |
+      |---|---|---|---|---|---|
+      | ich/er | konnte | musste | wollte | durfte | sollte |
+      | du | konntest | musstest | wolltest | durftest | solltest |
+      | wir/sie | konnten | mussten | wollten | durften | sollten |
+      > Gestern **musste** ich lange arbeiten. — Als Kind **konnte** ich nicht schwimmen.
+      ## مع es gibt
+      > Früher **gab es** hier keinen Supermarkt.
+    items:
+      - gap: "Gestern ___ ich nicht kommen, ich war krank."
+        options: [konnte, kann, könnte]
+      - gap: "Wir ___ am Samstag arbeiten."
+        options: [mussten, müssten, musste]
+      - gap: "Als Kind ___ ich Pilot werden."
+        options: [wollte, will, wolle]
+      - gap: "Früher ___ man hier rauchen."
+        options: [durfte, darf, dürfte]
+      - gap: "___ du gestern auch im Kurs?"
+        options: [Warst, Hattest, Bist]
+      - gap: "Wir ___ keine Zeit."
+        options: [hatten, waren, hattet]
+      - gap: "Früher ___ es hier viele Bäume."
+        options: [gab, gibt, gebt]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich musste gestern früh aufstehen.", "Ich musste gestern früh aufgestanden.", "Ich muss gestern früh aufstehen.", "Ich mussten gestern früh aufstehen."]
+      - order: "Leider konnte ich dich nicht anrufen."
+        ar: للأسف لم أستطع الاتصال بك.
+      - write: "Ich war krank.|Ich war krank"
+        ar: "اكتب: كنت مريضاً."
+
+  - slug: a2-g-reflexiv
+    title_de: Reflexive Verben
+    title_ar: الأفعال الانعكاسية
+    goal_ar: أن تستخدم الأفعال مع mich, dich, sich… مثل sich waschen, sich freuen, sich interessieren.
+    explanation_ar: |
+      ## الضمير الانعكاسي
+      | ich | du | er/sie/es | wir | ihr | sie/Sie |
+      |---|---|---|---|---|---|
+      | mich | dich | **sich** | uns | euch | **sich** |
+      > Ich wasche **mich**. — Er rasiert **sich**. — Wir treffen **uns** um acht.
+      ## أفعال انعكاسية شائعة في A2
+      sich anziehen (يلبس)، sich ausruhen (يرتاح)، sich beeilen (يستعجل)، sich duschen، sich fühlen (يشعر)، sich interessieren für، sich erinnern an، sich setzen، sich vorstellen (يعرّف بنفسه)، sich entschuldigen (يعتذر)، sich anmelden
+      ## الترتيب في Perfekt والأمر
+      > Ich habe **mich** beeilt. — Beeil **dich**! — Setzen Sie **sich**, bitte!
+    items:
+      - gap: "Ich ziehe ___ schnell an."
+        options: [mich, mir, sich]
+      - gap: "Er interessiert ___ für Fußball."
+        options: [sich, ihn, ihm]
+      - gap: "Wir treffen ___ vor dem Kino."
+        options: [uns, sich, euch]
+      - gap: "Beeil ___! Der Bus kommt."
+        options: [dich, dir, sich]
+      - gap: "Wie fühlen Sie ___ heute?"
+        options: [sich, Sie, Ihnen]
+      - gap: "Ich möchte ___ für die Verspätung entschuldigen."
+        options: [mich, mir, sich]
+      - gap: "Erinnerst du ___ an unseren Lehrer?"
+        options: [dich, dir, sich]
+      - match: ["sich beeilen = يستعجل", "sich ausruhen = يرتاح", "sich erinnern = يتذكّر", "sich anziehen = يلبس", "sich entschuldigen = يعتذر"]
+      - order: "Ich interessiere mich für Musik."
+        ar: أهتم بالموسيقى.
+      - write: "Setzen Sie sich bitte!|Setzen Sie sich bitte|Bitte setzen Sie sich!"
+        ar: "اكتب (رسمي): تفضّل اجلس!"
+
+  - slug: a2-grammatik-1-test
+    kind: test
+    title_de: Modultest – Grammatik A2 Teil 1
+    title_ar: اختبار قواعد A2 — الجزء الأول
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Ich gebe ___ Kind einen Apfel."
+        options: [dem, das, den]
+      - gap: "Die Schuhe gefallen ___ nicht. (أنا)"
+        options: [mir, mich, ich]
+      - gap: "Ich fahre mit ___ Kollegen zur Arbeit."
+        options: [meinem, meinen, mein]
+      - gap: "Der Kaffee ist für ___ Chef."
+        options: [den, dem, der]
+      - gap: "Ich lege die Zeitung auf ___ Sofa."
+        options: [das, dem, den]
+      - gap: "Die Zeitung liegt auf ___ Sofa."
+        options: [dem, das, den]
+      - gap: "Wir sind gestern ins Kino ___."
+        options: [gegangen, gegeht, gehen]
+      - gap: "Ich habe dich nicht ___. (verstehen)"
+        options: [verstanden, geverstanden, versteht]
+      - gap: "Gestern ___ ich zum Arzt gehen."
+        options: [musste, muss, müsste]
+      - gap: "Er rasiert ___ jeden Morgen."
+        options: [sich, ihn, ihm]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich hänge das Bild an die Wand.", "Ich hänge das Bild an der Wand.", "Ich hänge das Bild an dem Wand.", "Ich hänge das Bild an den Wand."]
+      - order: "Hast du dich schon angemeldet?"
+        ar: هل سجّلت نفسك بالفعل؟
+      - order: "Das Buch gehört meiner Schwester."
+        ar: الكتاب لأختي.
+      - write: "Ich konnte nicht kommen.|Ich konnte nicht kommen"
+        ar: "اكتب: لم أستطع المجيء."

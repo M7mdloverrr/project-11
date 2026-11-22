@@ -1,0 +1,207 @@
+module:
+  slug: a2-menschen
+  level: A2
+  position: 1
+  icon: people
+  title_de: Menschen, Beziehungen und Feste
+  title_ar: الناس والعلاقات والمناسبات
+  description_ar: مفردات Goethe A2 — وصف الشكل والشخصية، العلاقات، المشاعر، الأعياد والدعوات والتهاني.
+
+lessons:
+  - slug: a2-aussehen
+    title_de: Aussehen und Charakter
+    title_ar: الشكل والشخصية
+    goal_ar: أن تصف شكل شخص وشخصيته بجمل كاملة.
+    explanation_ar: |
+      ## الشكل (das Aussehen)
+      > Er ist groß und schlank. Er hat kurze, schwarze Haare und braune Augen.
+      > Sie trägt eine Brille und hat lange, blonde Haare.
+      ## الشخصية (der Charakter)
+      | positiv | negativ |
+      |---|---|
+      | freundlich, ehrlich, fleißig, lustig, geduldig | unfreundlich, faul, ungeduldig, langweilig |
+      **un-** في أول الصفة = عكسها: freundlich ↔ unfreundlich.
+      ## Wie sieht er aus? / Wie ist er?
+      الأول عن الشكل، الثاني عن الشخصية.
+    items:
+      - {vocab: "aus|sehen – er sieht aus", ar: "يبدو (شكلاً)", ex: "Wie sieht dein Bruder aus?", ex_ar: "كيف يبدو أخوك؟"}
+      - {vocab: "das Aussehen", ar: "المظهر"}
+      - {vocab: "das Haar, -e", ar: "الشعر", ex: "Sie hat lange Haare.", ex_ar: "شعرها طويل."}
+      - {vocab: "blond / dunkel / lockig", ar: "أشقر / داكن / مجعّد"}
+      - {vocab: "der Bart, ¨-e", ar: "اللحية"}
+      - {vocab: "die Brille, -n", ar: "النظارة"}
+      - {vocab: "schlank / dick", ar: "نحيف / سمين"}
+      - {vocab: "hübsch", ar: "جميل / وسيم"}
+      - {vocab: "das Gesicht, -er", ar: "الوجه"}
+      - {vocab: "die Nase, -n", ar: "الأنف"}
+      - {vocab: "der Zahn, ¨-e", ar: "السن"}
+      - {vocab: "der Charakter", ar: "الشخصية"}
+      - {vocab: "ehrlich", ar: "صادق", ex: "Sie ist immer ehrlich.", ex_ar: "هي صادقة دائماً."}
+      - {vocab: "fleißig ↔ faul", ar: "مجتهد ↔ كسول"}
+      - {vocab: "lustig", ar: "مضحك / مرِح"}
+      - {vocab: "geduldig ↔ ungeduldig", ar: "صبور ↔ غير صبور"}
+      - {vocab: "langweilig ↔ interessant", ar: "ممل ↔ مثير للاهتمام"}
+      - {vocab: "höflich ↔ unhöflich", ar: "مهذّب ↔ غير مهذّب"}
+      - {vocab: "sympathisch", ar: "لطيف / محبوب"}
+      - {vocab: "ruhig ↔ nervös", ar: "هادئ ↔ عصبي/متوتر"}
+      - {vocab: "klug / intelligent", ar: "ذكي"}
+      - {vocab: "stark ↔ schwach", ar: "قوي ↔ ضعيف"}
+      - {vocab: "ähnlich", ar: "مشابه", ex: "Du siehst deiner Mutter ähnlich.", ex_ar: "تشبه أمك."}
+      - {vocab: "die Person, -en", ar: "الشخص"}
+      - {vocab: "der Mensch, -en", ar: "الإنسان"}
+      - text: |
+          Mein bester Freund heißt Karim. Er ist 28 Jahre alt, ziemlich groß und hat einen kurzen Bart. Er trägt fast immer Jeans und ein T-Shirt. Karim ist sehr hilfsbereit und lustig, aber manchmal ein bisschen ungeduldig. Wir kennen uns seit der Schule.
+        ar: صديقي المفضّل اسمه كريم. عمره 28 سنة، طويل نوعاً ما وله لحية قصيرة. يلبس دائماً تقريباً جينز وتيشيرت. كريم يحب المساعدة ومرح جداً، لكنه أحياناً قليل الصبر. نعرف بعضنا منذ المدرسة.
+      - quiz: "حسب النص — ما عيب كريم؟"
+        options: [قليل الصبر أحياناً, كسول, ممل, غير مهذب]
+      - gap: "Wie ___ deine Schwester aus?"
+        options: [sieht, siehst, sehen]
+      - gap: "Er arbeitet nie, er ist sehr ___."
+        options: [faul, fleißig, ehrlich]
+      - gap: "Das Gegenteil von 'höflich' ist ___."
+        options: [unhöflich, nicht höflich sein, höflichlos]
+      - match: ["ehrlich = صادق", "fleißig = مجتهد", "geduldig = صبور", "lustig = مرح", "die Brille = النظارة"]
+      - order: "Sie hat lange blonde Haare."
+        ar: لها شعر أشقر طويل.
+      - write: "Er ist sehr freundlich.|Er ist sehr freundlich"
+        ar: "اكتب: هو ودود جداً."
+
+  - slug: a2-beziehungen
+    title_de: Beziehungen und Gefühle
+    title_ar: العلاقات والمشاعر
+    goal_ar: أن تتكلم عن العلاقات (الصداقة، الزواج، الجيران) والمشاعر.
+    explanation_ar: |
+      ## المشاعر
+      > Ich freue mich. (أنا مسرور) — Ich ärgere mich. (أنا منزعج) — Ich habe Angst. (أنا خائف)
+      > Ich bin traurig / wütend / überrascht / zufrieden.
+      ## العلاقات
+      > Wir haben uns im Kurs kennengelernt. (تعرّفنا في الدورة)
+      > Sie haben letztes Jahr geheiratet. — Sie haben sich getrennt.
+      ## uns / sich = بعضنا / أنفسهم
+    items:
+      - {vocab: "die Beziehung, -en", ar: "العلاقة"}
+      - {vocab: "die Freundschaft, -en", ar: "الصداقة"}
+      - {vocab: "kennen|lernen", ar: "يتعرّف على", ex: "Ich habe ihn im Urlaub kennengelernt.", ex_ar: "تعرّفت عليه في العطلة."}
+      - {vocab: "heiraten", ar: "يتزوّج", ex: "Wir heiraten im Mai.", ex_ar: "سنتزوج في أيار."}
+      - {vocab: "die Hochzeit, -en", ar: "حفل الزفاف"}
+      - {vocab: "der Ehemann / die Ehefrau", ar: "الزوج / الزوجة"}
+      - {vocab: "der Partner, - / die Partnerin, -nen", ar: "الشريك / الشريكة"}
+      - {vocab: "sich trennen", ar: "ينفصل"}
+      - {vocab: "sich verlieben", ar: "يقع في الحب", ex: "Er hat sich in sie verliebt.", ex_ar: "وقع في حبها."}
+      - {vocab: "das Gefühl, -e", ar: "الشعور"}
+      - {vocab: "sich freuen", ar: "يفرح", ex: "Ich freue mich auf das Wochenende.", ex_ar: "أتطلع بفرح لعطلة الأسبوع."}
+      - {vocab: "sich ärgern", ar: "ينزعج / يغضب", ex: "Er ärgert sich über den Lärm.", ex_ar: "ينزعج من الضجيج."}
+      - {vocab: "die Angst, ¨-e", ar: "الخوف", ex: "Ich habe Angst vor Hunden.", ex_ar: "أخاف من الكلاب."}
+      - {vocab: "wütend", ar: "غاضب"}
+      - {vocab: "überrascht", ar: "متفاجئ"}
+      - {vocab: "zufrieden", ar: "راضٍ"}
+      - {vocab: "die Liebe", ar: "الحب"}
+      - {vocab: "der Streit", ar: "الشجار", ex: "Sie haben oft Streit.", ex_ar: "يتشاجران كثيراً."}
+      - {vocab: "sich streiten", ar: "يتشاجر"}
+      - {vocab: "vermissen", ar: "يشتاق", ex: "Ich vermisse meine Familie.", ex_ar: "أشتاق لعائلتي."}
+      - {vocab: "sich kümmern um", ar: "يهتم بـ", ex: "Sie kümmert sich um ihre Mutter.", ex_ar: "تعتني بأمها."}
+      - {vocab: "das Vertrauen", ar: "الثقة"}
+      - {vocab: "allein / einsam", ar: "وحيد"}
+      - gap: "Ich freue ___ auf deinen Besuch."
+        options: [mich, dich, sich]
+      - gap: "Wir haben ___ im Deutschkurs kennengelernt."
+        options: [uns, sich, euch]
+      - gap: "Sie ___ ihre Familie in Syrien sehr."
+        options: [vermisst, verliebt, trennt]
+      - gap: "Ich habe ___ vor Spinnen."
+        options: [Angst, Streit, Liebe]
+      - listen: "Ahmed und Lena haben sich vor drei Jahren an der Uni kennengelernt. Nächsten Sommer heiraten sie."
+        ar: متى سيتزوجان؟
+        options: [الصيف القادم, بعد ثلاث سنوات, هذا الشتاء, تزوجا من قبل]
+      - match: ["sich freuen = يفرح", "sich ärgern = ينزعج", "vermissen = يشتاق", "heiraten = يتزوّج", "zufrieden = راضٍ"]
+      - order: "Ich freue mich auf die Ferien."
+        ar: أتطلع بشوق للعطلة.
+      - write: "Ich vermisse dich.|Ich vermisse dich"
+        ar: "اكتب: أشتاق إليك."
+
+  - slug: a2-feste
+    title_de: Feste, Einladungen und Glückwünsche
+    title_ar: الأعياد والدعوات والتهاني
+    goal_ar: أن تدعو شخصاً، تقبل أو ترفض بأدب، وتهنئ في المناسبات.
+    explanation_ar: |
+      ## التهاني
+      | المناسبة | التهنئة |
+      |---|---|
+      | عيد الميلاد | Alles Gute zum Geburtstag! / Herzlichen Glückwunsch! |
+      | الزواج | Herzlichen Glückwunsch zur Hochzeit! |
+      | رأس السنة | Frohes neues Jahr! / Guten Rutsch! |
+      | العيد | Frohes Fest! / Eid Mubarak! |
+      | النجاح | Herzlichen Glückwunsch zur bestandenen Prüfung! |
+      ## الدعوة
+      > Ich möchte dich zu meiner Party einladen. — Danke für die Einladung!
+      > Ich komme gern. / Leider kann ich nicht kommen, weil ich arbeiten muss.
+    items:
+      - {vocab: "das Fest, -e", ar: "العيد / الاحتفال"}
+      - {vocab: "feiern", ar: "يحتفل", ex: "Wir feiern Ramadan zusammen.", ex_ar: "نحتفل برمضان معاً."}
+      - {vocab: "die Feier, -n / die Party, -s", ar: "الحفلة"}
+      - {vocab: "ein|laden – er lädt ein", ar: "يدعو", ex: "Ich lade dich zum Essen ein.", ex_ar: "أدعوك للطعام."}
+      - {vocab: "die Einladung, -en", ar: "الدعوة"}
+      - {vocab: "der Gast, ¨-e", ar: "الضيف"}
+      - {vocab: "das Geschenk, -e", ar: "الهدية"}
+      - {vocab: "schenken", ar: "يُهدي", ex: "Was schenkst du deiner Mutter?", ex_ar: "ماذا تهدي أمك؟"}
+      - {vocab: "der Geburtstag, -e", ar: "عيد الميلاد"}
+      - {vocab: "gratulieren", ar: "يهنّئ", ex: "Ich gratuliere dir!", ex_ar: "أهنّئك!"}
+      - {vocab: "der Glückwunsch, ¨-e", ar: "التهنئة"}
+      - {vocab: "Weihnachten / Ostern / Silvester", ar: "الميلاد / الفصح / ليلة رأس السنة"}
+      - {vocab: "der Feiertag, -e", ar: "يوم العطلة الرسمية"}
+      - {vocab: "die Kerze, -n", ar: "الشمعة"}
+      - {vocab: "der Kuchen, -", ar: "الكعكة"}
+      - {vocab: "zu|sagen / ab|sagen", ar: "يقبل الدعوة / يعتذر"}
+      - {vocab: "die Überraschung, -en", ar: "المفاجأة"}
+      - {phrase: "Herzlichen Glückwunsch zum Geburtstag!", ar: "عيد ميلاد سعيد!"}
+      - {phrase: "Danke für die Einladung!", ar: "شكراً على الدعوة!"}
+      - text: |
+          Liebe Nachbarn,
+          am Samstag, den 14. Juni, feiern wir unser Sommerfest im Hof. Es beginnt um 16 Uhr. Für Getränke und Grillen sorgen wir. Bitte bringt einen Salat oder einen Kuchen mit. Bitte sagt bis Mittwoch Bescheid, ob ihr kommt.
+          Familie Yilmaz
+        ar: جيراننا الأعزاء، يوم السبت 14 حزيران نحتفل بحفلة الصيف في الفناء. تبدأ الساعة 16. نتكفل بالمشروبات والشواء. أحضروا سلطة أو كعكة. أخبرونا حتى الأربعاء إن كنتم ستأتون. عائلة يلماز.
+      - quiz: "ماذا يجب أن يُحضر الجيران؟"
+        options: [سلطة أو كعكة, مشروبات, لحماً للشواء, لا شيء]
+      - quiz: "حتى متى يجب الرد؟"
+        options: [حتى الأربعاء, حتى السبت, حتى 14 حزيران, لا حاجة للرد]
+      - gap: "Ich ___ dich herzlich zu meiner Hochzeit ein."
+        options: [lade, lädt, lädst]
+      - gap: "Herzlichen ___ zum Geburtstag!"
+        options: [Glückwunsch, Gratulation, Geschenk]
+      - quiz: "كيف ترفض دعوة بأدب؟"
+        options: ["Vielen Dank, aber leider kann ich nicht kommen.", "Nein, ich will nicht.", "Ich komme gern.", "Frohes Fest!"]
+      - match: ["das Geschenk = الهدية", "der Gast = الضيف", "feiern = يحتفل", "die Einladung = الدعوة", "absagen = يعتذر عن موعد"]
+      - order: "Vielen Dank für die Einladung."
+        ar: شكراً جزيلاً على الدعوة.
+      - write: "Frohes neues Jahr!|Frohes neues Jahr"
+        ar: "اكتب: سنة جديدة سعيدة!"
+
+  - slug: a2-menschen-test
+    kind: test
+    title_de: Modultest – Menschen und Feste
+    title_ar: اختبار وحدة الناس والمناسبات
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Wie ___ dein neuer Kollege aus?"
+        options: [sieht, siehst, sehen]
+      - gap: "Sie arbeitet sehr viel. Sie ist ___."
+        options: [fleißig, faul, langweilig]
+      - gap: "Wir freuen ___ auf das Fest."
+        options: [uns, sich, euch]
+      - gap: "Ich ___ meine Freunde zum Essen ein."
+        options: [lade, lädt, lade an]
+      - gap: "Er hat ___ in eine Kollegin verliebt."
+        options: [sich, ihn, ihm]
+      - gap: "Herzlichen Glückwunsch ___ Hochzeit!"
+        options: [zur, zum, für]
+      - listen: "Leider kann ich am Samstag nicht kommen, weil meine Mutter Geburtstag hat."
+        ar: لماذا لا يستطيع المجيء؟
+        options: [عيد ميلاد أمه, هو مريض, يعمل, مسافر]
+      - listen: "Mein Vater ist sehr geduldig, aber meine Mutter ist oft nervös."
+        ar: كيف الأم؟
+        options: [عصبية غالباً, صبورة, هادئة, مرحة]
+      - match: ["ehrlich = صادق", "die Hochzeit = الزفاف", "vermissen = يشتاق", "schenken = يُهدي", "überrascht = متفاجئ"]
+      - order: "Wir haben uns vor zwei Jahren kennengelernt."
+        ar: تعرّفنا على بعض قبل سنتين.
+      - write: "Alles Gute zum Geburtstag!|Alles Gute zum Geburtstag"
+        ar: "اكتب: كل عام وأنت بخير بمناسبة عيد ميلادك! (Alles Gute…)"
