@@ -2,6 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../lessons/lessons_tab.dart';
+import '../lessons/progress_tab.dart';
 import 'profile_tab.dart';
 import 'start_tab.dart';
 
@@ -29,18 +31,8 @@ class HomeShell extends ConsumerWidget {
           index: tab.index,
           children: const [
             StartTab(),
-            DLComingSoon(
-              icon: Icons.menu_book_rounded,
-              title: 'الدروس',
-              subtitle: 'Lektionen',
-              message: 'الدروس التفاعلية قيد التطوير وستتوفر في المرحلة القادمة.\nInteraktive Lektionen folgen in Phase 2.',
-            ),
-            DLComingSoon(
-              icon: Icons.insights_rounded,
-              title: 'التقدّم',
-              subtitle: 'Fortschritt',
-              message: 'إحصاءات التقدّم ستظهر هنا بعد إطلاق الدروس.\nStatistiken erscheinen, sobald Lektionen verfügbar sind.',
-            ),
+            LessonsTab(),
+            ProgressTab(),
             DLComingSoon(
               icon: Icons.chat_bubble_rounded,
               title: 'المحادثة',
@@ -55,11 +47,31 @@ class HomeShell extends ConsumerWidget {
         selectedIndex: tab.index,
         onDestinationSelected: (i) => ref.read(homeTabProvider.notifier).select(HomeTab.values[i]),
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home_rounded), label: 'Start'),
-          NavigationDestination(icon: Icon(Icons.menu_book_outlined), selectedIcon: Icon(Icons.menu_book_rounded), label: 'Lektionen'),
-          NavigationDestination(icon: Icon(Icons.insights_outlined), selectedIcon: Icon(Icons.insights_rounded), label: 'Fortschritt'),
-          NavigationDestination(icon: Icon(Icons.chat_bubble_outline), selectedIcon: Icon(Icons.chat_bubble_rounded), label: 'Chat'),
-          NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person_rounded), label: 'Profil'),
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home_rounded),
+            label: 'Start',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book_rounded),
+            label: 'Lektionen',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.insights_outlined),
+            selectedIcon: Icon(Icons.insights_rounded),
+            label: 'Fortschritt',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(Icons.chat_bubble_rounded),
+            label: 'Chat',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person_rounded),
+            label: 'Profil',
+          ),
         ],
       ),
     );

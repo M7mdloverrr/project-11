@@ -12,6 +12,7 @@ typedef _Dest = ({String route, IconData icon, String label});
 const List<_Dest> _destinations = [
   (route: AdminRoutes.overview, icon: Icons.space_dashboard_outlined, label: 'Overview'),
   (route: AdminRoutes.users, icon: Icons.people_alt_outlined, label: 'Users'),
+  (route: AdminRoutes.lessons, icon: Icons.menu_book_outlined, label: 'Lessons'),
   (route: AdminRoutes.codes, icon: Icons.qr_code_2, label: 'Teacher codes'),
   (route: AdminRoutes.links, icon: Icons.link, label: 'Links'),
   (route: AdminRoutes.activity, icon: Icons.history, label: 'Activity'),

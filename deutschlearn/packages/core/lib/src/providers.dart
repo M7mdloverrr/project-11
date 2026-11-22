@@ -3,10 +3,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'backend/admin_repository.dart';
 import 'backend/auth_gateway.dart';
+import 'backend/lesson_repository.dart';
 import 'backend/link_repository.dart';
 import 'backend/profile_repository.dart';
 import 'backend/supabase_admin_repository.dart';
 import 'backend/supabase_auth_gateway.dart';
+import 'backend/supabase_lesson_repository.dart';
 import 'backend/supabase_link_repository.dart';
 import 'backend/supabase_profile_repository.dart';
 import 'backend/unconfigured_backend.dart';
@@ -40,6 +42,11 @@ final linkRepositoryProvider = Provider<LinkRepository>((ref) {
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
   final client = ref.watch(supabaseClientProvider);
   return client == null ? const UnconfiguredAdminRepository() : SupabaseAdminRepository(client);
+});
+
+final lessonRepositoryProvider = Provider<LessonRepository>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? const UnconfiguredLessonRepository() : SupabaseLessonRepository(client);
 });
 
 /// Disables Riverpod's automatic retry; screens offer explicit retry buttons

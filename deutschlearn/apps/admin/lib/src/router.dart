@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import 'auth_screens.dart';
 import 'pages/activity_page.dart';
 import 'pages/codes_page.dart';
+import 'pages/lessons_page.dart';
 import 'pages/links_page.dart';
 import 'pages/overview_page.dart';
 import 'pages/users_page.dart';
@@ -14,6 +15,7 @@ import 'shell.dart';
 abstract final class AdminRoutes {
   static const overview = '/overview';
   static const users = '/users';
+  static const lessons = '/lessons';
   static const codes = '/codes';
   static const links = '/links';
   static const activity = '/activity';
@@ -50,6 +52,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(path: AdminRoutes.overview, pageBuilder: (_, _) => page(const OverviewPage())),
           GoRoute(path: AdminRoutes.users, pageBuilder: (_, _) => page(const UsersPage())),
+          GoRoute(path: AdminRoutes.lessons, pageBuilder: (_, _) => page(const LessonsPage())),
           GoRoute(path: AdminRoutes.codes, pageBuilder: (_, _) => page(const CodesPage())),
           GoRoute(path: AdminRoutes.links, pageBuilder: (_, _) => page(const LinksPage())),
           GoRoute(path: AdminRoutes.activity, pageBuilder: (_, _) => page(const ActivityPage())),

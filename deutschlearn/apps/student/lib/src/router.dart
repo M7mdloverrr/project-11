@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'home/home_shell.dart';
+import 'lessons/lesson_screen.dart';
 import 'link/link_teacher_screen.dart';
 import 'onboarding.dart';
 
@@ -12,6 +13,7 @@ abstract final class StudentRoutes {
   static const welcome = '/welcome';
   static const home = '/home';
   static const linkTeacher = '/home/link-teacher';
+  static String lesson(String id) => '/home/lesson/$id';
 }
 
 const _appSubtitle = 'منصة تعلّم الألمانية • Deutsch lernen';
@@ -34,14 +36,24 @@ final studentRouterProvider = Provider<GoRouter>((ref) {
       extraPublicRoutes: const {StudentRoutes.welcome},
     ),
     routes: [
-      GoRoute(path: AuthRoutes.splash, builder: (_, _) => const SplashScreen(subtitle: _appSubtitle)),
+      GoRoute(
+        path: AuthRoutes.splash,
+        builder: (_, _) => const SplashScreen(subtitle: _appSubtitle),
+      ),
       GoRoute(
         path: AuthRoutes.notConfigured,
-        builder: (_, _) => const BackendNotConfiguredScreen(previewRoute: StudentRoutes.welcome, appName: 'DeutschLearn'),
+        builder: (_, _) =>
+            const BackendNotConfiguredScreen(previewRoute: StudentRoutes.welcome, appName: 'DeutschLearn'),
       ),
       GoRoute(path: StudentRoutes.welcome, builder: (_, _) => const WelcomeScreen()),
-      GoRoute(path: AuthRoutes.login, builder: (_, _) => const LoginScreen(logoSubtitle: _appSubtitle)),
-      GoRoute(path: AuthRoutes.signUp, builder: (_, _) => const SignUpScreen(logoSubtitle: _appSubtitle)),
+      GoRoute(
+        path: AuthRoutes.login,
+        builder: (_, _) => const LoginScreen(logoSubtitle: _appSubtitle),
+      ),
+      GoRoute(
+        path: AuthRoutes.signUp,
+        builder: (_, _) => const SignUpScreen(logoSubtitle: _appSubtitle),
+      ),
       GoRoute(path: AuthRoutes.resetPassword, builder: (_, _) => const ResetPasswordScreen()),
       GoRoute(path: AuthRoutes.newPassword, builder: (_, _) => const NewPasswordScreen()),
       GoRoute(path: AuthRoutes.sessionError, builder: (_, _) => const SessionErrorScreen()),
@@ -52,7 +64,13 @@ final studentRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: StudentRoutes.home,
         builder: (_, _) => const HomeShell(),
-        routes: [GoRoute(path: 'link-teacher', builder: (_, _) => const LinkTeacherScreen())],
+        routes: [
+          GoRoute(path: 'link-teacher', builder: (_, _) => const LinkTeacherScreen()),
+          GoRoute(
+            path: 'lesson/:id',
+            builder: (_, state) => LessonScreen(lessonId: state.pathParameters['id']!),
+          ),
+        ],
       ),
     ],
   );

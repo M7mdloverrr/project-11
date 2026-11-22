@@ -1,11 +1,13 @@
 import '../failure.dart';
 import '../models/admin.dart';
+import '../models/lesson.dart';
 import '../models/link.dart';
 import '../models/profile.dart';
 import '../models/role.dart';
 import '../models/teacher_code.dart';
 import 'admin_repository.dart';
 import 'auth_gateway.dart';
+import 'lesson_repository.dart';
 import 'link_repository.dart';
 import 'profile_repository.dart';
 
@@ -113,4 +115,24 @@ class UnconfiguredAdminRepository implements AdminRepository {
   Future<void> linkStudent({required String teacherId, required String studentId}) => Future.error(_notConfigured);
   @override
   Future<List<AuditEntry>> auditLog({int limit = 100}) => Future.error(_notConfigured);
+}
+
+class UnconfiguredLessonRepository implements LessonRepository {
+  const UnconfiguredLessonRepository();
+
+  @override
+  Future<List<Lesson>> listLessons() => Future.error(_notConfigured);
+  @override
+  Future<Lesson> fetchLesson(String lessonId) => Future.error(_notConfigured);
+  @override
+  Future<List<LessonProgress>> fetchProgress({String? studentId}) => Future.error(_notConfigured);
+  @override
+  Future<LessonProgress> completeLesson(String lessonId, {required int score, required int maxScore}) =>
+      Future.error(_notConfigured);
+  @override
+  Future<Lesson> saveLesson(Lesson lesson) => Future.error(_notConfigured);
+  @override
+  Future<void> deleteLesson(String lessonId) => Future.error(_notConfigured);
+  @override
+  Future<void> saveItems(String lessonId, List<LessonItem> items) => Future.error(_notConfigured);
 }
