@@ -51,7 +51,10 @@ class BackendNotConfiguredScreen extends ConsumerWidget {
                             padding: const EdgeInsets.only(bottom: DLSpacing.xs),
                             child: Directionality(
                               textDirection: TextDirection.ltr,
-                              child: Text('• $issue', style: theme.textTheme.bodySmall?.copyWith(color: DLColors.error)),
+                              child: Text(
+                                '• $issue',
+                                style: theme.textTheme.bodySmall?.copyWith(color: DLColors.error),
+                              ),
                             ),
                           ),
                         const SizedBox(height: DLSpacing.sm),

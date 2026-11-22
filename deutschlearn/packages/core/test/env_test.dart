@@ -26,11 +26,20 @@ void main() {
 
   test('anon / publishable keys are accepted', () {
     expect(AppEnv(supabaseUrl: 'https://abc.supabase.co', supabaseAnonKey: _jwt('anon')).isConfigured, isTrue);
-    expect(const AppEnv(supabaseUrl: 'https://abc.supabase.co', supabaseAnonKey: 'sb_publishable_x').isConfigured, isTrue);
+    expect(
+      const AppEnv(supabaseUrl: 'https://abc.supabase.co', supabaseAnonKey: 'sb_publishable_x').isConfigured,
+      isTrue,
+    );
   });
 
   test('plain http is only allowed for local development', () {
-    expect(const AppEnv(supabaseUrl: 'http://abc.supabase.co', supabaseAnonKey: 'sb_publishable_x').isConfigured, isFalse);
-    expect(const AppEnv(supabaseUrl: 'http://10.0.2.2:54321', supabaseAnonKey: 'sb_publishable_x').isConfigured, isTrue);
+    expect(
+      const AppEnv(supabaseUrl: 'http://abc.supabase.co', supabaseAnonKey: 'sb_publishable_x').isConfigured,
+      isFalse,
+    );
+    expect(
+      const AppEnv(supabaseUrl: 'http://10.0.2.2:54321', supabaseAnonKey: 'sb_publishable_x').isConfigured,
+      isTrue,
+    );
   });
 }

@@ -2,12 +2,14 @@ import 'dart:async';
 
 import '../backend/admin_repository.dart';
 import '../backend/auth_gateway.dart';
+import '../backend/chat_repository.dart';
 import '../backend/lesson_repository.dart';
 import '../backend/link_repository.dart';
 import '../backend/profile_repository.dart';
 import '../failure.dart';
 import '../models/admin.dart';
 import '../models/cefr_level.dart';
+import '../models/chat.dart';
 import '../models/lesson.dart';
 import '../models/link.dart';
 import '../models/profile.dart';
@@ -692,5 +694,50 @@ class FakeLessonRepository implements LessonRepository {
   Future<void> removeAssignment(String assignmentId) async {
     await _tick();
     assignments.removeWhere((a) => a.id == assignmentId);
+  }
+}
+
+class FakeChatRepository implements ChatRepository {
+  FakeChatRepository({required this.myId});
+
+  final String myId;
+  final List<ChatMessage> messages = [];
+  final _changes = StreamController<void>.broadcast();
+  AppFailure? nextError;
+  int _seq = 0;
+
+  /// Simulates a message arriving from the other party.
+  void receive(ChatMessage m) {
+    messages.add(m);
+    _changes.add(null);
+  }
+
+  @override
+  Stream<List<ChatMessage>> watchThread({required String teacherId, required String studentId}) async* {
+    List<ChatMessage> thread() => messages.where((m) => m.teacherId == teacherId && m.studentId == studentId).toList();
+    yield thread();
+    await for (final _ in _changes.stream) {
+      yield thread();
+    }
+  }
+
+  @override
+  Future<ChatMessage> send({required String teacherId, required String studentId, required String body}) async {
+    await Future<void>.delayed(Duration.zero);
+    final e = nextError;
+    if (e != null) {
+      nextError = null;
+      throw e;
+    }
+    final m = ChatMessage(
+      id: 'msg-${++_seq}',
+      teacherId: teacherId,
+      studentId: studentId,
+      senderId: myId,
+      body: body.trim(),
+      createdAt: DateTime.now(),
+    );
+    receive(m);
+    return m;
   }
 }

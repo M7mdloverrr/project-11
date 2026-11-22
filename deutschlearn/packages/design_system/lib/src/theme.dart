@@ -75,10 +75,7 @@ abstract final class DLTheme {
       fontFamily: 'packages/$fontPackage/$fontFamily',
       scaffoldBackgroundColor: background,
     );
-    final text = base.textTheme.apply(
-      bodyColor: scheme.onSurface,
-      displayColor: scheme.onSurface,
-    );
+    final text = base.textTheme.apply(bodyColor: scheme.onSurface, displayColor: scheme.onSurface);
     return base.copyWith(
       textTheme: text.copyWith(
         headlineMedium: text.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -108,7 +105,10 @@ abstract final class DLTheme {
         filled: true,
         fillColor: scheme.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: DLSpacing.lg, vertical: DLSpacing.md),
-        border: OutlineInputBorder(borderRadius: DLRadius.control, borderSide: BorderSide(color: scheme.outline)),
+        border: OutlineInputBorder(
+          borderRadius: DLRadius.control,
+          borderSide: BorderSide(color: scheme.outline),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: DLRadius.control,
           borderSide: BorderSide(color: scheme.outline),

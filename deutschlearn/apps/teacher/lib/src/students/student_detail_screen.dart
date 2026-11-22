@@ -1,7 +1,10 @@
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
+
+import '../router.dart';
 
 import 'student_providers.dart';
 
@@ -36,7 +39,17 @@ class StudentDetailScreen extends ConsumerWidget {
 
     final error = summary.error ?? assignments.error;
     return Scaffold(
-      appBar: AppBar(title: Text(student?.displayName ?? 'الطالب • Schüler')),
+      appBar: AppBar(
+        title: Text(student?.displayName ?? 'الطالب • Schüler'),
+        actions: [
+          IconButton(
+            key: const Key('open-chat'),
+            tooltip: 'محادثة • Chat',
+            icon: const Icon(Icons.chat_bubble_outline),
+            onPressed: () => context.push(TeacherRoutes.chat(studentId), extra: student),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async => retry(),

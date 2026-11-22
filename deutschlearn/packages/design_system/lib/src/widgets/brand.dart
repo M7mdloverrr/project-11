@@ -43,7 +43,10 @@ class DLLogo extends StatelessWidget {
                     text: 'Deutsch',
                     style: TextStyle(color: theme.colorScheme.onSurface),
                   ),
-                  const TextSpan(text: 'Learn', style: TextStyle(color: DLColors.teal)),
+                  const TextSpan(
+                    text: 'Learn',
+                    style: TextStyle(color: DLColors.teal),
+                  ),
                 ],
               ),
               style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),

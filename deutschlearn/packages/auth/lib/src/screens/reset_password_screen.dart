@@ -70,7 +70,10 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
                 textDirection: TextDirection.ltr,
-                decoration: InputDecoration(labelText: bilingualLabel('البريد الإلكتروني', 'E-Mail'), prefixIcon: const Icon(Icons.mail_outline)),
+                decoration: InputDecoration(
+                  labelText: bilingualLabel('البريد الإلكتروني', 'E-Mail'),
+                  prefixIcon: const Icon(Icons.mail_outline),
+                ),
                 validator: AuthValidators.email,
               ),
               const SizedBox(height: DLSpacing.xl),

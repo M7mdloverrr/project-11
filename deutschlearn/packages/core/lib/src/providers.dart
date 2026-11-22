@@ -3,16 +3,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'backend/admin_repository.dart';
 import 'backend/auth_gateway.dart';
+import 'backend/chat_repository.dart';
 import 'backend/lesson_repository.dart';
 import 'backend/link_repository.dart';
 import 'backend/profile_repository.dart';
 import 'backend/supabase_admin_repository.dart';
 import 'backend/supabase_auth_gateway.dart';
+import 'backend/supabase_chat_repository.dart';
 import 'backend/supabase_lesson_repository.dart';
 import 'backend/supabase_link_repository.dart';
 import 'backend/supabase_profile_repository.dart';
 import 'backend/unconfigured_backend.dart';
 import 'env.dart';
+import 'models/chat.dart';
 
 /// Overridden in main() with the build-time env.
 final appEnvProvider = Provider<AppEnv>((ref) => AppEnv.unconfigured);
@@ -52,3 +55,14 @@ final lessonRepositoryProvider = Provider<LessonRepository>((ref) {
 /// Disables Riverpod's automatic retry; screens offer explicit retry buttons
 /// so failures (e.g. offline) are shown instead of silently retried.
 Duration? noRetry(int retryCount, Object error) => null;
+
+final chatRepositoryProvider = Provider<ChatRepository>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? const UnconfiguredChatRepository() : SupabaseChatRepository(client);
+});
+
+typedef ChatThreadKey = ({String teacherId, String studentId});
+
+final chatThreadProvider = StreamProvider.autoDispose.family<List<ChatMessage>, ChatThreadKey>(
+  (ref, key) => ref.watch(chatRepositoryProvider).watchThread(teacherId: key.teacherId, studentId: key.studentId),
+);

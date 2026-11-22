@@ -1,13 +1,8 @@
 import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-TeacherStudentLink _link(LinkStatus status) => TeacherStudentLink(
-  id: 'l1',
-  teacherId: 't1',
-  studentId: 's1',
-  status: status,
-  updatedAt: DateTime.utc(2026),
-);
+TeacherStudentLink _link(LinkStatus status) =>
+    TeacherStudentLink(id: 'l1', teacherId: 't1', studentId: 's1', status: status, updatedAt: DateTime.utc(2026));
 
 void main() {
   group('StudentLinkView.fromLink', () {

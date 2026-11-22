@@ -31,10 +31,7 @@ class WrongRoleScreen extends ConsumerWidget {
                 align: CrossAxisAlignment.center,
               ),
               const SizedBox(height: DLSpacing.md),
-              Text(
-                'يرجى استخدام $otherAppArabic.\nBitte nutze die $otherAppGerman.',
-                textAlign: TextAlign.center,
-              ),
+              Text('يرجى استخدام $otherAppArabic.\nBitte nutze die $otherAppGerman.', textAlign: TextAlign.center),
               const SizedBox(height: DLSpacing.xl),
               DLPrimaryButton(
                 label: bilingualLabel('تسجيل الخروج', 'Abmelden'),

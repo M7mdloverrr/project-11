@@ -11,8 +11,7 @@ abstract final class AuthValidators {
   }
 
   /// Login only checks presence; the server decides if it is correct.
-  static String? loginPassword(String? value) =>
-      (value ?? '').isEmpty ? 'أدخل كلمة المرور • Passwort eingeben' : null;
+  static String? loginPassword(String? value) => (value ?? '').isEmpty ? 'أدخل كلمة المرور • Passwort eingeben' : null;
 
   static String? newPassword(String? value) {
     final v = value ?? '';
