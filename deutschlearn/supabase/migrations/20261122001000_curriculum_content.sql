@@ -3695,5 +3695,114 @@ das Recht (الحق)، die Pflicht (الواجب)، das Grundgesetz (الدست�
     (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Regierung = الحكومة", "das Heimweh = الحنين للوطن", "die Erfindung = الاختراع", "die Verschmutzung = التلوث", "ehrenamtlich = تطوعي"]'::jsonb, null),
     (l, 9, 'order', 'Ein Vorteil des Internets ist, dass man schnell Informationen findet.', 'من مزايا الإنترنت أنك تجد المعلومات بسرعة.', null, null, null, null),
     (l, 10, 'write', 'Ich habe mich daran gewöhnt.|Ich habe mich daran gewöhnt', 'اكتب: تعوّدت على ذلك.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-fertigkeiten', 'B1', 6, 'Lesen, Hören, Schreiben, Sprechen – Goethe-Zertifikat B1', 'القراءة والاستماع والكتابة والمحادثة — امتحان Goethe B1', 'تدريب على أجزاء امتحان Goethe-Zertifikat B1 الأربعة، ثم الامتحان النهائي للمستوى B1.', 'exam') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-lesen', m, 'B1', 601, 'lesson', 'Lesen – Blog, Zeitungsartikel, Meinungen, Regeln', 'القراءة — مدونة، مقال صحفي، آراء، أنظمة', '', 'أن تفهم نصوصاً طويلة وآراء مختلفة وتميّز بين المعلومات الأساسية والتفاصيل (Lesen Teil 1–5).', '## استراتيجية B1
+- **Teil 1 (مدونة):** richtig/falsch — ابحث عن المعنى، لا عن نفس الكلمات.
+- **Teil 2 (مقال):** اختيار من 3 — أجوبة خاطئة كثيراً تستعمل كلمات من النص بمعنى آخر.
+- **Teil 3 (إعلانات):** طابق الأشخاص بالإعلانات — شخص واحد قد لا يجد إعلاناً.
+- **Teil 4 (آراء):** هل الكاتب **مع** أم **ضد**؟ انتبه لـ aber, trotzdem, allerdings.
+- **Teil 5 (أنظمة/قواعد):** اقرأ بدقة الشروط والاستثناءات.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'text', 'Mein Jahr ohne Auto
+Vor einem Jahr habe ich mein Auto verkauft. Meine Freunde dachten, ich wäre verrückt, weil ich auf dem Land wohne und der Bus nur jede Stunde fährt. Am Anfang war es tatsächlich schwierig: Ich musste meinen Tag viel genauer planen. Inzwischen fahre ich die meisten Strecken mit dem E-Bike, und für größere Einkäufe leihe ich mir das Auto meiner Nachbarin. Ich spare im Monat etwa 300 Euro und fühle mich fitter als früher. Nur im Winter, wenn es schneit, vermisse ich mein Auto manchmal.', 'سنتي بدون سيارة — قبل سنة بعت سيارتي. ظن أصدقائي أنني مجنون لأنني أسكن في الريف والباص يأتي كل ساعة. في البداية كان الأمر صعباً فعلاً: كان علي التخطيط بدقة. الآن أقطع معظم المسافات بالدراجة الكهربائية، وللمشتريات الكبيرة أستعير سيارة جارتي. أوفّر حوالي 300 يورو شهرياً وأشعر بلياقة أكثر. فقط في الشتاء عندما يتساقط الثلج أفتقد سيارتي أحياناً.', null, null, null, null),
+    (l, 2, 'quiz', '', 'Die Freunde fanden die Idee gut. — richtig أم falsch؟', null, null, '["falsch", "richtig"]'::jsonb, 0),
+    (l, 3, 'quiz', '', 'Für große Einkäufe benutzt der Autor ein anderes Auto. — richtig أم falsch؟', null, null, '["richtig", "falsch"]'::jsonb, 0),
+    (l, 4, 'quiz', '', 'متى يفتقد سيارته؟', null, null, '["في الشتاء عند الثلج", "في الصيف", "عند التسوق", "أبداً"]'::jsonb, 0),
+    (l, 5, 'text', 'Leserbriefe zum Thema: „Sollen Handys in Schulen verboten werden?"
+Petra (45): Ich bin absolut dafür. Kinder können sich ohne Handy viel besser konzentrieren, und in den Pausen sprechen sie wieder miteinander.
+Jonas (17): Ein komplettes Verbot finde ich übertrieben. Im Unterricht kann man das Handy sinnvoll nutzen, zum Beispiel für Recherchen. Allerdings sollte es in den Pausen ausgeschaltet bleiben.
+Herr Demir (52): Das Handy ist Teil unseres Lebens. Statt es zu verbieten, sollte die Schule zeigen, wie man es vernünftig benutzt.', 'رسائل قراء: هل يجب منع الهواتف في المدارس؟ بترا: أنا مع ذلك تماماً — الأطفال يركّزون أفضل ويتحدثون مع بعض في الاستراحة. يوناس: المنع الكامل مبالغ فيه؛ يمكن استخدامه بشكل مفيد في الدرس، لكن يجب إطفاؤه في الاستراحات. السيد دمير: الهاتف جزء من حياتنا؛ بدل منعه يجب أن تعلّم المدرسة استخدامه بعقلانية.', null, null, null, null),
+    (l, 6, 'quiz', '', 'من هو مع المنع الكامل؟', null, null, '["بترا", "يوناس", "السيد دمير", "لا أحد"]'::jsonb, 0),
+    (l, 7, 'quiz', '', 'ماذا يقترح السيد دمير؟', null, null, '["تعليم الاستخدام العقلاني", "المنع الكامل", "المنع في الدرس فقط", "لا شيء"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["übertrieben = مبالغ فيه", "sinnvoll = مفيد / منطقي", "vernünftig = عقلاني", "inzwischen = في هذه الأثناء / الآن", "tatsächlich = فعلاً"]'::jsonb, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-hoeren', m, 'B1', 602, 'lesson', 'Hören – Ansagen, Gespräche, Radio, Diskussion', 'الاستماع — إعلانات، محادثات، راديو، نقاش', '', 'أن تفهم المعلومات المهمة في نصوص مسموعة أطول وتعرف من يقول ماذا (Hören Teil 1–4).', '## استراتيجية
+- اقرأ الأسئلة جيداً في وقت القراءة المسموح.
+- في النقاش (Teil 4) سجّل من **المذيع** ومن **الضيوف** — من قال الرأي؟
+- كثيراً ما يُذكر خيار خاطئ أولاً ثم يُصحَّح: **eigentlich … aber**، **nicht … sondern**.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'listen', 'Liebe Kunden, unser Geschäft schließt heute wegen einer Betriebsfeier bereits um sechzehn Uhr. Ab morgen sind wir wieder wie gewohnt von acht bis zwanzig Uhr für Sie da.', 'لماذا يغلق المحل مبكراً؟', null, null, '["احتفال للموظفين", "عطلة رسمية", "تصليحات", "مرض المدير"]'::jsonb, 0),
+    (l, 2, 'listen', 'Eigentlich wollten wir nach Italien fahren, aber dann haben wir uns doch für eine Radtour an der Donau entschieden. Das war billiger und mindestens genauso schön.', 'أين قضوا العطلة؟', null, null, '["رحلة دراجات على الدانوب", "في إيطاليا", "في البيت", "على البحر"]'::jsonb, 0),
+    (l, 3, 'listen', 'Wer seinen Führerschein verloren hat, muss das zuerst bei der Polizei melden. Danach kann man im Bürgeramt einen neuen beantragen. Bringen Sie dafür ein biometrisches Foto mit.', 'ما الخطوة الأولى عند فقدان الرخصة؟', null, null, '["إبلاغ الشرطة", "الذهاب للبلدية", "التقاط صورة", "شراء رخصة جديدة"]'::jsonb, 0),
+    (l, 4, 'listen', 'In unserer Sendung sprechen wir heute mit Frau Dr. Albers. Sie meint, dass Kinder unter zehn Jahren höchstens eine Stunde am Tag vor dem Bildschirm sitzen sollten.', 'ما رأي الدكتورة ألبرس؟', null, null, '["ساعة واحدة كحد أقصى يومياً", "بدون شاشات أبداً", "لا حدود", "ساعتان يومياً"]'::jsonb, 0),
+    (l, 5, 'listen', 'Ich finde Homeoffice grundsätzlich gut. Aber mir fehlt der Kontakt zu den Kollegen, deshalb gehe ich zweimal pro Woche ins Büro.', 'لماذا يذهب للمكتب؟', null, null, '["يفتقد التواصل مع الزملاء", "المدير يفرض ذلك", "الإنترنت ضعيف في البيت", "المكتب قريب"]'::jsonb, 0),
+    (l, 6, 'listen', 'Die Stadt plant, die Innenstadt ab nächstem Jahr für Autos zu sperren. Geschäftsleute befürchten, dass dann weniger Kunden kommen.', 'ما الذي يخشاه أصحاب المحلات؟', null, null, '["قلة الزبائن", "ارتفاع الإيجار", "الضجيج", "نقص المواقف للموظفين"]'::jsonb, 0),
+    (l, 7, 'listen', 'Ich habe zwar Medizin studiert, aber nach dem Studium habe ich gemerkt, dass ich lieber mit Kindern arbeiten möchte. Deshalb bin ich jetzt Grundschullehrerin.', 'ماذا تعمل الآن؟', null, null, '["معلمة ابتدائي", "طبيبة", "طبيبة أطفال", "طالبة"]'::jsonb, 0);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-schreiben', m, 'B1', 603, 'lesson', 'Schreiben – E-Mail, Forumsbeitrag, formelle Nachricht', 'الكتابة — بريد شخصي، مشاركة في منتدى، رسالة رسمية', '', 'أن تكتب بريداً شخصياً (80 كلمة)، رأياً في منتدى (80 كلمة)، ورسالة رسمية قصيرة (40 كلمة) كما في Schreiben Teil 1–3.', '## Teil 1: بريد لصديق — 3 نقاط
+مثلاً: صف حدثاً، علّل، اقترح لقاء. ابدأ: **Liebe/r …**، اختم: **Viele Grüße**.
+## Teil 2: رأيك في منتدى
+> Ich bin der Meinung, dass … Einerseits …, andererseits … Ein Beispiel: … Deshalb finde ich …
+## Teil 3: رسالة رسمية (اعتذار/طلب)
+> Sehr geehrte Frau Krüger, leider kann ich an dem Termin am Montag nicht teilnehmen, weil … Ich würde mich freuen, wenn wir einen neuen Termin vereinbaren könnten. Mit freundlichen Grüßen
+## نصيحة: استعمل روابط متنوعة
+weil, obwohl, deshalb, trotzdem, außerdem, zum Beispiel, einerseits/andererseits', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Ich bin der Meinung, dass …
+Ein wichtiger Grund ist …
+Zum Beispiel …
+Deshalb finde ich …', 'في Teil 2 اذكر **رأيك** + **سببين** + **مثالاً** + **خلاصة**.', null, null, null, null),
+    (l, 2, 'gap', 'Ich würde mich freuen, wenn wir einen neuen Termin ___ könnten.', '', null, null, '["vereinbaren", "vereinbart", "zu vereinbaren"]'::jsonb, 0),
+    (l, 3, 'gap', 'Leider kann ich an dem Kurs nicht ___.', '', null, null, '["teilnehmen", "nehmen teil", "teilzunehmen"]'::jsonb, 0),
+    (l, 4, 'gap', '___ finde ich, dass jeder selbst entscheiden sollte.', '', null, null, '["Deshalb", "Obwohl", "Weil"]'::jsonb, 0),
+    (l, 5, 'quiz', '', 'أي خاتمة مناسبة لبريد إلى صديق؟', null, null, '["Viele Grüße und bis bald!", "Mit freundlichen Grüßen", "Hochachtungsvoll", "Sehr geehrte Damen und Herren"]'::jsonb, 0),
+    (l, 6, 'quiz', '', 'أي جملة مناسبة لبدء رأي في منتدى؟', null, null, '["Zu diesem Thema habe ich eine klare Meinung.", "Hallo Oma!", "Ich bestelle zwei Pizzen.", "Sehr geehrter Herr Direktor,"]'::jsonb, 0),
+    (l, 7, 'order', 'Ich würde mich über eine schnelle Antwort freuen.', 'سأكون سعيداً برد سريع.', null, null, null, null),
+    (l, 8, 'order', 'Ich möchte mich für die Verspätung entschuldigen.', 'أود أن أعتذر عن التأخير.', null, null, null, null),
+    (l, 9, 'write', 'Ich bin der Meinung, dass|Ich bin der Meinung, dass …|Ich bin der Meinung dass', 'اكتب بداية جملة الرأي: أرى أنّ …', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-sprechen', m, 'B1', 604, 'lesson', 'Sprechen – gemeinsam planen, präsentieren, reagieren', 'المحادثة — التخطيط المشترك، العرض، الرد على الأسئلة', '', 'أن تستعد لامتحان المحادثة B1 — تخطيط شيء مع شريك، تقديم عرض قصير عن موضوع، والرد على الأسئلة. استمع وكرّر بصوت عالٍ.', '## Teil 1: خطّطا معاً (مثلاً حفلة وداع لزميل)
+> Wollen wir …? — Was hältst du davon, wenn …? — Das ist eine gute Idee, aber … — Ich schlage vor, dass … — Einverstanden!
+## Teil 2: العرض (5 شرائح)
+1. **الموضوع:** Ich möchte heute über das Thema … sprechen.
+2. **تجربتي:** In meinem Leben … / Ich habe die Erfahrung gemacht, dass …
+3. **في بلدي:** In meinem Heimatland ist das so: …
+4. **المزايا والعيوب + رأيي:** Ein Vorteil ist … ein Nachteil … Meiner Meinung nach …
+5. **الخاتمة:** Zum Schluss möchte ich sagen … Vielen Dank für Ihre Aufmerksamkeit.
+## Teil 3: الرد على الأسئلة
+> Das ist eine gute Frage. — Ich bin mir nicht ganz sicher, aber ich glaube …', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'phrase', 'Was hältst du davon, wenn wir zusammen kochen?', 'ما رأيك أن نطبخ معاً؟', null, null, null, null),
+    (l, 2, 'phrase', 'Einverstanden!', 'موافق!', null, null, null, null),
+    (l, 3, 'phrase', 'Ich möchte heute über das Thema Homeoffice sprechen.', 'أود اليوم أن أتحدث عن موضوع العمل من المنزل.', null, null, null, null),
+    (l, 4, 'phrase', 'In meinem Heimatland ist das ganz anders.', 'في بلدي الأمر مختلف تماماً.', null, null, null, null),
+    (l, 5, 'phrase', 'Zum Schluss möchte ich sagen, dass …', 'في الختام أود أن أقول إن …', null, null, null, null),
+    (l, 6, 'phrase', 'Vielen Dank für Ihre Aufmerksamkeit.', 'شكراً لانتباهكم.', null, null, null, null),
+    (l, 7, 'phrase', 'Das ist eine gute Frage.', 'هذا سؤال جيد.', null, null, null, null),
+    (l, 8, 'quiz', '', 'ماذا تقول في بداية العرض؟', null, null, '["Ich möchte heute über das Thema … sprechen.", "Vielen Dank für Ihre Aufmerksamkeit.", "Einverstanden!", "Tschüss!"]'::jsonb, 0),
+    (l, 9, 'quiz', '', 'شريكك يقترح هدية غالية جداً. كيف تعترض بأدب؟', null, null, '["Das ist eine gute Idee, aber vielleicht ein bisschen zu teuer.", "Nein, das ist dumm.", "Ich will nicht.", "Mir egal."]'::jsonb, 0),
+    (l, 10, 'order', 'Was hältst du davon, wenn wir am Samstag feiern?', 'ما رأيك أن نحتفل يوم السبت؟', null, null, null, null),
+    (l, 11, 'order', 'Zum Schluss möchte ich mich für Ihre Aufmerksamkeit bedanken.', 'في الختام أود أن أشكركم على انتباهكم.', null, null, null, null),
+    (l, 12, 'write', 'Einverstanden!|Einverstanden', 'اكتب: موافق!', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-exam', m, 'B1', 605, 'exam', 'Abschlussprüfung B1', 'الامتحان النهائي للمستوى B1', '', 'امتحان شامل على نمط Goethe-Zertifikat B1 — قراءة، استماع، قواعد، مفردات وكتابة. النجاح من 70٪ يعني إتمام المنهاج حتى B1.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'text', 'Hausordnung – Wohnanlage Sonnenhof
+1. Von 22 bis 6 Uhr sowie sonn- und feiertags ist Ruhezeit. Laute Musik und Bohren sind in dieser Zeit nicht erlaubt.
+2. Fahrräder dürfen nur im Fahrradkeller abgestellt werden, nicht im Treppenhaus.
+3. Grillen ist auf den Balkonen nur mit einem Elektrogrill gestattet.
+4. Die Mieter reinigen das Treppenhaus abwechselnd. Den Plan finden Sie am Eingang.
+5. Haustiere sind erlaubt; für Hunde ist jedoch eine Genehmigung der Hausverwaltung nötig.', 'نظام البيت — 1. من 22 إلى 6 وأيام الأحد والعطل وقت راحة: لا موسيقى عالية ولا حفر. 2. الدراجات في قبو الدراجات فقط، لا في بيت الدرج. 3. الشواء على الشرفات بشواية كهربائية فقط. 4. المستأجرون ينظفون الدرج بالتناوب؛ الجدول عند المدخل. 5. الحيوانات مسموحة؛ للكلاب يلزم إذن من إدارة البناية.', null, null, null, null),
+    (l, 2, 'quiz', '', 'هل يمكن الشواء بالفحم على الشرفة؟', null, null, '["لا، كهربائي فقط", "نعم دائماً", "نعم يوم الأحد", "فقط بإذن"]'::jsonb, 0),
+    (l, 3, 'quiz', '', 'ماذا تحتاج إذا أردت كلباً؟', null, null, '["إذن من إدارة البناية", "لا شيء", "موافقة الجيران", "دفع رسوم"]'::jsonb, 0),
+    (l, 4, 'listen', 'Wegen Bauarbeiten ist die Bahnstrecke zwischen Köln und Bonn vom fünften bis zum neunzehnten Juli gesperrt. Es fahren Ersatzbusse, die Fahrzeit verlängert sich um etwa vierzig Minuten.', 'كم تزيد مدة الرحلة؟', null, null, '["حوالي 40 دقيقة", "19 دقيقة", "5 دقائق", "ساعة ونصف"]'::jsonb, 0),
+    (l, 5, 'listen', 'Ich habe mich lange gefragt, ob ich das Angebot in München annehmen soll. Das Gehalt ist besser, aber meine Familie lebt hier. Am Ende habe ich abgesagt.', 'ماذا قرر؟', null, null, '["رفض العرض", "قبل العرض", "لم يقرر بعد", "انتقلت عائلته إلى ميونخ"]'::jsonb, 0),
+    (l, 6, 'listen', 'Meiner Meinung nach sollte jeder junge Mensch nach der Schule ein soziales Jahr machen. Man lernt dabei sehr viel fürs Leben.', 'ما رأي المتحدث؟', null, null, '["كل شاب يجب أن يقوم بسنة اجتماعية", "السنة الاجتماعية مضيعة للوقت", "فقط للفقراء", "بعد الجامعة فقط"]'::jsonb, 0),
+    (l, 7, 'gap', 'Das ist die Kollegin, ___ Mann bei der Polizei arbeitet.', '', null, null, '["deren", "dessen", "der"]'::jsonb, 0),
+    (l, 8, 'gap', 'Die Straße wird nächste Woche ___.', '', null, null, '["repariert", "reparieren", "reparierte"]'::jsonb, 0),
+    (l, 9, 'gap', 'Wenn ich mehr gelernt ___, hätte ich die Prüfung bestanden.', '', null, null, '["hätte", "wäre", "habe"]'::jsonb, 0),
+    (l, 10, 'gap', '___ der Krankheit konnte er nicht arbeiten.', '', null, null, '["Wegen", "Trotz", "Obwohl"]'::jsonb, 0),
+    (l, 11, 'gap', 'Sie ist zwar müde, ___ sie geht noch ins Fitnessstudio.', '', null, null, '["aber", "trotzdem", "obwohl"]'::jsonb, 0),
+    (l, 12, 'gap', 'Nachdem er die E-Mail geschrieben ___, schaltete er den Computer aus.', '', null, null, '["hatte", "war", "hat"]'::jsonb, 0),
+    (l, 13, 'gap', 'Ich habe keine Lust, heute ___.', '', null, null, '["aufzuräumen", "aufräumen", "zu aufräumen"]'::jsonb, 0),
+    (l, 14, 'gap', 'Je mehr man liest, ___ größer wird der Wortschatz.', '', null, null, '["desto", "als", "so"]'::jsonb, 0),
+    (l, 15, 'gap', 'Ich interessiere mich nicht ___ Politik.', '', null, null, '["für", "an", "über"]'::jsonb, 0),
+    (l, 16, 'gap', 'Kannst du ___ vorstellen, im Ausland zu leben?', '', null, null, '["dir", "dich", "du"]'::jsonb, 0),
+    (l, 17, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Frist = المهلة", "der Klimawandel = تغيّر المناخ", "die Gleichberechtigung = المساواة", "der Vorteil = الميزة", "sich gewöhnen an = يتعوّد على"]'::jsonb, null),
+    (l, 18, 'order', 'Obwohl ich wenig Zeit hatte, habe ich den Kurs beendet.', 'رغم أن وقتي كان قليلاً أنهيت الدورة.', null, null, null, null),
+    (l, 19, 'order', 'Das Haus, in dem ich wohne, wurde 1900 gebaut.', 'البيت الذي أسكن فيه بُني عام 1900.', null, null, null, null),
+    (l, 20, 'write', 'Meiner Meinung nach|Meiner Meinung nach …', 'اكتب: في رأيي … (Meiner …)', null, null, null, null),
+    (l, 21, 'write', 'Vielen Dank für Ihre Aufmerksamkeit.|Vielen Dank für Ihre Aufmerksamkeit', 'اكتب خاتمة العرض: شكراً لانتباهكم.', null, null, null, null);
 end
 $$;
