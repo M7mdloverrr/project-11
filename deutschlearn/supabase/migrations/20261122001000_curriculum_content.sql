@@ -2966,5 +2966,173 @@ Ihr Hausmeister, Peter Lang', 'أيها المستأجرون الأعزاء، ي
     (l, 19, 'order', 'Ich habe mich gestern um die Stelle beworben.', 'تقدمت أمس للوظيفة.', null, null, null, null),
     (l, 20, 'write', 'Mit freundlichen Grüßen', 'اكتب ختام بريد رسمي:', null, null, null, null),
     (l, 21, 'write', 'Ich freue mich auf Ihre Antwort.|Ich freue mich auf Ihre Antwort', 'اكتب: أتطلع لردّك. (رسمي)', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-kommunikation', 'B1', 1, 'Kommunikation, Meinung, Bildung, Lebensstil', 'التواصل، الرأي، التعليم، نمط الحياة', 'مفردات وتعابير Goethe B1 — التعبير عن الرأي والنقاش، التعليم والتعلّم مدى الحياة، المهنة والمستقبل، الصحة ونمط الحياة.', 'chat') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-meinung', m, 'B1', 101, 'lesson', 'Meinung äußern und diskutieren', 'التعبير عن الرأي والنقاش', '', 'أن تعبّر عن رأيك، توافق أو تعترض بأدب، وتبرّر رأيك — أساس امتحان B1 الشفهي والكتابي.', '## الرأي
+> Meiner Meinung nach … (+ الفعل مباشرة) — **Meiner Meinung nach ist** das falsch.
+> Ich bin der Meinung / Ich finde / Ich glaube, dass …
+## الموافقة والاعتراض
+| موافقة | اعتراض مهذّب |
+|---|---|
+| Da hast du recht. | Da bin ich anderer Meinung. |
+| Das sehe ich genauso. | Das sehe ich anders. |
+| Ich stimme dir zu. | Ich bin nicht sicher, ob … |
+| Genau! | Einerseits …, andererseits … |
+## التبرير والأمثلة
+> Ein Vorteil / Nachteil ist, dass … — Zum Beispiel … — Außerdem … — Deshalb …', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Meinung, -en', 'الرأي', null, null, null, null),
+    (l, 2, 'vocab', 'der Vorteil, -e / der Nachteil, -e', 'الميزة / العيب', null, null, null, null),
+    (l, 3, 'vocab', 'zu|stimmen + Dat.', 'يوافق', 'Ich stimme Ihnen zu.', 'أوافقك الرأي.', null, null),
+    (l, 4, 'vocab', 'widersprechen + Dat.', 'يعارض / يناقض', null, null, null, null),
+    (l, 5, 'vocab', 'überzeugen', 'يُقنع', 'Das Argument überzeugt mich nicht.', 'الحجة لا تقنعني.', null, null),
+    (l, 6, 'vocab', 'das Argument, -e', 'الحجة', null, null, null, null),
+    (l, 7, 'vocab', 'die Diskussion, -en / diskutieren', 'النقاش / يناقش', null, null, null, null),
+    (l, 8, 'vocab', 'der Standpunkt, -e', 'وجهة النظر', null, null, null, null),
+    (l, 9, 'vocab', 'behaupten', 'يزعم / يدّعي', null, null, null, null),
+    (l, 10, 'vocab', 'der Kompromiss, -e', 'الحل الوسط', null, null, null, null),
+    (l, 11, 'vocab', 'einerseits … andererseits', 'من جهة … ومن جهة أخرى', null, null, null, null),
+    (l, 12, 'vocab', 'außerdem', 'بالإضافة إلى ذلك', null, null, null, null),
+    (l, 13, 'vocab', 'trotzdem', 'مع ذلك', null, null, null, null),
+    (l, 14, 'vocab', 'allerdings', 'لكن / على أي حال', null, null, null, null),
+    (l, 15, 'vocab', 'wahrscheinlich', 'على الأرجح', null, null, null, null),
+    (l, 16, 'vocab', 'sicher / unsicher', 'متأكد / غير متأكد', null, null, null, null),
+    (l, 17, 'vocab', 'die Erfahrung, -en', 'التجربة', null, null, null, null),
+    (l, 18, 'vocab', 'der Grund, ¨-e', 'السبب', null, null, null, null),
+    (l, 19, 'vocab', 'die Lösung, -en', 'الحل', null, null, null, null),
+    (l, 20, 'vocab', 'das Problem, -e', 'المشكلة', null, null, null, null),
+    (l, 21, 'phrase', 'Meiner Meinung nach ist das eine gute Idee.', 'في رأيي هذه فكرة جيدة.', null, null, null, null),
+    (l, 22, 'phrase', 'Da bin ich anderer Meinung.', 'لدي رأي مختلف في هذا.', null, null, null, null),
+    (l, 23, 'phrase', 'Das sehe ich genauso.', 'أرى ذلك تماماً بنفس الطريقة.', null, null, null, null),
+    (l, 24, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Meiner Meinung nach ist Rauchen gefährlich.", "Meiner Meinung nach Rauchen ist gefährlich.", "Meine Meinung nach ist Rauchen gefährlich.", "Nach meiner Meinung Rauchen gefährlich ist."]'::jsonb, 0),
+    (l, 25, 'quiz', '', 'كيف تعترض بأدب؟', null, null, '["Das sehe ich etwas anders.", "Das ist Quatsch.", "Du hast keine Ahnung.", "Genau!"]'::jsonb, 0),
+    (l, 26, 'gap', 'Ein großer ___ von Großstädten ist der Lärm.', '', null, null, '["Nachteil", "Vorteil", "Kompromiss"]'::jsonb, 0),
+    (l, 27, 'gap', 'Ich ___ dir zu, das ist eine gute Lösung.', '', null, null, '["stimme", "widerspreche", "behaupte"]'::jsonb, 0),
+    (l, 28, 'gap', '___ ist das Auto praktisch, andererseits ist es teuer.', '', null, null, '["Einerseits", "Außerdem", "Trotzdem"]'::jsonb, 0),
+    (l, 29, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Vorteil = الميزة", "überzeugen = يُقنع", "der Kompromiss = الحل الوسط", "trotzdem = مع ذلك", "die Lösung = الحل"]'::jsonb, null),
+    (l, 30, 'order', 'Ich bin der Meinung, dass Kinder mehr Sport machen sollten.', 'أرى أن الأطفال يجب أن يمارسوا رياضة أكثر.', null, null, null, null),
+    (l, 31, 'write', 'Da hast du recht.|Da hast du Recht.|Da hast du recht', 'اكتب: معك حق في ذلك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-bildung', m, 'B1', 102, 'lesson', 'Schule, Studium und Weiterbildung', 'المدرسة والدراسة والتعليم المستمر', '', 'أن تتكلم عن نظام التعليم في ألمانيا، مسيرتك التعليمية، وخططك للتعليم المستمر.', '## نظام المدارس في ألمانيا
+Grundschule (ابتدائي 1–4) → Hauptschule / Realschule / Gymnasium / Gesamtschule → Abitur (الشهادة الثانوية) → Universität / Hochschule أو Ausbildung (تأهيل مهني مزدوج: مدرسة + شركة)
+## الاعتراف بالشهادات
+> Ich möchte meinen Abschluss anerkennen lassen. (أريد معادلة شهادتي)
+## التعليم المستمر
+die Weiterbildung, der Kurs an der Volkshochschule (VHS), sich fortbilden', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Bildung', 'التعليم / الثقافة', null, null, null, null),
+    (l, 2, 'vocab', 'der Abschluss, ¨-e', 'الشهادة / التخرّج', null, null, null, null),
+    (l, 3, 'vocab', 'das Abitur', 'الشهادة الثانوية (البكالوريا)', null, null, null, null),
+    (l, 4, 'vocab', 'die Grundschule, -n', 'المدرسة الابتدائية', null, null, null, null),
+    (l, 5, 'vocab', 'das Gymnasium, Gymnasien', 'المدرسة الثانوية (الأكاديمية)', null, null, null, null),
+    (l, 6, 'vocab', 'die Hochschule, -n', 'المعهد العالي / الجامعة', null, null, null, null),
+    (l, 7, 'vocab', 'das Studium, Studien', 'الدراسة الجامعية', null, null, null, null),
+    (l, 8, 'vocab', 'das Fach, ¨-er', 'المادة الدراسية', null, null, null, null),
+    (l, 9, 'vocab', 'die Note, -n', 'العلامة / الدرجة', null, null, null, null),
+    (l, 10, 'vocab', 'bestehen / durch|fallen', 'ينجح / يرسب', 'Er ist durch die Prüfung gefallen.', 'رسب في الامتحان.', null, null),
+    (l, 11, 'vocab', 'an|erkennen', 'يعترف بـ / يعادل', 'Mein Diplom wurde anerkannt.', 'تمت معادلة شهادتي.', null, null),
+    (l, 12, 'vocab', 'die Anerkennung', 'المعادلة / الاعتراف', null, null, null, null),
+    (l, 13, 'vocab', 'die Weiterbildung, -en', 'التعليم المستمر', null, null, null, null),
+    (l, 14, 'vocab', 'die Volkshochschule (VHS)', 'المدرسة الشعبية العليا (دورات للكبار)', null, null, null, null),
+    (l, 15, 'vocab', 'das Stipendium, Stipendien', 'المنحة الدراسية', null, null, null, null),
+    (l, 16, 'vocab', 'die Gebühr / die Studiengebühr', 'الرسوم / رسوم الدراسة', null, null, null, null),
+    (l, 17, 'vocab', 'der Unterschied, -e', 'الفرق', null, null, null, null),
+    (l, 18, 'vocab', 'die Pflicht, -en', 'الواجب / الإلزام', 'In Deutschland gibt es Schulpflicht.', 'في ألمانيا التعليم إلزامي.', null, null),
+    (l, 19, 'vocab', 'das Wissen', 'المعرفة', null, null, null, null),
+    (l, 20, 'vocab', 'die Fähigkeit, -en', 'القدرة / المهارة', null, null, null, null),
+    (l, 21, 'text', 'Nach dem Abitur wusste Lukas nicht, was er machen sollte. Er hat zuerst ein Jahr in einem Krankenhaus gearbeitet. Dort hat er gemerkt, dass ihm die Arbeit mit Menschen gefällt. Deshalb hat er eine Ausbildung zum Krankenpfleger angefangen. Drei Tage pro Woche arbeitet er im Krankenhaus, zwei Tage geht er zur Berufsschule. Später möchte er vielleicht noch Medizin studieren.', 'بعد البكالوريا لم يعرف لوكاس ماذا يفعل. عمل أولاً سنة في مستشفى ولاحظ أن العمل مع الناس يعجبه. لذلك بدأ تأهيلاً كممرض. ثلاثة أيام أسبوعياً يعمل في المستشفى ويومان في المدرسة المهنية. لاحقاً ربما يريد دراسة الطب.', null, null, null, null),
+    (l, 22, 'quiz', '', 'لماذا اختار لوكاس هذا التأهيل؟', null, null, '["يحب العمل مع الناس", "الراتب جيد", "أبوه طبيب", "لم يجد غيره"]'::jsonb, 0),
+    (l, 23, 'quiz', '', 'كم يوماً في الأسبوع يذهب للمدرسة المهنية؟', null, null, '["2", "3", "5", "1"]'::jsonb, 0),
+    (l, 24, 'gap', 'Ich möchte meinen Abschluss ___ lassen.', '', null, null, '["anerkennen", "bestehen", "durchfallen"]'::jsonb, 0),
+    (l, 25, 'gap', 'Leider ist sie durch die Prüfung ___.', '', null, null, '["gefallen", "bestanden", "gefällt"]'::jsonb, 0),
+    (l, 26, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Note = العلامة", "das Fach = المادة", "das Stipendium = المنحة", "die Weiterbildung = التعليم المستمر", "das Wissen = المعرفة"]'::jsonb, null),
+    (l, 27, 'order', 'Nach dem Abitur habe ich eine Ausbildung gemacht.', 'بعد البكالوريا قمت بتأهيل مهني.', null, null, null, null),
+    (l, 28, 'write', 'Ich habe die Prüfung bestanden.|Ich habe die Prüfung bestanden', 'اكتب: نجحت في الامتحان.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-beruf', m, 'B1', 103, 'lesson', 'Beruf, Karriere und Zukunft', 'المهنة والمسيرة المهنية والمستقبل', '', 'أن تتكلم عن خبرتك المهنية وأهدافك، وتقارن بين المهن وظروف العمل.', '## أهداف مستقبلية
+> Ich habe vor, mich selbstständig zu machen. (أنوي أن أفتح عملي الخاص)
+> In fünf Jahren möchte ich als Teamleiter arbeiten.
+## ظروف العمل
+die Arbeitsbedingungen، das Betriebsklima (جو العمل)، flexible Arbeitszeiten، Homeoffice، die Work-Life-Balance
+## تعابير
+> Es kommt darauf an, ob … (يعتمد على …) — Für mich ist wichtig, dass …', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Karriere, -n', 'المسيرة المهنية', null, null, null, null),
+    (l, 2, 'vocab', 'der Arbeitsplatz, ¨-e', 'مكان العمل / الوظيفة', null, null, null, null),
+    (l, 3, 'vocab', 'die Arbeitsbedingungen (Pl.)', 'ظروف العمل', null, null, null, null),
+    (l, 4, 'vocab', 'das Betriebsklima', 'جو العمل', null, null, null, null),
+    (l, 5, 'vocab', 'das Homeoffice', 'العمل من المنزل', null, null, null, null),
+    (l, 6, 'vocab', 'flexibel', 'مرن', null, null, null, null),
+    (l, 7, 'vocab', 'die Verantwortung', 'المسؤولية', null, null, null, null),
+    (l, 8, 'vocab', 'das Team, -s', 'الفريق', null, null, null, null),
+    (l, 9, 'vocab', 'die Leitung / leiten', 'الإدارة / يدير', null, null, null, null),
+    (l, 10, 'vocab', 'sich selbstständig machen', 'يفتح عمله الخاص', null, null, null, null),
+    (l, 11, 'vocab', 'der Betrieb, -e', 'المؤسسة / المصنع', null, null, null, null),
+    (l, 12, 'vocab', 'die Branche, -n', 'القطاع / المجال', null, null, null, null),
+    (l, 13, 'vocab', 'der Erfolg, -e / erfolgreich', 'النجاح / ناجح', null, null, null, null),
+    (l, 14, 'vocab', 'das Ziel, -e', 'الهدف', null, null, null, null),
+    (l, 15, 'vocab', 'vor|haben', 'ينوي', 'Was hast du am Wochenende vor?', 'ماذا تنوي في العطلة؟', null, null),
+    (l, 16, 'vocab', 'sich entscheiden für', 'يقرر / يختار', null, null, null, null),
+    (l, 17, 'vocab', 'die Entscheidung, -en', 'القرار', null, null, null, null),
+    (l, 18, 'vocab', 'die Arbeitslosigkeit', 'البطالة', null, null, null, null),
+    (l, 19, 'vocab', 'der Stress / stressig', 'الضغط / مرهق', null, null, null, null),
+    (l, 20, 'vocab', 'die Rente, -n', 'التقاعد / المعاش', null, null, null, null),
+    (l, 21, 'gap', 'Ich habe ___, mich nächstes Jahr selbstständig zu machen.', '', null, null, '["vor", "an", "zu"]'::jsonb, 0),
+    (l, 22, 'gap', 'In meiner Firma ist das ___ sehr gut. Alle helfen sich.', '', null, null, '["Betriebsklima", "Branche", "Rente"]'::jsonb, 0),
+    (l, 23, 'gap', 'Ich habe mich ___ eine Ausbildung als Mechaniker entschieden.', '', null, null, '["für", "an", "auf"]'::jsonb, 0),
+    (l, 24, 'listen', 'Für mich ist ein sicherer Arbeitsplatz wichtiger als ein hohes Gehalt. Und ich möchte zwei Tage pro Woche im Homeoffice arbeiten.', 'ما الأهم بالنسبة له؟', null, null, '["وظيفة آمنة", "راتب عالٍ", "العمل كل يوم في المكتب", "مدير جيد"]'::jsonb, 0),
+    (l, 25, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Verantwortung = المسؤولية", "das Ziel = الهدف", "der Erfolg = النجاح", "die Rente = التقاعد", "die Entscheidung = القرار"]'::jsonb, null),
+    (l, 26, 'order', 'Für mich ist wichtig, dass die Arbeit Spaß macht.', 'المهم بالنسبة لي أن يكون العمل ممتعاً.', null, null, null, null),
+    (l, 27, 'write', 'Es kommt darauf an.|Es kommt darauf an', 'اكتب: هذا يعتمد (على الظروف).', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-lebensstil', m, 'B1', 104, 'lesson', 'Gesundheit und Lebensstil', 'الصحة ونمط الحياة', '', 'أن تتكلم عن العادات الصحية والتغذية والضغط النفسي وتقدّم نصائح.', '## النصائح
+> Du solltest weniger Zucker essen. — An deiner Stelle würde ich mehr schlafen. (لو كنت مكانك…)
+> Es ist wichtig, regelmäßig Sport zu treiben.
+## العادات
+> Ich habe mir angewöhnt, jeden Morgen spazieren zu gehen. (تعوّدت)
+> Ich versuche, weniger Fleisch zu essen.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Ernährung', 'التغذية', null, null, null, null),
+    (l, 2, 'vocab', 'sich ernähren', 'يتغذّى', 'Sie ernährt sich gesund.', 'تتغذى بشكل صحي.', null, null),
+    (l, 3, 'vocab', 'das Gewicht / ab|nehmen / zu|nehmen', 'الوزن / يخسر وزناً / يزيد وزناً', null, null, null, null),
+    (l, 4, 'vocab', 'die Gewohnheit, -en', 'العادة', null, null, null, null),
+    (l, 5, 'vocab', 'sich (Dat.) etwas an|gewöhnen', 'يتعوّد على شيء', null, null, null, null),
+    (l, 6, 'vocab', 'regelmäßig', 'بانتظام', null, null, null, null),
+    (l, 7, 'vocab', 'Sport treiben', 'يمارس الرياضة', null, null, null, null),
+    (l, 8, 'vocab', 'sich entspannen', 'يسترخي', null, null, null, null),
+    (l, 9, 'vocab', 'die Entspannung', 'الاسترخاء', null, null, null, null),
+    (l, 10, 'vocab', 'der Stress', 'الضغط النفسي', null, null, null, null),
+    (l, 11, 'vocab', 'die Sucht / süchtig', 'الإدمان / مدمن', null, null, null, null),
+    (l, 12, 'vocab', 'rauchen / auf|hören mit', 'يدخّن / يتوقف عن', null, null, null, null),
+    (l, 13, 'vocab', 'der Schlaf', 'النوم', null, null, null, null),
+    (l, 14, 'vocab', 'die Vorsorge', 'الوقاية / الفحص الوقائي', null, null, null, null),
+    (l, 15, 'vocab', 'die Impfung, -en', 'التطعيم', null, null, null, null),
+    (l, 16, 'vocab', 'der Zustand, ¨-e', 'الحالة', null, null, null, null),
+    (l, 17, 'vocab', 'die Behandlung, -en / behandeln', 'العلاج / يعالج', null, null, null, null),
+    (l, 18, 'vocab', 'die Operation, -en', 'العملية الجراحية', null, null, null, null),
+    (l, 19, 'vocab', 'die Psyche / psychisch', 'النفسية / نفسي', null, null, null, null),
+    (l, 20, 'vocab', 'körperlich', 'جسدي', null, null, null, null),
+    (l, 21, 'gap', 'Ich habe ___ angewöhnt, jeden Tag zu laufen.', '', null, null, '["mir", "mich", "sich"]'::jsonb, 0),
+    (l, 22, 'gap', 'Er hat letztes Jahr mit dem Rauchen ___.', '', null, null, '["aufgehört", "angefangen", "abgenommen"]'::jsonb, 0),
+    (l, 23, 'gap', 'An deiner Stelle ___ ich zum Arzt gehen.', '', null, null, '["würde", "werde", "wurde"]'::jsonb, 0),
+    (l, 24, 'gap', 'Es ist wichtig, ___ Wasser zu trinken.', '', null, null, '["genug", "genügend zu", "viel zu"]'::jsonb, 0),
+    (l, 25, 'listen', 'Seit ich weniger Kaffee trinke und früher ins Bett gehe, schlafe ich viel besser und habe weniger Stress.', 'ماذا تغيّر؟', null, null, '["ينام أفضل وضغط أقل", "زاد وزنه", "يشرب قهوة أكثر", "لا تغيير"]'::jsonb, 0),
+    (l, 26, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Ernährung = التغذية", "abnehmen = يخسر وزناً", "die Gewohnheit = العادة", "die Impfung = التطعيم", "regelmäßig = بانتظام"]'::jsonb, null),
+    (l, 27, 'order', 'Ich versuche, mich gesund zu ernähren.', 'أحاول أن أتغذى بشكل صحي.', null, null, null, null),
+    (l, 28, 'write', 'Du solltest mehr schlafen.|Du solltest mehr schlafen', 'اكتب نصيحة: يجب أن تنام أكثر.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-kommunikation-test', m, 'B1', 105, 'test', 'Modultest – Kommunikation und Lebensstil', 'اختبار وحدة التواصل ونمط الحياة', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Meiner Meinung nach sollte man mehr lesen.", "Meiner Meinung nach man sollte mehr lesen.", "Meine Meinung nach sollte man mehr lesen.", "Meiner Meinung man sollte nach mehr lesen."]'::jsonb, 0),
+    (l, 2, 'gap', 'Das sehe ich ___. Ich habe eine andere Meinung.', '', null, null, '["anders", "genauso", "gleich"]'::jsonb, 0),
+    (l, 3, 'gap', 'Mein Diplom aus Syrien wurde in Deutschland ___.', '', null, null, '["anerkannt", "bestanden", "entschieden"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich habe ___, im Herbst einen Computerkurs zu machen.', '', null, null, '["vor", "an", "mit"]'::jsonb, 0),
+    (l, 5, 'gap', 'Sie möchte fünf Kilo ___.', '', null, null, '["abnehmen", "aufhören", "angewöhnen"]'::jsonb, 0),
+    (l, 6, 'gap', '___ ist Homeoffice bequem, andererseits fehlen die Kollegen.', '', null, null, '["Einerseits", "Trotzdem", "Außerdem"]'::jsonb, 0),
+    (l, 7, 'listen', 'Ich finde, dass Schüler eine Schuluniform tragen sollten. Dann gibt es weniger Stress wegen Kleidung.', 'ما رأيه؟', null, null, '["مع الزي المدرسي", "ضد الزي المدرسي", "لا رأي له", "الزي غالٍ"]'::jsonb, 0),
+    (l, 8, 'listen', 'Nach der Realschule habe ich eine Ausbildung als Bürokauffrau gemacht und später das Abitur nachgeholt.', 'ماذا فعلت بعد التأهيل؟', null, null, '["حصلت على البكالوريا لاحقاً", "درست الطب", "فتحت عملاً خاصاً", "توقفت عن العمل"]'::jsonb, 0),
+    (l, 9, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Nachteil = العيب", "die Note = العلامة", "das Betriebsklima = جو العمل", "die Ernährung = التغذية", "überzeugen = يُقنع"]'::jsonb, null),
+    (l, 10, 'order', 'Einerseits ist die Stadt schön, andererseits ist sie teuer.', 'من جهة المدينة جميلة، ومن جهة أخرى غالية.', null, null, null, null),
+    (l, 11, 'write', 'Ich stimme dir zu.|Ich stimme dir zu', 'اكتب: أوافقك.', null, null, null, null);
 end
 $$;

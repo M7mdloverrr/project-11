@@ -1,0 +1,242 @@
+module:
+  slug: b1-kommunikation
+  level: B1
+  position: 1
+  icon: chat
+  title_de: Kommunikation, Meinung, Bildung, Lebensstil
+  title_ar: التواصل، الرأي، التعليم، نمط الحياة
+  description_ar: مفردات وتعابير Goethe B1 — التعبير عن الرأي والنقاش، التعليم والتعلّم مدى الحياة، المهنة والمستقبل، الصحة ونمط الحياة.
+
+lessons:
+  - slug: b1-meinung
+    title_de: Meinung äußern und diskutieren
+    title_ar: التعبير عن الرأي والنقاش
+    goal_ar: أن تعبّر عن رأيك، توافق أو تعترض بأدب، وتبرّر رأيك — أساس امتحان B1 الشفهي والكتابي.
+    explanation_ar: |
+      ## الرأي
+      > Meiner Meinung nach … (+ الفعل مباشرة) — **Meiner Meinung nach ist** das falsch.
+      > Ich bin der Meinung / Ich finde / Ich glaube, dass …
+      ## الموافقة والاعتراض
+      | موافقة | اعتراض مهذّب |
+      |---|---|
+      | Da hast du recht. | Da bin ich anderer Meinung. |
+      | Das sehe ich genauso. | Das sehe ich anders. |
+      | Ich stimme dir zu. | Ich bin nicht sicher, ob … |
+      | Genau! | Einerseits …, andererseits … |
+      ## التبرير والأمثلة
+      > Ein Vorteil / Nachteil ist, dass … — Zum Beispiel … — Außerdem … — Deshalb …
+    items:
+      - {vocab: "die Meinung, -en", ar: "الرأي"}
+      - {vocab: "der Vorteil, -e / der Nachteil, -e", ar: "الميزة / العيب"}
+      - {vocab: "zu|stimmen + Dat.", ar: "يوافق", ex: "Ich stimme Ihnen zu.", ex_ar: "أوافقك الرأي."}
+      - {vocab: "widersprechen + Dat.", ar: "يعارض / يناقض"}
+      - {vocab: "überzeugen", ar: "يُقنع", ex: "Das Argument überzeugt mich nicht.", ex_ar: "الحجة لا تقنعني."}
+      - {vocab: "das Argument, -e", ar: "الحجة"}
+      - {vocab: "die Diskussion, -en / diskutieren", ar: "النقاش / يناقش"}
+      - {vocab: "der Standpunkt, -e", ar: "وجهة النظر"}
+      - {vocab: "behaupten", ar: "يزعم / يدّعي"}
+      - {vocab: "der Kompromiss, -e", ar: "الحل الوسط"}
+      - {vocab: "einerseits … andererseits", ar: "من جهة … ومن جهة أخرى"}
+      - {vocab: "außerdem", ar: "بالإضافة إلى ذلك"}
+      - {vocab: "trotzdem", ar: "مع ذلك"}
+      - {vocab: "allerdings", ar: "لكن / على أي حال"}
+      - {vocab: "wahrscheinlich", ar: "على الأرجح"}
+      - {vocab: "sicher / unsicher", ar: "متأكد / غير متأكد"}
+      - {vocab: "die Erfahrung, -en", ar: "التجربة"}
+      - {vocab: "der Grund, ¨-e", ar: "السبب"}
+      - {vocab: "die Lösung, -en", ar: "الحل"}
+      - {vocab: "das Problem, -e", ar: "المشكلة"}
+      - {phrase: "Meiner Meinung nach ist das eine gute Idee.", ar: "في رأيي هذه فكرة جيدة."}
+      - {phrase: "Da bin ich anderer Meinung.", ar: "لدي رأي مختلف في هذا."}
+      - {phrase: "Das sehe ich genauso.", ar: "أرى ذلك تماماً بنفس الطريقة."}
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Meiner Meinung nach ist Rauchen gefährlich.", "Meiner Meinung nach Rauchen ist gefährlich.", "Meine Meinung nach ist Rauchen gefährlich.", "Nach meiner Meinung Rauchen gefährlich ist."]
+      - quiz: "كيف تعترض بأدب؟"
+        options: ["Das sehe ich etwas anders.", "Das ist Quatsch.", "Du hast keine Ahnung.", "Genau!"]
+      - gap: "Ein großer ___ von Großstädten ist der Lärm."
+        options: [Nachteil, Vorteil, Kompromiss]
+      - gap: "Ich ___ dir zu, das ist eine gute Lösung."
+        options: [stimme, widerspreche, behaupte]
+      - gap: "___ ist das Auto praktisch, andererseits ist es teuer."
+        options: [Einerseits, Außerdem, Trotzdem]
+      - match: ["der Vorteil = الميزة", "überzeugen = يُقنع", "der Kompromiss = الحل الوسط", "trotzdem = مع ذلك", "die Lösung = الحل"]
+      - order: "Ich bin der Meinung, dass Kinder mehr Sport machen sollten."
+        ar: أرى أن الأطفال يجب أن يمارسوا رياضة أكثر.
+      - write: "Da hast du recht.|Da hast du Recht.|Da hast du recht"
+        ar: "اكتب: معك حق في ذلك."
+
+  - slug: b1-bildung
+    title_de: Schule, Studium und Weiterbildung
+    title_ar: المدرسة والدراسة والتعليم المستمر
+    goal_ar: أن تتكلم عن نظام التعليم في ألمانيا، مسيرتك التعليمية، وخططك للتعليم المستمر.
+    explanation_ar: |
+      ## نظام المدارس في ألمانيا
+      Grundschule (ابتدائي 1–4) → Hauptschule / Realschule / Gymnasium / Gesamtschule → Abitur (الشهادة الثانوية) → Universität / Hochschule أو Ausbildung (تأهيل مهني مزدوج: مدرسة + شركة)
+      ## الاعتراف بالشهادات
+      > Ich möchte meinen Abschluss anerkennen lassen. (أريد معادلة شهادتي)
+      ## التعليم المستمر
+      die Weiterbildung, der Kurs an der Volkshochschule (VHS), sich fortbilden
+    items:
+      - {vocab: "die Bildung", ar: "التعليم / الثقافة"}
+      - {vocab: "der Abschluss, ¨-e", ar: "الشهادة / التخرّج"}
+      - {vocab: "das Abitur", ar: "الشهادة الثانوية (البكالوريا)"}
+      - {vocab: "die Grundschule, -n", ar: "المدرسة الابتدائية"}
+      - {vocab: "das Gymnasium, Gymnasien", ar: "المدرسة الثانوية (الأكاديمية)"}
+      - {vocab: "die Hochschule, -n", ar: "المعهد العالي / الجامعة"}
+      - {vocab: "das Studium, Studien", ar: "الدراسة الجامعية"}
+      - {vocab: "das Fach, ¨-er", ar: "المادة الدراسية"}
+      - {vocab: "die Note, -n", ar: "العلامة / الدرجة"}
+      - {vocab: "bestehen / durch|fallen", ar: "ينجح / يرسب", ex: "Er ist durch die Prüfung gefallen.", ex_ar: "رسب في الامتحان."}
+      - {vocab: "an|erkennen", ar: "يعترف بـ / يعادل", ex: "Mein Diplom wurde anerkannt.", ex_ar: "تمت معادلة شهادتي."}
+      - {vocab: "die Anerkennung", ar: "المعادلة / الاعتراف"}
+      - {vocab: "die Weiterbildung, -en", ar: "التعليم المستمر"}
+      - {vocab: "die Volkshochschule (VHS)", ar: "المدرسة الشعبية العليا (دورات للكبار)"}
+      - {vocab: "das Stipendium, Stipendien", ar: "المنحة الدراسية"}
+      - {vocab: "die Gebühr / die Studiengebühr", ar: "الرسوم / رسوم الدراسة"}
+      - {vocab: "der Unterschied, -e", ar: "الفرق"}
+      - {vocab: "die Pflicht, -en", ar: "الواجب / الإلزام", ex: "In Deutschland gibt es Schulpflicht.", ex_ar: "في ألمانيا التعليم إلزامي."}
+      - {vocab: "das Wissen", ar: "المعرفة"}
+      - {vocab: "die Fähigkeit, -en", ar: "القدرة / المهارة"}
+      - text: |
+          Nach dem Abitur wusste Lukas nicht, was er machen sollte. Er hat zuerst ein Jahr in einem Krankenhaus gearbeitet. Dort hat er gemerkt, dass ihm die Arbeit mit Menschen gefällt. Deshalb hat er eine Ausbildung zum Krankenpfleger angefangen. Drei Tage pro Woche arbeitet er im Krankenhaus, zwei Tage geht er zur Berufsschule. Später möchte er vielleicht noch Medizin studieren.
+        ar: بعد البكالوريا لم يعرف لوكاس ماذا يفعل. عمل أولاً سنة في مستشفى ولاحظ أن العمل مع الناس يعجبه. لذلك بدأ تأهيلاً كممرض. ثلاثة أيام أسبوعياً يعمل في المستشفى ويومان في المدرسة المهنية. لاحقاً ربما يريد دراسة الطب.
+      - quiz: "لماذا اختار لوكاس هذا التأهيل؟"
+        options: [يحب العمل مع الناس, الراتب جيد, أبوه طبيب, لم يجد غيره]
+      - quiz: "كم يوماً في الأسبوع يذهب للمدرسة المهنية؟"
+        options: ["2", "3", "5", "1"]
+      - gap: "Ich möchte meinen Abschluss ___ lassen."
+        options: [anerkennen, bestehen, durchfallen]
+      - gap: "Leider ist sie durch die Prüfung ___."
+        options: [gefallen, bestanden, gefällt]
+      - match: ["die Note = العلامة", "das Fach = المادة", "das Stipendium = المنحة", "die Weiterbildung = التعليم المستمر", "das Wissen = المعرفة"]
+      - order: "Nach dem Abitur habe ich eine Ausbildung gemacht."
+        ar: بعد البكالوريا قمت بتأهيل مهني.
+      - write: "Ich habe die Prüfung bestanden.|Ich habe die Prüfung bestanden"
+        ar: "اكتب: نجحت في الامتحان."
+
+  - slug: b1-beruf
+    title_de: Beruf, Karriere und Zukunft
+    title_ar: المهنة والمسيرة المهنية والمستقبل
+    goal_ar: أن تتكلم عن خبرتك المهنية وأهدافك، وتقارن بين المهن وظروف العمل.
+    explanation_ar: |
+      ## أهداف مستقبلية
+      > Ich habe vor, mich selbstständig zu machen. (أنوي أن أفتح عملي الخاص)
+      > In fünf Jahren möchte ich als Teamleiter arbeiten.
+      ## ظروف العمل
+      die Arbeitsbedingungen، das Betriebsklima (جو العمل)، flexible Arbeitszeiten، Homeoffice، die Work-Life-Balance
+      ## تعابير
+      > Es kommt darauf an, ob … (يعتمد على …) — Für mich ist wichtig, dass …
+    items:
+      - {vocab: "die Karriere, -n", ar: "المسيرة المهنية"}
+      - {vocab: "der Arbeitsplatz, ¨-e", ar: "مكان العمل / الوظيفة"}
+      - {vocab: "die Arbeitsbedingungen (Pl.)", ar: "ظروف العمل"}
+      - {vocab: "das Betriebsklima", ar: "جو العمل"}
+      - {vocab: "das Homeoffice", ar: "العمل من المنزل"}
+      - {vocab: "flexibel", ar: "مرن"}
+      - {vocab: "die Verantwortung", ar: "المسؤولية"}
+      - {vocab: "das Team, -s", ar: "الفريق"}
+      - {vocab: "die Leitung / leiten", ar: "الإدارة / يدير"}
+      - {vocab: "sich selbstständig machen", ar: "يفتح عمله الخاص"}
+      - {vocab: "der Betrieb, -e", ar: "المؤسسة / المصنع"}
+      - {vocab: "die Branche, -n", ar: "القطاع / المجال"}
+      - {vocab: "der Erfolg, -e / erfolgreich", ar: "النجاح / ناجح"}
+      - {vocab: "das Ziel, -e", ar: "الهدف"}
+      - {vocab: "vor|haben", ar: "ينوي", ex: "Was hast du am Wochenende vor?", ex_ar: "ماذا تنوي في العطلة؟"}
+      - {vocab: "sich entscheiden für", ar: "يقرر / يختار"}
+      - {vocab: "die Entscheidung, -en", ar: "القرار"}
+      - {vocab: "die Arbeitslosigkeit", ar: "البطالة"}
+      - {vocab: "der Stress / stressig", ar: "الضغط / مرهق"}
+      - {vocab: "die Rente, -n", ar: "التقاعد / المعاش"}
+      - gap: "Ich habe ___, mich nächstes Jahr selbstständig zu machen."
+        options: [vor, an, zu]
+      - gap: "In meiner Firma ist das ___ sehr gut. Alle helfen sich."
+        options: [Betriebsklima, Branche, Rente]
+      - gap: "Ich habe mich ___ eine Ausbildung als Mechaniker entschieden."
+        options: [für, an, auf]
+      - listen: "Für mich ist ein sicherer Arbeitsplatz wichtiger als ein hohes Gehalt. Und ich möchte zwei Tage pro Woche im Homeoffice arbeiten."
+        ar: ما الأهم بالنسبة له؟
+        options: [وظيفة آمنة, راتب عالٍ, العمل كل يوم في المكتب, مدير جيد]
+      - match: ["die Verantwortung = المسؤولية", "das Ziel = الهدف", "der Erfolg = النجاح", "die Rente = التقاعد", "die Entscheidung = القرار"]
+      - order: "Für mich ist wichtig, dass die Arbeit Spaß macht."
+        ar: المهم بالنسبة لي أن يكون العمل ممتعاً.
+      - write: "Es kommt darauf an.|Es kommt darauf an"
+        ar: "اكتب: هذا يعتمد (على الظروف)."
+
+  - slug: b1-lebensstil
+    title_de: Gesundheit und Lebensstil
+    title_ar: الصحة ونمط الحياة
+    goal_ar: أن تتكلم عن العادات الصحية والتغذية والضغط النفسي وتقدّم نصائح.
+    explanation_ar: |
+      ## النصائح
+      > Du solltest weniger Zucker essen. — An deiner Stelle würde ich mehr schlafen. (لو كنت مكانك…)
+      > Es ist wichtig, regelmäßig Sport zu treiben.
+      ## العادات
+      > Ich habe mir angewöhnt, jeden Morgen spazieren zu gehen. (تعوّدت)
+      > Ich versuche, weniger Fleisch zu essen.
+    items:
+      - {vocab: "die Ernährung", ar: "التغذية"}
+      - {vocab: "sich ernähren", ar: "يتغذّى", ex: "Sie ernährt sich gesund.", ex_ar: "تتغذى بشكل صحي."}
+      - {vocab: "das Gewicht / ab|nehmen / zu|nehmen", ar: "الوزن / يخسر وزناً / يزيد وزناً"}
+      - {vocab: "die Gewohnheit, -en", ar: "العادة"}
+      - {vocab: "sich (Dat.) etwas an|gewöhnen", ar: "يتعوّد على شيء"}
+      - {vocab: "regelmäßig", ar: "بانتظام"}
+      - {vocab: "Sport treiben", ar: "يمارس الرياضة"}
+      - {vocab: "sich entspannen", ar: "يسترخي"}
+      - {vocab: "die Entspannung", ar: "الاسترخاء"}
+      - {vocab: "der Stress", ar: "الضغط النفسي"}
+      - {vocab: "die Sucht / süchtig", ar: "الإدمان / مدمن"}
+      - {vocab: "rauchen / auf|hören mit", ar: "يدخّن / يتوقف عن"}
+      - {vocab: "der Schlaf", ar: "النوم"}
+      - {vocab: "die Vorsorge", ar: "الوقاية / الفحص الوقائي"}
+      - {vocab: "die Impfung, -en", ar: "التطعيم"}
+      - {vocab: "der Zustand, ¨-e", ar: "الحالة"}
+      - {vocab: "die Behandlung, -en / behandeln", ar: "العلاج / يعالج"}
+      - {vocab: "die Operation, -en", ar: "العملية الجراحية"}
+      - {vocab: "die Psyche / psychisch", ar: "النفسية / نفسي"}
+      - {vocab: "körperlich", ar: "جسدي"}
+      - gap: "Ich habe ___ angewöhnt, jeden Tag zu laufen."
+        options: [mir, mich, sich]
+      - gap: "Er hat letztes Jahr mit dem Rauchen ___."
+        options: [aufgehört, angefangen, abgenommen]
+      - gap: "An deiner Stelle ___ ich zum Arzt gehen."
+        options: [würde, werde, wurde]
+      - gap: "Es ist wichtig, ___ Wasser zu trinken."
+        options: [genug, genügend zu, viel zu]
+      - listen: "Seit ich weniger Kaffee trinke und früher ins Bett gehe, schlafe ich viel besser und habe weniger Stress."
+        ar: ماذا تغيّر؟
+        options: [ينام أفضل وضغط أقل, زاد وزنه, يشرب قهوة أكثر, لا تغيير]
+      - match: ["die Ernährung = التغذية", "abnehmen = يخسر وزناً", "die Gewohnheit = العادة", "die Impfung = التطعيم", "regelmäßig = بانتظام"]
+      - order: "Ich versuche, mich gesund zu ernähren."
+        ar: أحاول أن أتغذى بشكل صحي.
+      - write: "Du solltest mehr schlafen.|Du solltest mehr schlafen"
+        ar: "اكتب نصيحة: يجب أن تنام أكثر."
+
+  - slug: b1-kommunikation-test
+    kind: test
+    title_de: Modultest – Kommunikation und Lebensstil
+    title_ar: اختبار وحدة التواصل ونمط الحياة
+    goal_ar: النجاح من 70٪.
+    items:
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Meiner Meinung nach sollte man mehr lesen.", "Meiner Meinung nach man sollte mehr lesen.", "Meine Meinung nach sollte man mehr lesen.", "Meiner Meinung man sollte nach mehr lesen."]
+      - gap: "Das sehe ich ___. Ich habe eine andere Meinung."
+        options: [anders, genauso, gleich]
+      - gap: "Mein Diplom aus Syrien wurde in Deutschland ___."
+        options: [anerkannt, bestanden, entschieden]
+      - gap: "Ich habe ___, im Herbst einen Computerkurs zu machen."
+        options: [vor, an, mit]
+      - gap: "Sie möchte fünf Kilo ___."
+        options: [abnehmen, aufhören, angewöhnen]
+      - gap: "___ ist Homeoffice bequem, andererseits fehlen die Kollegen."
+        options: [Einerseits, Trotzdem, Außerdem]
+      - listen: "Ich finde, dass Schüler eine Schuluniform tragen sollten. Dann gibt es weniger Stress wegen Kleidung."
+        ar: ما رأيه؟
+        options: [مع الزي المدرسي, ضد الزي المدرسي, لا رأي له, الزي غالٍ]
+      - listen: "Nach der Realschule habe ich eine Ausbildung als Bürokauffrau gemacht und später das Abitur nachgeholt."
+        ar: ماذا فعلت بعد التأهيل؟
+        options: [حصلت على البكالوريا لاحقاً, درست الطب, فتحت عملاً خاصاً, توقفت عن العمل]
+      - match: ["der Nachteil = العيب", "die Note = العلامة", "das Betriebsklima = جو العمل", "die Ernährung = التغذية", "überzeugen = يُقنع"]
+      - order: "Einerseits ist die Stadt schön, andererseits ist sie teuer."
+        ar: من جهة المدينة جميلة، ومن جهة أخرى غالية.
+      - write: "Ich stimme dir zu.|Ich stimme dir zu"
+        ar: "اكتب: أوافقك."
