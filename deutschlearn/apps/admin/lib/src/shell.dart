@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'router.dart';
+import 'set_password_dialog.dart';
 
 typedef _Dest = ({String route, IconData icon, String label});
 
@@ -16,14 +17,34 @@ const List<_Dest> _destinations = [
   (route: AdminRoutes.activity, icon: Icons.history, label: 'Activity'),
 ];
 
-class AdminShell extends ConsumerWidget {
+class AdminShell extends ConsumerStatefulWidget {
   const AdminShell({super.key, required this.location, required this.child});
 
   final String location;
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminShell> createState() => _AdminShellState();
+}
+
+class _AdminShellState extends ConsumerState<AdminShell> {
+  static bool _askedAfterLink = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!_askedAfterLink && ref.read(openedFromRecoveryLinkProvider)) {
+      _askedAfterLink = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) showSetPasswordDialog(context, fromLink: true);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final location = widget.location;
+    final child = widget.child;
     final session = ref.watch(sessionControllerProvider);
     final email = session is SessionSignedIn ? session.user.email ?? '' : '';
     final index = _destinations.indexWhere((d) => location.startsWith(d.route)).clamp(0, _destinations.length - 1);
@@ -40,6 +61,12 @@ class AdminShell extends ConsumerWidget {
               child: Text(email, style: const TextStyle(color: DLColors.textSecondary)),
             ),
           ),
+        IconButton(
+          key: const Key('set-password'),
+          tooltip: 'Set password',
+          icon: const Icon(Icons.key_outlined),
+          onPressed: () => showSetPasswordDialog(context),
+        ),
         IconButton(
           key: const Key('sign-out'),
           tooltip: 'Sign out',

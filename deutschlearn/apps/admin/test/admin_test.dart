@@ -9,6 +9,7 @@ import 'package:admin/src/app.dart';
 import 'package:admin/src/pages/codes_page.dart';
 import 'package:admin/src/pages/links_page.dart';
 import 'package:admin/src/pages/users_page.dart';
+import 'package:admin/src/set_password_dialog.dart';
 
 final _now = DateTime.utc(2026, 11, 22);
 
@@ -219,5 +220,43 @@ void main() {
     expect(find.textContaining('Cannot reach the server'), findsOneWidget);
     await _tap(tester, find.byKey(const Key('retry')));
     expect(find.text('4 user(s)'), findsOneWidget);
+  });
+
+  testWidgets('after a one-time link the admin is asked to set a password', (tester) async {
+    tester.view.physicalSize = const Size(1400, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final auth = FakeAuthGateway(
+      restoredUser: const AuthUser(id: 'admin-1', email: 'boss@x.de'),
+    );
+    final profiles = FakeProfileRepository()
+      ..profiles['admin-1'] = const Profile(id: 'admin-1', role: Role.admin, displayName: 'Boss');
+    await tester.pumpWidget(
+      ProviderScope(
+        retry: noRetry,
+        overrides: [
+          authGatewayProvider.overrideWithValue(auth),
+          profileRepositoryProvider.overrideWithValue(profiles),
+          adminRepositoryProvider.overrideWithValue(_seed()),
+          allowedRolesProvider.overrideWithValue(const {Role.admin}),
+          openedFromRecoveryLinkProvider.overrideWithValue(true),
+        ],
+        child: const AdminApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('Set your password'), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('set-password-new')), 'geheim123');
+    await tester.enterText(find.byKey(const Key('set-password-repeat')), 'geheim124');
+    await _tap(tester, find.byKey(const Key('set-password-save')));
+    expect(find.text('The passwords do not match'), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('set-password-repeat')), 'geheim123');
+    await _tap(tester, find.byKey(const Key('set-password-save')));
+    expect(find.text('Set your password'), findsNothing);
+    expect(find.text('Password saved'), findsOneWidget);
+
+    // Also reachable any time from the app bar.
+    await _tap(tester, find.byKey(const Key('set-password')));
+    expect(find.text('Set your password'), findsOneWidget);
   });
 }
