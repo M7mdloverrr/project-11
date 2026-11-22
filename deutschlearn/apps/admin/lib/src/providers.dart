@@ -80,3 +80,5 @@ void invalidateAdminData(WidgetRef ref) {
     ..invalidate(pendingRequestsProvider)
     ..invalidate(auditLogProvider);
 }
+
+final adminLessonsProvider = FutureProvider<List<Lesson>>((ref) => ref.watch(lessonRepositoryProvider).listLessons());

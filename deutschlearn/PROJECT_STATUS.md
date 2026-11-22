@@ -16,7 +16,9 @@ Legend: ✅ implemented & tested locally · 🔑 implemented, needs Supabase cre
 | Supabase | Edge functions `generate-teacher-code` (crypto-random) and `resolve-teacher-code` | ✅ Deno unit tests — 🔑 needs deploy |
 | Student app | Splash + session restore, Arabic onboarding (3 pages), sign-up/login/reset screens | ✅ UI · 🔑 backend calls |
 | Student app | Link teacher: enter code → teacher public name → confirm → pending / active / disconnected, disconnect, re-link | ✅ UI (widget-tested with fake backend) · 🔑 real data |
-| Student app | Home shell: greeting, CEFR stage from profile, 5 tabs (Start, Lektionen, Fortschritt, Chat, Profil); Lektionen/Fortschritt/Chat show honest "coming soon" | ✅ |
+| Student app | Home shell: greeting, CEFR stage from profile, 5 tabs (Start, Lektionen, Fortschritt, Chat, Profil); Chat shows honest "coming soon" | ✅ |
+| Lessons | 8 seeded A1 lessons (100 items: words, phrases, quizzes, Arabic explanations); lesson player with quiz feedback; best score + attempts saved via `complete_lesson`; Fortschritt tab (overall/level progress, average score, next lesson) | ✅ live |
+| Admin lessons | Create/edit/publish/delete lessons; edit, reorder and remove words/phrases/quiz questions | ✅ live |
 | Teacher app | Splash, registration/login, profile setup (display name), dashboard | ✅ UI · 🔑 backend calls |
 | Teacher app | Teacher code: generate, copy, share, regenerate, revoke | ✅ UI (widget-tested) · 🔑 real codes |
 | Teacher app | Pending link requests (approve/decline), linked students (disconnect) | ✅ UI (widget-tested) · 🔑 real data |
@@ -37,4 +39,4 @@ Legend: ✅ implemented & tested locally · 🔑 implemented, needs Supabase cre
 - "Confirm email" is **off** on the live project (sign-ups need no e-mail). Password-reset e-mails use Supabase's built-in mailer, limited to 2 e-mails/hour on the free plan; admins can instead create a one-time reset link in the admin panel and share it by hand. To raise the limit, add free SMTP (e.g. Resend) under Authentication → Emails → SMTP.
 
 ## Not started (later phases)
-- ⏳ Lessons content, progress tracking, chat, notifications, iOS builds, release signing / Play Store.
+- ⏳ Teacher homework + progress views, chat, notifications, iOS builds, release signing / Play Store.

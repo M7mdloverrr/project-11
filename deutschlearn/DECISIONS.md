@@ -37,3 +37,8 @@
 - English UI (the operator reads English). Only role `admin` passes the router guard; every write goes through `admin_*` RPCs or the `admin-users` edge function, which re-check the role on the server and write to `admin_audit_log`.
 - Account operations (create, block, delete, password reset, confirm e-mail) need the Auth admin API, so they run in the edge function with the service role; the panel itself only ships the publishable key.
 - Admins cannot change their own role, block or delete themselves, so the last admin cannot lock everyone out.
+
+## Lessons and progress
+- Lessons live in `lessons` / `lesson_items`; content is authored in the admin panel and read by any signed-in user when `published`.
+- Progress is written only through the `complete_lesson` RPC, which keeps the best score and counts attempts; students cannot write `lesson_progress` directly.
+- Quiz options are stored with the correct answer index and shuffled on the device with a stable per-item order.
