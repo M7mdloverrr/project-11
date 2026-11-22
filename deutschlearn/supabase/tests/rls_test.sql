@@ -140,4 +140,58 @@ select pg_temp.expect_error($$select * from public.lookup_teacher_by_code('TCH-N
 select pg_temp.expect_error($$select * from public.profiles$$, 'anon profiles');
 reset role;
 
+-- Admin -----------------------------------------------------------------------
+-- Non-admins cannot use admin RPCs or read other users.
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000a');
+select pg_temp.expect_error($$select public.admin_stats()$$, 'teacher calls admin_stats');
+select pg_temp.expect_error($$select * from public.admin_list_users()$$, 'teacher lists users');
+select pg_temp.expect_error($$select public.admin_update_profile('00000000-0000-0000-0000-00000000000a', p_role => 'admin')$$, 'teacher self-promotes via admin RPC');
+select pg_temp.expect_error($$select public.log_admin_action('x', 'user', null)$$, 'client writes audit log directly');
+select pg_temp.expect_error($$insert into public.admin_audit_log (action, target_type) values ('x', 'user')$$, 'client inserts audit row');
+do $$ begin
+  assert (select count(*) from public.admin_audit_log) = 0, 'non-admin sees no audit rows';
+end $$;
+reset role;
+
+-- Promote the first admin directly in the database.
+update public.profiles set role = 'admin' where id = '00000000-0000-0000-0000-00000000000d';
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000d');
+do $$ declare s jsonb; n int; begin
+  s := public.admin_stats();
+  assert (s ->> 'teachers')::int = 1 and (s ->> 'students')::int = 2 and (s ->> 'admins')::int = 1, s::text;
+  select count(*) into n from public.profiles;
+  assert n = 4, 'admin reads all profiles';
+  assert (select count(*) from public.teacher_codes) >= 1, 'admin reads all codes';
+  assert (select count(*) from public.admin_list_users()) = 4;
+  assert (select total_count from public.admin_list_users(p_search => 'müller') limit 1) = 1, 'search by name';
+  assert (select count(*) from public.admin_list_users(p_search => 's2@x')) = 1, 'search by e-mail';
+  assert (select count(*) from public.admin_list_users(p_role => 'student')) = 2;
+end $$;
+select pg_temp.expect_error($$select public.admin_update_profile(auth.uid(), p_role => 'student')$$, 'admin demotes self');
+
+-- Link Sara directly to the teacher, then disconnect.
+do $$ declare l record; begin
+  select * into l from public.admin_link_student('00000000-0000-0000-0000-00000000000a', '00000000-0000-0000-0000-00000000000c');
+  assert l.status = 'active';
+  select * into l from public.admin_disconnect_link(l.id);
+  assert l.status = 'disconnected';
+end $$;
+select pg_temp.expect_error($$select public.admin_link_student('00000000-0000-0000-0000-00000000000c', '00000000-0000-0000-0000-00000000000b')$$, 'link to a non-teacher');
+
+-- Changing a teacher to student revokes the code and ends links.
+do $$ declare p record; begin
+  select * into p from public.admin_update_profile('00000000-0000-0000-0000-00000000000a', p_display_name => 'Herr M.', p_role => 'student', p_cefr_level => 'B2');
+  assert p.role = 'student' and p.display_name = 'Herr M.' and p.cefr_level = 'B2';
+  assert (select count(*) from public.teacher_codes where teacher_id = p.id and not revoked) = 0;
+  assert (select count(*) from public.teacher_student_links where teacher_id = p.id and status <> 'disconnected') = 0;
+  assert (select count(*) from public.admin_audit_log) = 3, 'three audited actions';
+  assert (select details ->> 'role' from public.admin_audit_log where action = 'update_profile') = 'student';
+end $$;
+select pg_temp.expect_error($$select public.admin_update_profile('00000000-0000-0000-0000-00000000000b', p_cefr_level => 'Z9')$$, 'invalid CEFR level');
+reset role;
+
+set role service_role;
+select public.log_admin_action_as('00000000-0000-0000-0000-00000000000d', 'block_user', 'user', '00000000-0000-0000-0000-00000000000b');
+reset role;
+
 select 'ALL SQL TESTS PASSED' as result;

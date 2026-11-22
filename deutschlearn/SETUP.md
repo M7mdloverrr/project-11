@@ -63,6 +63,15 @@ flutter run --dart-define-from-file=../../.env
 
 Android emulator against a local Supabase (`supabase start`): use `SUPABASE_URL=http://10.0.2.2:54321`.
 
+## 4b. Admin panel (web)
+- URL: https://m7mdloverrr.github.io/project-11/deutschlearn/admin-web/ (GitHub Pages serves the `main` branch; the panel goes live once this folder is on `main`).
+- Rebuild after changes: `cd apps/admin && ./tool/publish_web.sh` (uses `../../.env`), then commit `deutschlearn/admin-web/`.
+- Make someone an admin (admins can never sign themselves up): in Supabase → SQL Editor run
+  `update public.profiles set role = 'admin' where id = (select id from auth.users where email = 'person@example.com');`
+  After that, more admins can be added from the panel (Users → Add user, role Admin).
+- Auth redirect URLs must include the panel URL (already set for the live project).
+- Deploy the admin function with the others: `supabase functions deploy admin-users`.
+
 ## 5. First end-to-end check
 1. Teacher app → register → set display name → **Code erzeugen** → you get `TCH-XXXXXX`.
 2. Student app → register → Start tab → **Lehrer verbinden** → enter the code → see the teacher's name → confirm → status "pending".

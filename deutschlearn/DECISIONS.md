@@ -30,3 +30,10 @@
 ## 6. Design system
 - Tokens from the spec (Navy `#102A43`, Teal `#0E9488`, Blue `#2387D1`, Mint `#E8F8F3`, Yellow `#FFC857`, Success `#28A745`, Error `#EA5353`, Background `#F6F9FC`), light + dark `ThemeData`, bundled **Cairo** font (Arabic + Latin, OFL) so Arabic and German render consistently offline.
 - Arabic UI is RTL by default; German strings are shown next to Arabic (`عربي • Deutsch`). `DLDirectional`/`LtrIsland` helpers keep codes, emails and German sentences LTR inside RTL layouts.
+
+## 7. Admin panel as a Flutter web app on GitHub Pages
+- Reuses the shared packages (core models, Riverpod, session/guard, design system), so there is one codebase and one data layer.
+- Free hosting with no extra account: the repo already serves GitHub Pages from `main`, so the built panel lives in `deutschlearn/admin-web/` (hash URLs, so reloads work on Pages).
+- English UI (the operator reads English). Only role `admin` passes the router guard; every write goes through `admin_*` RPCs or the `admin-users` edge function, which re-check the role on the server and write to `admin_audit_log`.
+- Account operations (create, block, delete, password reset, confirm e-mail) need the Auth admin API, so they run in the edge function with the service role; the panel itself only ships the publishable key.
+- Admins cannot change their own role, block or delete themselves, so the last admin cannot lock everyone out.

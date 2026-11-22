@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'backend/admin_repository.dart';
 import 'backend/auth_gateway.dart';
 import 'backend/link_repository.dart';
 import 'backend/profile_repository.dart';
+import 'backend/supabase_admin_repository.dart';
 import 'backend/supabase_auth_gateway.dart';
 import 'backend/supabase_link_repository.dart';
 import 'backend/supabase_profile_repository.dart';
@@ -33,6 +35,11 @@ final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
 final linkRepositoryProvider = Provider<LinkRepository>((ref) {
   final client = ref.watch(supabaseClientProvider);
   return client == null ? const UnconfiguredLinkRepository() : SupabaseLinkRepository(client);
+});
+
+final adminRepositoryProvider = Provider<AdminRepository>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? const UnconfiguredAdminRepository() : SupabaseAdminRepository(client);
 });
 
 /// Disables Riverpod's automatic retry; screens offer explicit retry buttons

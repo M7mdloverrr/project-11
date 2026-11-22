@@ -1,8 +1,10 @@
 import '../failure.dart';
+import '../models/admin.dart';
 import '../models/link.dart';
 import '../models/profile.dart';
 import '../models/role.dart';
 import '../models/teacher_code.dart';
+import 'admin_repository.dart';
 import 'auth_gateway.dart';
 import 'link_repository.dart';
 import 'profile_repository.dart';
@@ -69,4 +71,46 @@ class UnconfiguredLinkRepository implements LinkRepository {
   @override
   Future<TeacherStudentLink> respondToRequest(String requestId, {required bool approve}) =>
       Future.error(_notConfigured);
+}
+
+class UnconfiguredAdminRepository implements AdminRepository {
+  const UnconfiguredAdminRepository();
+
+  @override
+  Future<AdminStats> fetchStats() => Future.error(_notConfigured);
+  @override
+  Future<AdminUserPage> listUsers({String? search, Role? role, int limit = 50, int offset = 0}) =>
+      Future.error(_notConfigured);
+  @override
+  Future<void> updateUser(String userId, AdminProfileUpdate update) => Future.error(_notConfigured);
+  @override
+  Future<String> createUser(AdminNewUser user) => Future.error(_notConfigured);
+  @override
+  Future<void> setBlocked(String userId, {required bool blocked}) => Future.error(_notConfigured);
+  @override
+  Future<void> deleteUser(String userId) => Future.error(_notConfigured);
+  @override
+  Future<void> confirmEmail(String userId) => Future.error(_notConfigured);
+  @override
+  Future<String> createPasswordResetLink(String userId) => Future.error(_notConfigured);
+  @override
+  Future<void> sendPasswordResetEmail(String userId) => Future.error(_notConfigured);
+  @override
+  Future<List<AdminCode>> listCodes({bool activeOnly = true}) => Future.error(_notConfigured);
+  @override
+  Future<AdminCode> issueCode(String teacherId) => Future.error(_notConfigured);
+  @override
+  Future<void> revokeCode(String codeId) => Future.error(_notConfigured);
+  @override
+  Future<List<TeacherStudentLink>> listLinks({LinkStatus? status}) => Future.error(_notConfigured);
+  @override
+  Future<List<AdminLinkRequest>> listRequests({LinkRequestStatus? status}) => Future.error(_notConfigured);
+  @override
+  Future<void> respondToRequest(String requestId, {required bool approve}) => Future.error(_notConfigured);
+  @override
+  Future<void> disconnectLink(String linkId) => Future.error(_notConfigured);
+  @override
+  Future<void> linkStudent({required String teacherId, required String studentId}) => Future.error(_notConfigured);
+  @override
+  Future<List<AuditEntry>> auditLog({int limit = 100}) => Future.error(_notConfigured);
 }
