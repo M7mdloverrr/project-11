@@ -1,0 +1,198 @@
+module:
+  slug: b1-fertigkeiten
+  level: B1
+  position: 6
+  icon: exam
+  title_de: Lesen, Hören, Schreiben, Sprechen – Goethe-Zertifikat B1
+  title_ar: القراءة والاستماع والكتابة والمحادثة — امتحان Goethe B1
+  description_ar: تدريب على أجزاء امتحان Goethe-Zertifikat B1 الأربعة، ثم الامتحان النهائي للمستوى B1.
+
+lessons:
+  - slug: b1-lesen
+    title_de: Lesen – Blog, Zeitungsartikel, Meinungen, Regeln
+    title_ar: القراءة — مدونة، مقال صحفي، آراء، أنظمة
+    goal_ar: أن تفهم نصوصاً طويلة وآراء مختلفة وتميّز بين المعلومات الأساسية والتفاصيل (Lesen Teil 1–5).
+    explanation_ar: |
+      ## استراتيجية B1
+      - **Teil 1 (مدونة):** richtig/falsch — ابحث عن المعنى، لا عن نفس الكلمات.
+      - **Teil 2 (مقال):** اختيار من 3 — أجوبة خاطئة كثيراً تستعمل كلمات من النص بمعنى آخر.
+      - **Teil 3 (إعلانات):** طابق الأشخاص بالإعلانات — شخص واحد قد لا يجد إعلاناً.
+      - **Teil 4 (آراء):** هل الكاتب **مع** أم **ضد**؟ انتبه لـ aber, trotzdem, allerdings.
+      - **Teil 5 (أنظمة/قواعد):** اقرأ بدقة الشروط والاستثناءات.
+    items:
+      - text: |
+          Mein Jahr ohne Auto
+          Vor einem Jahr habe ich mein Auto verkauft. Meine Freunde dachten, ich wäre verrückt, weil ich auf dem Land wohne und der Bus nur jede Stunde fährt. Am Anfang war es tatsächlich schwierig: Ich musste meinen Tag viel genauer planen. Inzwischen fahre ich die meisten Strecken mit dem E-Bike, und für größere Einkäufe leihe ich mir das Auto meiner Nachbarin. Ich spare im Monat etwa 300 Euro und fühle mich fitter als früher. Nur im Winter, wenn es schneit, vermisse ich mein Auto manchmal.
+        ar: "سنتي بدون سيارة — قبل سنة بعت سيارتي. ظن أصدقائي أنني مجنون لأنني أسكن في الريف والباص يأتي كل ساعة. في البداية كان الأمر صعباً فعلاً: كان علي التخطيط بدقة. الآن أقطع معظم المسافات بالدراجة الكهربائية، وللمشتريات الكبيرة أستعير سيارة جارتي. أوفّر حوالي 300 يورو شهرياً وأشعر بلياقة أكثر. فقط في الشتاء عندما يتساقط الثلج أفتقد سيارتي أحياناً."
+      - quiz: "Die Freunde fanden die Idee gut. — richtig أم falsch؟"
+        options: [falsch, richtig]
+      - quiz: "Für große Einkäufe benutzt der Autor ein anderes Auto. — richtig أم falsch؟"
+        options: [richtig, falsch]
+      - quiz: "متى يفتقد سيارته؟"
+        options: [في الشتاء عند الثلج, في الصيف, عند التسوق, أبداً]
+      - text: |
+          Leserbriefe zum Thema: „Sollen Handys in Schulen verboten werden?"
+          Petra (45): Ich bin absolut dafür. Kinder können sich ohne Handy viel besser konzentrieren, und in den Pausen sprechen sie wieder miteinander.
+          Jonas (17): Ein komplettes Verbot finde ich übertrieben. Im Unterricht kann man das Handy sinnvoll nutzen, zum Beispiel für Recherchen. Allerdings sollte es in den Pausen ausgeschaltet bleiben.
+          Herr Demir (52): Das Handy ist Teil unseres Lebens. Statt es zu verbieten, sollte die Schule zeigen, wie man es vernünftig benutzt.
+        ar: "رسائل قراء: هل يجب منع الهواتف في المدارس؟ بترا: أنا مع ذلك تماماً — الأطفال يركّزون أفضل ويتحدثون مع بعض في الاستراحة. يوناس: المنع الكامل مبالغ فيه؛ يمكن استخدامه بشكل مفيد في الدرس، لكن يجب إطفاؤه في الاستراحات. السيد دمير: الهاتف جزء من حياتنا؛ بدل منعه يجب أن تعلّم المدرسة استخدامه بعقلانية."
+      - quiz: "من هو مع المنع الكامل؟"
+        options: [بترا, يوناس, السيد دمير, لا أحد]
+      - quiz: "ماذا يقترح السيد دمير؟"
+        options: [تعليم الاستخدام العقلاني, المنع الكامل, المنع في الدرس فقط, لا شيء]
+      - match: ["übertrieben = مبالغ فيه", "sinnvoll = مفيد / منطقي", "vernünftig = عقلاني", "inzwischen = في هذه الأثناء / الآن", "tatsächlich = فعلاً"]
+
+  - slug: b1-hoeren
+    title_de: Hören – Ansagen, Gespräche, Radio, Diskussion
+    title_ar: الاستماع — إعلانات، محادثات، راديو، نقاش
+    goal_ar: أن تفهم المعلومات المهمة في نصوص مسموعة أطول وتعرف من يقول ماذا (Hören Teil 1–4).
+    explanation_ar: |
+      ## استراتيجية
+      - اقرأ الأسئلة جيداً في وقت القراءة المسموح.
+      - في النقاش (Teil 4) سجّل من **المذيع** ومن **الضيوف** — من قال الرأي؟
+      - كثيراً ما يُذكر خيار خاطئ أولاً ثم يُصحَّح: **eigentlich … aber**، **nicht … sondern**.
+    items:
+      - listen: "Liebe Kunden, unser Geschäft schließt heute wegen einer Betriebsfeier bereits um sechzehn Uhr. Ab morgen sind wir wieder wie gewohnt von acht bis zwanzig Uhr für Sie da."
+        ar: لماذا يغلق المحل مبكراً؟
+        options: [احتفال للموظفين, عطلة رسمية, تصليحات, مرض المدير]
+      - listen: "Eigentlich wollten wir nach Italien fahren, aber dann haben wir uns doch für eine Radtour an der Donau entschieden. Das war billiger und mindestens genauso schön."
+        ar: أين قضوا العطلة؟
+        options: [رحلة دراجات على الدانوب, في إيطاليا, في البيت, على البحر]
+      - listen: "Wer seinen Führerschein verloren hat, muss das zuerst bei der Polizei melden. Danach kann man im Bürgeramt einen neuen beantragen. Bringen Sie dafür ein biometrisches Foto mit."
+        ar: ما الخطوة الأولى عند فقدان الرخصة؟
+        options: [إبلاغ الشرطة, الذهاب للبلدية, التقاط صورة, شراء رخصة جديدة]
+      - listen: "In unserer Sendung sprechen wir heute mit Frau Dr. Albers. Sie meint, dass Kinder unter zehn Jahren höchstens eine Stunde am Tag vor dem Bildschirm sitzen sollten."
+        ar: ما رأي الدكتورة ألبرس؟
+        options: [ساعة واحدة كحد أقصى يومياً, بدون شاشات أبداً, لا حدود, ساعتان يومياً]
+      - listen: "Ich finde Homeoffice grundsätzlich gut. Aber mir fehlt der Kontakt zu den Kollegen, deshalb gehe ich zweimal pro Woche ins Büro."
+        ar: لماذا يذهب للمكتب؟
+        options: [يفتقد التواصل مع الزملاء, المدير يفرض ذلك, الإنترنت ضعيف في البيت, المكتب قريب]
+      - listen: "Die Stadt plant, die Innenstadt ab nächstem Jahr für Autos zu sperren. Geschäftsleute befürchten, dass dann weniger Kunden kommen."
+        ar: ما الذي يخشاه أصحاب المحلات؟
+        options: [قلة الزبائن, ارتفاع الإيجار, الضجيج, نقص المواقف للموظفين]
+      - listen: "Ich habe zwar Medizin studiert, aber nach dem Studium habe ich gemerkt, dass ich lieber mit Kindern arbeiten möchte. Deshalb bin ich jetzt Grundschullehrerin."
+        ar: ماذا تعمل الآن؟
+        options: [معلمة ابتدائي, طبيبة, طبيبة أطفال, طالبة]
+
+  - slug: b1-schreiben
+    title_de: Schreiben – E-Mail, Forumsbeitrag, formelle Nachricht
+    title_ar: الكتابة — بريد شخصي، مشاركة في منتدى، رسالة رسمية
+    goal_ar: أن تكتب بريداً شخصياً (80 كلمة)، رأياً في منتدى (80 كلمة)، ورسالة رسمية قصيرة (40 كلمة) كما في Schreiben Teil 1–3.
+    explanation_ar: |
+      ## Teil 1: بريد لصديق — 3 نقاط
+      مثلاً: صف حدثاً، علّل، اقترح لقاء. ابدأ: **Liebe/r …**، اختم: **Viele Grüße**.
+      ## Teil 2: رأيك في منتدى
+      > Ich bin der Meinung, dass … Einerseits …, andererseits … Ein Beispiel: … Deshalb finde ich …
+      ## Teil 3: رسالة رسمية (اعتذار/طلب)
+      > Sehr geehrte Frau Krüger, leider kann ich an dem Termin am Montag nicht teilnehmen, weil … Ich würde mich freuen, wenn wir einen neuen Termin vereinbaren könnten. Mit freundlichen Grüßen
+      ## نصيحة: استعمل روابط متنوعة
+      weil, obwohl, deshalb, trotzdem, außerdem, zum Beispiel, einerseits/andererseits
+    items:
+      - {rule: "في Teil 2 اذكر **رأيك** + **سببين** + **مثالاً** + **خلاصة**.", de: "Ich bin der Meinung, dass …\nEin wichtiger Grund ist …\nZum Beispiel …\nDeshalb finde ich …"}
+      - gap: "Ich würde mich freuen, wenn wir einen neuen Termin ___ könnten."
+        options: [vereinbaren, vereinbart, zu vereinbaren]
+      - gap: "Leider kann ich an dem Kurs nicht ___."
+        options: [teilnehmen, nehmen teil, teilzunehmen]
+      - gap: "___ finde ich, dass jeder selbst entscheiden sollte."
+        options: [Deshalb, Obwohl, Weil]
+      - quiz: "أي خاتمة مناسبة لبريد إلى صديق؟"
+        options: ["Viele Grüße und bis bald!", "Mit freundlichen Grüßen", "Hochachtungsvoll", "Sehr geehrte Damen und Herren"]
+      - quiz: "أي جملة مناسبة لبدء رأي في منتدى؟"
+        options: ["Zu diesem Thema habe ich eine klare Meinung.", "Hallo Oma!", "Ich bestelle zwei Pizzen.", "Sehr geehrter Herr Direktor,"]
+      - order: "Ich würde mich über eine schnelle Antwort freuen."
+        ar: سأكون سعيداً برد سريع.
+      - order: "Ich möchte mich für die Verspätung entschuldigen."
+        ar: أود أن أعتذر عن التأخير.
+      - write: "Ich bin der Meinung, dass|Ich bin der Meinung, dass …|Ich bin der Meinung dass"
+        ar: "اكتب بداية جملة الرأي: أرى أنّ …"
+
+  - slug: b1-sprechen
+    title_de: Sprechen – gemeinsam planen, präsentieren, reagieren
+    title_ar: المحادثة — التخطيط المشترك، العرض، الرد على الأسئلة
+    goal_ar: أن تستعد لامتحان المحادثة B1 — تخطيط شيء مع شريك، تقديم عرض قصير عن موضوع، والرد على الأسئلة. استمع وكرّر بصوت عالٍ.
+    explanation_ar: |
+      ## Teil 1: خطّطا معاً (مثلاً حفلة وداع لزميل)
+      > Wollen wir …? — Was hältst du davon, wenn …? — Das ist eine gute Idee, aber … — Ich schlage vor, dass … — Einverstanden!
+      ## Teil 2: العرض (5 شرائح)
+      1. **الموضوع:** Ich möchte heute über das Thema … sprechen.
+      2. **تجربتي:** In meinem Leben … / Ich habe die Erfahrung gemacht, dass …
+      3. **في بلدي:** In meinem Heimatland ist das so: …
+      4. **المزايا والعيوب + رأيي:** Ein Vorteil ist … ein Nachteil … Meiner Meinung nach …
+      5. **الخاتمة:** Zum Schluss möchte ich sagen … Vielen Dank für Ihre Aufmerksamkeit.
+      ## Teil 3: الرد على الأسئلة
+      > Das ist eine gute Frage. — Ich bin mir nicht ganz sicher, aber ich glaube …
+    items:
+      - {phrase: "Was hältst du davon, wenn wir zusammen kochen?", ar: "ما رأيك أن نطبخ معاً؟"}
+      - {phrase: "Einverstanden!", ar: "موافق!"}
+      - {phrase: "Ich möchte heute über das Thema Homeoffice sprechen.", ar: "أود اليوم أن أتحدث عن موضوع العمل من المنزل."}
+      - {phrase: "In meinem Heimatland ist das ganz anders.", ar: "في بلدي الأمر مختلف تماماً."}
+      - {phrase: "Zum Schluss möchte ich sagen, dass …", ar: "في الختام أود أن أقول إن …"}
+      - {phrase: "Vielen Dank für Ihre Aufmerksamkeit.", ar: "شكراً لانتباهكم."}
+      - {phrase: "Das ist eine gute Frage.", ar: "هذا سؤال جيد."}
+      - quiz: "ماذا تقول في بداية العرض؟"
+        options: ["Ich möchte heute über das Thema … sprechen.", "Vielen Dank für Ihre Aufmerksamkeit.", "Einverstanden!", "Tschüss!"]
+      - quiz: "شريكك يقترح هدية غالية جداً. كيف تعترض بأدب؟"
+        options: ["Das ist eine gute Idee, aber vielleicht ein bisschen zu teuer.", "Nein, das ist dumm.", "Ich will nicht.", "Mir egal."]
+      - order: "Was hältst du davon, wenn wir am Samstag feiern?"
+        ar: ما رأيك أن نحتفل يوم السبت؟
+      - order: "Zum Schluss möchte ich mich für Ihre Aufmerksamkeit bedanken."
+        ar: في الختام أود أن أشكركم على انتباهكم.
+      - write: "Einverstanden!|Einverstanden"
+        ar: "اكتب: موافق!"
+
+  - slug: b1-exam
+    kind: exam
+    title_de: Abschlussprüfung B1
+    title_ar: الامتحان النهائي للمستوى B1
+    goal_ar: امتحان شامل على نمط Goethe-Zertifikat B1 — قراءة، استماع، قواعد، مفردات وكتابة. النجاح من 70٪ يعني إتمام المنهاج حتى B1.
+    items:
+      - text: |
+          Hausordnung – Wohnanlage Sonnenhof
+          1. Von 22 bis 6 Uhr sowie sonn- und feiertags ist Ruhezeit. Laute Musik und Bohren sind in dieser Zeit nicht erlaubt.
+          2. Fahrräder dürfen nur im Fahrradkeller abgestellt werden, nicht im Treppenhaus.
+          3. Grillen ist auf den Balkonen nur mit einem Elektrogrill gestattet.
+          4. Die Mieter reinigen das Treppenhaus abwechselnd. Den Plan finden Sie am Eingang.
+          5. Haustiere sind erlaubt; für Hunde ist jedoch eine Genehmigung der Hausverwaltung nötig.
+        ar: "نظام البيت — 1. من 22 إلى 6 وأيام الأحد والعطل وقت راحة: لا موسيقى عالية ولا حفر. 2. الدراجات في قبو الدراجات فقط، لا في بيت الدرج. 3. الشواء على الشرفات بشواية كهربائية فقط. 4. المستأجرون ينظفون الدرج بالتناوب؛ الجدول عند المدخل. 5. الحيوانات مسموحة؛ للكلاب يلزم إذن من إدارة البناية."
+      - quiz: "هل يمكن الشواء بالفحم على الشرفة؟"
+        options: [لا، كهربائي فقط, نعم دائماً, نعم يوم الأحد, فقط بإذن]
+      - quiz: "ماذا تحتاج إذا أردت كلباً؟"
+        options: [إذن من إدارة البناية, لا شيء, موافقة الجيران, دفع رسوم]
+      - listen: "Wegen Bauarbeiten ist die Bahnstrecke zwischen Köln und Bonn vom fünften bis zum neunzehnten Juli gesperrt. Es fahren Ersatzbusse, die Fahrzeit verlängert sich um etwa vierzig Minuten."
+        ar: كم تزيد مدة الرحلة؟
+        options: [حوالي 40 دقيقة, 19 دقيقة, 5 دقائق, ساعة ونصف]
+      - listen: "Ich habe mich lange gefragt, ob ich das Angebot in München annehmen soll. Das Gehalt ist besser, aber meine Familie lebt hier. Am Ende habe ich abgesagt."
+        ar: ماذا قرر؟
+        options: [رفض العرض, قبل العرض, لم يقرر بعد, انتقلت عائلته إلى ميونخ]
+      - listen: "Meiner Meinung nach sollte jeder junge Mensch nach der Schule ein soziales Jahr machen. Man lernt dabei sehr viel fürs Leben."
+        ar: ما رأي المتحدث؟
+        options: [كل شاب يجب أن يقوم بسنة اجتماعية, السنة الاجتماعية مضيعة للوقت, فقط للفقراء, بعد الجامعة فقط]
+      - gap: "Das ist die Kollegin, ___ Mann bei der Polizei arbeitet."
+        options: [deren, dessen, der]
+      - gap: "Die Straße wird nächste Woche ___."
+        options: [repariert, reparieren, reparierte]
+      - gap: "Wenn ich mehr gelernt ___, hätte ich die Prüfung bestanden."
+        options: [hätte, wäre, habe]
+      - gap: "___ der Krankheit konnte er nicht arbeiten."
+        options: [Wegen, Trotz, Obwohl]
+      - gap: "Sie ist zwar müde, ___ sie geht noch ins Fitnessstudio."
+        options: [aber, trotzdem, obwohl]
+      - gap: "Nachdem er die E-Mail geschrieben ___, schaltete er den Computer aus."
+        options: [hatte, war, hat]
+      - gap: "Ich habe keine Lust, heute ___."
+        options: [aufzuräumen, aufräumen, zu aufräumen]
+      - gap: "Je mehr man liest, ___ größer wird der Wortschatz."
+        options: [desto, als, so]
+      - gap: "Ich interessiere mich nicht ___ Politik."
+        options: [für, an, über]
+      - gap: "Kannst du ___ vorstellen, im Ausland zu leben?"
+        options: [dir, dich, du]
+      - match: ["die Frist = المهلة", "der Klimawandel = تغيّر المناخ", "die Gleichberechtigung = المساواة", "der Vorteil = الميزة", "sich gewöhnen an = يتعوّد على"]
+      - order: "Obwohl ich wenig Zeit hatte, habe ich den Kurs beendet."
+        ar: رغم أن وقتي كان قليلاً أنهيت الدورة.
+      - order: "Das Haus, in dem ich wohne, wurde 1900 gebaut."
+        ar: البيت الذي أسكن فيه بُني عام 1900.
+      - write: "Meiner Meinung nach|Meiner Meinung nach …"
+        ar: "اكتب: في رأيي … (Meiner …)"
+      - write: "Vielen Dank für Ihre Aufmerksamkeit.|Vielen Dank für Ihre Aufmerksamkeit"
+        ar: "اكتب خاتمة العرض: شكراً لانتباهكم."

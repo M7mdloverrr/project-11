@@ -1,0 +1,209 @@
+module:
+  slug: b1-gesellschaft
+  level: B1
+  position: 5
+  icon: world
+  title_de: Gesellschaft, Umwelt, Politik, Technik
+  title_ar: المجتمع والبيئة والسياسة والتكنولوجيا
+  description_ar: مفردات Goethe B1 — البيئة والمناخ، السياسة والمجتمع، الهجرة والاندماج، التكنولوجيا والمستقبل.
+
+lessons:
+  - slug: b1-umwelt
+    title_de: Umwelt und Klima
+    title_ar: البيئة والمناخ
+    goal_ar: أن تناقش مشكلات البيئة والمناخ وتقترح حلولاً.
+    explanation_ar: |
+      ## المشكلات والحلول
+      > Der Klimawandel ist eines der größten Probleme. — Die Luftverschmutzung nimmt zu.
+      > Man könnte mehr öffentliche Verkehrsmittel nutzen. — Es wäre besser, wenn …
+      ## تعابير
+      zunehmen/abnehmen (يزداد/يقلّ)، verursachen (يسبّب)، vermeiden (يتجنّب)، verbrauchen (يستهلك)
+    items:
+      - {vocab: "der Klimawandel", ar: "تغيّر المناخ"}
+      - {vocab: "die Verschmutzung", ar: "التلوث"}
+      - {vocab: "verursachen", ar: "يسبّب"}
+      - {vocab: "vermeiden", ar: "يتجنّب", ex: "Wir sollten Plastik vermeiden.", ex_ar: "يجب أن نتجنب البلاستيك."}
+      - {vocab: "verbrauchen / der Verbrauch", ar: "يستهلك / الاستهلاك"}
+      - {vocab: "zu|nehmen / ab|nehmen", ar: "يزداد / يقلّ"}
+      - {vocab: "erneuerbare Energie", ar: "الطاقة المتجددة"}
+      - {vocab: "die Sonnenenergie / die Windkraft", ar: "الطاقة الشمسية / طاقة الرياح"}
+      - {vocab: "die öffentlichen Verkehrsmittel", ar: "وسائل النقل العامة"}
+      - {vocab: "die Ressource, -n", ar: "المورد"}
+      - {vocab: "die Temperatur, -en", ar: "درجة الحرارة"}
+      - {vocab: "die Katastrophe, -n", ar: "الكارثة"}
+      - {vocab: "die Hitze / die Dürre", ar: "الحرّ / الجفاف"}
+      - {vocab: "das Hochwasser", ar: "الفيضان"}
+      - {vocab: "umweltfreundlich", ar: "صديق للبيئة"}
+      - {vocab: "die Zukunft", ar: "المستقبل"}
+      - gap: "Autos ___ viele Abgase."
+        options: [verursachen, vermeiden, abnehmen]
+      - gap: "Die Temperaturen ___ jedes Jahr zu."
+        options: [nehmen, kommen, gehen]
+      - gap: "Fahrradfahren ist ___."
+        options: [umweltfreundlich, erneuerbar, verbraucht]
+      - listen: "Immer mehr Menschen in Deutschland fahren mit dem Fahrrad zur Arbeit, weil es gesund ist und die Umwelt schont."
+        ar: لماذا يركبون الدراجة؟
+        options: [صحي ويحمي البيئة, أرخص فقط, لا توجد باصات, القانون يفرض ذلك]
+      - match: ["der Klimawandel = تغيّر المناخ", "vermeiden = يتجنّب", "die Dürre = الجفاف", "das Hochwasser = الفيضان", "die Zukunft = المستقبل"]
+      - order: "Wir sollten weniger Energie verbrauchen."
+        ar: يجب أن نستهلك طاقة أقل.
+      - write: "Wir müssen Plastik vermeiden.|Wir müssen Plastik vermeiden"
+        ar: "اكتب: يجب أن نتجنب البلاستيك."
+
+  - slug: b1-politik
+    title_de: Politik und Gesellschaft
+    title_ar: السياسة والمجتمع
+    goal_ar: أن تفهم المفردات الأساسية للنظام السياسي في ألمانيا والمشاركة في المجتمع.
+    explanation_ar: |
+      ## النظام السياسي
+      Deutschland ist eine **Demokratie** und ein **Bundesstaat** mit 16 **Bundesländern**. Das **Parlament** heißt **Bundestag**. Alle vier Jahre gibt es **Wahlen**.
+      ## الحقوق والواجبات
+      das Recht (الحق)، die Pflicht (الواجب)، das Grundgesetz (الدستور)، die Meinungsfreiheit، die Gleichberechtigung (المساواة)
+      ## المشاركة
+      > Ich engagiere mich ehrenamtlich in einem Verein. (أتطوع)
+    items:
+      - {vocab: "die Politik / politisch", ar: "السياسة / سياسي"}
+      - {vocab: "die Demokratie", ar: "الديمقراطية"}
+      - {vocab: "die Regierung, -en", ar: "الحكومة"}
+      - {vocab: "das Parlament", ar: "البرلمان"}
+      - {vocab: "die Partei, -en", ar: "الحزب"}
+      - {vocab: "die Wahl, -en / wählen", ar: "الانتخاب / ينتخب"}
+      - {vocab: "der Bürger, - / die Bürgerin, -nen", ar: "المواطن / المواطنة"}
+      - {vocab: "das Bundesland, ¨-er", ar: "الولاية"}
+      - {vocab: "das Grundgesetz", ar: "الدستور الألماني"}
+      - {vocab: "das Recht, -e", ar: "الحق / القانون"}
+      - {vocab: "das Gesetz, -e", ar: "القانون"}
+      - {vocab: "die Freiheit", ar: "الحرية"}
+      - {vocab: "die Gleichberechtigung", ar: "المساواة في الحقوق"}
+      - {vocab: "die Gesellschaft, -en", ar: "المجتمع"}
+      - {vocab: "sich engagieren", ar: "ينخرط / يلتزم"}
+      - {vocab: "ehrenamtlich", ar: "تطوعي"}
+      - {vocab: "die Religion, -en", ar: "الدين"}
+      - {vocab: "die Toleranz", ar: "التسامح"}
+      - gap: "Deutschland hat 16 ___."
+        options: [Bundesländer, Parteien, Regierungen]
+      - gap: "Alle vier Jahre ___ die Bürger ein neues Parlament."
+        options: [wählen, engagieren, gründen]
+      - gap: "Männer und Frauen sind gleichberechtigt. Das steht im ___."
+        options: [Grundgesetz, Parlament, Verein]
+      - gap: "Sie arbeitet ___ im Altenheim. Sie bekommt kein Geld."
+        options: [ehrenamtlich, politisch, gesetzlich]
+      - match: ["die Regierung = الحكومة", "die Wahl = الانتخاب", "das Gesetz = القانون", "die Freiheit = الحرية", "die Gesellschaft = المجتمع"]
+      - order: "In Deutschland gilt die Meinungsfreiheit."
+        ar: في ألمانيا تسري حرية الرأي.
+      - write: "Ich engagiere mich ehrenamtlich.|Ich engagiere mich ehrenamtlich"
+        ar: "اكتب: أتطوّع."
+
+  - slug: b1-integration
+    title_de: Migration und Integration
+    title_ar: الهجرة والاندماج
+    goal_ar: أن تتحدث عن تجربتك في بلد جديد، التحديات، والفروق الثقافية.
+    explanation_ar: |
+      ## التجربة الشخصية
+      > Als ich nach Deutschland kam, war vieles neu für mich. Am Anfang hatte ich Heimweh.
+      > Mit der Zeit habe ich mich an das Leben hier gewöhnt.
+      ## sich gewöhnen an + Akk. = يتعوّد على
+      ## الفروق الثقافية
+      > In meinem Heimatland ist es üblich, dass … Hier dagegen … (هنا بالمقابل)
+    items:
+      - {vocab: "die Migration / der Migrant, -en", ar: "الهجرة / المهاجر"}
+      - {vocab: "die Integration / sich integrieren", ar: "الاندماج / يندمج"}
+      - {vocab: "die Heimat / das Heimatland", ar: "الوطن / البلد الأم"}
+      - {vocab: "das Heimweh", ar: "الحنين إلى الوطن"}
+      - {vocab: "aus|wandern / ein|wandern", ar: "يهاجر من / يهاجر إلى"}
+      - {vocab: "fliehen / der Flüchtling", ar: "يهرب / اللاجئ"}
+      - {vocab: "sich gewöhnen an", ar: "يتعوّد على", ex: "Ich habe mich an das Wetter gewöhnt.", ex_ar: "تعوّدت على الطقس."}
+      - {vocab: "fremd / die Fremde", ar: "غريب / الغربة"}
+      - {vocab: "das Vorurteil, -e", ar: "الحكم المسبق"}
+      - {vocab: "die Herkunft", ar: "الأصل"}
+      - {vocab: "die Sitte, -n / die Tradition, -en", ar: "العادة / التقليد"}
+      - {vocab: "üblich", ar: "معتاد / متعارف عليه"}
+      - {vocab: "dagegen", ar: "بالمقابل"}
+      - {vocab: "der Integrationskurs, -e", ar: "دورة الاندماج"}
+      - {vocab: "die Chance, -n", ar: "الفرصة"}
+      - {vocab: "die Schwierigkeit, -en", ar: "الصعوبة"}
+      - gap: "Am Anfang hatte ich großes ___ nach meiner Familie."
+        options: [Heimweh, Vorurteil, Herkunft]
+      - gap: "Ich habe mich ___ das deutsche Essen gewöhnt."
+        options: [an, auf, für]
+      - gap: "In Syrien ist es ___, dass Gäste lange bleiben."
+        options: [üblich, fremd, dagegen]
+      - listen: "Als ich vor sechs Jahren aus dem Irak kam, konnte ich kein Wort Deutsch. Heute arbeite ich als Krankenpfleger und habe viele deutsche Freunde."
+        ar: ماذا يعمل الآن؟
+        options: [ممرض, معلم, طالب, لا يعمل]
+      - match: ["das Heimweh = الحنين للوطن", "das Vorurteil = الحكم المسبق", "die Herkunft = الأصل", "üblich = معتاد", "die Chance = الفرصة"]
+      - order: "Mit der Zeit habe ich mich an das Leben hier gewöhnt."
+        ar: مع الوقت تعوّدت على الحياة هنا.
+      - write: "Ich habe Heimweh.|Ich habe Heimweh"
+        ar: "اكتب: أشعر بالحنين إلى الوطن."
+
+  - slug: b1-technik
+    title_de: Technik, Digitalisierung und Zukunft
+    title_ar: التكنولوجيا والرقمنة والمستقبل
+    goal_ar: أن تناقش مزايا وعيوب التكنولوجيا والذكاء الاصطناعي والتسوق والعمل عبر الإنترنت.
+    explanation_ar: |
+      ## نقاش المزايا والعيوب
+      > Ein Vorteil der Digitalisierung ist, dass man schneller kommunizieren kann.
+      > Ein Nachteil ist, dass viele Menschen süchtig nach dem Handy werden.
+      ## تعابير
+      > Ohne Internet könnte ich mir mein Leben nicht vorstellen. (لا أتخيّل)
+      > Die Technik entwickelt sich sehr schnell. (تتطوّر)
+    items:
+      - {vocab: "die Technik", ar: "التقنية"}
+      - {vocab: "die Digitalisierung", ar: "الرقمنة"}
+      - {vocab: "die Entwicklung / sich entwickeln", ar: "التطوّر / يتطوّر"}
+      - {vocab: "die Erfindung, -en / erfinden", ar: "الاختراع / يخترع"}
+      - {vocab: "künstliche Intelligenz (KI)", ar: "الذكاء الاصطناعي"}
+      - {vocab: "der Roboter, -", ar: "الروبوت"}
+      - {vocab: "das Gerät, -e", ar: "الجهاز"}
+      - {vocab: "die Daten (Pl.) / der Datenschutz", ar: "البيانات / حماية البيانات"}
+      - {vocab: "die Sicherheit", ar: "الأمان"}
+      - {vocab: "sich (Dat.) vor|stellen", ar: "يتخيّل", ex: "Ich kann mir das nicht vorstellen.", ex_ar: "لا أستطيع تخيّل ذلك."}
+      - {vocab: "ersetzen", ar: "يستبدل / يحل محل"}
+      - {vocab: "die Abhängigkeit / abhängig von", ar: "الاعتماد / معتمد على"}
+      - {vocab: "die Forschung", ar: "البحث العلمي"}
+      - {vocab: "der Fortschritt, -e", ar: "التقدم"}
+      - {vocab: "praktisch", ar: "عملي"}
+      - {vocab: "gefährlich", ar: "خطير"}
+      - gap: "Ich kann ___ ein Leben ohne Handy nicht vorstellen."
+        options: [mir, mich, ich]
+      - gap: "Werden Roboter in Zukunft viele Menschen bei der Arbeit ___?"
+        options: [ersetzen, erfinden, entwickeln]
+      - gap: "Viele junge Leute sind ___ vom Internet."
+        options: [abhängig, praktisch, sicher]
+      - listen: "Ich bestelle fast alles online, weil es bequem ist. Aber ich mache mir Sorgen um meine Daten."
+        ar: ما الذي يقلقه؟
+        options: [بياناته, الأسعار, التوصيل, الجودة]
+      - match: ["die Erfindung = الاختراع", "der Fortschritt = التقدم", "der Datenschutz = حماية البيانات", "ersetzen = يحل محل", "gefährlich = خطير"]
+      - order: "Die Technik entwickelt sich sehr schnell."
+        ar: التكنولوجيا تتطوّر بسرعة كبيرة.
+      - write: "Das ist sehr praktisch.|Das ist sehr praktisch"
+        ar: "اكتب: هذا عملي جداً."
+
+  - slug: b1-gesellschaft-test
+    kind: test
+    title_de: Modultest – Gesellschaft und Technik
+    title_ar: اختبار وحدة المجتمع والتكنولوجيا
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Flugzeuge ___ viel CO2."
+        options: [verursachen, vermeiden, wählen]
+      - gap: "Wir sollten mehr ___ Energie nutzen."
+        options: [erneuerbare, gefährliche, fremde]
+      - gap: "Im Herbst ___ die Bürger einen neuen Bürgermeister."
+        options: [wählen, gewöhnen, ersetzen]
+      - gap: "Ich habe mich noch nicht ___ die Kälte gewöhnt."
+        options: [an, auf, über]
+      - gap: "Ich kann ___ nicht vorstellen, ohne Auto zu leben."
+        options: [mir, mich, sich]
+      - listen: "Viele Freiwillige helfen jeden Samstag bei der Tafel. Dort bekommen Menschen mit wenig Geld Lebensmittel."
+        ar: ماذا يحصل الناس في الـ Tafel؟
+        options: [مواد غذائية, مال, ملابس, سكناً]
+      - listen: "Am Anfang war alles fremd für mich, aber der Integrationskurs hat mir sehr geholfen."
+        ar: ما الذي ساعده؟
+        options: [دورة الاندماج, أصدقاؤه, العمل, التلفاز]
+      - match: ["die Regierung = الحكومة", "das Heimweh = الحنين للوطن", "die Erfindung = الاختراع", "die Verschmutzung = التلوث", "ehrenamtlich = تطوعي"]
+      - order: "Ein Vorteil des Internets ist, dass man schnell Informationen findet."
+        ar: من مزايا الإنترنت أنك تجد المعلومات بسرعة.
+      - write: "Ich habe mich daran gewöhnt.|Ich habe mich daran gewöhnt"
+        ar: "اكتب: تعوّدت على ذلك."

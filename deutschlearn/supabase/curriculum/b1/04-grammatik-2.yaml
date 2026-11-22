@@ -1,0 +1,228 @@
+module:
+  slug: b1-grammatik-2
+  level: B1
+  position: 4
+  icon: grammar
+  title_de: Grammatik B1 – Teil 2
+  title_ar: قواعد B1 — الجزء الثاني
+  description_ar: Konjunktiv II في الماضي، الـ Genitiv وحروف جره، أدوات الربط obwohl/trotzdem/deshalb، الروابط الثنائية، المستقبل Futur I، وتصريف n-Deklination.
+
+lessons:
+  - slug: b1-g-konjunktiv-vergangenheit
+    title_de: Konjunktiv II – Irreales und Vergangenheit
+    title_ar: Konjunktiv II — غير الواقعي وفي الماضي
+    goal_ar: أن تعبّر عن أمنيات وشروط غير واقعية في الحاضر والماضي.
+    explanation_ar: |
+      ## الحاضر غير الواقعي
+      > Wenn ich reich **wäre**, **würde** ich um die Welt reisen.
+      > Wenn ich doch mehr Zeit **hätte**! (ليت عندي وقت أكثر)
+      ## الماضي غير الواقعي: hätte/wäre + Partizip II
+      > Wenn ich früher aufgestanden **wäre**, **hätte** ich den Zug nicht **verpasst**.
+      > Ich **hätte** dich anrufen **sollen**. (كان يجب أن أتصل بك)
+      ## als ob = كأنّ
+      > Er tut so, **als ob** er alles **wüsste**.
+    items:
+      - gap: "Wenn ich Zeit ___, würde ich dir helfen."
+        options: [hätte, habe, hatte]
+      - gap: "Wenn ich du ___, würde ich das nicht machen."
+        options: [wäre, bin, war]
+      - gap: "Wenn du mich gefragt ___, hätte ich dir geholfen."
+        options: [hättest, hast, wärst]
+      - gap: "Wenn wir früher losgefahren ___, wären wir pünktlich gewesen."
+        options: [wären, hätten, sind]
+      - gap: "Ich ___ besser lernen sollen."
+        options: [hätte, wäre, würde]
+      - gap: "Er tut so, als ob er krank ___."
+        options: [wäre, ist, sei gewesen]
+      - quiz: "'Wenn ich das gewusst hätte, …' — ما المعنى؟"
+        options: [لو كنت أعرف ذلك (لكنني لم أعرف), عندما عرفت ذلك, لأنني عرفت ذلك, قبل أن أعرف]
+      - order: "Wenn ich mehr Geld hätte, würde ich ein Haus kaufen."
+        ar: لو كان لدي مال أكثر لاشتريت بيتاً.
+      - write: "Ich hätte dich anrufen sollen.|Ich hätte dich anrufen sollen"
+        ar: "اكتب: كان يجب أن أتصل بك."
+
+  - slug: b1-g-genitiv
+    title_de: Der Genitiv und Präpositionen mit Genitiv
+    title_ar: حالة الـ Genitiv وحروف جرّها
+    goal_ar: أن تفهم وتستخدم الـ Genitiv للملكية ومع wegen, trotz, während, statt.
+    explanation_ar: |
+      ## الأدوات
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Gen. | **des** Mann**es** | **der** Frau | **des** Kind**es** | **der** Kinder |
+      | | eines Mann**es** | einer Frau | eines Kind**es** | — |
+      المذكر والمحايد يأخذان **-s / -es** في الاسم.
+      ## الملكية
+      > das Auto **meines Vaters** (سيارة أبي) — in der Mitte **der Stadt**
+      > في الكلام اليومي: das Auto **von meinem** Vater.
+      ## حروف جر مع Genitiv
+      **wegen** (بسبب)، **trotz** (رغم)، **während** (أثناء)، **statt** (بدلاً من)، **innerhalb/außerhalb** (داخل/خارج)
+      > **Wegen des** schlechten Wetters bleiben wir zu Hause.
+    items:
+      - gap: "Das ist das Auto ___ Nachbarn."
+        options: [des, dem, der]
+      - gap: "Die Farbe ___ Tür gefällt mir nicht."
+        options: [der, des, die]
+      - gap: "Das Zimmer ___ Kindes ist klein."
+        options: [des, der, dem]
+      - gap: "___ des Regens sind wir spazieren gegangen."
+        options: [Trotz, Wegen, Statt]
+      - gap: "___ des Streiks fahren heute keine Busse."
+        options: [Wegen, Trotz, Während]
+      - gap: "___ der Ferien ist die Schule geschlossen."
+        options: [Während, Trotz, Statt]
+      - gap: "Die Antwort muss innerhalb einer ___ kommen."
+        options: [Woche, Woches, Wochen]
+      - match: ["wegen = بسبب", "trotz = رغم", "während = أثناء", "statt = بدلاً من", "außerhalb = خارج"]
+      - order: "Wegen der Verspätung haben wir den Anschluss verpasst."
+        ar: بسبب التأخير فاتنا القطار التالي.
+      - write: "das Haus meiner Eltern"
+        ar: "اكتب بالـ Genitiv: بيت والديّ (das Haus + meine Eltern)"
+
+  - slug: b1-g-konnektoren
+    title_de: Konnektoren – obwohl, trotzdem, deshalb, sodass
+    title_ar: أدوات الربط — obwohl و trotzdem و deshalb و sodass
+    goal_ar: أن تربط الجمل لتعبّر عن السبب والنتيجة والتعارض بترتيب صحيح.
+    explanation_ar: |
+      ## ثلاثة أنواع حسب مكان الفعل
+      | النوع | الكلمات | مكان الفعل |
+      |---|---|---|
+      | روابط (مكان 0) | und, aber, oder, denn, sondern | ترتيب عادي |
+      | ظروف (مكان 1) | deshalb, deswegen, trotzdem, dann, sonst, außerdem | **الفعل مباشرة بعدها** |
+      | روابط فرعية | weil, obwohl, sodass, damit, falls, während | **الفعل في الآخر** |
+      ## المعنى
+      > Es regnet, **trotzdem** gehe ich spazieren. (مع ذلك)
+      > **Obwohl** es regnet, gehe ich spazieren. (رغم أن)
+      > Ich war krank, **deshalb** bin ich zu Hause geblieben. (لذلك)
+      > Er sprach so leise, **sodass** niemand ihn verstand. (بحيث)
+      > Nimm einen Schirm, **sonst** wirst du nass. (وإلا)
+      > **Falls** du Hilfe brauchst, ruf mich an. (في حال)
+    items:
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich bin müde, trotzdem gehe ich zur Arbeit.", "Ich bin müde, trotzdem ich gehe zur Arbeit.", "Ich bin müde, trotzdem zur Arbeit ich gehe.", "Ich bin müde, trotzdem ich zur Arbeit gehe."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Obwohl ich müde bin, gehe ich zur Arbeit.", "Obwohl ich bin müde, gehe ich zur Arbeit.", "Obwohl ich müde bin, ich gehe zur Arbeit.", "Obwohl müde ich bin, gehe ich zur Arbeit."]
+      - gap: "Der Bus kam nicht, ___ bin ich zu Fuß gegangen."
+        options: [deshalb, obwohl, weil]
+      - gap: "___ er viel gelernt hat, hat er die Prüfung nicht bestanden."
+        options: [Obwohl, Trotzdem, Deshalb]
+      - gap: "Beeil dich, ___ verpassen wir den Zug."
+        options: [sonst, trotzdem, obwohl]
+      - gap: "___ es morgen regnet, bleiben wir zu Hause."
+        options: [Falls, Trotzdem, Sonst]
+      - gap: "Es war so laut, ___ ich nicht schlafen konnte."
+        options: [sodass, deshalb, damit]
+      - gap: "Das ist nicht mein Buch, ___ das Buch meiner Schwester."
+        options: [sondern, aber, oder]
+      - order: "Es war kalt, trotzdem sind wir schwimmen gegangen."
+        ar: كان الجو بارداً، ومع ذلك ذهبنا للسباحة.
+      - write: "Obwohl es regnet|Obwohl es regnet,"
+        ar: "اكتب: رغم أنها تمطر (Obwohl …)"
+
+  - slug: b1-g-zweiteilig
+    title_de: Zweiteilige Konnektoren
+    title_ar: الروابط الثنائية
+    goal_ar: أن تستخدم sowohl…als auch، weder…noch، entweder…oder، nicht nur…sondern auch، je…desto.
+    explanation_ar: |
+      | الرابط | المعنى | مثال |
+      |---|---|---|
+      | sowohl … als auch | كلاً من … و | Ich spreche **sowohl** Arabisch **als auch** Deutsch. |
+      | weder … noch | لا … ولا | Er trinkt **weder** Kaffee **noch** Tee. |
+      | entweder … oder | إمّا … أو | **Entweder** kommst du mit, **oder** du bleibst hier. |
+      | nicht nur … sondern auch | ليس فقط … بل أيضاً | Sie ist **nicht nur** klug, **sondern auch** fleißig. |
+      | zwar … aber | صحيح أن … لكن | Die Wohnung ist **zwar** klein, **aber** billig. |
+      | je … desto | كلما … كلما | **Je** mehr ich lerne, **desto** besser **spreche** ich. |
+      في **je … desto**: الفعل في آخر الجزء الأول، وبعد desto + صفة يأتي الفعل مباشرة.
+    items:
+      - gap: "Ich habe ___ Zeit noch Geld."
+        options: [weder, entweder, sowohl]
+      - gap: "Wir fahren ___ mit dem Zug oder mit dem Auto."
+        options: [entweder, weder, sowohl]
+      - gap: "Er spricht ___ Englisch als auch Französisch."
+        options: [sowohl, weder, nicht nur]
+      - gap: "Das Hotel war nicht nur schön, ___ auch günstig."
+        options: [sondern, aber, oder]
+      - gap: "Die Arbeit ist ___ anstrengend, aber interessant."
+        options: [zwar, weder, je]
+      - gap: "Je länger ich in Deutschland lebe, ___ besser verstehe ich die Kultur."
+        options: [desto, als, so]
+      - match: ["weder = noch", "entweder = oder", "sowohl = als auch", "nicht nur = sondern auch", "je = desto"]
+        ar: طابق الجزء الأول بالثاني
+      - order: "Je mehr ich übe, desto besser spreche ich."
+        ar: كلما تمرّنت أكثر تكلمت أفضل.
+      - write: "weder noch|weder … noch|weder ... noch"
+        ar: "ما الرابط الذي يعني 'لا … ولا'؟"
+
+  - slug: b1-g-futur-n
+    title_de: Futur I und n-Deklination
+    title_ar: المستقبل Futur I وتصريف n-Deklination
+    goal_ar: أن تتكلم عن المستقبل والتوقعات بـ werden، وتعرف الأسماء المذكرة التي تأخذ -n.
+    explanation_ar: |
+      ## Futur I = werden + مصدر (في الآخر)
+      > Ich **werde** nächstes Jahr in Berlin **studieren**. (خطة/وعد)
+      > Es **wird** morgen **regnen**. (توقّع)
+      > Er **wird** wohl krank **sein**. (افتراض)
+      في الكلام كثيراً نستعمل المضارع + كلمة زمن: Morgen fahre ich nach Köln.
+      ## n-Deklination
+      أسماء مذكرة (غالباً لأشخاص وحيوانات، ومنتهية بـ -e أو -ent/-ant/-ist) تأخذ **-n/-en** في كل الحالات ما عدا Nominativ المفرد:
+      | Nom. | Akk./Dat./Gen. |
+      |---|---|
+      | der Kollege | den/dem/des Kolleg**en** |
+      | der Student | den/dem/des Student**en** |
+      | der Nachbar | den/dem/des Nachbar**n** |
+      | der Herr | den/dem/des Herr**n** |
+      | der Mensch | den/dem/des Mensch**en** |
+    items:
+      - gap: "Nächstes Jahr ___ ich meinen Führerschein machen."
+        options: [werde, wird, wurde]
+      - gap: "Morgen wird es kalt ___."
+        options: [sein, ist, gewesen]
+      - gap: "Er ist nicht da. Er ___ wohl noch im Büro sein."
+        options: [wird, werden, würde]
+      - gap: "Ich habe ___ Kollegen gefragt."
+        options: [den, der, dem]
+      - gap: "Kennst du den neuen ___?"
+        options: [Studenten, Student, Studente]
+      - gap: "Ich spreche mit dem ___ von nebenan."
+        options: [Nachbarn, Nachbar, Nachbars]
+      - gap: "Guten Tag, Herr Schulz! – Ich habe einen Brief für ___ Schulz."
+        options: [Herrn, Herr, Herren]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Wir werden euch nächste Woche besuchen.", "Wir werden euch besuchen nächste Woche werden.", "Wir wird euch nächste Woche besuchen.", "Wir werden euch nächste Woche besucht."]
+      - order: "Ich werde dir morgen alles erklären."
+        ar: سأشرح لك كل شيء غداً.
+      - write: "Ich werde dich anrufen.|Ich werde dich anrufen"
+        ar: "اكتب بالـ Futur: سأتصل بك."
+
+  - slug: b1-grammatik-2-test
+    kind: test
+    title_de: Modultest – Grammatik B1 Teil 2
+    title_ar: اختبار قواعد B1 — الجزء الثاني
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Wenn ich das gewusst ___, wäre ich gekommen."
+        options: [hätte, wäre, habe]
+      - gap: "Wenn ich Bürgermeister ___, würde ich mehr Parks bauen."
+        options: [wäre, bin, würde]
+      - gap: "Die Wohnung ___ Freundes ist sehr groß."
+        options: [meines, meinem, meinen]
+      - gap: "___ des schlechten Wetters fand das Fest statt."
+        options: [Trotz, Wegen, Während]
+      - gap: "Er hatte Kopfschmerzen, ___ ist er früher nach Hause gegangen."
+        options: [deshalb, obwohl, trotzdem er]
+      - gap: "___ sie wenig Geld hat, ist sie glücklich."
+        options: [Obwohl, Trotzdem, Deshalb]
+      - gap: "Ich esse ___ Fleisch noch Fisch."
+        options: [weder, entweder, sowohl]
+      - gap: "Je früher wir losfahren, ___ weniger Stau gibt es."
+        options: [desto, als, wie]
+      - gap: "Im Sommer ___ wir nach Spanien fliegen."
+        options: [werden, wird, wurden]
+      - gap: "Ich habe dem ___ einen Kaffee gebracht."
+        options: [Kollegen, Kollege, Kolleges]
+      - order: "Obwohl er krank war, ist er zur Arbeit gegangen."
+        ar: رغم أنه كان مريضاً ذهب إلى العمل.
+      - order: "Die Wohnung ist zwar klein, aber sehr gemütlich."
+        ar: الشقة صحيح أنها صغيرة لكنها مريحة جداً.
+      - write: "Wenn ich Zeit hätte|Wenn ich Zeit hätte,"
+        ar: "اكتب: لو كان عندي وقت (Wenn …)"
