@@ -3134,5 +3134,152 @@ die Arbeitsbedingungen، das Betriebsklima (جو العمل)، flexible Arbeitsz
     (l, 9, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Nachteil = العيب", "die Note = العلامة", "das Betriebsklima = جو العمل", "die Ernährung = التغذية", "überzeugen = يُقنع"]'::jsonb, null),
     (l, 10, 'order', 'Einerseits ist die Stadt schön, andererseits ist sie teuer.', 'من جهة المدينة جميلة، ومن جهة أخرى غالية.', null, null, null, null),
     (l, 11, 'write', 'Ich stimme dir zu.|Ich stimme dir zu', 'اكتب: أوافقك.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-grammatik-1', 'B1', 2, 'Grammatik B1 – Teil 1', 'قواعد B1 — الجزء الأول', 'الجمل الموصولة، المبني للمجهول، الـ Plusquamperfekt مع als/nachdem، الـ Präteritum للأفعال الكاملة، المصدر مع zu و um…zu و damit.', 'grammar') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-relativ', m, 'B1', 201, 'lesson', 'Relativsätze', 'الجمل الموصولة (Relativsätze)', '', 'أن تصف شخصاً أو شيئاً بجملة موصولة (الذي/التي) بالحالة الصحيحة.', '## ضمير الوصل = الأداة تقريباً (ما عدا Dativ الجمع)
+| | مذكر | مؤنث | محايد | جمع |
+|---|---|---|---|---|
+| Nom. | der | die | das | die |
+| Akk. | den | die | das | die |
+| Dat. | dem | der | dem | **denen** |
+## القاعدة
+- **الجنس والعدد** من الاسم الذي نصفه.
+- **الحالة** من دوره في الجملة الموصولة.
+- **الفعل في الآخر**.
+> Das ist der Mann, **der** neben mir wohnt. (فاعل → Nom.)
+> Das ist der Mann, **den** ich gestern gesehen habe. (مفعول → Akk.)
+> Das ist der Mann, **dem** ich geholfen habe. (helfen + Dat.)
+> Das ist die Firma, **bei der** ich arbeite. (مع حرف جر)
+## wo / was
+> Berlin ist die Stadt, **wo** ich wohne. — Das ist alles, **was** ich weiß.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Der Film, den wir gesehen haben, war super.
+Die Kollegin, mit der ich arbeite, ist nett.', '**الجنس** من الاسم، **الحالة** من الجملة الموصولة، **الفعل في الآخر**.', null, null, null, null),
+    (l, 2, 'gap', 'Das ist die Frau, ___ in der Bäckerei arbeitet.', '', null, null, '["die", "der", "den"]'::jsonb, 0),
+    (l, 3, 'gap', 'Der Pullover, ___ ich gekauft habe, ist zu klein.', '', null, null, '["den", "der", "dem"]'::jsonb, 0),
+    (l, 4, 'gap', 'Das ist das Kind, ___ ich bei den Hausaufgaben helfe.', '', null, null, '["dem", "das", "den"]'::jsonb, 0),
+    (l, 5, 'gap', 'Die Leute, ___ ich gestern kennengelernt habe, sind sehr nett.', '', null, null, '["die", "denen", "der"]'::jsonb, 0),
+    (l, 6, 'gap', 'Die Freunde, mit ___ ich in Urlaub fahre, kommen aus Bonn.', '', null, null, '["denen", "die", "den"]'::jsonb, 0),
+    (l, 7, 'gap', 'Das ist der Kollege, ___ Auto kaputt ist.', '', null, null, '["dessen", "der", "dem"]'::jsonb, 0),
+    (l, 8, 'gap', 'Das ist alles, ___ ich weiß.', '', null, null, '["was", "das", "wo"]'::jsonb, 0),
+    (l, 9, 'gap', 'Hamburg ist die Stadt, ___ ich geboren bin.', '', null, null, '["wo", "was", "die"]'::jsonb, 0),
+    (l, 10, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Das ist die Firma, bei der ich arbeite.", "Das ist die Firma, die ich bei arbeite.", "Das ist die Firma, bei die ich arbeite.", "Das ist die Firma, bei der arbeite ich."]'::jsonb, 0),
+    (l, 11, 'order', 'Der Mann, der dort steht, ist mein Chef.', 'الرجل الذي يقف هناك هو مديري.', null, null, null, null),
+    (l, 12, 'write', 'die ich liebe', 'أكمل: Das ist die Stadt, … (التي أحبها)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-passiv', m, 'B1', 202, 'lesson', 'Das Passiv', 'المبني للمجهول (Passiv)', '', 'أن تستخدم المبني للمجهول عندما يكون الفعل أهم من الفاعل — في الأخبار والتعليمات والعمليات.', '## Passiv = werden + Partizip II
+| الزمن | مثال |
+|---|---|
+| Präsens | Das Haus **wird** gebaut. |
+| Präteritum | Das Haus **wurde** 1990 gebaut. |
+| Perfekt | Das Haus **ist** gebaut **worden**. |
+| مع فعل ناقص | Das Haus **muss** renoviert **werden**. |
+## الفاعل (إذا ذكرناه): von + Dativ
+> Die Brücke wurde **von** einer Firma aus Köln gebaut.
+## Aktiv → Passiv
+> Der Mechaniker repariert das Auto. → Das Auto **wird** (vom Mechaniker) **repariert**.
+## werden: ich werde, du wirst, er wird, wir werden — wurde, wurdest, wurde, wurden', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Hier wird Deutsch gesprochen.
+Das Paket wurde gestern geliefert.', '**Passiv = werden + Partizip II** — المفعول به يصبح فاعلاً.', null, null, null, null),
+    (l, 2, 'gap', 'In Österreich ___ Deutsch gesprochen.', '', null, null, '["wird", "werden", "wurde"]'::jsonb, 0),
+    (l, 3, 'gap', 'Die Briefe ___ jeden Morgen gebracht.', '', null, null, '["werden", "wird", "wurden gebracht"]'::jsonb, 0),
+    (l, 4, 'gap', 'Das Rathaus ___ im Jahr 1850 gebaut.', '', null, null, '["wurde", "wird", "worden"]'::jsonb, 0),
+    (l, 5, 'gap', 'Mein Fahrrad ist gestohlen ___.', '', null, null, '["worden", "geworden", "werden"]'::jsonb, 0),
+    (l, 6, 'gap', 'Die Wohnung muss renoviert ___.', '', null, null, '["werden", "worden", "wird"]'::jsonb, 0),
+    (l, 7, 'gap', 'Das Buch wurde ___ einem jungen Autor geschrieben.', '', null, null, '["von", "durch das", "mit"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'حوّل: ''Man öffnet die Tür um 8 Uhr.''', null, null, '["Die Tür wird um 8 Uhr geöffnet.", "Die Tür wurde um 8 Uhr öffnet.", "Die Tür ist um 8 Uhr geöffnet werden.", "Die Tür werden um 8 Uhr geöffnet."]'::jsonb, 0),
+    (l, 9, 'order', 'Das Auto wird gerade repariert.', 'السيارة تُصلَح الآن.', null, null, null, null),
+    (l, 10, 'order', 'Die Kinder wurden vom Arzt untersucht.', 'فُحص الأطفال من قبل الطبيب.', null, null, null, null),
+    (l, 11, 'write', 'Das Essen wird gekocht.|Das Essen wird gekocht', 'اكتب بالمجهول: الطعام يُطبخ.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-praeteritum', m, 'B1', 203, 'lesson', 'Präteritum – Erzählen in der Vergangenheit', 'الماضي البسيط (Präteritum) — السرد', '', 'أن تفهم وتستخدم الـ Präteritum في القصص والنصوص المكتوبة والأخبار.', '## متى؟
+في **الكتابة** (قصص، أخبار، سِيَر). في الكلام نستعمل غالباً Perfekt.
+## الأفعال المنتظمة: الجذع + te
+| ich/er | du | wir/sie | ihr |
+|---|---|---|---|
+| mach**te** | mach**test** | mach**ten** | mach**tet** |
+## غير المنتظمة: تغيير حرف العلة، ولا نهاية مع ich/er
+| المصدر | Präteritum | المصدر | Präteritum |
+|---|---|---|---|
+| gehen | ging | kommen | kam |
+| sehen | sah | geben | gab |
+| fahren | fuhr | finden | fand |
+| sprechen | sprach | schreiben | schrieb |
+| nehmen | nahm | bleiben | blieb |
+| wissen | wusste | denken | dachte |
+| stehen | stand | liegen | lag |
+> Es **war** einmal ein König. Er **hatte** drei Töchter… (كان يا ما كان)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Gestern ___ ich meinen alten Lehrer in der Stadt. (sehen)', '', null, null, '["sah", "sehte", "sieht"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wir ___ um 10 Uhr nach Hause. (gehen)', '', null, null, '["gingen", "gehten", "gangen"]'::jsonb, 0),
+    (l, 3, 'gap', 'Er ___ den Brief und ___ zur Post. (schreiben, gehen)', '', null, null, '["schrieb … ging", "schreibte … gehte", "schrieb … gehte"]'::jsonb, 0),
+    (l, 4, 'gap', 'Plötzlich ___ das Telefon. (klingeln)', '', null, null, '["klingelte", "klang", "klingelt"]'::jsonb, 0),
+    (l, 5, 'gap', 'Sie ___ nicht, was sie sagen sollte. (wissen)', '', null, null, '["wusste", "wisste", "weißte"]'::jsonb, 0),
+    (l, 6, 'gap', 'Damals ___ wir in einem kleinen Dorf. (wohnen)', '', null, null, '["wohnten", "wohnen", "gewohnt"]'::jsonb, 0),
+    (l, 7, 'match', '', 'طابق المصدر بالـ Präteritum', null, null, '["kommen = kam", "fahren = fuhr", "finden = fand", "nehmen = nahm", "bleiben = blieb"]'::jsonb, null),
+    (l, 8, 'order', 'Als Kind wohnte ich bei meinen Großeltern.', 'كطفل سكنت عند جدّي وجدّتي.', null, null, null, null),
+    (l, 9, 'write', 'er kam', 'اكتب Präteritum لـ ''er kommt'':', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-plusquamperfekt', m, 'B1', 204, 'lesson', 'Plusquamperfekt, als, wenn, nachdem, bevor', 'الماضي الأسبق والجمل الزمنية', '', 'أن ترتب الأحداث في الماضي باستخدام الـ Plusquamperfekt و als/wenn/nachdem/bevor/während.', '## Plusquamperfekt = hatte/war + Partizip II
+حدث **قبل** حدث آخر في الماضي:
+> Nachdem ich gegessen **hatte**, **ging** ich spazieren.
+## als أم wenn؟
+| als | wenn |
+|---|---|
+| مرة واحدة في الماضي | تكرار في الماضي، أو حاضر/مستقبل |
+| **Als** ich 10 war, … | **Wenn** ich Zeit hatte (كل مرة)… |
+## روابط زمنية أخرى (الفعل في الآخر)
+bevor (قبل أن)، während (بينما)، seitdem (منذ أن)، bis (حتى)، sobald (بمجرد أن)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', '___ ich ein Kind war, wohnte ich in Aleppo.', '', null, null, '["Als", "Wenn", "Wann"]'::jsonb, 0),
+    (l, 2, 'gap', 'Immer ___ es regnete, blieben wir zu Hause.', '', null, null, '["wenn", "als", "wann"]'::jsonb, 0),
+    (l, 3, 'gap', 'Nachdem er die Prüfung bestanden ___, feierte er mit Freunden.', '', null, null, '["hatte", "hat", "war"]'::jsonb, 0),
+    (l, 4, 'gap', 'Nachdem wir angekommen ___, riefen wir die Eltern an.', '', null, null, '["waren", "hatten", "sind"]'::jsonb, 0),
+    (l, 5, 'gap', '___ du gehst, mach bitte das Licht aus.', '', null, null, '["Bevor", "Nachdem", "Als"]'::jsonb, 0),
+    (l, 6, 'gap', '___ ich koche, höre ich Musik.', '', null, null, '["Während", "Bevor", "Seit"]'::jsonb, 0),
+    (l, 7, 'gap', 'Warte hier, ___ ich zurückkomme.', '', null, null, '["bis", "seit", "als"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Als ich nach Deutschland kam, sprach ich kein Deutsch.", "Wenn ich nach Deutschland kam, sprach ich kein Deutsch.", "Als ich kam nach Deutschland, sprach ich kein Deutsch.", "Als ich nach Deutschland kam, ich sprach kein Deutsch."]'::jsonb, 0),
+    (l, 9, 'order', 'Bevor ich zur Arbeit gehe, trinke ich einen Kaffee.', 'قبل أن أذهب إلى العمل أشرب قهوة.', null, null, null, null),
+    (l, 10, 'write', 'Als ich jung war|Als ich jung war,', 'اكتب: عندما كنت صغيراً (Als …)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-g-zu-infinitiv', m, 'B1', 205, 'lesson', 'Infinitiv mit zu, um … zu, damit, ohne … zu', 'المصدر مع zu، و um…zu، و damit', '', 'أن تستخدم Infinitiv mit zu بعد أفعال وتعابير معيّنة، وتعبّر عن الهدف بـ um…zu و damit.', '## Infinitiv mit zu
+بعد أفعال مثل: versuchen, vergessen, anfangen, aufhören, vorhaben, hoffen, Lust haben, Zeit haben, es ist wichtig/schwer/schön
+> Ich **versuche**, jeden Tag Deutsch **zu** lernen.
+> Es ist schwer, eine Wohnung **zu** finden.
+مع الأفعال المنفصلة: zu في الوسط → an**zu**rufen, ein**zu**kaufen.
+## um … zu = لكي (نفس الفاعل)
+> Ich lerne Deutsch, **um** in Deutschland **zu** studieren.
+## damit = لكي (فاعل مختلف)
+> Ich spreche langsam, **damit** du mich **verstehst**.
+## ohne … zu = دون أن
+> Er ging, **ohne** etwas **zu** sagen.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich habe vergessen, dich ___.', '', null, null, '["anzurufen", "zu anrufen", "anrufen"]'::jsonb, 0),
+    (l, 2, 'gap', 'Es ist wichtig, genug Wasser zu ___.', '', null, null, '["trinken", "trinkt", "getrunken"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich spare Geld, ___ ein Auto zu kaufen.', '', null, null, '["um", "damit", "ohne"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich erkläre es noch einmal, ___ alle es verstehen.', '', null, null, '["damit", "um", "dass zu"]'::jsonb, 0),
+    (l, 5, 'gap', 'Er hat das Zimmer verlassen, ___ Tschüss zu sagen.', '', null, null, '["ohne", "um", "damit"]'::jsonb, 0),
+    (l, 6, 'gap', 'Hast du Lust, heute Abend ins Kino ___?', '', null, null, '["zu gehen", "gehen", "zu geht"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich fange an, mich für Politik ___.', '', null, null, '["zu interessieren", "interessieren", "interessieren zu"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich gehe zum Amt, um meinen Pass abzuholen.", "Ich gehe zum Amt, um meinen Pass zu abholen.", "Ich gehe zum Amt, damit meinen Pass abholen.", "Ich gehe zum Amt, um abzuholen meinen Pass."]'::jsonb, 0),
+    (l, 9, 'order', 'Ich lerne Deutsch, um eine bessere Arbeit zu finden.', 'أتعلم الألمانية لكي أجد عملاً أفضل.', null, null, null, null),
+    (l, 10, 'write', 'einzukaufen', 'اكتب المصدر مع zu للفعل einkaufen:', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-grammatik-1-test', m, 'B1', 206, 'test', 'Modultest – Grammatik B1 Teil 1', 'اختبار قواعد B1 — الجزء الأول', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Der Arzt, ___ ich gestern war, ist sehr gut.', '', null, null, '["bei dem", "bei den", "der"]'::jsonb, 0),
+    (l, 2, 'gap', 'Die Nachbarn, ___ ich die Blumen gieße, sind im Urlaub.', '', null, null, '["denen", "die", "deren"]'::jsonb, 0),
+    (l, 3, 'gap', 'Das Museum ___ letztes Jahr renoviert.', '', null, null, '["wurde", "wird", "worden"]'::jsonb, 0),
+    (l, 4, 'gap', 'Die Rechnung muss bis Freitag bezahlt ___.', '', null, null, '["werden", "worden", "wurde"]'::jsonb, 0),
+    (l, 5, 'gap', 'Damals ___ wir kein Auto. (haben)', '', null, null, '["hatten", "hätten", "habten"]'::jsonb, 0),
+    (l, 6, 'gap', 'Er ___ lange auf den Bus. (warten)', '', null, null, '["wartete", "wartet", "wart"]'::jsonb, 0),
+    (l, 7, 'gap', '___ ich in Berlin ankam, regnete es.', '', null, null, '["Als", "Wenn", "Nachdem dass"]'::jsonb, 0),
+    (l, 8, 'gap', 'Nachdem sie gefrühstückt ___, ging sie zur Arbeit.', '', null, null, '["hatte", "war", "hat"]'::jsonb, 0),
+    (l, 9, 'gap', 'Es ist nicht leicht, neue Freunde ___.', '', null, null, '["zu finden", "finden", "zu findet"]'::jsonb, 0),
+    (l, 10, 'gap', 'Ich gebe dir meine Nummer, ___ du mich anrufen kannst.', '', null, null, '["damit", "um", "ohne"]'::jsonb, 0),
+    (l, 11, 'order', 'Das ist der Kollege, mit dem ich jeden Tag arbeite.', 'هذا الزميل الذي أعمل معه كل يوم.', null, null, null, null),
+    (l, 12, 'order', 'Die Fenster werden morgen geputzt.', 'النوافذ ستُنظّف غداً.', null, null, null, null),
+    (l, 13, 'write', 'Hier wird Deutsch gesprochen.|Hier wird Deutsch gesprochen', 'اكتب: هنا يُتكلم بالألمانية.', null, null, null, null);
 end
 $$;
