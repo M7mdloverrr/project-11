@@ -1,0 +1,290 @@
+module:
+  slug: a2-grammatik-2
+  level: A2
+  position: 4
+  icon: grammar
+  title_de: Grammatik A2 – Teil 2
+  title_ar: قواعد A2 — الجزء الثاني
+  description_ar: الجمل الفرعية weil/dass/wenn/ob، الأسئلة غير المباشرة، المقارنة والتفضيل، تصريف الصفات، Konjunktiv II للأدب والتمنّي، الأفعال مع حروف الجر.
+
+lessons:
+  - slug: a2-g-weil-dass
+    title_de: Nebensätze mit weil und dass
+    title_ar: الجمل الفرعية مع weil و dass
+    goal_ar: أن تشرح السبب بـ weil وتنقل رأياً أو معلومة بـ dass، والفعل في آخر الجملة.
+    explanation_ar: |
+      ## القاعدة: في الجملة الفرعية **الفعل المصرَّف في الآخر**
+      > Ich lerne Deutsch, **weil** ich in Deutschland **arbeite**.
+      > Ich glaube, **dass** er heute nicht **kommt**.
+      ## مع الأفعال الناقصة والـ Perfekt
+      > …, weil ich arbeiten **muss**. — …, dass sie schon gegangen **ist**.
+      ## مع الأفعال المنفصلة: تلتصق!
+      > …, weil der Kurs um 8 Uhr **anfängt**.
+      ## weil مقابل denn
+      | denn + ترتيب عادي | weil + الفعل في الآخر |
+      |---|---|
+      | …, denn ich **bin** krank. | …, weil ich krank **bin**. |
+      ## الجملة الفرعية أولاً
+      > **Weil** ich krank bin, **bleibe** ich zu Hause. (الفعل الرئيسي يأتي مباشرة بعد الفاصلة)
+    items:
+      - {rule: "بعد weil / dass / wenn / ob: **الفعل المصرَّف في آخر الجملة**.", de: "Ich komme nicht, weil ich keine Zeit habe.\nEr sagt, dass er müde ist."}
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich bleibe zu Hause, weil ich krank bin.", "Ich bleibe zu Hause, weil ich bin krank.", "Ich bleibe zu Hause, weil bin ich krank.", "Ich bleibe zu Hause, weil krank ich bin."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich weiß, dass du morgen arbeiten musst.", "Ich weiß, dass du musst morgen arbeiten.", "Ich weiß, dass du morgen musst arbeiten.", "Ich weiß, dass musst du morgen arbeiten."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Weil es regnet, nehme ich den Bus.", "Weil es regnet, ich nehme den Bus.", "Weil regnet es, nehme ich den Bus.", "Weil es regnet, den Bus ich nehme."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich bin müde, weil ich früh aufgestanden bin.", "Ich bin müde, weil ich bin früh aufgestanden.", "Ich bin müde, weil ich früh bin aufgestanden.", "Ich bin müde, weil früh ich aufgestanden bin."]
+      - gap: "Ich lerne viel, ___ ich die Prüfung bestehen will."
+        options: [weil, dass, denn]
+      - gap: "Ich finde, ___ Berlin eine schöne Stadt ist."
+        options: [dass, weil, wenn]
+      - gap: "Ich komme nicht, ___ ich habe keine Zeit."
+        options: [denn, weil, dass]
+      - order: "Ich lerne Deutsch, weil ich hier studieren möchte."
+        ar: أتعلم الألمانية لأنني أريد الدراسة هنا.
+      - order: "Er hat gesagt, dass er später kommt."
+        ar: قال إنه سيأتي لاحقاً.
+      - write: "weil ich krank bin"
+        ar: "أكمل: Ich gehe nicht zur Arbeit, … (لأنني مريض)"
+
+  - slug: a2-g-wenn-ob
+    title_de: wenn, ob und indirekte Fragen
+    title_ar: wenn و ob والأسئلة غير المباشرة
+    goal_ar: أن تعبّر عن الشرط بـ wenn، وتسأل بأدب بأسئلة غير مباشرة.
+    explanation_ar: |
+      ## wenn = إذا / عندما
+      > **Wenn** das Wetter schön **ist**, gehen wir in den Park.
+      > Ruf mich an, **wenn** du Zeit **hast**.
+      ## ob = هل (في السؤال غير المباشر لسؤال نعم/لا)
+      > Kommst du morgen? → Ich weiß nicht, **ob** du morgen **kommst**.
+      ## أسئلة W غير مباشرة
+      > Wo ist der Bahnhof? → Können Sie mir sagen, **wo** der Bahnhof **ist**?
+      > Wann fängt der Kurs an? → Wissen Sie, **wann** der Kurs **anfängt**?
+      أسلوب **مؤدب جداً** عند الكلام مع الغرباء والموظفين.
+    items:
+      - gap: "___ ich Zeit habe, besuche ich dich."
+        options: [Wenn, Ob, Dass]
+      - gap: "Ich weiß nicht, ___ er heute kommt."
+        options: [ob, wenn, dass]
+      - gap: "Können Sie mir sagen, wo die Toilette ___?"
+        options: [ist, sein, ist sie]
+      - gap: "Weißt du, wann der Zug ___?"
+        options: [abfährt, fährt ab, abfahren]
+      - quiz: "حوّل بأدب: 'Wie viel kostet das?'"
+        options: ["Können Sie mir sagen, wie viel das kostet?", "Können Sie mir sagen, wie viel kostet das?", "Können Sie mir sagen, ob kostet das?", "Können Sie mir sagen, dass das kostet?"]
+      - quiz: "حوّل: 'Hat der Supermarkt sonntags offen?' → Ich frage mich, …"
+        options: ["ob der Supermarkt sonntags offen hat", "wenn der Supermarkt sonntags offen hat", "dass der Supermarkt sonntags offen hat", "ob hat der Supermarkt sonntags offen"]
+      - order: "Wenn es regnet, bleibe ich zu Hause."
+        ar: إذا أمطرت أبقى في البيت.
+      - order: "Wissen Sie, wo die Post ist?"
+        ar: هل تعرف أين البريد؟
+      - write: "ob er kommt"
+        ar: "أكمل: Ich weiß nicht, … (هل سيأتي)"
+
+  - slug: a2-g-vergleich
+    title_de: Komparativ und Superlativ
+    title_ar: المقارنة والتفضيل
+    goal_ar: أن تقارن بين شيئين أو أكثر بـ als و wie و am …sten.
+    explanation_ar: |
+      ## التكوين
+      | الصفة | Komparativ (+er) | Superlativ (am …sten) |
+      |---|---|---|
+      | schnell | schneller | am schnellsten |
+      | billig | billiger | am billigsten |
+      | alt | **ä**lter | am **ä**ltesten |
+      | groß | gr**ö**ßer | am gr**ö**ßten |
+      | gut | **besser** | am **besten** |
+      | viel | **mehr** | am **meisten** |
+      | gern | **lieber** | am **liebsten** |
+      | hoch | **höher** | am **höchsten** |
+      ## المقارنة
+      > Berlin ist **größer als** München. (أكبر من)
+      > Anna ist **so alt wie** Tom. (بنفس عمر)
+      > Das Fahrrad ist **nicht so teuer wie** das Auto.
+    items:
+      - gap: "Ein Auto ist schneller ___ ein Fahrrad."
+        options: [als, wie, so]
+      - gap: "Mein Bruder ist so groß ___ ich."
+        options: [wie, als, so]
+      - gap: "Ich trinke ___ Tee als Kaffee. (gern)"
+        options: [lieber, gerner, mehr gern]
+      - gap: "Das ist das ___ Restaurant in der Stadt. (gut)"
+        options: [beste, guteste, besser]
+      - gap: "Im Winter ist es ___ als im Sommer. (kalt)"
+        options: [kälter, kalter, kältest]
+      - gap: "Wer hat ___ Geld? (viel)"
+        options: [mehr, vieler, mehrer]
+      - gap: "Am ___ esse ich Pizza. (gern)"
+        options: [liebsten, gernsten, besten]
+      - quiz: "Superlativ von 'hoch'?"
+        options: [am höchsten, am hochsten, am höchesten, am höhsten]
+      - order: "Der Zug ist schneller als der Bus."
+        ar: القطار أسرع من الباص.
+      - write: "Ich bin älter als du.|Ich bin älter als du"
+        ar: "اكتب: أنا أكبر منك سناً."
+
+  - slug: a2-g-adjektiv
+    title_de: Adjektivdeklination
+    title_ar: تصريف الصفات قبل الاسم
+    goal_ar: أن تضع النهاية الصحيحة للصفة قبل الاسم بعد der/ein/بدون أداة.
+    explanation_ar: |
+      ## الصفة بعد sein لا تتغير؛ قبل الاسم تأخذ نهاية
+      > Das Auto ist **neu**. → Das ist ein **neues** Auto.
+      ## بعد der/die/das (الأداة المعرّفة) — غالباً -e أو -en
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Nom. | der neu**e** | die neu**e** | das neu**e** | die neu**en** |
+      | Akk. | den neu**en** | die neu**e** | das neu**e** | die neu**en** |
+      | Dat. | dem neu**en** | der neu**en** | dem neu**en** | den neu**en** |
+      ## بعد ein/kein/mein — الصفة تُظهر الجنس عندما لا تُظهره الأداة
+      | | مذكر | مؤنث | محايد | جمع (meine) |
+      |---|---|---|---|---|
+      | Nom. | ein neu**er** | eine neu**e** | ein neu**es** | meine neu**en** |
+      | Akk. | einen neu**en** | eine neu**e** | ein neu**es** | meine neu**en** |
+      | Dat. | einem neu**en** | einer neu**en** | einem neu**en** | meinen neu**en** |
+      **حيلة**: في الـ Dativ والجمع: دائماً **-en**.
+    items:
+      - gap: "Das ist ein ___ Tisch. (neu)"
+        options: [neuer, neue, neues]
+      - gap: "Ich habe eine ___ Wohnung. (klein)"
+        options: [kleine, kleiner, kleines]
+      - gap: "Sie hat ein ___ Kleid gekauft. (rot)"
+        options: [rotes, rote, roten]
+      - gap: "Der ___ Mann ist mein Lehrer. (alt)"
+        options: [alte, alter, alten]
+      - gap: "Ich kenne den ___ Kollegen nicht. (neu)"
+        options: [neuen, neue, neuer]
+      - gap: "Wir wohnen in einem ___ Haus. (groß)"
+        options: [großen, großes, große]
+      - gap: "Die ___ Schuhe sind sehr bequem. (schwarz)"
+        options: [schwarzen, schwarze, schwarzer]
+      - gap: "Ich trinke gern ___ Kaffee. (heiß, ohne Artikel)"
+        options: [heißen, heißer, heiße]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Er fährt mit dem neuen Auto.", "Er fährt mit dem neue Auto.", "Er fährt mit dem neues Auto.", "Er fährt mit dem neuer Auto."]
+      - order: "Ich suche eine große helle Wohnung."
+        ar: أبحث عن شقة كبيرة ومضيئة.
+      - write: "ein schönes Haus"
+        ar: "اكتب: بيت جميل (ein + schön + Haus)"
+
+  - slug: a2-g-konjunktiv
+    title_de: Konjunktiv II – höflich bitten und wünschen
+    title_ar: Konjunktiv II — الطلب بأدب والتمنّي
+    goal_ar: أن تطلب بأدب (Könnten Sie…?)، تتمنّى (Ich würde gern…)، وتنصح (Du solltest…).
+    explanation_ar: |
+      ## أهم الصيغ
+      | المصدر | Konjunktiv II | الاستعمال |
+      |---|---|---|
+      | können | ich **könnte** | طلب مهذّب: **Könnten** Sie mir helfen? |
+      | haben | ich **hätte** | طلب في مطعم: Ich **hätte** gern einen Tee. |
+      | sein | ich **wäre** | Das **wäre** schön! |
+      | sollen | du **solltest** | نصيحة: Du **solltest** zum Arzt gehen. |
+      | werden | ich **würde** + مصدر | تمنٍّ: Ich **würde** gern nach Italien fahren. |
+      ## الرغبة غير الواقعية
+      > **Wenn** ich Zeit **hätte**, **würde** ich mehr Sport machen.
+      > Ich **wäre** gern reich.
+    items:
+      - gap: "___ Sie mir bitte das Salz geben?"
+        options: [Könnten, Können Sie, Konnten]
+      - gap: "Ich ___ gern ein Glas Wasser."
+        options: [hätte, habe, hatte]
+      - gap: "Du ___ mehr schlafen. Du siehst müde aus."
+        options: [solltest, sollst, solltet]
+      - gap: "Ich ___ gern in Hamburg wohnen."
+        options: [würde, werde, wurde]
+      - gap: "Wenn ich mehr Geld ___, würde ich ein Auto kaufen."
+        options: [hätte, habe, hatte]
+      - gap: "Das ___ toll!"
+        options: [wäre, war, ist gewesen]
+      - quiz: "أي جملة هي الأكثر أدباً؟"
+        options: ["Könnten Sie bitte das Fenster schließen?", "Schließen Sie das Fenster!", "Fenster zu!", "Du schließt das Fenster."]
+      - order: "Ich würde gern eine Weltreise machen."
+        ar: أودّ أن أقوم برحلة حول العالم.
+      - order: "Könnten Sie das bitte noch einmal erklären?"
+        ar: هل يمكنك شرح ذلك مرة أخرى من فضلك؟
+      - write: "Du solltest zum Arzt gehen.|Du solltest zum Arzt gehen"
+        ar: "اكتب نصيحة: يجب (ينبغي) أن تذهب إلى الطبيب."
+
+  - slug: a2-g-verben-praep
+    title_de: Verben mit Präpositionen
+    title_ar: الأفعال مع حروف الجر الثابتة
+    goal_ar: أن تحفظ الأفعال التي تأتي مع حرف جر ثابت، وتسأل بـ Worauf? / Auf wen?
+    explanation_ar: |
+      ## احفظ الفعل + حرف الجر + الحالة معاً
+      | الفعل | المعنى | مثال |
+      |---|---|---|
+      | warten auf + Akk. | ينتظر | Ich warte **auf den** Bus. |
+      | sich freuen auf + Akk. | يتطلع بشوق | Ich freue mich **auf den** Urlaub. |
+      | sich freuen über + Akk. | يفرح بـ (حدث) | Ich freue mich **über das** Geschenk. |
+      | sich interessieren für + Akk. | يهتم بـ | Er interessiert sich **für** Politik. |
+      | denken an + Akk. | يفكر في | Ich denke **an dich**. |
+      | sprechen über + Akk. | يتكلم عن | Wir sprechen **über den** Film. |
+      | fragen nach + Dat. | يسأل عن | Er fragt **nach dem** Weg. |
+      | teilnehmen an + Dat. | يشارك في | Ich nehme **am** Kurs teil. |
+      | sich kümmern um + Akk. | يعتني بـ | Sie kümmert sich **um die** Kinder. |
+      | Angst haben vor + Dat. | يخاف من | Ich habe Angst **vor dem** Hund. |
+      ## السؤال
+      عن شيء: **wo(r)** + حرف الجر → **Worauf** wartest du? — **Wofür** interessierst du dich?
+      عن شخص: حرف الجر + wen/wem → **Auf wen** wartest du?
+      ## الإجابة بضمير: **darauf, dafür, daran…**
+      > Freust du dich auf die Reise? — Ja, ich freue mich **darauf**.
+    items:
+      - gap: "Ich warte ___ meinen Freund."
+        options: [auf, für, an]
+      - gap: "Sie interessiert sich ___ Kunst."
+        options: [für, auf, über]
+      - gap: "Wir sprechen ___ das Wetter."
+        options: [über, an, für]
+      - gap: "Ich denke oft ___ meine Familie."
+        options: [an, auf, über]
+      - gap: "Er hat Angst ___ der Prüfung."
+        options: [vor, für, auf]
+      - gap: "Ich nehme ___ Deutschkurs teil."
+        options: [am, im, zum]
+      - gap: "___ wartest du? – Auf den Bus."
+        options: [Worauf, Auf wen, Wofür]
+      - gap: "Freust du dich auf die Ferien? – Ja, ich freue mich ___."
+        options: [darauf, dafür, daran]
+      - match: ["warten = auf", "sich interessieren = für", "denken = an", "Angst haben = vor", "fragen = nach"]
+        ar: طابق الفعل بحرف الجر الصحيح
+      - order: "Ich freue mich sehr auf das Wochenende."
+        ar: أتطلع كثيراً لعطلة نهاية الأسبوع.
+      - write: "Ich warte auf dich.|Ich warte auf dich"
+        ar: "اكتب: أنتظرك."
+
+  - slug: a2-grammatik-2-test
+    kind: test
+    title_de: Modultest – Grammatik A2 Teil 2
+    title_ar: اختبار قواعد A2 — الجزء الثاني
+    goal_ar: النجاح من 70٪.
+    items:
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich kann nicht kommen, weil ich arbeiten muss.", "Ich kann nicht kommen, weil ich muss arbeiten.", "Ich kann nicht kommen, weil muss ich arbeiten.", "Ich kann nicht kommen, denn ich arbeiten muss."]
+      - gap: "Ich hoffe, ___ du bald gesund wirst."
+        options: [dass, ob, wenn]
+      - gap: "Weißt du, ___ der Laden heute offen hat?"
+        options: [ob, dass, wenn]
+      - gap: "___ du Hilfe brauchst, ruf mich an."
+        options: [Wenn, Ob, Dass]
+      - gap: "Mein Handy ist teurer ___ dein Handy."
+        options: [als, wie, so]
+      - gap: "Am ___ mag ich den Sommer. (gern)"
+        options: [liebsten, gernsten, meisten]
+      - gap: "Ich wohne in einer ___ Stadt. (klein)"
+        options: [kleinen, kleine, kleiner]
+      - gap: "Das ist ein ___ Film. (interessant)"
+        options: [interessanter, interessante, interessantes]
+      - gap: "___ Sie mir bitte helfen?"
+        options: [Könnten, Konnten, Können Sie]
+      - gap: "Wenn ich Zeit hätte, ___ ich mehr lesen."
+        options: [würde, werde, wurde]
+      - gap: "Sie kümmert sich ___ ihre Großmutter."
+        options: [um, für, an]
+      - gap: "Wofür interessierst du dich? – Ich interessiere mich ___ Musik."
+        options: [für, auf, an]
+      - order: "Können Sie mir sagen, wann der Kurs beginnt?"
+        ar: هل يمكنك أن تقول لي متى تبدأ الدورة؟
+      - write: "Ich hätte gern einen Kaffee.|Ich hätte gern einen Kaffee bitte|Ich hätte gern einen Kaffee, bitte."
+        ar: "اكتب بأدب: أودّ قهوة."

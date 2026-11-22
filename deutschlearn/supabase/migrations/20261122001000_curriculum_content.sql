@@ -2518,5 +2518,179 @@ herunterladen (ينزّل)، hochladen (يرفع)، speichern (يحفظ)، lösc
     (l, 11, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Mietvertrag = عقد الإيجار", "die Überweisung = التحويل", "die Pfanne = المقلاة", "die Garantie = الضمان", "der Akku = البطارية"]'::jsonb, null),
     (l, 12, 'order', 'Wir sind letzten Monat umgezogen.', 'انتقلنا الشهر الماضي.', null, null, null, null),
     (l, 13, 'write', 'Ich hätte gern die Rechnung.|Ich hätte gern die Rechnung bitte|Ich hätte gern die Rechnung, bitte.', 'اكتب بأدب: أودّ الفاتورة.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-grammatik-2', 'A2', 4, 'Grammatik A2 – Teil 2', 'قواعد A2 — الجزء الثاني', 'الجمل الفرعية weil/dass/wenn/ob، الأسئلة غير المباشرة، المقارنة والتفضيل، تصريف الصفات، Konjunktiv II للأدب والتمنّي، الأفعال مع حروف الجر.', 'grammar') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-weil-dass', m, 'A2', 401, 'lesson', 'Nebensätze mit weil und dass', 'الجمل الفرعية مع weil و dass', '', 'أن تشرح السبب بـ weil وتنقل رأياً أو معلومة بـ dass، والفعل في آخر الجملة.', '## القاعدة: في الجملة الفرعية **الفعل المصرَّف في الآخر**
+> Ich lerne Deutsch, **weil** ich in Deutschland **arbeite**.
+> Ich glaube, **dass** er heute nicht **kommt**.
+## مع الأفعال الناقصة والـ Perfekt
+> …, weil ich arbeiten **muss**. — …, dass sie schon gegangen **ist**.
+## مع الأفعال المنفصلة: تلتصق!
+> …, weil der Kurs um 8 Uhr **anfängt**.
+## weil مقابل denn
+| denn + ترتيب عادي | weil + الفعل في الآخر |
+|---|---|
+| …, denn ich **bin** krank. | …, weil ich krank **bin**. |
+## الجملة الفرعية أولاً
+> **Weil** ich krank bin, **bleibe** ich zu Hause. (الفعل الرئيسي يأتي مباشرة بعد الفاصلة)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Ich komme nicht, weil ich keine Zeit habe.
+Er sagt, dass er müde ist.', 'بعد weil / dass / wenn / ob: **الفعل المصرَّف في آخر الجملة**.', null, null, null, null),
+    (l, 2, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich bleibe zu Hause, weil ich krank bin.", "Ich bleibe zu Hause, weil ich bin krank.", "Ich bleibe zu Hause, weil bin ich krank.", "Ich bleibe zu Hause, weil krank ich bin."]'::jsonb, 0),
+    (l, 3, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich weiß, dass du morgen arbeiten musst.", "Ich weiß, dass du musst morgen arbeiten.", "Ich weiß, dass du morgen musst arbeiten.", "Ich weiß, dass musst du morgen arbeiten."]'::jsonb, 0),
+    (l, 4, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Weil es regnet, nehme ich den Bus.", "Weil es regnet, ich nehme den Bus.", "Weil regnet es, nehme ich den Bus.", "Weil es regnet, den Bus ich nehme."]'::jsonb, 0),
+    (l, 5, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich bin müde, weil ich früh aufgestanden bin.", "Ich bin müde, weil ich bin früh aufgestanden.", "Ich bin müde, weil ich früh bin aufgestanden.", "Ich bin müde, weil früh ich aufgestanden bin."]'::jsonb, 0),
+    (l, 6, 'gap', 'Ich lerne viel, ___ ich die Prüfung bestehen will.', '', null, null, '["weil", "dass", "denn"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich finde, ___ Berlin eine schöne Stadt ist.', '', null, null, '["dass", "weil", "wenn"]'::jsonb, 0),
+    (l, 8, 'gap', 'Ich komme nicht, ___ ich habe keine Zeit.', '', null, null, '["denn", "weil", "dass"]'::jsonb, 0),
+    (l, 9, 'order', 'Ich lerne Deutsch, weil ich hier studieren möchte.', 'أتعلم الألمانية لأنني أريد الدراسة هنا.', null, null, null, null),
+    (l, 10, 'order', 'Er hat gesagt, dass er später kommt.', 'قال إنه سيأتي لاحقاً.', null, null, null, null),
+    (l, 11, 'write', 'weil ich krank bin', 'أكمل: Ich gehe nicht zur Arbeit, … (لأنني مريض)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-wenn-ob', m, 'A2', 402, 'lesson', 'wenn, ob und indirekte Fragen', 'wenn و ob والأسئلة غير المباشرة', '', 'أن تعبّر عن الشرط بـ wenn، وتسأل بأدب بأسئلة غير مباشرة.', '## wenn = إذا / عندما
+> **Wenn** das Wetter schön **ist**, gehen wir in den Park.
+> Ruf mich an, **wenn** du Zeit **hast**.
+## ob = هل (في السؤال غير المباشر لسؤال نعم/لا)
+> Kommst du morgen? → Ich weiß nicht, **ob** du morgen **kommst**.
+## أسئلة W غير مباشرة
+> Wo ist der Bahnhof? → Können Sie mir sagen, **wo** der Bahnhof **ist**?
+> Wann fängt der Kurs an? → Wissen Sie, **wann** der Kurs **anfängt**?
+أسلوب **مؤدب جداً** عند الكلام مع الغرباء والموظفين.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', '___ ich Zeit habe, besuche ich dich.', '', null, null, '["Wenn", "Ob", "Dass"]'::jsonb, 0),
+    (l, 2, 'gap', 'Ich weiß nicht, ___ er heute kommt.', '', null, null, '["ob", "wenn", "dass"]'::jsonb, 0),
+    (l, 3, 'gap', 'Können Sie mir sagen, wo die Toilette ___?', '', null, null, '["ist", "sein", "ist sie"]'::jsonb, 0),
+    (l, 4, 'gap', 'Weißt du, wann der Zug ___?', '', null, null, '["abfährt", "fährt ab", "abfahren"]'::jsonb, 0),
+    (l, 5, 'quiz', '', 'حوّل بأدب: ''Wie viel kostet das?''', null, null, '["Können Sie mir sagen, wie viel das kostet?", "Können Sie mir sagen, wie viel kostet das?", "Können Sie mir sagen, ob kostet das?", "Können Sie mir sagen, dass das kostet?"]'::jsonb, 0),
+    (l, 6, 'quiz', '', 'حوّل: ''Hat der Supermarkt sonntags offen?'' → Ich frage mich, …', null, null, '["ob der Supermarkt sonntags offen hat", "wenn der Supermarkt sonntags offen hat", "dass der Supermarkt sonntags offen hat", "ob hat der Supermarkt sonntags offen"]'::jsonb, 0),
+    (l, 7, 'order', 'Wenn es regnet, bleibe ich zu Hause.', 'إذا أمطرت أبقى في البيت.', null, null, null, null),
+    (l, 8, 'order', 'Wissen Sie, wo die Post ist?', 'هل تعرف أين البريد؟', null, null, null, null),
+    (l, 9, 'write', 'ob er kommt', 'أكمل: Ich weiß nicht, … (هل سيأتي)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-vergleich', m, 'A2', 403, 'lesson', 'Komparativ und Superlativ', 'المقارنة والتفضيل', '', 'أن تقارن بين شيئين أو أكثر بـ als و wie و am …sten.', '## التكوين
+| الصفة | Komparativ (+er) | Superlativ (am …sten) |
+|---|---|---|
+| schnell | schneller | am schnellsten |
+| billig | billiger | am billigsten |
+| alt | **ä**lter | am **ä**ltesten |
+| groß | gr**ö**ßer | am gr**ö**ßten |
+| gut | **besser** | am **besten** |
+| viel | **mehr** | am **meisten** |
+| gern | **lieber** | am **liebsten** |
+| hoch | **höher** | am **höchsten** |
+## المقارنة
+> Berlin ist **größer als** München. (أكبر من)
+> Anna ist **so alt wie** Tom. (بنفس عمر)
+> Das Fahrrad ist **nicht so teuer wie** das Auto.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ein Auto ist schneller ___ ein Fahrrad.', '', null, null, '["als", "wie", "so"]'::jsonb, 0),
+    (l, 2, 'gap', 'Mein Bruder ist so groß ___ ich.', '', null, null, '["wie", "als", "so"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich trinke ___ Tee als Kaffee. (gern)', '', null, null, '["lieber", "gerner", "mehr gern"]'::jsonb, 0),
+    (l, 4, 'gap', 'Das ist das ___ Restaurant in der Stadt. (gut)', '', null, null, '["beste", "guteste", "besser"]'::jsonb, 0),
+    (l, 5, 'gap', 'Im Winter ist es ___ als im Sommer. (kalt)', '', null, null, '["kälter", "kalter", "kältest"]'::jsonb, 0),
+    (l, 6, 'gap', 'Wer hat ___ Geld? (viel)', '', null, null, '["mehr", "vieler", "mehrer"]'::jsonb, 0),
+    (l, 7, 'gap', 'Am ___ esse ich Pizza. (gern)', '', null, null, '["liebsten", "gernsten", "besten"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'Superlativ von ''hoch''?', null, null, '["am höchsten", "am hochsten", "am höchesten", "am höhsten"]'::jsonb, 0),
+    (l, 9, 'order', 'Der Zug ist schneller als der Bus.', 'القطار أسرع من الباص.', null, null, null, null),
+    (l, 10, 'write', 'Ich bin älter als du.|Ich bin älter als du', 'اكتب: أنا أكبر منك سناً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-adjektiv', m, 'A2', 404, 'lesson', 'Adjektivdeklination', 'تصريف الصفات قبل الاسم', '', 'أن تضع النهاية الصحيحة للصفة قبل الاسم بعد der/ein/بدون أداة.', '## الصفة بعد sein لا تتغير؛ قبل الاسم تأخذ نهاية
+> Das Auto ist **neu**. → Das ist ein **neues** Auto.
+## بعد der/die/das (الأداة المعرّفة) — غالباً -e أو -en
+| | مذكر | مؤنث | محايد | جمع |
+|---|---|---|---|---|
+| Nom. | der neu**e** | die neu**e** | das neu**e** | die neu**en** |
+| Akk. | den neu**en** | die neu**e** | das neu**e** | die neu**en** |
+| Dat. | dem neu**en** | der neu**en** | dem neu**en** | den neu**en** |
+## بعد ein/kein/mein — الصفة تُظهر الجنس عندما لا تُظهره الأداة
+| | مذكر | مؤنث | محايد | جمع (meine) |
+|---|---|---|---|---|
+| Nom. | ein neu**er** | eine neu**e** | ein neu**es** | meine neu**en** |
+| Akk. | einen neu**en** | eine neu**e** | ein neu**es** | meine neu**en** |
+| Dat. | einem neu**en** | einer neu**en** | einem neu**en** | meinen neu**en** |
+**حيلة**: في الـ Dativ والجمع: دائماً **-en**.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Das ist ein ___ Tisch. (neu)', '', null, null, '["neuer", "neue", "neues"]'::jsonb, 0),
+    (l, 2, 'gap', 'Ich habe eine ___ Wohnung. (klein)', '', null, null, '["kleine", "kleiner", "kleines"]'::jsonb, 0),
+    (l, 3, 'gap', 'Sie hat ein ___ Kleid gekauft. (rot)', '', null, null, '["rotes", "rote", "roten"]'::jsonb, 0),
+    (l, 4, 'gap', 'Der ___ Mann ist mein Lehrer. (alt)', '', null, null, '["alte", "alter", "alten"]'::jsonb, 0),
+    (l, 5, 'gap', 'Ich kenne den ___ Kollegen nicht. (neu)', '', null, null, '["neuen", "neue", "neuer"]'::jsonb, 0),
+    (l, 6, 'gap', 'Wir wohnen in einem ___ Haus. (groß)', '', null, null, '["großen", "großes", "große"]'::jsonb, 0),
+    (l, 7, 'gap', 'Die ___ Schuhe sind sehr bequem. (schwarz)', '', null, null, '["schwarzen", "schwarze", "schwarzer"]'::jsonb, 0),
+    (l, 8, 'gap', 'Ich trinke gern ___ Kaffee. (heiß, ohne Artikel)', '', null, null, '["heißen", "heißer", "heiße"]'::jsonb, 0),
+    (l, 9, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Er fährt mit dem neuen Auto.", "Er fährt mit dem neue Auto.", "Er fährt mit dem neues Auto.", "Er fährt mit dem neuer Auto."]'::jsonb, 0),
+    (l, 10, 'order', 'Ich suche eine große helle Wohnung.', 'أبحث عن شقة كبيرة ومضيئة.', null, null, null, null),
+    (l, 11, 'write', 'ein schönes Haus', 'اكتب: بيت جميل (ein + schön + Haus)', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-konjunktiv', m, 'A2', 405, 'lesson', 'Konjunktiv II – höflich bitten und wünschen', 'Konjunktiv II — الطلب بأدب والتمنّي', '', 'أن تطلب بأدب (Könnten Sie…?)، تتمنّى (Ich würde gern…)، وتنصح (Du solltest…).', '## أهم الصيغ
+| المصدر | Konjunktiv II | الاستعمال |
+|---|---|---|
+| können | ich **könnte** | طلب مهذّب: **Könnten** Sie mir helfen? |
+| haben | ich **hätte** | طلب في مطعم: Ich **hätte** gern einen Tee. |
+| sein | ich **wäre** | Das **wäre** schön! |
+| sollen | du **solltest** | نصيحة: Du **solltest** zum Arzt gehen. |
+| werden | ich **würde** + مصدر | تمنٍّ: Ich **würde** gern nach Italien fahren. |
+## الرغبة غير الواقعية
+> **Wenn** ich Zeit **hätte**, **würde** ich mehr Sport machen.
+> Ich **wäre** gern reich.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', '___ Sie mir bitte das Salz geben?', '', null, null, '["Könnten", "Können Sie", "Konnten"]'::jsonb, 0),
+    (l, 2, 'gap', 'Ich ___ gern ein Glas Wasser.', '', null, null, '["hätte", "habe", "hatte"]'::jsonb, 0),
+    (l, 3, 'gap', 'Du ___ mehr schlafen. Du siehst müde aus.', '', null, null, '["solltest", "sollst", "solltet"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich ___ gern in Hamburg wohnen.', '', null, null, '["würde", "werde", "wurde"]'::jsonb, 0),
+    (l, 5, 'gap', 'Wenn ich mehr Geld ___, würde ich ein Auto kaufen.', '', null, null, '["hätte", "habe", "hatte"]'::jsonb, 0),
+    (l, 6, 'gap', 'Das ___ toll!', '', null, null, '["wäre", "war", "ist gewesen"]'::jsonb, 0),
+    (l, 7, 'quiz', '', 'أي جملة هي الأكثر أدباً؟', null, null, '["Könnten Sie bitte das Fenster schließen?", "Schließen Sie das Fenster!", "Fenster zu!", "Du schließt das Fenster."]'::jsonb, 0),
+    (l, 8, 'order', 'Ich würde gern eine Weltreise machen.', 'أودّ أن أقوم برحلة حول العالم.', null, null, null, null),
+    (l, 9, 'order', 'Könnten Sie das bitte noch einmal erklären?', 'هل يمكنك شرح ذلك مرة أخرى من فضلك؟', null, null, null, null),
+    (l, 10, 'write', 'Du solltest zum Arzt gehen.|Du solltest zum Arzt gehen', 'اكتب نصيحة: يجب (ينبغي) أن تذهب إلى الطبيب.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-g-verben-praep', m, 'A2', 406, 'lesson', 'Verben mit Präpositionen', 'الأفعال مع حروف الجر الثابتة', '', 'أن تحفظ الأفعال التي تأتي مع حرف جر ثابت، وتسأل بـ Worauf? / Auf wen?', '## احفظ الفعل + حرف الجر + الحالة معاً
+| الفعل | المعنى | مثال |
+|---|---|---|
+| warten auf + Akk. | ينتظر | Ich warte **auf den** Bus. |
+| sich freuen auf + Akk. | يتطلع بشوق | Ich freue mich **auf den** Urlaub. |
+| sich freuen über + Akk. | يفرح بـ (حدث) | Ich freue mich **über das** Geschenk. |
+| sich interessieren für + Akk. | يهتم بـ | Er interessiert sich **für** Politik. |
+| denken an + Akk. | يفكر في | Ich denke **an dich**. |
+| sprechen über + Akk. | يتكلم عن | Wir sprechen **über den** Film. |
+| fragen nach + Dat. | يسأل عن | Er fragt **nach dem** Weg. |
+| teilnehmen an + Dat. | يشارك في | Ich nehme **am** Kurs teil. |
+| sich kümmern um + Akk. | يعتني بـ | Sie kümmert sich **um die** Kinder. |
+| Angst haben vor + Dat. | يخاف من | Ich habe Angst **vor dem** Hund. |
+## السؤال
+عن شيء: **wo(r)** + حرف الجر → **Worauf** wartest du? — **Wofür** interessierst du dich?
+عن شخص: حرف الجر + wen/wem → **Auf wen** wartest du?
+## الإجابة بضمير: **darauf, dafür, daran…**
+> Freust du dich auf die Reise? — Ja, ich freue mich **darauf**.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich warte ___ meinen Freund.', '', null, null, '["auf", "für", "an"]'::jsonb, 0),
+    (l, 2, 'gap', 'Sie interessiert sich ___ Kunst.', '', null, null, '["für", "auf", "über"]'::jsonb, 0),
+    (l, 3, 'gap', 'Wir sprechen ___ das Wetter.', '', null, null, '["über", "an", "für"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich denke oft ___ meine Familie.', '', null, null, '["an", "auf", "über"]'::jsonb, 0),
+    (l, 5, 'gap', 'Er hat Angst ___ der Prüfung.', '', null, null, '["vor", "für", "auf"]'::jsonb, 0),
+    (l, 6, 'gap', 'Ich nehme ___ Deutschkurs teil.', '', null, null, '["am", "im", "zum"]'::jsonb, 0),
+    (l, 7, 'gap', '___ wartest du? – Auf den Bus.', '', null, null, '["Worauf", "Auf wen", "Wofür"]'::jsonb, 0),
+    (l, 8, 'gap', 'Freust du dich auf die Ferien? – Ja, ich freue mich ___.', '', null, null, '["darauf", "dafür", "daran"]'::jsonb, 0),
+    (l, 9, 'match', '', 'طابق الفعل بحرف الجر الصحيح', null, null, '["warten = auf", "sich interessieren = für", "denken = an", "Angst haben = vor", "fragen = nach"]'::jsonb, null),
+    (l, 10, 'order', 'Ich freue mich sehr auf das Wochenende.', 'أتطلع كثيراً لعطلة نهاية الأسبوع.', null, null, null, null),
+    (l, 11, 'write', 'Ich warte auf dich.|Ich warte auf dich', 'اكتب: أنتظرك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-grammatik-2-test', m, 'A2', 407, 'test', 'Modultest – Grammatik A2 Teil 2', 'اختبار قواعد A2 — الجزء الثاني', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'quiz', '', 'أي جملة صحيحة؟', null, null, '["Ich kann nicht kommen, weil ich arbeiten muss.", "Ich kann nicht kommen, weil ich muss arbeiten.", "Ich kann nicht kommen, weil muss ich arbeiten.", "Ich kann nicht kommen, denn ich arbeiten muss."]'::jsonb, 0),
+    (l, 2, 'gap', 'Ich hoffe, ___ du bald gesund wirst.', '', null, null, '["dass", "ob", "wenn"]'::jsonb, 0),
+    (l, 3, 'gap', 'Weißt du, ___ der Laden heute offen hat?', '', null, null, '["ob", "dass", "wenn"]'::jsonb, 0),
+    (l, 4, 'gap', '___ du Hilfe brauchst, ruf mich an.', '', null, null, '["Wenn", "Ob", "Dass"]'::jsonb, 0),
+    (l, 5, 'gap', 'Mein Handy ist teurer ___ dein Handy.', '', null, null, '["als", "wie", "so"]'::jsonb, 0),
+    (l, 6, 'gap', 'Am ___ mag ich den Sommer. (gern)', '', null, null, '["liebsten", "gernsten", "meisten"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich wohne in einer ___ Stadt. (klein)', '', null, null, '["kleinen", "kleine", "kleiner"]'::jsonb, 0),
+    (l, 8, 'gap', 'Das ist ein ___ Film. (interessant)', '', null, null, '["interessanter", "interessante", "interessantes"]'::jsonb, 0),
+    (l, 9, 'gap', '___ Sie mir bitte helfen?', '', null, null, '["Könnten", "Konnten", "Können Sie"]'::jsonb, 0),
+    (l, 10, 'gap', 'Wenn ich Zeit hätte, ___ ich mehr lesen.', '', null, null, '["würde", "werde", "wurde"]'::jsonb, 0),
+    (l, 11, 'gap', 'Sie kümmert sich ___ ihre Großmutter.', '', null, null, '["um", "für", "an"]'::jsonb, 0),
+    (l, 12, 'gap', 'Wofür interessierst du dich? – Ich interessiere mich ___ Musik.', '', null, null, '["für", "auf", "an"]'::jsonb, 0),
+    (l, 13, 'order', 'Können Sie mir sagen, wann der Kurs beginnt?', 'هل يمكنك أن تقول لي متى تبدأ الدورة؟', null, null, null, null),
+    (l, 14, 'write', 'Ich hätte gern einen Kaffee.|Ich hätte gern einen Kaffee bitte|Ich hätte gern einen Kaffee, bitte.', 'اكتب بأدب: أودّ قهوة.', null, null, null, null);
 end
 $$;
