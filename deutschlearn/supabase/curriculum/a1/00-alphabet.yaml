@@ -1,0 +1,714 @@
+module:
+  slug: alphabet-pronunciation
+  level: A1
+  position: 0
+  icon: abc
+  title_de: Alphabet & Aussprache
+  title_ar: الأبجدية والنطق
+  description_ar: قبل A1 — تعلّم الحروف الألمانية ونطقها الصحيح، الحروف الخاصة (ä ö ü ß)، والمجموعات الصوتية مثل ch و sch و ei و ie.
+
+lessons:
+  - slug: alphabet-a-m
+    title_de: Das Alphabet A–M
+    title_ar: الحروف من A إلى M
+    goal_ar: أن تعرف أسماء الحروف من A إلى M وتنطقها بالألمانية.
+    explanation_ar: |
+      ## الأبجدية الألمانية
+      الأبجدية الألمانية فيها 26 حرفاً مثل الإنجليزية، لكن **أسماء الحروف ونطقها مختلفة**. إضافة إلى أربعة حروف خاصة: ä ö ü ß.
+      اضغط زر السمّاعة لتسمع كل حرف.
+      | الحرف | الاسم | يُقرأ تقريباً |
+      |---|---|---|
+      | A a | a | آ |
+      | B b | be | بيه |
+      | C c | ce | تسيه |
+      | D d | de | ديه |
+      | E e | e | إيه |
+      | F f | ef | إف |
+      | G g | ge | غيه (g قاسية دائماً) |
+      | H h | ha | ها |
+      | I i | i | إي |
+      | J j | jot | يوت (j تُقرأ ي) |
+      | K k | ka | كا |
+      | L l | el | إل |
+      | M m | em | إم |
+      ## انتبه
+      - حرف **J** يُنطق مثل الياء العربية: Ja = يا.
+      - حرف **G** لا يُنطق "ج" أبداً، بل مثل الجيم المصرية: gut.
+      - حرف **E** في الأسماء يُنطق "إيه" وليس "إي".
+    items:
+      - phrase: A
+        ar: آ — مثل Anna, Apfel
+        ex: Anna
+      - phrase: B
+        ar: بيه — مثل Ball, Brot
+        ex: Brot
+      - phrase: C
+        ar: تسيه — نادر وحده، يأتي غالباً في ch
+        ex: Computer
+      - phrase: D
+        ar: ديه — مثل Danke
+        ex: Danke
+      - phrase: E
+        ar: إيه — مثل Esel
+        ex: Esel
+      - phrase: F
+        ar: إف — مثل Fisch
+        ex: Fisch
+      - phrase: G
+        ar: غيه — g قاسية مثل الجيم المصرية
+        ex: gut
+      - phrase: H
+        ar: ها — هاء خفيفة في بداية الكلمة
+        ex: Haus
+      - phrase: I
+        ar: إي — مثل Igel
+        ex: Igel
+      - phrase: J
+        ar: يوت — تُقرأ ياء
+        ex: ja
+      - phrase: K
+        ar: كا — مثل Kaffee
+        ex: Kaffee
+      - phrase: L
+        ar: إل — مثل Lampe
+        ex: Lampe
+      - phrase: M
+        ar: إم — مثل Mama
+        ex: Mama
+      - listen: J
+        ar: استمع — أي حرف هذا؟
+        options: [J, G, I, H]
+      - listen: G
+        ar: استمع — أي حرف هذا؟
+        options: [G, J, K, C]
+      - listen: E
+        ar: استمع — أي حرف هذا؟
+        options: [E, I, A, H]
+      - quiz: كيف يُنطق حرف J في كلمة ja؟
+        options: [ياء, جيم, هاء, غين]
+      - quiz: ما اسم الحرف H بالألمانية؟
+        options: [ha, ej, he, hatsch]
+      - listen: Haus
+        ar: استمع — بأي حرف تبدأ الكلمة؟
+        options: [H, K, A, F]
+      - listen: Danke
+        ar: استمع — بأي حرف تبدأ الكلمة؟
+        options: [D, B, G, T]
+      - match: ["J = يوت", "G = غيه", "E = إيه", "I = إي", "C = تسيه"]
+        ar: طابق كل حرف باسمه
+      - write: jot
+        ar: "اكتب اسم الحرف J بالألمانية:"
+
+  - slug: alphabet-n-z
+    title_de: Das Alphabet N–Z & Buchstabieren
+    title_ar: الحروف من N إلى Z والتهجئة
+    goal_ar: أن تعرف بقية الحروف وتستطيع تهجئة اسمك بالألمانية.
+    explanation_ar: |
+      ## الحروف من N إلى Z
+      | الحرف | الاسم | ملاحظة |
+      |---|---|---|
+      | N n | en | نون |
+      | O o | o | أو |
+      | P p | pe | بيه (باء مهموسة) |
+      | Q q | ku | كو — يأتي دائماً qu = "كڤ" |
+      | R r | er | راء حلقية تشبه الغين الخفيفة |
+      | S s | es | قبل حرف علة تُقرأ ز: Sonne |
+      | T t | te | تيه |
+      | U u | u | أو |
+      | V v | fau | تُقرأ غالباً ف: Vater |
+      | W w | we | تُقرأ ڤ: Wasser |
+      | X x | iks | كس |
+      | Y y | ypsilon | إوبسيلون |
+      | Z z | zet | تُقرأ "تس": Zeit |
+      ## التهجئة (Buchstabieren)
+      في الدوائر والهاتف يسألونك: **Wie schreibt man das?** أو **Können Sie das buchstabieren?**
+      > Mein Name ist Ali: A – L – I.
+      ## انتبه
+      - **V** = ف، و **W** = ڤ. هذا عكس الإنجليزية!
+      - **Z** = تس، وليس زاي.
+    items:
+      - phrase: V
+        ar: فاو — تُقرأ ف
+        ex: Vater
+      - phrase: W
+        ar: ڤيه — تُقرأ ڤ
+        ex: Wasser
+      - phrase: Z
+        ar: تسيت — تُقرأ تس
+        ex: Zeit
+      - phrase: R
+        ar: إر — راء من الحلق
+        ex: Rot
+      - phrase: Q
+        ar: كو — تأتي qu وتُقرأ كڤ
+        ex: Quiz
+      - phrase: Y
+        ar: إوبسيلون
+        ex: Yoga
+      - phrase: Wie schreibt man das?
+        ar: كيف يُكتب هذا؟
+      - phrase: Können Sie das buchstabieren?
+        ar: هل يمكنك تهجئة ذلك؟
+      - listen: W
+        ar: استمع — أي حرف هذا؟
+        options: [W, V, F, U]
+      - listen: V
+        ar: استمع — أي حرف هذا؟
+        options: [V, W, F, B]
+      - listen: Z
+        ar: استمع — أي حرف هذا؟
+        options: [Z, S, C, X]
+      - quiz: كيف تُنطق W في كلمة Wasser؟
+        options: [ڤ, و, ف, ب]
+      - quiz: كيف تُنطق V في كلمة Vater؟
+        options: [ف, ڤ, و, ب]
+      - quiz: كيف تُنطق Z في كلمة Zeit؟
+        options: [تس, ز, س, ث]
+      - listen: Wasser
+        ar: استمع — بأي حرف تبدأ الكلمة؟
+        options: [W, V, F, B]
+      - listen: Zeit
+        ar: استمع — بأي حرف تبدأ الكلمة؟
+        options: [Z, S, C, T]
+      - match: ["V = فاو", "W = ڤيه", "Z = تسيت", "Y = إوبسيلون", "Q = كو"]
+        ar: طابق كل حرف باسمه
+      - order: Wie schreibt man das?
+        ar: رتّب الجملة — كيف يُكتب هذا؟
+      - write: fau
+        ar: "اكتب اسم الحرف V بالألمانية:"
+
+  - slug: alphabet-vowels
+    title_de: Vokale – lang und kurz
+    title_ar: حروف العلة الطويلة والقصيرة
+    goal_ar: أن تميّز بين حرف العلة الطويل والقصير لأن ذلك يغيّر المعنى.
+    explanation_ar: |
+      ## خمسة حروف علة: a e i o u
+      كل حرف علة يمكن أن يكون **طويلاً** أو **قصيراً**، والفرق يغيّر المعنى.
+      | طويل | قصير |
+      |---|---|
+      | Staat (دولة) | Stadt (مدينة) |
+      | Miete (إيجار) | Mitte (وسط) |
+      | Ofen (فرن) | offen (مفتوح) |
+      ## القاعدة البسيطة
+      - حرف العلة **طويل** إذا جاء بعده حرف ساكن واحد: Name، أو إذا تكرر: Tee، أو جاء بعده h: Sohn.
+      - حرف العلة **قصير** إذا جاء بعده حرفان ساكنان: Bett, kommen, Mutter.
+      - **ie** تُقرأ "إي" طويلة: Liebe, viel.
+      > Tee – Bett
+      > Sohn – Sonne
+    items:
+      - vocab: der Tee, -s
+        ar: الشاي (e طويلة)
+        ex: Ich trinke Tee.
+        ex_ar: أنا أشرب الشاي.
+      - vocab: das Bett, -en
+        ar: السرير (e قصيرة)
+        ex: Das Bett ist groß.
+        ex_ar: السرير كبير.
+      - vocab: der Sohn, ¨-e
+        ar: الابن (o طويلة)
+        ex: Das ist mein Sohn.
+        ex_ar: هذا ابني.
+      - vocab: die Sonne, -n
+        ar: الشمس (o قصيرة)
+        ex: Die Sonne scheint.
+        ex_ar: الشمس مشرقة.
+      - vocab: die Stadt, ¨-e
+        ar: المدينة (a قصيرة)
+        ex: Berlin ist eine Stadt.
+        ex_ar: برلين مدينة.
+      - vocab: die Miete, -n
+        ar: الإيجار (ie طويلة)
+        ex: Die Miete ist hoch.
+        ex_ar: الإيجار مرتفع.
+      - quiz: في كلمة Bett، هل حرف e طويل أم قصير؟
+        options: [قصير, طويل]
+      - quiz: في كلمة Tee، هل حرف e طويل أم قصير؟
+        options: [طويل, قصير]
+      - quiz: لماذا حرف o في Sonne قصير؟
+        options: [بعده حرفان ساكنان nn, بعده h, لأنه في آخر الكلمة, لأن الكلمة مؤنثة]
+      - listen: Stadt
+        ar: استمع — أي كلمة سمعت؟
+        options: [Stadt, Staat]
+      - listen: Miete
+        ar: استمع — أي كلمة سمعت؟
+        options: [Miete, Mitte]
+      - listen: offen
+        ar: استمع — أي كلمة سمعت؟
+        options: [offen, Ofen]
+      - match: ["Staat = دولة", "Stadt = مدينة", "Miete = إيجار", "Mitte = وسط", "offen = مفتوح"]
+      - gap: Ich trinke ___.
+        ar: أنا أشرب الشاي.
+        options: [Tee, Bett, Sohn]
+      - write: Sonne
+        ar: "اكتب كلمة: الشمس (بدون أداة)"
+
+  - slug: alphabet-umlaute
+    title_de: Die Umlaute ä, ö, ü
+    title_ar: الحروف ä ö ü
+    goal_ar: أن تنطق ä و ö و ü بشكل صحيح وتعرف كيف تكتبها بدون لوحة ألمانية.
+    explanation_ar: |
+      ## ما هي الـ Umlaute؟
+      هي حروف علة فوقها نقطتان، ولها أصوات غير موجودة في العربية.
+      | الحرف | النطق | مثال |
+      |---|---|---|
+      | ä | مثل "إيه" مفتوحة | Mädchen (بنت) |
+      | ö | قل "إي" ودوّر شفتيك كأنك تقول "أو" | schön (جميل) |
+      | ü | قل "إي" ودوّر شفتيك بقوة كأنك تقول "و" | müde (متعب) |
+      ## بدون لوحة مفاتيح ألمانية
+      يمكنك أن تكتب: ä = ae، ö = oe، ü = ue. التطبيق يقبل الطريقتين.
+      ## Umlaut يغيّر المعنى
+      > schon (بالفعل) – schön (جميل)
+      > Mutter (أم) – Mütter (أمهات)
+    items:
+      - vocab: das Mädchen, -
+        ar: البنت
+        ex: Das Mädchen heißt Lea.
+        ex_ar: اسم البنت ليا.
+      - vocab: schön
+        ar: جميل
+        ex: Das ist schön!
+        ex_ar: هذا جميل!
+      - vocab: müde
+        ar: متعب
+        ex: Ich bin müde.
+        ex_ar: أنا متعب.
+      - vocab: der Käse
+        ar: الجبن
+        ex: Ich esse Käse.
+        ex_ar: آكل الجبن.
+      - vocab: hören
+        ar: يسمع
+        ex: Ich höre Musik.
+        ex_ar: أسمع الموسيقى.
+      - vocab: grün
+        ar: أخضر
+        ex: Das Gras ist grün.
+        ex_ar: العشب أخضر.
+      - vocab: die Tür, -en
+        ar: الباب
+        ex: Die Tür ist offen.
+        ex_ar: الباب مفتوح.
+      - listen: schön
+        ar: استمع — أي كلمة سمعت؟
+        options: [schön, schon]
+      - listen: Mütter
+        ar: استمع — أي كلمة سمعت؟
+        options: [Mütter, Mutter]
+      - listen: müde
+        ar: استمع — أي كلمة سمعت؟
+        options: [müde, Mode, Made]
+      - quiz: كيف تكتب ü إذا لم يكن عندك لوحة ألمانية؟
+        options: [ue, uu, u, ü غير ممكن]
+      - quiz: ماذا تعني schön؟
+        options: [جميل, بالفعل, متعب, أخضر]
+      - match: ["müde = متعب", "grün = أخضر", "schön = جميل", "hören = يسمع", "die Tür = الباب"]
+      - gap: Ich bin ___.
+        ar: أنا متعب.
+        options: [müde, grün, schön]
+      - write: grün|gruen
+        ar: "اكتب: أخضر"
+      - write: Tür|Tuer
+        ar: "اكتب: باب (بدون أداة)"
+
+  - slug: alphabet-eszett
+    title_de: ß und Doppelkonsonanten
+    title_ar: حرف ß والحروف المضاعفة
+    goal_ar: أن تعرف متى تكتب ß ومتى ss، ونطق الحروف المضاعفة.
+    explanation_ar: |
+      ## حرف ß (Eszett)
+      يُنطق **س** قوية. لا يوجد إلا بحرف صغير تقريباً، ولا تبدأ به كلمة.
+      - بعد حرف علة **طويل** أو بعد ei/au/eu نكتب **ß**: Straße, groß, heißen.
+      - بعد حرف علة **قصير** نكتب **ss**: Wasser, Klasse, essen.
+      - بدون لوحة ألمانية تكتب ß = ss.
+      ## الحروف المضاعفة
+      الحرف المضاعف لا يُنطق مرتين، لكنه يجعل حرف العلة قبله قصيراً.
+      > Straße – Wasser
+      > groß – Klasse
+    items:
+      - vocab: die Straße, -n
+        ar: الشارع
+        ex: Ich wohne in der Goethestraße.
+        ex_ar: أسكن في شارع غوته.
+      - vocab: groß
+        ar: كبير / طويل القامة
+        ex: Das Haus ist groß.
+        ex_ar: البيت كبير.
+      - vocab: heißen
+        ar: يُسمّى
+        ex: Ich heiße Omar.
+        ex_ar: اسمي عمر.
+      - vocab: das Wasser
+        ar: الماء
+        ex: Ein Glas Wasser, bitte.
+        ex_ar: كأس ماء من فضلك.
+      - vocab: die Klasse, -n
+        ar: الصف / الفصل
+        ex: Die Klasse ist klein.
+        ex_ar: الصف صغير.
+      - vocab: essen
+        ar: يأكل
+        ex: Wir essen zusammen.
+        ex_ar: نأكل معاً.
+      - quiz: لماذا نكتب Straße بحرف ß؟
+        options: [لأن a قبلها طويلة, لأن a قبلها قصيرة, لأنها في بداية الكلمة, لأنها اسم]
+      - quiz: لماذا نكتب Wasser بحرفي ss؟
+        options: [لأن a قبلها قصيرة, لأن a قبلها طويلة, لأنها مؤنثة, لا يوجد سبب]
+      - gap: Das Haus ist gro___.
+        ar: البيت كبير.
+        options: [ß, ss, s]
+      - gap: Ich trinke Wa___er.
+        ar: أشرب الماء.
+        options: [ss, ß, s]
+      - gap: Ich hei___e Lina.
+        ar: اسمي لينا.
+        options: [ß, ss, z]
+      - listen: Straße
+        ar: استمع — أي كلمة سمعت؟
+        options: [Straße, Tasse, Strand]
+      - match: ["die Straße = الشارع", "groß = كبير", "das Wasser = الماء", "essen = يأكل", "heißen = يُسمّى"]
+      - write: Straße|Strasse
+        ar: "اكتب: شارع (بدون أداة)"
+
+  - slug: alphabet-diphthongs
+    title_de: ei, ie, eu, äu, au
+    title_ar: المجموعات الصوتية ei و ie و eu و au
+    goal_ar: أن تقرأ المجموعات الصوتية بشكل صحيح ولا تخلط بين ei و ie.
+    explanation_ar: |
+      ## أهم قاعدة: ei ≠ ie
+      | الكتابة | النطق | مثال |
+      |---|---|---|
+      | ei / ai | آي | mein, Mai |
+      | ie | إي طويلة | Liebe, vier |
+      | eu / äu | أوي | neu, Häuser |
+      | au | آو | Haus, Frau |
+      ## حيلة للتذكر
+      اقرأ **الحرف الثاني**: في **ei** الحرف الثاني i فتقول "آي"، وفي **ie** الحرف الثاني e فتقول "إي".
+      > mein – Miete
+      > drei – vier
+    items:
+      - vocab: drei
+        ar: ثلاثة
+        ex: Ich habe drei Kinder.
+        ex_ar: عندي ثلاثة أطفال.
+      - vocab: vier
+        ar: أربعة
+        ex: Es ist vier Uhr.
+        ex_ar: الساعة الرابعة.
+      - vocab: neu
+        ar: جديد
+        ex: Das Auto ist neu.
+        ex_ar: السيارة جديدة.
+      - vocab: das Haus, ¨-er
+        ar: البيت
+        ex: Die Häuser sind alt.
+        ex_ar: البيوت قديمة.
+      - vocab: die Frau, -en
+        ar: المرأة / الزوجة
+        ex: Die Frau heißt Maria.
+        ex_ar: اسم المرأة ماريا.
+      - vocab: die Liebe
+        ar: الحب
+        ex: Liebe ist schön.
+        ex_ar: الحب جميل.
+      - vocab: heute
+        ar: اليوم
+        ex: Heute ist Montag.
+        ex_ar: اليوم الاثنين.
+      - quiz: كيف تُقرأ ei في كلمة drei؟
+        options: [آي, إي, أوي, آو]
+      - quiz: كيف تُقرأ ie في كلمة vier؟
+        options: [إي, آي, أوي, آو]
+      - quiz: كيف تُقرأ eu في كلمة neu؟
+        options: [أوي, إيو, آي, أو]
+      - listen: drei
+        ar: استمع — أي كلمة سمعت؟
+        options: [drei, die, Dreck]
+      - listen: Haus
+        ar: استمع — أي كلمة سمعت؟
+        options: [Haus, Hose, heiß]
+      - listen: heute
+        ar: استمع — أي كلمة سمعت؟
+        options: [heute, Hütte, Hut]
+      - match: ["drei = ثلاثة", "vier = أربعة", "neu = جديد", "heute = اليوم", "die Liebe = الحب"]
+      - write: vier
+        ar: "اكتب الرقم 4 بالحروف:"
+
+  - slug: alphabet-ch-sch
+    title_de: ch, sch, sp, st
+    title_ar: ch و sch و sp و st
+    goal_ar: أن تنطق ch بنوعيها و sch و sp/st في بداية الكلمة.
+    explanation_ar: |
+      ## sch = ش
+      > Schule, Tisch, schön
+      ## ch لها صوتان
+      | بعد | النطق | مثال |
+      |---|---|---|
+      | a, o, u, au | خ من الحلق | Buch, acht, Bauch |
+      | e, i, ä, ö, ü, ei, eu وبعد ساكن | صوت ناعم يشبه "ش" خفيفة جداً (ich-Laut) | ich, Milch, Mädchen |
+      - **chs** تُقرأ "كس": sechs.
+      ## sp و st في بداية الكلمة
+      - **sp** = شب: sprechen, Sport.
+      - **st** = شت: Straße, Student.
+      - في وسط الكلمة أو آخرها تبقى "سب/ست": Fenster, ist.
+    items:
+      - vocab: die Schule, -n
+        ar: المدرسة
+        ex: Die Schule beginnt um acht.
+        ex_ar: تبدأ المدرسة الساعة الثامنة.
+      - vocab: das Buch, ¨-er
+        ar: الكتاب (ch = خ)
+        ex: Ich lese ein Buch.
+        ex_ar: أقرأ كتاباً.
+      - vocab: ich
+        ar: أنا (ch ناعمة)
+        ex: Ich bin Ahmed.
+        ex_ar: أنا أحمد.
+      - vocab: die Milch
+        ar: الحليب
+        ex: Ich trinke Milch.
+        ex_ar: أشرب الحليب.
+      - vocab: sechs
+        ar: ستة (chs = كس)
+        ex: Er ist sechs Jahre alt.
+        ex_ar: عمره ست سنوات.
+      - vocab: sprechen
+        ar: يتكلم (sp = شب)
+        ex: Ich spreche Arabisch.
+        ex_ar: أتكلم العربية.
+      - vocab: der Student, -en
+        ar: الطالب الجامعي (st = شت)
+        ex: Er ist Student.
+        ex_ar: هو طالب جامعي.
+      - vocab: acht
+        ar: ثمانية (ch = خ)
+        ex: Es ist acht Uhr.
+        ex_ar: الساعة الثامنة.
+      - quiz: كيف تُنطق ch في كلمة Buch؟
+        options: [خ من الحلق, ش ناعمة, ك, تش]
+      - quiz: كيف تُنطق st في بداية كلمة Student؟
+        options: [شت, ست, ث, تس]
+      - quiz: كيف تُنطق chs في كلمة sechs؟
+        options: [كس, خس, شس, تش]
+      - listen: sprechen
+        ar: استمع — أي كلمة سمعت؟
+        options: [sprechen, Sprache, brechen]
+      - listen: Schule
+        ar: استمع — أي كلمة سمعت؟
+        options: [Schule, Spule, Stuhl]
+      - match: ["die Schule = المدرسة", "das Buch = الكتاب", "sechs = ستة", "sprechen = يتكلم", "die Milch = الحليب"]
+      - write: acht
+        ar: "اكتب الرقم 8 بالحروف:"
+
+  - slug: alphabet-special-sounds
+    title_de: s, z, w, v, j, -b/-d/-g, r
+    title_ar: أصوات خاصة وتليين آخر الكلمة
+    goal_ar: أن تتقن أصوات s و z و w و v و j وصوت r، وقاعدة آخر الكلمة.
+    explanation_ar: |
+      ## ملخص
+      | الحرف | النطق | مثال |
+      |---|---|---|
+      | s قبل حرف علة | ز | Sonne, sieben |
+      | s في آخر الكلمة | س | Haus, das |
+      | z / tz | تس | Zimmer, Katze |
+      | w | ڤ | Wohnung |
+      | v | ف (غالباً) | viel, Vogel |
+      | j | ي | Januar, jung |
+      | r | راء من الحلق كالغين الخفيفة | rot, Brot |
+      | -er في آخر الكلمة | تقريباً "آ" خفيفة | Vater, Lehrer |
+      ## قاعدة آخر الكلمة (Auslautverhärtung)
+      b و d و g في **آخر** الكلمة تصبح p و t و k:
+      > Tag (تاك) – Kind (كِنت) – gelb (غِلب)
+    items:
+      - vocab: sieben
+        ar: سبعة (s = ز)
+        ex: Die Woche hat sieben Tage.
+        ex_ar: الأسبوع فيه سبعة أيام.
+      - vocab: das Zimmer, -
+        ar: الغرفة (z = تس)
+        ex: Das Zimmer ist hell.
+        ex_ar: الغرفة مضيئة.
+      - vocab: die Wohnung, -en
+        ar: الشقة (w = ڤ)
+        ex: Die Wohnung hat drei Zimmer.
+        ex_ar: الشقة فيها ثلاث غرف.
+      - vocab: viel
+        ar: كثير (v = ف)
+        ex: Vielen Dank!
+        ex_ar: شكراً جزيلاً!
+      - vocab: jung
+        ar: شاب / صغير السن (j = ي)
+        ex: Er ist jung.
+        ex_ar: هو شاب.
+      - vocab: der Tag, -e
+        ar: اليوم/النهار (g في الآخر = ك)
+        ex: Guten Tag!
+        ex_ar: نهارك سعيد!
+      - vocab: das Kind, -er
+        ar: الطفل (d في الآخر = ت)
+        ex: Das Kind spielt.
+        ex_ar: الطفل يلعب.
+      - vocab: der Vater, ¨-
+        ar: الأب (-er = آ خفيفة)
+        ex: Mein Vater ist Lehrer.
+        ex_ar: أبي معلّم.
+      - quiz: كيف تُنطق s في كلمة sieben؟
+        options: [ز, س, ش, تس]
+      - quiz: كيف تُنطق d في آخر كلمة Kind؟
+        options: [ت, د, ذ, ض]
+      - quiz: كيف تُنطق v في كلمة viel؟
+        options: [ف, ڤ, و, ب]
+      - listen: Zimmer
+        ar: استمع — بأي صوت تبدأ الكلمة؟
+        options: [تس, ز, س, ث]
+      - listen: jung
+        ar: استمع — أي كلمة سمعت؟
+        options: [jung, Junge, Zunge]
+      - match: ["sieben = سبعة", "das Zimmer = الغرفة", "die Wohnung = الشقة", "jung = شاب", "das Kind = الطفل"]
+      - write: sieben
+        ar: "اكتب الرقم 7 بالحروف:"
+
+  - slug: alphabet-stress-melody
+    title_de: Betonung und Satzmelodie
+    title_ar: النبرة ولحن الجملة
+    goal_ar: أن تعرف أين تقع النبرة في الكلمة وكيف يرتفع الصوت أو ينخفض في الأسئلة.
+    explanation_ar: |
+      ## النبرة في الكلمة
+      - في الكلمات الألمانية الأصلية تقع النبرة غالباً على **المقطع الأول**: **Va**ter, **Mut**ter, **ar**beiten.
+      - البادئات be-, ge-, ver- لا تحمل النبرة: be**su**chen, ver**ste**hen.
+      - الأفعال المنفصلة تحمل النبرة على البادئة: **an**rufen, **ein**kaufen.
+      - كلمات كثيرة مستعارة تُنبر في الآخر: Stu**dent**, Uni**ver**sität, Ca**fé**.
+      ## لحن الجملة
+      | نوع الجملة | الصوت في الآخر |
+      |---|---|
+      | جملة خبرية | ينخفض ↘ |
+      | سؤال W (Wie, Wo...) | ينخفض ↘ |
+      | سؤال نعم/لا | يرتفع ↗ |
+      > Wo wohnst du? ↘
+      > Wohnst du in Berlin? ↗
+    items:
+      - phrase: Wo wohnst du?
+        ar: أين تسكن؟ (الصوت ينخفض في الآخر)
+      - phrase: Wohnst du in Berlin?
+        ar: هل تسكن في برلين؟ (الصوت يرتفع في الآخر)
+      - phrase: Ich verstehe das nicht.
+        ar: لا أفهم ذلك. (النبرة على -ste-)
+      - phrase: Ich rufe dich an.
+        ar: سأتصل بك. (النبرة على an)
+      - quiz: أين النبرة في كلمة Vater؟
+        options: [على Va, على ter, على الاثنين, لا يوجد نبرة]
+      - quiz: أين النبرة في كلمة verstehen؟
+        options: [على ste, على ver, على hen, في البداية دائماً]
+      - quiz: في سؤال "Kommst du?" هل يرتفع الصوت في الآخر أم ينخفض؟
+        options: [يرتفع, ينخفض]
+      - quiz: في سؤال "Wie heißt du?" هل يرتفع الصوت في الآخر أم ينخفض؟
+        options: [ينخفض, يرتفع]
+      - listen: Wohnst du in Berlin?
+        ar: استمع — ما نوع هذه الجملة؟
+        options: [سؤال نعم/لا, سؤال بأداة استفهام, جملة خبرية]
+      - listen: Ich wohne in Berlin.
+        ar: استمع — ما نوع هذه الجملة؟
+        options: [جملة خبرية, سؤال نعم/لا, أمر]
+      - order: Wo wohnst du?
+        ar: رتّب السؤال — أين تسكن؟
+      - order: Ich verstehe das nicht.
+        ar: رتّب الجملة — لا أفهم ذلك.
+
+  - slug: alphabet-test
+    kind: test
+    title_de: Modultest – Alphabet & Aussprache
+    title_ar: اختبار وحدة الأبجدية والنطق
+    goal_ar: اختبار شامل للحروف والأصوات. تحتاج 70٪ لتنتقل إلى المستوى A1.
+    items:
+      - listen: W
+        ar: أي حرف سمعت؟
+        options: [W, V, F, B]
+      - listen: J
+        ar: أي حرف سمعت؟
+        options: [J, G, Y, I]
+      - listen: Z
+        ar: أي حرف سمعت؟
+        options: [Z, S, C, X]
+      - quiz: كيف تُقرأ ei؟
+        options: [آي, إي, أوي, آو]
+      - quiz: كيف تُقرأ ie؟
+        options: [إي, آي, أوي, إيه]
+      - quiz: كيف تُقرأ eu؟
+        options: [أوي, آي, إو, أو]
+      - quiz: كيف تُقرأ sch؟
+        options: [ش, سك, سخ, س]
+      - quiz: كيف تُقرأ sp في بداية Sport؟
+        options: [شب, سب, سف, زب]
+      - quiz: بعد حرف علة طويل نكتب...
+        options: [ß, ss, s, z]
+      - quiz: كيف تكتب ö بدون لوحة ألمانية؟
+        options: [oe, oo, o, eo]
+      - quiz: كيف تُنطق g في آخر كلمة Tag؟
+        options: [ك, غ, ج, لا تُنطق]
+      - listen: schön
+        ar: أي كلمة سمعت؟
+        options: [schön, schon, Schuh]
+      - listen: vier
+        ar: أي كلمة سمعت؟
+        options: [vier, Feier, wir]
+      - listen: Miete
+        ar: أي كلمة سمعت؟
+        options: [Miete, Mitte, Mütter]
+      - gap: Ich trinke Wa___er.
+        options: [ss, ß, s]
+      - gap: Die Stra___e ist lang.
+        options: [ß, ss, s]
+      - match: ["sch = ش", "ei = آي", "ie = إي", "eu = أوي", "z = تس"]
+        ar: طابق كل كتابة بنطقها
+      - write: Wasser
+        ar: "اكتب: الماء (بدون أداة)"
+      - write: drei
+        ar: "اكتب الرقم 3 بالحروف:"
+      - write: Schule
+        ar: "اكتب: مدرسة (بدون أداة)"
+
+  - slug: placement-test
+    kind: placement
+    title_de: Einstufungstest
+    title_ar: اختبار تحديد المستوى
+    goal_ar: 20 سؤالاً من A1 إلى B1. حسب نتيجتك نفتح لك المستوى المناسب، ويمكنك دائماً الرجوع إلى الدروس السابقة.
+    items:
+      - gap: Ich ___ Ahmed.
+        options: [heiße, heißt, heißen, heiß]
+      - gap: Wie alt ___ du?
+        options: [bist, ist, bin, sind]
+      - gap: Das ist ___ Tisch.
+        options: [der, die, das, den]
+      - gap: Ich habe ___ Bruder.
+        options: [einen, ein, eine, einer]
+      - quiz: ماذا تعني "Wie spät ist es?"
+        options: [كم الساعة؟, كم عمرك؟, أين أنت؟, كم الثمن؟]
+      - gap: Ich ___ heute nicht arbeiten.
+        options: [muss, musst, müssen, gemusst]
+      - order: Am Montag gehe ich ins Kino.
+        ar: يوم الاثنين أذهب إلى السينما.
+      - gap: Ich wohne seit drei Jahren in ___ Stadt.
+        options: [der, die, den, das]
+      - gap: Gestern ___ ich ins Kino gegangen.
+        options: [bin, habe, war, hatte]
+      - gap: Ich lerne Deutsch, ___ ich in Deutschland arbeiten möchte.
+        options: [weil, denn, aber, oder]
+      - gap: Ich helfe ___ Mutter.
+        options: [meiner, meine, meinen, mein]
+      - gap: Berlin ist ___ als München.
+        options: [größer, groß, am größten, größte]
+      - gap: Er sagt, dass er morgen ___.
+        options: [kommt, kommen, kommst, komme]
+      - gap: Ich interessiere mich ___ Musik.
+        options: [für, an, auf, mit]
+      - gap: Das Haus ___ 1950 gebaut.
+        options: [wurde, wird, ist, hat]
+      - gap: Wenn ich Zeit hätte, ___ ich dich besuchen.
+        options: [würde, werde, wurde, wäre]
+      - gap: Das ist der Mann, ___ ich gestern gesehen habe.
+        options: [den, der, dem, dessen]
+      - gap: Trotz ___ Regens gingen wir spazieren.
+        options: [des, dem, den, der]
+      - gap: Ich freue mich ___ das Wochenende.
+        options: [auf, über, an, für]
+      - gap: Er tut so, ___ ob er alles wüsste.
+        options: [als, wie, wenn, dass]

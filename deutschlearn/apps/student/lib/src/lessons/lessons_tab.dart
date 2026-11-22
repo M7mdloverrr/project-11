@@ -39,6 +39,9 @@ IconData moduleIcon(String name) => switch (name) {
   _ => Icons.menu_book_rounded,
 };
 
+/// The alphabet course is its own section before A1.
+bool isAlphabetModule(CurriculumModule m) => m.slug.startsWith('alphabet');
+
 /// The curriculum roadmap: levels → modules, unlocked in order.
 class LessonsTab extends ConsumerWidget {
   const LessonsTab({super.key});
@@ -136,10 +139,19 @@ class CurriculumRoadmap extends ConsumerWidget {
           ),
         ],
         const SizedBox(height: DLSpacing.lg),
-        for (final level in CefrLevel.values.where((l) => c.modules.any((m) => m.level == l))) ...[
+        if (c.modules.any(isAlphabetModule)) ...[
+          const DLSectionHeader(arabic: 'الأبجدية والنطق', german: 'Alphabet & Aussprache'),
+          const SizedBox(height: DLSpacing.md),
+          for (final m in c.modules.where(isAlphabetModule)) ...[
+            ModuleCard(module: m, curriculum: c),
+            const SizedBox(height: DLSpacing.md),
+          ],
+          const SizedBox(height: DLSpacing.md),
+        ],
+        for (final level in CefrLevel.values.where((l) => c.modules.any((m) => m.level == l && !isAlphabetModule(m)))) ...[
           DLSectionHeader(arabic: 'المستوى ${level.code}', german: 'Niveau ${level.code}'),
           const SizedBox(height: DLSpacing.md),
-          for (final m in c.modules.where((m) => m.level == level)) ...[
+          for (final m in c.modules.where((m) => m.level == level && !isAlphabetModule(m))) ...[
             ModuleCard(module: m, curriculum: c),
             const SizedBox(height: DLSpacing.md),
           ],

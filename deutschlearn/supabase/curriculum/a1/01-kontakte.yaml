@@ -1,0 +1,488 @@
+module:
+  slug: a1-kontakte
+  level: A1
+  position: 1
+  icon: hand
+  title_de: Kontakte – Ich und die anderen
+  title_ar: التعارف — أنا والآخرون
+  description_ar: التحية والوداع، التعريف بالنفس، البلدان واللغات، الأرقام، البيانات الشخصية والعائلة — مواضيع امتحان Goethe A1 (Person, Familie).
+
+lessons:
+  - slug: a1-greetings
+    title_de: Begrüßung und Abschied
+    title_ar: التحية والوداع
+    goal_ar: أن تحيّي الناس وتودّعهم بالشكل المناسب، رسمياً وغير رسمي، وتسأل عن الحال.
+    explanation_ar: |
+      ## التحية حسب الوقت
+      | الوقت | التحية |
+      |---|---|
+      | الصباح حتى ~11 | Guten Morgen! |
+      | النهار | Guten Tag! |
+      | المساء | Guten Abend! |
+      | قبل النوم | Gute Nacht! |
+      | في أي وقت (غير رسمي) | Hallo! / Hi! |
+      ## الوداع
+      - رسمي: **Auf Wiedersehen!** — على الهاتف: **Auf Wiederhören!**
+      - غير رسمي: **Tschüss!** / **Bis später!** / **Bis morgen!**
+      ## Sie أم du؟
+      - **Sie** (بحرف كبير) = حضرتك: للغرباء، في العمل، في الدوائر.
+      - **du** = أنت: للأصدقاء، العائلة، الأطفال، والشباب فيما بينهم.
+      > Wie geht es Ihnen? — Danke, gut. Und Ihnen?
+      > Wie geht's? — Super! Und dir?
+    items:
+      - {phrase: "Guten Morgen!", ar: "صباح الخير!"}
+      - {phrase: "Guten Tag!", ar: "نهارك سعيد! (تحية رسمية في النهار)"}
+      - {phrase: "Guten Abend!", ar: "مساء الخير!"}
+      - {phrase: "Gute Nacht!", ar: "تصبح على خير!"}
+      - {phrase: "Hallo!", ar: "مرحباً!"}
+      - {phrase: "Auf Wiedersehen!", ar: "إلى اللقاء! (رسمي)"}
+      - {phrase: "Tschüss!", ar: "باي! (غير رسمي)"}
+      - {phrase: "Bis morgen!", ar: "إلى الغد!"}
+      - {phrase: "Wie geht es Ihnen?", ar: "كيف حالك؟ (رسمي)"}
+      - {phrase: "Wie geht's?", ar: "كيف الحال؟ (غير رسمي)"}
+      - {phrase: "Danke, gut. Und Ihnen?", ar: "بخير شكراً. وأنت؟ (رسمي)"}
+      - {phrase: "Es geht.", ar: "ماشي الحال / لا بأس."}
+      - {phrase: "Nicht so gut.", ar: "لستُ بخير كثيراً."}
+      - {vocab: "danke", ar: "شكراً", ex: "Danke schön!", ex_ar: "شكراً جزيلاً!"}
+      - {vocab: "bitte", ar: "من فضلك / تفضّل / عفواً", ex: "Danke! – Bitte!", ex_ar: "شكراً! — عفواً!"}
+      - quiz: الساعة 8 صباحاً. ماذا تقول؟
+        options: ["Guten Morgen!", "Guten Abend!", "Gute Nacht!", "Auf Wiederhören!"]
+      - quiz: تودّع مديرك في العمل. ماذا تقول؟
+        options: ["Auf Wiedersehen!", "Tschüss!", "Hallo!", "Gute Nacht!"]
+      - quiz: تنهي مكالمة هاتفية رسمية. ماذا تقول؟
+        options: ["Auf Wiederhören!", "Auf Wiedersehen!", "Guten Tag!", "Bis gleich!"]
+      - quiz: مع من تستخدم Sie؟
+        options: [مع موظف في الدائرة, مع أخيك, مع صديقك, مع طفل]
+      - gap: "Wie geht es ___? – Danke, gut."
+        ar: سؤال رسمي
+        options: [Ihnen, dir, du, Sie]
+      - gap: "Wie geht's? – Gut. Und ___?"
+        ar: رد غير رسمي
+        options: [dir, Ihnen, du, ich]
+      - listen: "Guten Abend!"
+        ar: استمع — متى تقال هذه التحية؟
+        options: [في المساء, في الصباح, قبل النوم, عند الوداع]
+      - listen: "Tschüss, bis morgen!"
+        ar: استمع — ماذا يعني؟
+        options: [باي، إلى الغد!, صباح الخير!, كيف حالك؟, شكراً جزيلاً]
+      - match: ["Guten Morgen = صباح الخير", "Gute Nacht = تصبح على خير", "Tschüss = باي", "Danke = شكراً", "Bitte = من فضلك"]
+      - order: "Wie geht es Ihnen?"
+        ar: "رتّب: كيف حالك؟ (رسمي)"
+      - write: "Guten Morgen|Guten Morgen!"
+        ar: "اكتب: صباح الخير"
+
+  - slug: a1-introduce
+    title_de: Sich vorstellen
+    title_ar: التعريف بالنفس
+    goal_ar: أن تقول اسمك ومن أين أنت وأين تسكن، وتسأل الآخرين عن ذلك.
+    explanation_ar: |
+      ## أهم الأفعال الأولى
+      | | heißen (يُسمّى) | kommen (يأتي) | wohnen (يسكن) | sein (يكون) |
+      |---|---|---|---|---|
+      | ich | heiße | komme | wohne | bin |
+      | du | heißt | kommst | wohnst | bist |
+      | er/sie | heißt | kommt | wohnt | ist |
+      | Sie | heißen | kommen | wohnen | sind |
+      ## الجمل
+      > Ich heiße Karim. / Mein Name ist Karim.
+      > Ich komme aus Syrien.
+      > Ich wohne in Hamburg.
+      > Ich bin 25 Jahre alt.
+      ## الأسئلة
+      | غير رسمي | رسمي |
+      |---|---|
+      | Wie heißt du? | Wie heißen Sie? |
+      | Woher kommst du? | Woher kommen Sie? |
+      | Wo wohnst du? | Wo wohnen Sie? |
+      | Wie alt bist du? | Wie alt sind Sie? |
+      - **aus** = من (البلد)، **in** = في (المدينة).
+    items:
+      - {phrase: "Ich heiße Karim.", ar: "اسمي كريم."}
+      - {phrase: "Mein Name ist Lina Haddad.", ar: "اسمي لينا حداد."}
+      - {phrase: "Ich komme aus Syrien.", ar: "أنا من سوريا."}
+      - {phrase: "Ich wohne in Hamburg.", ar: "أسكن في هامبورغ."}
+      - {phrase: "Ich bin 25 Jahre alt.", ar: "عمري 25 سنة."}
+      - {phrase: "Wie heißen Sie?", ar: "ما اسمك؟ (رسمي)"}
+      - {phrase: "Woher kommst du?", ar: "من أين أنت؟"}
+      - {phrase: "Wo wohnen Sie?", ar: "أين تسكن؟ (رسمي)"}
+      - {phrase: "Freut mich!", ar: "تشرّفت!"}
+      - {vocab: "der Name, -n", ar: "الاسم", ex: "Wie ist Ihr Name?", ex_ar: "ما اسمك؟"}
+      - {vocab: "der Vorname, -n", ar: "الاسم الأول", ex: "Mein Vorname ist Ali.", ex_ar: "اسمي الأول علي."}
+      - {vocab: "der Familienname, -n", ar: "اسم العائلة", ex: "Mein Familienname ist Saleh.", ex_ar: "اسم عائلتي صالح."}
+      - {vocab: "das Jahr, -e", ar: "السنة", ex: "Ich bin 30 Jahre alt.", ex_ar: "عمري 30 سنة."}
+      - {vocab: "alt", ar: "كبير السن / قديم", ex: "Wie alt bist du?", ex_ar: "كم عمرك؟"}
+      - gap: "Ich ___ Ahmed."
+        options: [heiße, heißt, heißen]
+      - gap: "Wie ___ du?"
+        options: [heißt, heiße, heißen]
+      - gap: "Woher ___ Sie?"
+        options: [kommen, kommst, komme]
+      - gap: "Ich komme ___ Ägypten."
+        options: [aus, in, nach]
+      - gap: "Ich wohne ___ Berlin."
+        options: [in, aus, von]
+      - gap: "Wie alt ___ du?"
+        options: [bist, bin, ist, sind]
+      - quiz: "كيف تسأل امرأة لا تعرفها عن اسمها؟"
+        options: ["Wie heißen Sie?", "Wie heißt du?", "Wer bist du?", "Heißen Sie?"]
+      - listen: "Ich komme aus dem Irak und wohne in Köln."
+        ar: استمع — أين يسكن؟
+        options: [في كولونيا, في العراق, في برلين, في ميونخ]
+      - order: "Ich wohne in Hamburg."
+        ar: أسكن في هامبورغ.
+      - order: "Woher kommen Sie?"
+        ar: من أين أنت؟ (رسمي)
+      - write: "Ich komme aus Syrien.|Ich komme aus Syrien"
+        ar: "اكتب: أنا من سوريا."
+      - write: "Wie heißt du?"
+        ar: "اكتب: ما اسمك؟ (غير رسمي)"
+
+  - slug: a1-countries
+    title_de: Länder und Sprachen
+    title_ar: البلدان واللغات
+    goal_ar: أن تذكر بلدك ولغتك وتسأل عن اللغات التي يتكلمها الآخرون.
+    explanation_ar: |
+      ## البلدان
+      معظم أسماء البلدان بدون أداة: aus Deutschland, aus Syrien, aus Ägypten.
+      بعض البلدان لها أداة:
+      | البلد | من... |
+      |---|---|
+      | der Irak / der Libanon / der Sudan / der Jemen | aus dem Irak |
+      | die Türkei / die Schweiz | aus der Türkei |
+      | die USA (جمع) | aus den USA |
+      ## اللغات
+      اللغات غالباً تنتهي بـ -isch: Arabisch, Englisch, Französisch, Türkisch — لكن **Deutsch**.
+      > Ich spreche Arabisch und ein bisschen Deutsch.
+      > Welche Sprachen sprichst du?
+      ## الفعل sprechen (غير منتظم)
+      | ich spreche | du sprichst | er/sie spricht | wir/Sie sprechen |
+      |---|---|---|---|
+    items:
+      - {vocab: "das Land, ¨-er", ar: "البلد", ex: "Aus welchem Land kommst du?", ex_ar: "من أي بلد أنت؟"}
+      - {vocab: "die Sprache, -n", ar: "اللغة", ex: "Welche Sprachen sprechen Sie?", ex_ar: "ما اللغات التي تتكلمها؟"}
+      - {vocab: "Deutschland", ar: "ألمانيا", ex: "Ich lebe in Deutschland.", ex_ar: "أعيش في ألمانيا."}
+      - {vocab: "Österreich", ar: "النمسا", ex: "Wien ist in Österreich.", ex_ar: "فيينا في النمسا."}
+      - {vocab: "die Schweiz", ar: "سويسرا", ex: "Er kommt aus der Schweiz.", ex_ar: "هو من سويسرا."}
+      - {vocab: "die Türkei", ar: "تركيا", ex: "Sie kommt aus der Türkei.", ex_ar: "هي من تركيا."}
+      - {vocab: "der Irak", ar: "العراق", ex: "Ich komme aus dem Irak.", ex_ar: "أنا من العراق."}
+      - {vocab: "Arabisch", ar: "العربية", ex: "Ich spreche Arabisch.", ex_ar: "أتكلم العربية."}
+      - {vocab: "Deutsch", ar: "الألمانية", ex: "Ich lerne Deutsch.", ex_ar: "أتعلم الألمانية."}
+      - {vocab: "Englisch", ar: "الإنجليزية", ex: "Sprichst du Englisch?", ex_ar: "هل تتكلم الإنجليزية؟"}
+      - {vocab: "sprechen", ar: "يتكلم", ex: "Er spricht gut Deutsch.", ex_ar: "يتكلم الألمانية جيداً."}
+      - {vocab: "lernen", ar: "يتعلم", ex: "Wir lernen zusammen.", ex_ar: "نتعلم معاً."}
+      - {vocab: "ein bisschen", ar: "قليلاً", ex: "Ich spreche ein bisschen Deutsch.", ex_ar: "أتكلم الألمانية قليلاً."}
+      - gap: "Ich komme aus ___ Türkei."
+        options: [der, dem, die]
+      - gap: "Er kommt aus ___ Irak."
+        options: [dem, der, die]
+      - gap: "Ich komme aus ___."
+        ar: أنا من ألمانيا.
+        options: [Deutschland, Deutsch, deutsch]
+      - gap: "Du ___ sehr gut Deutsch!"
+        options: [sprichst, sprechst, spricht, sprechen]
+      - gap: "Sie ___ Arabisch und Englisch."
+        ar: هي تتكلم...
+        options: [spricht, sprecht, sprichst, spreche]
+      - quiz: "ما اللغة الرسمية في النمسا؟"
+        options: [Deutsch, Österreichisch, Englisch, Französisch]
+      - listen: "Ich spreche Arabisch, Englisch und ein bisschen Deutsch."
+        ar: استمع — كيف لغته الألمانية؟
+        options: [قليلة, ممتازة, لا يتكلمها, لغته الأم]
+      - match: ["das Land = البلد", "die Sprache = اللغة", "lernen = يتعلم", "sprechen = يتكلم", "ein bisschen = قليلاً"]
+      - order: "Welche Sprachen sprichst du?"
+        ar: ما اللغات التي تتكلمها؟
+      - write: "Ich spreche Arabisch.|Ich spreche Arabisch"
+        ar: "اكتب: أتكلم العربية."
+
+  - slug: a1-numbers-0-20
+    title_de: Zahlen 0–20
+    title_ar: الأرقام من 0 إلى 20
+    goal_ar: أن تعدّ من 0 إلى 20 وتفهم الأرقام في الهاتف والعمر.
+    explanation_ar: |
+      ## من 0 إلى 12 — احفظها
+      | 0 null | 1 eins | 2 zwei | 3 drei |
+      |---|---|---|---|
+      | 4 vier | 5 fünf | 6 sechs | 7 sieben |
+      | 8 acht | 9 neun | 10 zehn | 11 elf |
+      | 12 zwölf | | | |
+      ## من 13 إلى 19 = الرقم + zehn
+      > 13 dreizehn, 14 vierzehn, 15 fünfzehn
+      انتبه: **16 sechzehn** (بدون s) و **17 siebzehn** (بدون en).
+      ## 20 = zwanzig
+      - على الهاتف يقول الألمان أحياناً **zwo** بدل zwei حتى لا تختلط بـ drei.
+    items:
+      - {vocab: "null", ar: "صفر"}
+      - {vocab: "eins", ar: "واحد"}
+      - {vocab: "zwei", ar: "اثنان"}
+      - {vocab: "fünf", ar: "خمسة"}
+      - {vocab: "neun", ar: "تسعة"}
+      - {vocab: "zehn", ar: "عشرة"}
+      - {vocab: "elf", ar: "أحد عشر"}
+      - {vocab: "zwölf", ar: "اثنا عشر"}
+      - {vocab: "sechzehn", ar: "ستة عشر"}
+      - {vocab: "siebzehn", ar: "سبعة عشر"}
+      - {vocab: "zwanzig", ar: "عشرون"}
+      - {vocab: "die Zahl, -en", ar: "الرقم / العدد", ex: "Die Zahl ist richtig.", ex_ar: "الرقم صحيح."}
+      - listen: "elf"
+        ar: استمع — أي رقم؟
+        options: ["11", "12", "8", "1"]
+      - listen: "zwölf"
+        ar: استمع — أي رقم؟
+        options: ["12", "11", "20", "2"]
+      - listen: "sechzehn"
+        ar: استمع — أي رقم؟
+        options: ["16", "6", "60", "17"]
+      - listen: "neunzehn"
+        ar: استمع — أي رقم؟
+        options: ["19", "9", "90", "15"]
+      - listen: "Meine Telefonnummer ist null, eins, fünf, sieben."
+        ar: استمع — ما الرقم؟
+        options: ["0157", "0175", "0517", "1057"]
+      - quiz: "كيف تكتب 17؟"
+        options: [siebzehn, siebenzehn, siebzig, sibzehn]
+      - quiz: "كيف تكتب 16؟"
+        options: [sechzehn, sechszehn, sechzig, sechs]
+      - match: ["drei = 3", "acht = 8", "elf = 11", "fünfzehn = 15", "zwanzig = 20"]
+      - write: "zwölf|zwoelf"
+        ar: "اكتب الرقم 12 بالحروف:"
+      - write: "fünfzehn|fuenfzehn"
+        ar: "اكتب الرقم 15 بالحروف:"
+
+  - slug: a1-numbers-100
+    title_de: Zahlen bis 1000 und Preise
+    title_ar: الأرقام حتى 1000 والأسعار
+    goal_ar: أن تفهم الأرقام الكبيرة والأسعار وتسأل عن الثمن.
+    explanation_ar: |
+      ## العشرات
+      | 20 zwanzig | 30 dreißig | 40 vierzig | 50 fünfzig |
+      |---|---|---|---|
+      | 60 sechzig | 70 siebzig | 80 achtzig | 90 neunzig |
+      انتبه: **30 dreißig** بحرف ß، و 60 sechzig، 70 siebzig.
+      ## الآحاد قبل العشرات! (مثل العربية)
+      > 21 = einundzwanzig (واحد وعشرون)
+      > 47 = siebenundvierzig
+      ## المئات والآلاف
+      > 100 (ein)hundert – 250 zweihundertfünfzig – 1000 (ein)tausend
+      ## الأسعار
+      > 3,50 € = drei Euro fünfzig
+      > Was kostet das? / Wie viel kostet das? — Das kostet 12 Euro.
+    items:
+      - {vocab: "dreißig", ar: "ثلاثون"}
+      - {vocab: "fünfzig", ar: "خمسون"}
+      - {vocab: "siebzig", ar: "سبعون"}
+      - {vocab: "hundert", ar: "مئة"}
+      - {vocab: "tausend", ar: "ألف"}
+      - {vocab: "der Euro, -s", ar: "اليورو", ex: "Das kostet zehn Euro.", ex_ar: "هذا يكلّف عشرة يورو."}
+      - {vocab: "der Cent, -s", ar: "السنت", ex: "Das kostet 50 Cent.", ex_ar: "يكلّف 50 سنتاً."}
+      - {vocab: "kosten", ar: "يكلّف", ex: "Was kostet die Tasche?", ex_ar: "كم ثمن الحقيبة؟"}
+      - {vocab: "der Preis, -e", ar: "السعر", ex: "Der Preis ist gut.", ex_ar: "السعر جيد."}
+      - {vocab: "teuer", ar: "غالٍ", ex: "Das ist zu teuer.", ex_ar: "هذا غالٍ جداً."}
+      - {vocab: "billig", ar: "رخيص", ex: "Die Äpfel sind billig.", ex_ar: "التفاح رخيص."}
+      - {phrase: "Wie viel kostet das?", ar: "كم ثمن هذا؟"}
+      - listen: "einundzwanzig"
+        ar: استمع — أي رقم؟
+        options: ["21", "12", "20", "31"]
+      - listen: "siebenundvierzig"
+        ar: استمع — أي رقم؟
+        options: ["47", "74", "17", "407"]
+      - listen: "Das kostet drei Euro fünfzig."
+        ar: استمع — كم السعر؟
+        options: ["3,50 €", "5,30 €", "3,15 €", "13,50 €"]
+      - listen: "Die Jacke kostet neunundachtzig Euro."
+        ar: استمع — كم ثمن الجاكيت؟
+        options: ["89 €", "98 €", "19 €", "80 €"]
+      - quiz: "كيف تقول 65؟"
+        options: [fünfundsechzig, sechsundfünfzig, sechzigfünf, fünfsechzig]
+      - quiz: "كيف تكتب 30؟"
+        options: [dreißig, dreizig, dreizehn, dreisig]
+      - gap: "Was ___ der Kaffee?"
+        options: [kostet, kosten, kostest]
+      - match: ["dreißig = 30", "sechzig = 60", "siebzig = 70", "hundert = 100", "teuer = غالٍ"]
+      - order: "Wie viel kostet das?"
+        ar: كم ثمن هذا؟
+      - write: "dreiundzwanzig"
+        ar: "اكتب الرقم 23 بالحروف:"
+
+  - slug: a1-personal-data
+    title_de: Persönliche Angaben – ein Formular
+    title_ar: البيانات الشخصية — تعبئة استمارة
+    goal_ar: أن تفهم وتعبّئ استمارة (كما في امتحان Goethe A1 — الكتابة الجزء 1) وتتهجّى بياناتك.
+    explanation_ar: |
+      ## كلمات الاستمارة (Formular)
+      | الألمانية | المعنى |
+      |---|---|
+      | Vorname / Nachname | الاسم الأول / اسم العائلة |
+      | Geburtsdatum / Geburtsort | تاريخ / مكان الميلاد |
+      | Straße, Hausnummer | الشارع، رقم البيت |
+      | PLZ (Postleitzahl), Wohnort | الرمز البريدي، مكان السكن |
+      | Telefonnummer / E-Mail | الهاتف / البريد |
+      | Familienstand | الحالة الاجتماعية: ledig, verheiratet, geschieden |
+      | Staatsangehörigkeit | الجنسية |
+      | Beruf | المهنة |
+      | Unterschrift | التوقيع |
+      ## العنوان في ألمانيا
+      > Goethestraße 12, 20095 Hamburg
+      اسم الشارع ثم الرقم، ثم الرمز البريدي ثم المدينة.
+      ## أسئلة مهمة
+      > Wie ist Ihre Adresse? — Wie ist Ihre Telefonnummer?
+      > Sind Sie verheiratet? — Nein, ich bin ledig.
+    items:
+      - {vocab: "das Formular, -e", ar: "الاستمارة", ex: "Füllen Sie bitte das Formular aus.", ex_ar: "املأ الاستمارة من فضلك."}
+      - {vocab: "die Adresse, -n", ar: "العنوان", ex: "Wie ist Ihre Adresse?", ex_ar: "ما عنوانك؟"}
+      - {vocab: "die Telefonnummer, -n", ar: "رقم الهاتف", ex: "Wie ist deine Telefonnummer?", ex_ar: "ما رقم هاتفك؟"}
+      - {vocab: "die Postleitzahl, -en", ar: "الرمز البريدي", ex: "Die Postleitzahl ist 10115.", ex_ar: "الرمز البريدي 10115."}
+      - {vocab: "das Geburtsdatum, -daten", ar: "تاريخ الميلاد", ex: "Mein Geburtsdatum ist der 3. Mai 1995.", ex_ar: "تاريخ ميلادي 3 أيار 1995."}
+      - {vocab: "geboren", ar: "مولود", ex: "Ich bin in Aleppo geboren.", ex_ar: "وُلدت في حلب."}
+      - {vocab: "ledig", ar: "أعزب", ex: "Ich bin ledig.", ex_ar: "أنا أعزب."}
+      - {vocab: "verheiratet", ar: "متزوج", ex: "Sie ist verheiratet.", ex_ar: "هي متزوجة."}
+      - {vocab: "geschieden", ar: "مطلّق", ex: "Er ist geschieden.", ex_ar: "هو مطلّق."}
+      - {vocab: "der Beruf, -e", ar: "المهنة", ex: "Was sind Sie von Beruf?", ex_ar: "ما مهنتك؟"}
+      - {vocab: "die Unterschrift, -en", ar: "التوقيع", ex: "Hier ist Ihre Unterschrift.", ex_ar: "هنا توقيعك."}
+      - {vocab: "ausfüllen", ar: "يملأ (استمارة)", ex: "Ich fülle das Formular aus.", ex_ar: "أملأ الاستمارة."}
+      - text: |
+          Anmeldung – Sprachschule Berlin
+          Nachname: Haddad
+          Vorname: Lina
+          Geburtsdatum: 14.02.1998
+          Geburtsort: Damaskus
+          Adresse: Lindenstraße 5, 10969 Berlin
+          Telefon: 0176 4458 210
+          Familienstand: verheiratet
+          Kurs: Deutsch A1, Montag bis Freitag
+        ar: |
+          تسجيل — مدرسة لغات برلين
+          اسم العائلة: حداد — الاسم: لينا — تاريخ الميلاد: 14.02.1998 — مكان الميلاد: دمشق
+          العنوان: شارع ليندن 5، 10969 برلين — الهاتف — الحالة: متزوجة — الدورة: ألماني A1 من الاثنين إلى الجمعة
+      - quiz: "حسب الاستمارة: أين وُلدت لينا؟"
+        options: [في دمشق, في برلين, في حلب, في بيروت]
+      - quiz: "حسب الاستمارة: ما الحالة الاجتماعية للينا؟"
+        options: [متزوجة, عزباء, مطلّقة, غير مذكور]
+      - quiz: "ماذا تكتب في خانة Unterschrift؟"
+        options: [توقيعك, اسم الشارع, رقم الهاتف, مهنتك]
+      - quiz: "ماذا تعني PLZ؟"
+        options: [الرمز البريدي, رقم الهاتف, رقم البيت, الجنسية]
+      - gap: "Ich bin nicht verheiratet. Ich bin ___."
+        options: [ledig, geschieden, geboren]
+      - gap: "Was sind Sie von ___? – Ich bin Krankenpfleger."
+        options: [Beruf, Name, Adresse]
+      - listen: "Meine Adresse ist Bahnhofstraße 8, 50667 Köln."
+        ar: استمع — ما رقم البيت؟
+        options: ["8", "18", "50667", "80"]
+      - match: ["ledig = أعزب", "verheiratet = متزوج", "die Unterschrift = التوقيع", "der Beruf = المهنة", "das Formular = الاستمارة"]
+      - order: "Wie ist Ihre Telefonnummer?"
+        ar: ما رقم هاتفك؟
+      - write: "Ich bin verheiratet.|Ich bin verheiratet"
+        ar: "اكتب: أنا متزوج."
+
+  - slug: a1-family
+    title_de: Die Familie
+    title_ar: العائلة
+    goal_ar: أن تتكلم عن أفراد عائلتك وتستخدم mein/meine و dein/deine.
+    explanation_ar: |
+      ## أفراد العائلة
+      | مذكر (der) | مؤنث (die) |
+      |---|---|
+      | der Vater (الأب) | die Mutter (الأم) |
+      | der Sohn (الابن) | die Tochter (البنت) |
+      | der Bruder (الأخ) | die Schwester (الأخت) |
+      | der Großvater / Opa | die Großmutter / Oma |
+      | der Mann (الزوج) | die Frau (الزوجة) |
+      | der Onkel | die Tante |
+      - الجمع: **die Eltern** (الوالدان)، **die Geschwister** (الإخوة)، **die Kinder** (الأولاد).
+      ## mein / meine
+      | مذكر/محايد | مؤنث وجمع |
+      |---|---|
+      | mein Vater, mein Kind | meine Mutter, meine Eltern |
+      | dein Bruder | deine Schwester |
+      > Das ist meine Schwester. Sie heißt Rana.
+      > Hast du Geschwister? — Ja, ich habe zwei Brüder.
+    items:
+      - {vocab: "die Familie, -n", ar: "العائلة", ex: "Meine Familie ist groß.", ex_ar: "عائلتي كبيرة."}
+      - {vocab: "die Mutter, ¨-", ar: "الأم", ex: "Meine Mutter heißt Samira.", ex_ar: "اسم أمي سميرة."}
+      - {vocab: "der Vater, ¨-", ar: "الأب", ex: "Mein Vater arbeitet viel.", ex_ar: "أبي يعمل كثيراً."}
+      - {vocab: "die Eltern (Pl.)", ar: "الوالدان", ex: "Meine Eltern wohnen in Jordanien.", ex_ar: "والداي يسكنان في الأردن."}
+      - {vocab: "der Bruder, ¨-", ar: "الأخ", ex: "Ich habe einen Bruder.", ex_ar: "لدي أخ."}
+      - {vocab: "die Schwester, -n", ar: "الأخت", ex: "Meine Schwester ist 12.", ex_ar: "أختي عمرها 12."}
+      - {vocab: "die Geschwister (Pl.)", ar: "الإخوة والأخوات", ex: "Hast du Geschwister?", ex_ar: "هل لديك إخوة؟"}
+      - {vocab: "der Sohn, ¨-e", ar: "الابن", ex: "Unser Sohn geht zur Schule.", ex_ar: "ابننا يذهب إلى المدرسة."}
+      - {vocab: "die Tochter, ¨-", ar: "البنت (الابنة)", ex: "Meine Tochter ist drei.", ex_ar: "ابنتي عمرها ثلاث سنوات."}
+      - {vocab: "das Kind, -er", ar: "الطفل", ex: "Wir haben zwei Kinder.", ex_ar: "لدينا طفلان."}
+      - {vocab: "der Mann, ¨-er", ar: "الرجل / الزوج", ex: "Das ist mein Mann.", ex_ar: "هذا زوجي."}
+      - {vocab: "die Großmutter, ¨- (Oma)", ar: "الجدة", ex: "Meine Oma ist 80.", ex_ar: "جدتي عمرها 80."}
+      - {vocab: "der Großvater, ¨- (Opa)", ar: "الجد", ex: "Mein Opa erzählt Geschichten.", ex_ar: "جدي يحكي قصصاً."}
+      - {vocab: "der Onkel, -", ar: "العم / الخال"}
+      - {vocab: "die Tante, -n", ar: "العمة / الخالة"}
+      - {vocab: "haben", ar: "يملك / لديه", ex: "Ich habe eine Schwester.", ex_ar: "لدي أخت."}
+      - text: |
+          Hallo! Ich heiße Omar und bin 28 Jahre alt. Ich komme aus Jordanien und wohne jetzt in Leipzig.
+          Ich bin verheiratet. Meine Frau heißt Dana. Wir haben eine Tochter, sie ist zwei Jahre alt.
+          Meine Eltern und meine Geschwister wohnen noch in Amman. Ich habe einen Bruder und zwei Schwestern.
+        ar: |
+          مرحباً! اسمي عمر وعمري 28 سنة. أنا من الأردن وأسكن الآن في لايبزيغ.
+          أنا متزوج. اسم زوجتي دانة. لدينا بنت عمرها سنتان.
+          والداي وإخوتي ما زالوا يسكنون في عمّان. لدي أخ واحد وأختان.
+      - quiz: "حسب النص: كم أختاً لعمر؟"
+        options: [اثنتان, واحدة, ثلاث, لا يوجد]
+      - quiz: "حسب النص: أين يسكن والدا عمر؟"
+        options: [في عمّان, في لايبزيغ, في برلين, في دمشق]
+      - gap: "Das ist ___ Mutter."
+        options: [meine, mein, meinen]
+      - gap: "Das ist ___ Bruder."
+        options: [mein, meine, meiner]
+      - gap: "Wie heißt ___ Schwester?"
+        options: [deine, dein, du]
+      - gap: "Mein Vater und meine Mutter = meine ___."
+        options: [Eltern, Geschwister, Kinder]
+      - listen: "Ich habe zwei Kinder: einen Sohn und eine Tochter."
+        ar: استمع — كم ولداً لديه؟
+        options: [ولدان, ولد واحد, ثلاثة أولاد, لا أولاد]
+      - match: ["die Mutter = الأم", "der Bruder = الأخ", "die Tochter = الابنة", "die Eltern = الوالدان", "die Oma = الجدة"]
+      - order: "Hast du Geschwister?"
+        ar: هل لديك إخوة؟
+      - write: "Das ist meine Mutter.|Das ist meine Mutter"
+        ar: "اكتب: هذه أمي."
+
+  - slug: a1-kontakte-test
+    kind: test
+    title_de: Modultest – Kontakte
+    title_ar: اختبار وحدة التعارف
+    goal_ar: اختبر نفسك في التحيات، التعريف بالنفس، الأرقام، الاستمارة والعائلة. النجاح من 70٪.
+    items:
+      - quiz: الساعة 9 مساءً، تدخل مطعماً. ماذا تقول؟
+        options: ["Guten Abend!", "Guten Morgen!", "Gute Nacht!", "Tschüss!"]
+      - gap: "Wie ___ Sie?"
+        options: [heißen, heißt, heiße]
+      - gap: "Ich komme ___ dem Libanon."
+        options: [aus, in, von]
+      - gap: "Er ___ gut Englisch."
+        options: [spricht, sprecht, sprichst]
+      - gap: "Das ist ___ Tochter."
+        options: [meine, mein, meinen]
+      - gap: "Wie alt ___ Sie?"
+        options: [sind, ist, bist]
+      - listen: "achtundfünfzig"
+        ar: أي رقم سمعت؟
+        options: ["58", "85", "18", "508"]
+      - listen: "Das kostet vierzehn Euro neunzig."
+        ar: كم السعر؟
+        options: ["14,90 €", "40,90 €", "14,19 €", "90,14 €"]
+      - listen: "Meine Postleitzahl ist 80331."
+        ar: ما الرمز البريدي؟
+        options: ["80331", "80313", "83031", "38031"]
+      - quiz: "ماذا تعني geschieden؟"
+        options: [مطلّق, أعزب, متزوج, أرمل]
+      - quiz: "كيف تقول 'إخوة وأخوات' بكلمة واحدة؟"
+        options: [Geschwister, Eltern, Kinder, Brüder]
+      - quiz: "رد مناسب على 'Danke!'"
+        options: ["Bitte!", "Tschüss!", "Hallo!", "Gut!"]
+      - match: ["der Vorname = الاسم الأول", "die Adresse = العنوان", "der Beruf = المهنة", "die Sprache = اللغة", "ledig = أعزب"]
+      - order: "Ich wohne seit zwei Jahren in Berlin."
+        ar: أسكن في برلين منذ سنتين.
+      - order: "Woher kommt deine Familie?"
+        ar: من أين عائلتك؟
+      - write: "Ich heiße Ali.|Ich heiße Ali|Mein Name ist Ali.|Mein Name ist Ali"
+        ar: "اكتب: اسمي علي."
+      - write: "vierzig"
+        ar: "اكتب الرقم 40 بالحروف:"
+      - write: "Wo wohnen Sie?"
+        ar: "اكتب: أين تسكن؟ (رسمي)"
