@@ -46,8 +46,7 @@ class AppEnv {
 
   bool get isConfigured => issues.isEmpty;
 
-  static bool _isLocalHost(String host) =>
-      host == 'localhost' || host == '127.0.0.1' || host == '10.0.2.2';
+  static bool _isLocalHost(String host) => host == 'localhost' || host == '127.0.0.1' || host == '10.0.2.2';
 
   /// True for Supabase secret keys: new-style `sb_secret_...` or a legacy JWT
   /// whose payload has `"role": "service_role"`.

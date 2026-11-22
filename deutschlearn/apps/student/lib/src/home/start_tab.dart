@@ -2,10 +2,12 @@ import 'package:auth/auth.dart';
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../lessons/lesson_providers.dart';
 import '../lessons/progress_tab.dart';
+import '../router.dart';
 import 'home_shell.dart';
 import 'teacher_link_tile.dart';
 
@@ -77,6 +79,24 @@ class StartTab extends ConsumerWidget {
             ],
           ),
         ),
+        if (ref.watch(homeworkProvider).value case final homework? when homework.isNotEmpty) ...[
+          const SizedBox(height: DLSpacing.xl),
+          const DLSectionHeader(arabic: 'واجباتي', german: 'Hausaufgaben'),
+          const SizedBox(height: DLSpacing.md),
+          for (final h in homework) ...[
+            DLFeatureTile(
+              key: Key('homework-${h.assignment.id}'),
+              icon: h.progress == null ? Icons.assignment_outlined : Icons.assignment_turned_in,
+              color: h.progress == null ? DLColors.yellow : DLColors.success,
+              title: h.lesson.titleAr.isEmpty ? h.lesson.titleDe : '${h.lesson.titleAr} • ${h.lesson.titleDe}',
+              subtitle: h.progress == null
+                  ? (h.assignment.note.isEmpty ? 'من معلّمك • Von deiner Lehrkraft' : h.assignment.note)
+                  : 'تم • Erledigt ${h.progress!.bestScore}/${h.progress!.maxScore}',
+              onTap: () => context.push(StudentRoutes.lesson(h.lesson.id)),
+            ),
+            const SizedBox(height: DLSpacing.sm),
+          ],
+        ],
         if (ref.watch(progressSummaryProvider).value?.next case final next?) ...[
           const SizedBox(height: DLSpacing.xl),
           const DLSectionHeader(arabic: 'تابع التعلّم', german: 'Weiterlernen'),

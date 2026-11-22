@@ -422,7 +422,8 @@ class LinkedStudentsSection extends ConsumerWidget {
                 icon: Icons.person_rounded,
                 color: DLColors.teal,
                 title: l.student?.displayName ?? '',
-                subtitle: 'CEFR ${l.student?.cefrLevel?.code ?? 'A1'}',
+                subtitle: 'CEFR ${l.student?.cefrLevel?.code ?? 'A1'} • التقدّم والواجبات • Fortschritt',
+                onTap: () => context.push(TeacherRoutes.student(l.studentId), extra: l.student),
                 trailing: IconButton(
                   tooltip: 'فك الارتباط • Trennen',
                   icon: const Icon(Icons.link_off, color: DLColors.error),

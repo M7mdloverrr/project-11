@@ -7,7 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:teacher/src/dashboard/dashboard_screen.dart';
 
-const _teacher = Profile(id: 'teacher-1', role: Role.teacher, displayName: 'Frau Weber', locale: 'de', cefrLevel: CefrLevel.c1);
+const _teacher = Profile(
+  id: 'teacher-1',
+  role: Role.teacher,
+  displayName: 'Frau Weber',
+  locale: 'de',
+  cefrLevel: CefrLevel.c1,
+);
 
 LinkRequest _request(String id, String name) => LinkRequest(
   id: id,
@@ -23,8 +29,7 @@ void main() {
   late FakeLinkRepository repo;
 
   setUp(() {
-    repo = FakeLinkRepository()
-      ..pending.addAll([_request('r1', 'Amira'), _request('r2', 'Omar')]);
+    repo = FakeLinkRepository()..pending.addAll([_request('r1', 'Amira'), _request('r2', 'Omar')]);
   });
 
   Future<void> pump(WidgetTester tester) async {
@@ -34,10 +39,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         retry: noRetry,
-        overrides: [
-          linkRepositoryProvider.overrideWithValue(repo),
-          currentProfileProvider.overrideWithValue(_teacher),
-        ],
+        overrides: [linkRepositoryProvider.overrideWithValue(repo), currentProfileProvider.overrideWithValue(_teacher)],
         child: MaterialApp(
           theme: DLTheme.light(),
           locale: const Locale('ar'),

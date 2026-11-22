@@ -19,9 +19,10 @@ AppFailure mapSupabaseError(Object error) {
       'user_already_exists' || 'email_exists' => FailureKind.emailInUse,
       'weak_password' => FailureKind.weakPassword,
       'over_request_rate_limit' || 'over_email_send_rate_limit' => FailureKind.rateLimited,
-      _ => error.statusCode == '400' && error.message.contains('Invalid login')
-          ? FailureKind.invalidCredentials
-          : FailureKind.unknown,
+      _ =>
+        error.statusCode == '400' && error.message.contains('Invalid login')
+            ? FailureKind.invalidCredentials
+            : FailureKind.unknown,
     };
     return AppFailure(kind, error.message);
   }

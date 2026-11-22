@@ -17,4 +17,9 @@ abstract interface class LessonRepository {
   Future<Lesson> saveLesson(Lesson lesson);
   Future<void> deleteLesson(String lessonId);
   Future<void> saveItems(String lessonId, List<LessonItem> items);
+
+  /// Homework of the signed-in student, or of [studentId] for their teacher.
+  Future<List<LessonAssignment>> fetchAssignments({String? studentId});
+  Future<LessonAssignment> assignLesson({required String studentId, required String lessonId, String note = ''});
+  Future<void> removeAssignment(String assignmentId);
 }
