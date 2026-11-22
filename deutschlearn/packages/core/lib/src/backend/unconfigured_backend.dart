@@ -5,8 +5,10 @@ import '../models/link.dart';
 import '../models/profile.dart';
 import '../models/role.dart';
 import '../models/teacher_code.dart';
+import '../models/chat.dart';
 import 'admin_repository.dart';
 import 'auth_gateway.dart';
+import 'chat_repository.dart';
 import 'lesson_repository.dart';
 import 'link_repository.dart';
 import 'profile_repository.dart';
@@ -145,4 +147,16 @@ class UnconfiguredLessonRepository implements LessonRepository {
 
   @override
   Future<void> removeAssignment(String assignmentId) => Future.error(_notConfigured);
+}
+
+class UnconfiguredChatRepository implements ChatRepository {
+  const UnconfiguredChatRepository();
+
+  @override
+  Stream<List<ChatMessage>> watchThread({required String teacherId, required String studentId}) =>
+      Stream.error(_notConfigured);
+
+  @override
+  Future<ChatMessage> send({required String teacherId, required String studentId, required String body}) =>
+      Future.error(_notConfigured);
 }

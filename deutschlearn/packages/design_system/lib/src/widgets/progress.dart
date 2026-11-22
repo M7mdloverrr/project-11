@@ -6,7 +6,13 @@ import '../tokens.dart';
 
 /// Rounded linear progress bar with optional percentage label.
 class DLProgressBar extends StatelessWidget {
-  const DLProgressBar({super.key, required this.value, this.color = DLColors.teal, this.height = 10, this.showLabel = false});
+  const DLProgressBar({
+    super.key,
+    required this.value,
+    this.color = DLColors.teal,
+    this.height = 10,
+    this.showLabel = false,
+  });
 
   final double value;
   final Color color;
@@ -141,6 +147,9 @@ class DLStagePath extends StatelessWidget {
         );
       }
     }
-    return Directionality(textDirection: TextDirection.ltr, child: Row(children: children));
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Row(children: children),
+    );
   }
 }

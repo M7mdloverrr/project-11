@@ -8,12 +8,14 @@ import 'dashboard/dashboard_screen.dart';
 import 'package:core/core.dart';
 
 import 'profile_setup_screen.dart';
+import 'students/student_chat_screen.dart';
 import 'students/student_detail_screen.dart';
 
 abstract final class TeacherRoutes {
   static const dashboard = '/dashboard';
   static const profileSetup = '/profile-setup';
   static String student(String id) => '/dashboard/student/$id';
+  static String chat(String id) => '/dashboard/student/$id/chat';
 }
 
 const _appSubtitle = 'لوحة المعلّم • Lehrer-Dashboard';
@@ -69,6 +71,13 @@ final teacherRouterProvider = Provider<GoRouter>((ref) {
             path: 'student/:id',
             builder: (_, state) =>
                 StudentDetailScreen(studentId: state.pathParameters['id']!, student: state.extra as LinkParty?),
+            routes: [
+              GoRoute(
+                path: 'chat',
+                builder: (_, state) =>
+                    StudentChatScreen(studentId: state.pathParameters['id']!, student: state.extra as LinkParty?),
+              ),
+            ],
           ),
         ],
       ),

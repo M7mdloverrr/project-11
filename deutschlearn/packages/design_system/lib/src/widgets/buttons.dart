@@ -47,7 +47,10 @@ class DLSecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: color == null
           ? null
-          : OutlinedButton.styleFrom(foregroundColor: color, side: BorderSide(color: color!)),
+          : OutlinedButton.styleFrom(
+              foregroundColor: color,
+              side: BorderSide(color: color!),
+            ),
       child: _Label(label: label, icon: icon),
     );
   }
@@ -112,7 +115,11 @@ class _Label extends StatelessWidget {
     if (icon == null) return Text(label);
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [Icon(icon, size: 20), const SizedBox(width: DLSpacing.sm), Flexible(child: Text(label))],
+      children: [
+        Icon(icon, size: 20),
+        const SizedBox(width: DLSpacing.sm),
+        Flexible(child: Text(label)),
+      ],
     );
   }
 }

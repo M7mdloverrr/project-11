@@ -44,7 +44,9 @@ class DLSectionHeader extends StatelessWidget {
       padding: const EdgeInsets.only(top: DLSpacing.lg, bottom: DLSpacing.sm),
       child: Row(
         children: [
-          Expanded(child: DLBilingualTitle(arabic: arabic, german: german)),
+          Expanded(
+            child: DLBilingualTitle(arabic: arabic, german: german),
+          ),
           ?trailing,
         ],
       ),
@@ -54,4 +56,3 @@ class DLSectionHeader extends StatelessWidget {
 
 /// Text field label in the form "البريد الإلكتروني • E-Mail".
 String bilingualLabel(String arabic, String german) => '$arabic • $german';
-

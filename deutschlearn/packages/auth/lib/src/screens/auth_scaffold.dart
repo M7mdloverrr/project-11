@@ -28,10 +28,7 @@ class AuthScaffold extends ConsumerWidget {
                 children: [
                   DLLogo(size: 64, subtitle: logoSubtitle),
                   const SizedBox(height: DLSpacing.xl),
-                  if (notConfigured) ...[
-                    const BackendNotConfiguredBanner(),
-                    const SizedBox(height: DLSpacing.lg),
-                  ],
+                  if (notConfigured) ...[const BackendNotConfiguredBanner(), const SizedBox(height: DLSpacing.lg)],
                   child,
                 ],
               ),

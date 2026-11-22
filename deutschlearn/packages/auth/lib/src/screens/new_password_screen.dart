@@ -70,7 +70,11 @@ class _NewPasswordScreenState extends ConsumerState<NewPasswordScreen> {
             ),
             const SizedBox(height: DLSpacing.xl),
             if (_error != null) FormErrorBanner(_error!),
-            DLPrimaryButton(label: bilingualLabel('حفظ', 'Speichern'), loading: _busy, onPressed: _busy ? null : _submit),
+            DLPrimaryButton(
+              label: bilingualLabel('حفظ', 'Speichern'),
+              loading: _busy,
+              onPressed: _busy ? null : _submit,
+            ),
           ],
         ),
       ),

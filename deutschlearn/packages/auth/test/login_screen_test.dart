@@ -13,8 +13,14 @@ Widget _app(List<Override> overrides) {
     initialLocation: AuthRoutes.login,
     routes: [
       GoRoute(path: AuthRoutes.login, builder: (_, _) => const LoginScreen()),
-      GoRoute(path: AuthRoutes.signUp, builder: (_, _) => const Scaffold(body: Text('signup'))),
-      GoRoute(path: AuthRoutes.resetPassword, builder: (_, _) => const Scaffold(body: Text('reset'))),
+      GoRoute(
+        path: AuthRoutes.signUp,
+        builder: (_, _) => const Scaffold(body: Text('signup')),
+      ),
+      GoRoute(
+        path: AuthRoutes.resetPassword,
+        builder: (_, _) => const Scaffold(body: Text('reset')),
+      ),
     ],
   );
   return ProviderScope(
@@ -78,7 +84,10 @@ void main() {
       routes: [GoRoute(path: AuthRoutes.login, builder: (_, _) => const LoginScreen())],
     );
     await tester.pumpWidget(
-      UncontrolledProviderScope(container: container, child: MaterialApp.router(routerConfig: router)),
+      UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp.router(routerConfig: router),
+      ),
     );
     await tester.enterText(find.byKey(const Key('login-email')), 'amira@example.com');
     await tester.enterText(find.byKey(const Key('login-password')), 'deutsch1');

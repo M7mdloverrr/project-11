@@ -1,9 +1,9 @@
-import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../lessons/lessons_tab.dart';
 import '../lessons/progress_tab.dart';
+import 'chat_tab.dart';
 import 'profile_tab.dart';
 import 'start_tab.dart';
 
@@ -29,18 +29,7 @@ class HomeShell extends ConsumerWidget {
       body: SafeArea(
         child: IndexedStack(
           index: tab.index,
-          children: const [
-            StartTab(),
-            LessonsTab(),
-            ProgressTab(),
-            DLComingSoon(
-              icon: Icons.chat_bubble_rounded,
-              title: 'المحادثة',
-              subtitle: 'Chat',
-              message: 'المحادثة مع معلّمك قادمة قريباً.\nDer Chat mit deiner Lehrkraft kommt bald.',
-            ),
-            ProfileTab(),
-          ],
+          children: const [StartTab(), LessonsTab(), ProgressTab(), ChatTab(), ProfileTab()],
         ),
       ),
       bottomNavigationBar: NavigationBar(

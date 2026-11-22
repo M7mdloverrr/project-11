@@ -1,6 +1,7 @@
 /// Email auth, session restore and role-aware routing for DeutschLearn apps.
 library;
 
+export 'src/chat/chat_thread_view.dart';
 export 'src/guard.dart';
 export 'src/screens/auth_scaffold.dart';
 export 'src/screens/backend_not_configured_screen.dart';

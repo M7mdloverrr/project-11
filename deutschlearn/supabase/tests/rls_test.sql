@@ -258,4 +258,24 @@ do $$ declare n int; begin
 end $$;
 reset role;
 
+-- Chat -------------------------------------------------------------------------
+-- Active link: Herr Müller (a) and Sara (c). Ahmed (b) is not linked.
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000c');
+insert into public.chat_messages (teacher_id, student_id, sender_id, body)
+values ('00000000-0000-0000-0000-00000000000a', auth.uid(), auth.uid(), 'Hallo Herr Müller!');
+select pg_temp.expect_error($$insert into public.chat_messages (teacher_id, student_id, sender_id, body) values ('00000000-0000-0000-0000-00000000000a', auth.uid(), '00000000-0000-0000-0000-00000000000a', 'fake')$$, 'student impersonates teacher');
+select pg_temp.expect_error($$insert into public.chat_messages (teacher_id, student_id, sender_id, body) values ('00000000-0000-0000-0000-00000000000a', auth.uid(), auth.uid(), '   ')$$, 'empty message');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000a');
+insert into public.chat_messages (teacher_id, student_id, sender_id, body)
+values (auth.uid(), '00000000-0000-0000-0000-00000000000c', auth.uid(), 'Hallo Sara!');
+select pg_temp.expect_error($$insert into public.chat_messages (teacher_id, student_id, sender_id, body) values (auth.uid(), '00000000-0000-0000-0000-00000000000b', auth.uid(), 'Hi')$$, 'message to unlinked student');
+do $$ begin assert (select count(*) from public.chat_messages) = 2, 'teacher reads thread'; end $$;
+select pg_temp.expect_error($$update public.chat_messages set body = 'edited'$$, 'edit message');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000b');
+do $$ begin assert (select count(*) from public.chat_messages) = 0, 'outsider reads nothing'; end $$;
+select pg_temp.expect_error($$insert into public.chat_messages (teacher_id, student_id, sender_id, body) values ('00000000-0000-0000-0000-00000000000a', auth.uid(), auth.uid(), 'Hi')$$, 'unlinked student sends');
+reset role;
+
 select 'ALL SQL TESTS PASSED' as result;

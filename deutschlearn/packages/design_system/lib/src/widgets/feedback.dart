@@ -39,7 +39,10 @@ class DLStatusChip extends StatelessWidget {
         children: [
           Icon(_toneIcon(tone), size: 16, color: c),
           const SizedBox(width: DLSpacing.xs),
-          Text(label, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: c, fontWeight: FontWeight.w700)),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: c, fontWeight: FontWeight.w700),
+          ),
         ],
       ),
     );
@@ -77,7 +80,11 @@ class DLBanner extends StatelessWidget {
               children: [
                 if (title != null) Text(title!, style: theme.textTheme.titleSmall?.copyWith(color: c)),
                 Text(message, style: theme.textTheme.bodyMedium),
-                if (action != null) Padding(padding: const EdgeInsets.only(top: DLSpacing.sm), child: action),
+                if (action != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: DLSpacing.sm),
+                    child: action,
+                  ),
               ],
             ),
           ),
