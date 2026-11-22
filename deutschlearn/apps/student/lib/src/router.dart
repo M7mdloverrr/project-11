@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'home/home_shell.dart';
 import 'lessons/lesson_screen.dart';
+import 'lessons/module_screen.dart';
 import 'link/link_teacher_screen.dart';
 import 'onboarding.dart';
 
@@ -14,6 +15,7 @@ abstract final class StudentRoutes {
   static const home = '/home';
   static const linkTeacher = '/home/link-teacher';
   static String lesson(String id) => '/home/lesson/$id';
+  static String module(String id) => '/home/module/$id';
 }
 
 const _appSubtitle = 'منصة تعلّم الألمانية • Deutsch lernen';
@@ -66,6 +68,10 @@ final studentRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const HomeShell(),
         routes: [
           GoRoute(path: 'link-teacher', builder: (_, _) => const LinkTeacherScreen()),
+          GoRoute(
+            path: 'module/:id',
+            builder: (_, state) => ModuleScreen(moduleId: state.pathParameters['id']!),
+          ),
           GoRoute(
             path: 'lesson/:id',
             builder: (_, state) => LessonScreen(lessonId: state.pathParameters['id']!),

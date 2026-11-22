@@ -1,3 +1,4 @@
+import '../models/cefr_level.dart';
 import '../models/lesson.dart';
 
 /// Lessons for everyone; progress for students; editing for admins.
@@ -6,6 +7,11 @@ abstract interface class LessonRepository {
   Future<List<Lesson>> listLessons();
 
   /// One lesson with its items in order.
+  Future<List<CurriculumModule>> listModules();
+
+  /// Placement test result: the student's starting level.
+  Future<void> setPlacementLevel(CefrLevel level);
+
   Future<Lesson> fetchLesson(String lessonId);
 
   /// Progress of [studentId]; defaults to the signed-in user.

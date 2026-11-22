@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../models/cefr_level.dart';
 import '../models/lesson.dart';
 import 'lesson_repository.dart';
 import 'supabase_errors.dart';
@@ -9,7 +10,9 @@ class SupabaseLessonRepository implements LessonRepository {
 
   final SupabaseClient _client;
 
-  static const _lessonColumns = 'id, cefr_level, position, title_de, title_ar, description_ar, published';
+  static const _lessonColumns =
+      'id, cefr_level, position, title_de, title_ar, description_ar, published, module_id, kind, goal_ar, explanation_ar, pass_percent';
+  static const _moduleColumns = 'id, slug, cefr_level, position, title_de, title_ar, description_ar, icon';
   static const _itemColumns = 'id, position, kind, german, arabic, example_de, example_ar, options, answer';
   static const _assignmentColumns = 'id, teacher_id, student_id, lesson_id, note, due_on, created_at';
   static const _progressColumns = 'student_id, lesson_id, best_score, max_score, attempts, completed_at';
@@ -23,6 +26,16 @@ class SupabaseLessonRepository implements LessonRepository {
         .order('position');
     return rows.map(Lesson.fromJson).toList();
   });
+
+  @override
+  Future<List<CurriculumModule>> listModules() => guardSupabase(() async {
+    final rows = await _client.from('modules').select(_moduleColumns).order('cefr_level').order('position');
+    return rows.map(CurriculumModule.fromJson).toList();
+  });
+
+  @override
+  Future<void> setPlacementLevel(CefrLevel level) =>
+      guardSupabase(() => _client.rpc<void>('set_placement_level', params: {'p_level': level.code}));
 
   @override
   Future<Lesson> fetchLesson(String lessonId) => guardSupabase(() async {
@@ -58,6 +71,11 @@ class SupabaseLessonRepository implements LessonRepository {
       'cefr_level': l.level.code,
       'position': l.position,
       'title_de': l.titleDe.trim(),
+      'module_id': l.moduleId,
+      'kind': l.kind.name,
+      'goal_ar': l.goalAr.trim(),
+      'explanation_ar': l.explanationAr.trim(),
+      'pass_percent': l.passPercent,
       'title_ar': l.titleAr.trim(),
       'description_ar': l.descriptionAr.trim(),
       'published': l.published,
