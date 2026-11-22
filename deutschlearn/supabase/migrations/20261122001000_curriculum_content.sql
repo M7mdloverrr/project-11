@@ -2866,5 +2866,105 @@ die Besprechung (الاجتماع)، der Termin verschieben (يؤجل الموع
     (l, 10, 'order', 'Ich habe drei Jahre Erfahrung als Koch.', 'لدي ثلاث سنوات خبرة كطبّاخ.', null, null, null, null),
     (l, 11, 'order', 'Wegen des Staus bin ich zu spät gekommen.', 'بسبب الازدحام تأخرت.', null, null, null, null),
     (l, 12, 'write', 'Ich bin heute krank.|Ich bin heute krank', 'اكتب لمديرك: أنا مريض اليوم.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-fertigkeiten', 'A2', 6, 'Lesen, Hören, Schreiben, Sprechen – Goethe-Zertifikat A2', 'القراءة والاستماع والكتابة والمحادثة — امتحان Goethe A2', 'تدريب على أجزاء امتحان Goethe-Zertifikat A2 الأربعة، ثم الامتحان النهائي للمستوى A2.', 'exam') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-lesen', m, 'A2', 601, 'lesson', 'Lesen – Zeitungstexte, Anzeigen, E-Mails', 'القراءة — مقالات قصيرة، إعلانات، رسائل', '', 'أن تفهم نصوصاً أطول قليلاً وتجد المعلومات المهمة (Lesen Teil 1–4).', '## استراتيجية
+- اقرأ العنوان والأسئلة أولاً، ثم ابحث عن الكلمات المفتاحية.
+- في نصوص "richtig/falsch" انتبه للكلمات: **nur, immer, nie, alle, kein**.
+- في الإعلانات قارن بدقة: السعر، الوقت، المكان، الشروط.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'text', 'Neues Café im Stadtpark
+Seit letztem Montag gibt es im Stadtpark ein neues Café. Das „Café Grün" ist täglich von 9 bis 19 Uhr geöffnet, im Winter nur bis 17 Uhr. Die Besitzerin, Frau Novak, verkauft vor allem Bio-Produkte aus der Region. Besonders beliebt sind ihre Kuchen. Jeden Sonntag gibt es außerdem ein Frühstücksbuffet für 12,50 Euro. Kinder unter sechs Jahren essen kostenlos.', 'مقهى جديد في حديقة المدينة. منذ الاثنين الماضي… مفتوح يومياً 9–19، في الشتاء حتى 17 فقط. المالكة السيدة نوفاك تبيع منتجات عضوية من المنطقة. الكعك محبوب خاصة. كل أحد يوجد بوفيه فطور بـ 12,50 يورو. الأطفال تحت ست سنوات مجاناً.', null, null, null, null),
+    (l, 2, 'quiz', '', 'متى يغلق المقهى في الشتاء؟', null, null, '["الساعة 17", "الساعة 19", "الساعة 9", "لا يفتح في الشتاء"]'::jsonb, 0),
+    (l, 3, 'quiz', '', 'من يأكل مجاناً في البوفيه؟', null, null, '["الأطفال تحت 6 سنوات", "كل الأطفال", "الطلاب", "لا أحد"]'::jsonb, 0),
+    (l, 4, 'quiz', '', 'Das Café gibt es schon seit vielen Jahren. — richtig أم falsch؟', null, null, '["falsch", "richtig"]'::jsonb, 0),
+    (l, 5, 'text', 'Hallo Jana,
+danke für deine Nachricht! Leider kann ich am Freitag nicht mit ins Kino kommen, weil ich bis 20 Uhr arbeiten muss. Hast du vielleicht am Samstagnachmittag Zeit? Dann könnten wir zusammen in die Stadt gehen. Ich muss noch ein Geschenk für meinen Vater kaufen – er hat nächste Woche Geburtstag. Vielleicht hast du eine Idee?
+Liebe Grüße
+Samira', 'مرحباً يانا، شكراً لرسالتك! للأسف لا أستطيع المجيء للسينما يوم الجمعة لأنني أعمل حتى 20. هل لديك وقت السبت بعد الظهر؟ يمكننا الذهاب للمدينة. يجب أن أشتري هدية لأبي — عيد ميلاده الأسبوع القادم. ربما لديك فكرة؟', null, null, null, null),
+    (l, 6, 'quiz', '', 'لماذا لا تذهب سميرة إلى السينما؟', null, null, '["تعمل حتى 20", "هي مريضة", "عيد ميلاد أبيها", "ليس معها مال"]'::jsonb, 0),
+    (l, 7, 'quiz', '', 'ماذا تريد سميرة أن تفعل يوم السبت؟', null, null, '["الذهاب للمدينة وشراء هدية", "الذهاب للسينما", "زيارة أبيها", "العمل"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["kostenlos = مجاناً", "beliebt = محبوب", "die Region = المنطقة", "außerdem = بالإضافة إلى ذلك", "vor allem = خاصةً"]'::jsonb, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-hoeren', m, 'A2', 602, 'lesson', 'Hören – Ansagen, Telefon, Gespräche, Radio', 'الاستماع — إعلانات، هاتف، محادثات، راديو', '', 'أن تفهم المعلومات الأساسية في إعلانات ورسائل هاتفية ومحادثات (Hören Teil 1–4).', '## استراتيجية
+- اقرأ الأسئلة قبل الاستماع وتوقّع نوع الجواب (رقم؟ يوم؟ مكان؟).
+- انتبه للتصحيحات: **nicht … sondern** (ليس… بل)، **doch**، **leider**.
+- اضغط زر السماعة للإعادة، أو الزر البطيء.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'listen', 'Liebe Fahrgäste, wegen Bauarbeiten fährt die Linie fünf heute nicht bis zum Hauptbahnhof, sondern nur bis zum Rathaus.', 'إلى أين يصل خط 5 اليوم؟', null, null, '["حتى البلدية", "حتى المحطة الرئيسية", "لا يعمل أبداً", "حتى المطار"]'::jsonb, 0),
+    (l, 2, 'listen', 'Hallo Maria, hier ist Ben. Unser Treffen morgen müssen wir leider verschieben. Geht es vielleicht am Donnerstag um drei?', 'ماذا يقترح بن؟', null, null, '["الخميس الساعة 3", "غداً الساعة 3", "الخميس صباحاً", "إلغاء اللقاء"]'::jsonb, 0),
+    (l, 3, 'listen', 'Die Arztpraxis ist vom zwölften bis zum sechsundzwanzigsten August geschlossen. In dringenden Fällen wenden Sie sich bitte an Dr. Krause.', 'متى العيادة مغلقة؟', null, null, '["12–26 آب", "2–26 آب", "12–16 آب", "كل آب"]'::jsonb, 0),
+    (l, 4, 'listen', 'Ich hätte gern zwei Karten für das Konzert am Samstag. – Tut mir leid, Samstag ist ausverkauft. Es gibt nur noch Karten für Sonntag.', 'متى توجد تذاكر؟', null, null, '["الأحد فقط", "السبت", "السبت والأحد", "لا توجد تذاكر"]'::jsonb, 0),
+    (l, 5, 'listen', 'Und nun das Wetter: Am Wochenende wird es sonnig, aber kühl, nur zwölf Grad. Ab Montag kommt wieder Regen.', 'كيف الطقس يوم الاثنين؟', null, null, '["ممطر", "مشمس وبارد", "حار", "ثلج"]'::jsonb, 0),
+    (l, 6, 'listen', 'Ich wohne jetzt seit fünf Jahren in Leipzig. Am Anfang war es schwer, weil ich niemanden kannte, aber jetzt habe ich viele Freunde.', 'لماذا كانت البداية صعبة؟', null, null, '["لم يكن يعرف أحداً", "لم يكن عنده عمل", "الطقس بارد", "اللغة فقط"]'::jsonb, 0),
+    (l, 7, 'listen', 'Der Deutschkurs kostet zweihundertachtzig Euro. Wenn Sie sich bis Ende Mai anmelden, bekommen Sie zehn Prozent Rabatt.', 'كيف تحصل على الخصم؟', null, null, '["بالتسجيل حتى نهاية أيار", "بالدفع نقداً", "بالتسجيل مع صديق", "للطلاب فقط"]'::jsonb, 0);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-schreiben', m, 'A2', 603, 'lesson', 'Schreiben – Nachricht und E-Mail', 'الكتابة — رسالة قصيرة وبريد إلكتروني', '', 'أن تكتب رسالة (20–30 كلمة) وبريداً شبه رسمي (30–40 كلمة) كما في Schreiben Teil 1–2.', '## Teil 1: رسالة لصديق (SMS)
+اكتب النقاط الثلاث: مثلاً **اعتذر – اذكر السبب – اقترح موعداً جديداً**.
+> Hallo Tim, tut mir leid, ich komme heute 20 Minuten später, weil mein Bus Verspätung hat. Warte bitte im Café auf mich! Lea
+## Teil 2: بريد إلى معلم/مؤجر/مدير
+> Sehr geehrter Herr Wolf,
+> leider kann ich morgen nicht zum Kurs kommen, weil ich einen Termin beim Amt habe. Könnten Sie mir bitte die Hausaufgaben per E-Mail schicken? Vielen Dank!
+> Mit freundlichen Grüßen
+> Hassan Ali
+## روابط مفيدة
+weil, deshalb (لذلك), aber, dann, außerdem, leider, vielleicht', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'rule', 'Ich bin krank, deshalb kann ich nicht kommen.', 'استعمل **weil** للسبب و **deshalb** للنتيجة. deshalb يأخذ المكان 1 والفعل بعده مباشرة.', null, null, null, null),
+    (l, 2, 'gap', 'Ich habe morgen einen Arzttermin, ___ kann ich nicht kommen.', '', null, null, '["deshalb", "weil", "denn"]'::jsonb, 0),
+    (l, 3, 'gap', '___ Herr Wolf,', '', null, null, '["Sehr geehrter", "Sehr geehrte", "Lieber Herr"]'::jsonb, 0),
+    (l, 4, 'gap', 'Könnten Sie mir bitte die Unterlagen ___ E-Mail schicken?', '', null, null, '["per", "mit der", "durch"]'::jsonb, 0),
+    (l, 5, 'quiz', '', 'أي جملة مناسبة لبريد رسمي؟', null, null, '["Könnten Sie mir bitte einen neuen Termin geben?", "Gib mir einen neuen Termin!", "Hey, neuer Termin?", "Ich will einen Termin."]'::jsonb, 0),
+    (l, 6, 'order', 'Leider kann ich am Montag nicht kommen, weil ich krank bin.', 'للأسف لا أستطيع المجيء يوم الاثنين لأنني مريض.', null, null, null, null),
+    (l, 7, 'order', 'Ich freue mich auf Ihre Antwort.', 'أتطلع لردّك.', null, null, null, null),
+    (l, 8, 'write', 'Vielen Dank für Ihre Hilfe.|Vielen Dank für Ihre Hilfe', 'اكتب: شكراً جزيلاً على مساعدتك. (رسمي)', null, null, null, null),
+    (l, 9, 'write', 'deshalb', 'أي كلمة تعني ''لذلك''؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-sprechen', m, 'A2', 604, 'lesson', 'Sprechen – fragen, erzählen, planen', 'المحادثة — السؤال، الحكي، التخطيط معاً', '', 'أن تستعد للمحادثة في A2 — أسئلة شخصية، الحديث عن حياتك، والتخطيط مع شريك. استمع وكرّر بصوت عالٍ.', '## Teil 1: اسأل وأجب (بطاقات)
+> Wo machst du gern Urlaub? — Was isst du gern zum Frühstück?
+## Teil 2: تحدّث عن نفسك (موضوع)
+مثلاً "Wohnen": أين تسكن، كيف شقتك، ماذا تحب/لا تحب، ماذا تتمنى.
+## Teil 3: خطّطا معاً
+> Wann hast du Zeit? — Wie wäre es mit Samstag? — Am Samstag kann ich leider nicht, ich muss arbeiten. — Und Sonntag? — Ja, das passt mir gut!
+> Was meinst du? — Gute Idee! / Ich weiß nicht… Lieber …', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'phrase', 'Wie wäre es mit Samstag?', 'ما رأيك بيوم السبت؟', null, null, null, null),
+    (l, 2, 'phrase', 'Das passt mir gut.', 'هذا يناسبني.', null, null, null, null),
+    (l, 3, 'phrase', 'Da kann ich leider nicht.', 'للأسف لا أستطيع في ذلك الوقت.', null, null, null, null),
+    (l, 4, 'phrase', 'Was meinst du?', 'ما رأيك؟', null, null, null, null),
+    (l, 5, 'phrase', 'Ich schlage vor, dass wir zusammen kochen.', 'أقترح أن نطبخ معاً.', null, null, null, null),
+    (l, 6, 'phrase', 'Ich wohne seit drei Jahren in einer kleinen Wohnung.', 'أسكن منذ ثلاث سنوات في شقة صغيرة.', null, null, null, null),
+    (l, 7, 'phrase', 'Am liebsten würde ich in einem Haus mit Garten wohnen.', 'أكثر ما أتمنى أن أسكن في بيت مع حديقة.', null, null, null, null),
+    (l, 8, 'quiz', '', 'شريكك يقول: ''Wie wäre es mit Freitag um acht?'' وأنت مشغول. ماذا تقول؟', null, null, '["Da kann ich leider nicht. Geht es auch am Samstag?", "Ja, gern, das passt mir.", "Ich heiße Samir.", "Was kostet das?"]'::jsonb, 0),
+    (l, 9, 'quiz', '', 'بطاقة: Thema Urlaub — ''Wohin?'' أي سؤال مناسب؟', null, null, '["Wohin fährst du gern in den Urlaub?", "Wo arbeitest du?", "Wann stehst du auf?", "Was isst du gern?"]'::jsonb, 0),
+    (l, 10, 'order', 'Ich schlage vor, dass wir zusammen ins Kino gehen.', 'أقترح أن نذهب معاً إلى السينما.', null, null, null, null),
+    (l, 11, 'order', 'Am Sonntag passt es mir gut.', 'يوم الأحد يناسبني.', null, null, null, null),
+    (l, 12, 'write', 'Was meinst du?|Was meinst du', 'اكتب: ما رأيك؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-exam', m, 'A2', 605, 'exam', 'Abschlussprüfung A2', 'الامتحان النهائي للمستوى A2', '', 'امتحان شامل على نمط Goethe-Zertifikat A2 — قراءة، استماع، قواعد، مفردات وكتابة. النجاح من 70٪ يفتح لك المستوى B1.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'text', 'Sehr geehrte Mieterinnen und Mieter,
+am Dienstag, den 8. Oktober, wird von 8 bis 14 Uhr die Heizung im ganzen Haus repariert. In dieser Zeit gibt es auch kein warmes Wasser. Bitte stellen Sie am Montagabend keine Fahrräder in den Keller, weil die Techniker dort arbeiten müssen. Bei Fragen erreichen Sie mich unter 0221 556677.
+Ihr Hausmeister, Peter Lang', 'أيها المستأجرون الأعزاء، يوم الثلاثاء 8 تشرين الأول من 8 إلى 14 سيتم إصلاح التدفئة في كل البناية. في هذا الوقت لا يوجد ماء ساخن أيضاً. لا تضعوا الدراجات في القبو مساء الاثنين لأن الفنيين يعملون هناك. للأسئلة اتصلوا بي. الناطور بيتر لانغ.', null, null, null, null),
+    (l, 2, 'quiz', '', 'ماذا لن يكون متاحاً يوم الثلاثاء؟', null, null, '["التدفئة والماء الساخن", "الكهرباء", "المصعد", "الإنترنت"]'::jsonb, 0),
+    (l, 3, 'quiz', '', 'لماذا لا توضع الدراجات في القبو؟', null, null, '["الفنيون يعملون هناك", "القبو مغلق للأبد", "خطر السرقة", "القبو مبلل"]'::jsonb, 0),
+    (l, 4, 'listen', 'Guten Tag, hier ist das Autohaus Berger. Ihr Wagen ist fertig. Sie können ihn ab sechzehn Uhr abholen. Die Reparatur kostet dreihundertvierzig Euro.', 'كم تكلفة التصليح؟', null, null, '["340 €", "430 €", "316 €", "16 €"]'::jsonb, 0),
+    (l, 5, 'listen', 'Wir treffen uns nicht vor dem Kino, sondern direkt im Restaurant gegenüber.', 'أين اللقاء؟', null, null, '["في المطعم المقابل", "أمام السينما", "في السينما", "في المحطة"]'::jsonb, 0),
+    (l, 6, 'listen', 'Ich habe früher als Lehrerin gearbeitet, aber seit zwei Jahren mache ich eine Ausbildung als Krankenpflegerin.', 'ماذا تفعل الآن؟', null, null, '["تأهيل كممرضة", "تعمل معلمة", "تدرس في الجامعة", "لا تعمل"]'::jsonb, 0),
+    (l, 7, 'gap', 'Ich schenke ___ Nachbarin Blumen.', '', null, null, '["meiner", "meine", "meinem"]'::jsonb, 0),
+    (l, 8, 'gap', 'Die Schlüssel liegen auf ___ Tisch.', '', null, null, '["dem", "den", "der"]'::jsonb, 0),
+    (l, 9, 'gap', 'Gestern ___ ich lange warten.', '', null, null, '["musste", "muss", "müsse"]'::jsonb, 0),
+    (l, 10, 'gap', 'Ich bleibe zu Hause, weil ich Fieber ___.', '', null, null, '["habe", "hätte", "haben"]'::jsonb, 0),
+    (l, 11, 'gap', 'Können Sie mir sagen, ob der Zug pünktlich ___?', '', null, null, '["ist", "sei", "ist er"]'::jsonb, 0),
+    (l, 12, 'gap', 'Diese Wohnung ist größer ___ unsere alte.', '', null, null, '["als", "wie", "so"]'::jsonb, 0),
+    (l, 13, 'gap', 'Ich suche einen ___ Job. (gut)', '', null, null, '["guten", "gute", "guter"]'::jsonb, 0),
+    (l, 14, 'gap', '___ Sie mir bitte helfen?', '', null, null, '["Könnten", "Konnten", "Kannst"]'::jsonb, 0),
+    (l, 15, 'gap', 'Ich interessiere mich sehr ___ Geschichte.', '', null, null, '["für", "an", "über"]'::jsonb, 0),
+    (l, 16, 'gap', 'Wir haben ___ letztes Jahr kennengelernt.', '', null, null, '["uns", "sich", "euch"]'::jsonb, 0),
+    (l, 17, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Kaution = التأمين", "die Bewerbung = طلب التوظيف", "der Stau = الازدحام", "umtauschen = يستبدل", "die Krankmeldung = شهادة المرض"]'::jsonb, null),
+    (l, 18, 'order', 'Wenn ich mehr Zeit hätte, würde ich mehr Sport machen.', 'لو كان لدي وقت أكثر لمارست الرياضة أكثر.', null, null, null, null),
+    (l, 19, 'order', 'Ich habe mich gestern um die Stelle beworben.', 'تقدمت أمس للوظيفة.', null, null, null, null),
+    (l, 20, 'write', 'Mit freundlichen Grüßen', 'اكتب ختام بريد رسمي:', null, null, null, null),
+    (l, 21, 'write', 'Ich freue mich auf Ihre Antwort.|Ich freue mich auf Ihre Antwort', 'اكتب: أتطلع لردّك. (رسمي)', null, null, null, null);
 end
 $$;
