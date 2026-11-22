@@ -11,7 +11,7 @@ Legend: ✅ implemented & tested locally · 🔑 implemented, needs Supabase cre
 | Core | Models `Profile`, `Role`, `CefrLevel`, `TeacherCode`, `TeacherStudentLink`, `LinkRequest`; env validation; Supabase wrapper; Riverpod providers | ✅ |
 | Core | "Backend not configured" mode when env is missing/placeholder/service-role key (no fake backend in the apps) | ✅ |
 | Auth | Validation (e-mail, password ≥ 8 with letters+digits, display name), role-aware router guard | ✅ |
-| Auth | E-mail sign-up, login, password reset (e-mail link → new password screen), session restore | 🔑 |
+| Auth | E-mail sign-up, login, password reset (e-mail link → new password screen), session restore | 🔑 (backend live) |
 | Supabase | Migrations: `profiles`, `teacher_codes`, `teacher_student_links`, `link_requests`, FKs, indexes, RLS, RPCs (`lookup_teacher_by_code`, `issue_teacher_code`, `request_teacher_link`, `respond_link_request`, `disconnect_link`) | ✅ tested in Postgres 16 (`supabase/tests`) — 🔑 needs `supabase db push` to a real project |
 | Supabase | Edge functions `generate-teacher-code` (crypto-random) and `resolve-teacher-code` | ✅ Deno unit tests — 🔑 needs deploy |
 | Student app | Splash + session restore, Arabic onboarding (3 pages), sign-up/login/reset screens | ✅ UI · 🔑 backend calls |
@@ -24,11 +24,12 @@ Legend: ✅ implemented & tested locally · 🔑 implemented, needs Supabase cre
 | Tests | Unit: code format, link-state model, env validation, validators, router guard · Widget: login validation, link-teacher flow, teacher dashboard, not-configured app start | ✅ `flutter test` green, `flutter analyze` clean |
 
 ## Current
-- Phase 1 is feature-complete in code. Next step is connecting a real Supabase project (see `SETUP.md` §2–4) and running the end-to-end check in `SETUP.md` §5 on a device.
+- ✅ **Supabase project connected** (ref `tbmeljyfczvtpxiowvub`): the 3 migrations are applied, both edge functions are deployed, and the auth redirect URLs for both apps are set. 🔑 items above now work against it.
+- ✅ Live backend check (scripted with throw-away users, deleted afterwards): sign-in, profile fetch/update, generate/regenerate/revoke code, public lookup, link request, decline, re-request, approve, linked students, disconnect; a student cannot generate codes, read `teacher_codes` or change their own role; anonymous users cannot read profiles.
+- Next: run the end-to-end check in `SETUP.md` §5 on a phone with APKs built with `--dart-define-from-file=../../.env`.
 
-## Blocked / awaiting credentials
-- 🔑 **Supabase project not created yet** → no real sign-up/login, codes or links. Needed: `SUPABASE_URL` + anon/publishable key in `deutschlearn/.env`, migrations pushed, both edge functions deployed, redirect URLs added.
-- E-mail confirmation & reset links use the default Supabase mailer (free tier: low hourly limit). A custom SMTP can be added later.
+## Blocked / limits
+- E-mail confirmation and reset links use Supabase's built-in mailer, which only sends a few e-mails per hour on the free plan. For real classes add free SMTP (e.g. Resend free tier) under Authentication → Emails → SMTP, or turn off "Confirm email" while testing.
 
 ## Not started (later phases)
 - ⏳ Lessons content, progress tracking, chat, notifications, admin tools, iOS builds, release signing / Play Store.
