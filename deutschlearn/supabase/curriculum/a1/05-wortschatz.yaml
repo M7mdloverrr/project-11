@@ -1,0 +1,487 @@
+module:
+  slug: a1-wortschatz
+  level: A1
+  position: 5
+  icon: book
+  title_de: Wortschatz A1 – Goethe-Wortliste
+  title_ar: مفردات A1 — قائمة كلمات Goethe
+  description_ar: بقية كلمات قائمة Goethe A1 مرتبة حسب المواضيع — الأفعال، الصفات، الكلمات الصغيرة المهمة، الدوائر والبنك والبريد، السفر، المدرسة والدراسة، البيت والطبيعة.
+
+lessons:
+  - slug: a1-w-verben
+    title_de: Die wichtigsten Verben A1
+    title_ar: أهم أفعال A1
+    goal_ar: أن تعرف أهم 50 فعلاً في قائمة A1 وتستخدمها في جمل قصيرة.
+    explanation_ar: |
+      ## كيف تحفظ الأفعال؟
+      احفظ المصدر + تصريف er، خاصة إذا كان غير منتظم:
+      > geben – er gibt, nehmen – er nimmt, helfen – er hilft, sehen – er sieht
+      الأفعال المنفصلة مكتوبة بخط عمودي في الشرح: an|rufen → Ich rufe an.
+    items:
+      - {vocab: "antworten", ar: "يجيب", ex: "Bitte antworten Sie schnell.", ex_ar: "أجب بسرعة من فضلك."}
+      - {vocab: "fragen", ar: "يسأل", ex: "Darf ich etwas fragen?", ex_ar: "هل يمكنني أن أسأل شيئاً؟"}
+      - {vocab: "sagen", ar: "يقول", ex: "Was sagst du?", ex_ar: "ماذا تقول؟"}
+      - {vocab: "verstehen", ar: "يفهم", ex: "Ich verstehe das nicht.", ex_ar: "لا أفهم ذلك."}
+      - {vocab: "wiederholen", ar: "يكرّر", ex: "Bitte wiederholen Sie.", ex_ar: "كرّر من فضلك."}
+      - {vocab: "buchstabieren", ar: "يتهجّى", ex: "Können Sie das buchstabieren?", ex_ar: "هل يمكنك تهجئته؟"}
+      - {vocab: "schreiben", ar: "يكتب", ex: "Ich schreibe eine E-Mail.", ex_ar: "أكتب بريداً إلكترونياً."}
+      - {vocab: "hören", ar: "يسمع", ex: "Hörst du das?", ex_ar: "هل تسمع هذا؟"}
+      - {vocab: "sehen – er sieht", ar: "يرى", ex: "Ich sehe dich.", ex_ar: "أراك."}
+      - {vocab: "geben – er gibt", ar: "يعطي", ex: "Gib mir bitte das Buch.", ex_ar: "أعطني الكتاب من فضلك."}
+      - {vocab: "nehmen – er nimmt", ar: "يأخذ", ex: "Ich nehme den Bus.", ex_ar: "آخذ الباص."}
+      - {vocab: "helfen – er hilft", ar: "يساعد", ex: "Kannst du mir helfen?", ex_ar: "هل تساعدني؟"}
+      - {vocab: "bekommen", ar: "يحصل على / يستلم", ex: "Ich bekomme einen Brief.", ex_ar: "أستلم رسالة."}
+      - {vocab: "bezahlen", ar: "يدفع", ex: "Ich bezahle die Rechnung.", ex_ar: "أدفع الفاتورة."}
+      - {vocab: "bringen", ar: "يُحضر", ex: "Bring bitte Brot mit.", ex_ar: "أحضر خبزاً معك."}
+      - {vocab: "holen", ar: "يجلب", ex: "Ich hole die Kinder.", ex_ar: "أجلب الأولاد."}
+      - {vocab: "suchen", ar: "يبحث", ex: "Ich suche eine Wohnung.", ex_ar: "أبحث عن شقة."}
+      - {vocab: "finden", ar: "يجد", ex: "Ich finde meinen Schlüssel nicht.", ex_ar: "لا أجد مفتاحي."}
+      - {vocab: "kennen", ar: "يعرف (شخصاً/مكاناً)", ex: "Kennst du Frau Kaya?", ex_ar: "هل تعرف السيدة كايا؟"}
+      - {vocab: "wissen – er weiß", ar: "يعرف (معلومة)", ex: "Ich weiß es nicht.", ex_ar: "لا أعرف."}
+      - {vocab: "glauben", ar: "يعتقد", ex: "Ich glaube, er kommt.", ex_ar: "أظن أنه سيأتي."}
+      - {vocab: "denken", ar: "يفكّر", ex: "Was denkst du?", ex_ar: "بماذا تفكر؟"}
+      - {vocab: "lieben", ar: "يحب", ex: "Ich liebe meine Familie.", ex_ar: "أحب عائلتي."}
+      - {vocab: "mögen – ich mag", ar: "يحب (شيئاً)", ex: "Ich mag Schokolade.", ex_ar: "أحب الشوكولاتة."}
+      - {vocab: "gehen", ar: "يذهب / يمشي", ex: "Wir gehen nach Hause.", ex_ar: "نذهب إلى البيت."}
+      - {vocab: "kommen", ar: "يأتي", ex: "Kommst du mit?", ex_ar: "هل تأتي معنا؟"}
+      - {vocab: "fliegen", ar: "يطير / يسافر بالطائرة", ex: "Ich fliege nach Kairo.", ex_ar: "أسافر بالطائرة إلى القاهرة."}
+      - {vocab: "laufen – er läuft", ar: "يجري / يمشي", ex: "Er läuft jeden Morgen.", ex_ar: "يركض كل صباح."}
+      - {vocab: "bleiben", ar: "يبقى", ex: "Ich bleibe zu Hause.", ex_ar: "أبقى في البيت."}
+      - {vocab: "warten", ar: "ينتظر", ex: "Ich warte auf den Bus.", ex_ar: "أنتظر الباص."}
+      - {vocab: "sitzen", ar: "يجلس", ex: "Wir sitzen im Garten.", ex_ar: "نجلس في الحديقة."}
+      - {vocab: "stehen", ar: "يقف", ex: "Der Schrank steht im Flur.", ex_ar: "الخزانة في الممر."}
+      - {vocab: "liegen", ar: "يستلقي / يقع", ex: "Das Buch liegt auf dem Tisch.", ex_ar: "الكتاب على الطاولة."}
+      - {vocab: "schlafen – er schläft", ar: "ينام", ex: "Das Baby schläft.", ex_ar: "الطفل نائم."}
+      - {vocab: "wohnen", ar: "يسكن"}
+      - {vocab: "leben", ar: "يعيش", ex: "Wir leben in Deutschland.", ex_ar: "نعيش في ألمانيا."}
+      - {vocab: "kochen", ar: "يطبخ"}
+      - {vocab: "waschen – er wäscht", ar: "يغسل", ex: "Ich wasche die Wäsche.", ex_ar: "أغسل الغسيل."}
+      - {vocab: "putzen", ar: "ينظّف", ex: "Wir putzen die Wohnung.", ex_ar: "ننظف الشقة."}
+      - {vocab: "öffnen / auf|machen", ar: "يفتح", ex: "Mach bitte das Fenster auf.", ex_ar: "افتح النافذة من فضلك."}
+      - {vocab: "schließen / zu|machen", ar: "يغلق", ex: "Die Bank schließt um 16 Uhr.", ex_ar: "البنك يغلق الساعة 16."}
+      - {vocab: "an|rufen", ar: "يتصل هاتفياً", ex: "Ich rufe dich an.", ex_ar: "سأتصل بك."}
+      - {vocab: "an|fangen – er fängt an", ar: "يبدأ", ex: "Wann fängt der Film an?", ex_ar: "متى يبدأ الفيلم؟"}
+      - {vocab: "beginnen", ar: "يبدأ", ex: "Der Kurs beginnt morgen.", ex_ar: "الدورة تبدأ غداً."}
+      - {vocab: "enden / auf|hören", ar: "ينتهي / يتوقف", ex: "Hör bitte auf!", ex_ar: "توقف من فضلك!"}
+      - {vocab: "besuchen", ar: "يزور", ex: "Ich besuche meine Oma.", ex_ar: "أزور جدتي."}
+      - {vocab: "zeigen", ar: "يُري / يشير", ex: "Zeig mal!", ex_ar: "أرني!"}
+      - {vocab: "mit|bringen", ar: "يُحضر معه"}
+      - {vocab: "aus|steigen / ein|steigen / um|steigen", ar: "ينزل / يصعد / يبدّل (مواصلات)", ex: "Wir steigen in Köln um.", ex_ar: "نبدّل القطار في كولونيا."}
+      - {vocab: "vergessen – er vergisst", ar: "ينسى", ex: "Ich habe den Termin vergessen.", ex_ar: "نسيت الموعد."}
+      - {vocab: "verkaufen", ar: "يبيع", ex: "Er verkauft sein Auto.", ex_ar: "يبيع سيارته."}
+      - {vocab: "mieten", ar: "يستأجر", ex: "Wir mieten eine Wohnung.", ex_ar: "نستأجر شقة."}
+      - {vocab: "benutzen", ar: "يستخدم", ex: "Darf ich das Telefon benutzen?", ex_ar: "هل أستطيع استخدام الهاتف؟"}
+      - {vocab: "schicken", ar: "يرسل", ex: "Schick mir eine Nachricht.", ex_ar: "أرسل لي رسالة."}
+      - gap: "Er ___ mir das Buch. (geben)"
+        options: [gibt, gebt, gibst]
+      - gap: "Ich ___ auf den Bus."
+        options: [warte, bleibe, sitze]
+      - gap: "___ du Frau Müller? – Ja, sie ist meine Nachbarin."
+        options: [Kennst, Weißt, Findest]
+      - gap: "Ich ___ nicht, wo der Bahnhof ist."
+        options: [weiß, kenne, wisse]
+      - gap: "In Frankfurt ___ wir in den Zug nach Berlin um."
+        options: [steigen, gehen, fahren]
+      - match: ["helfen = يساعد", "vergessen = ينسى", "warten = ينتظر", "schicken = يرسل", "verstehen = يفهم"]
+      - match: ["mieten = يستأجر", "verkaufen = يبيع", "bezahlen = يدفع", "suchen = يبحث", "bekommen = يستلم"]
+      - order: "Können Sie das bitte buchstabieren?"
+        ar: هل يمكنك تهجئة ذلك من فضلك؟
+      - write: "Ich verstehe das nicht.|Ich verstehe das nicht"
+        ar: "اكتب: لا أفهم ذلك."
+
+  - slug: a1-w-adjektive
+    title_de: Adjektive und Gegensätze
+    title_ar: الصفات والأضداد
+    goal_ar: أن تعرف صفات A1 الأساسية وأضدادها لتصف الأشياء والأشخاص.
+    explanation_ar: |
+      ## احفظ الصفات أزواجاً
+      | gut ↔ schlecht | neu ↔ alt | jung ↔ alt |
+      |---|---|---|
+      | schnell ↔ langsam | lang ↔ kurz | schön ↔ hässlich |
+      | leicht ↔ schwer | voll ↔ leer | richtig ↔ falsch |
+      ## zu = أكثر من اللازم
+      > Das ist **zu** teuer. (غالٍ جداً — لا أشتريه)
+      > Das ist **sehr** schön. (جميل جداً — إيجابي)
+    items:
+      - {vocab: "gut ↔ schlecht", ar: "جيد ↔ سيئ", ex: "Das Essen ist gut.", ex_ar: "الطعام جيد."}
+      - {vocab: "neu ↔ alt", ar: "جديد ↔ قديم"}
+      - {vocab: "jung ↔ alt", ar: "شاب ↔ كبير في السن"}
+      - {vocab: "schön ↔ hässlich", ar: "جميل ↔ قبيح"}
+      - {vocab: "schnell ↔ langsam", ar: "سريع ↔ بطيء", ex: "Sprechen Sie bitte langsam.", ex_ar: "تكلم ببطء من فضلك."}
+      - {vocab: "lang ↔ kurz", ar: "طويل ↔ قصير"}
+      - {vocab: "leicht ↔ schwer", ar: "سهل/خفيف ↔ صعب/ثقيل", ex: "Deutsch ist nicht so schwer.", ex_ar: "الألمانية ليست صعبة جداً."}
+      - {vocab: "voll ↔ leer", ar: "ممتلئ ↔ فارغ", ex: "Der Bus ist voll.", ex_ar: "الباص ممتلئ."}
+      - {vocab: "richtig ↔ falsch", ar: "صحيح ↔ خطأ", ex: "Die Antwort ist richtig.", ex_ar: "الإجابة صحيحة."}
+      - {vocab: "offen ↔ geschlossen", ar: "مفتوح ↔ مغلق"}
+      - {vocab: "frei ↔ besetzt", ar: "حر/فارغ ↔ مشغول", ex: "Ist der Platz frei?", ex_ar: "هل المكان فارغ؟"}
+      - {vocab: "laut ↔ leise", ar: "عالٍ ↔ هادئ (صوت)"}
+      - {vocab: "ruhig", ar: "هادئ", ex: "Die Straße ist ruhig.", ex_ar: "الشارع هادئ."}
+      - {vocab: "sauber ↔ schmutzig", ar: "نظيف ↔ متّسخ"}
+      - {vocab: "kaputt", ar: "معطّل / مكسور", ex: "Die Heizung ist kaputt.", ex_ar: "التدفئة معطلة."}
+      - {vocab: "müde", ar: "متعب", ex: "Ich bin sehr müde.", ex_ar: "أنا متعب جداً."}
+      - {vocab: "glücklich ↔ traurig", ar: "سعيد ↔ حزين"}
+      - {vocab: "nett / freundlich", ar: "لطيف / ودود", ex: "Die Nachbarn sind nett.", ex_ar: "الجيران لطفاء."}
+      - {vocab: "wichtig", ar: "مهم", ex: "Das ist sehr wichtig.", ex_ar: "هذا مهم جداً."}
+      - {vocab: "richtig / genau", ar: "بالضبط"}
+      - {vocab: "fertig", ar: "جاهز / انتهى", ex: "Das Essen ist fertig.", ex_ar: "الطعام جاهز."}
+      - {vocab: "allein", ar: "وحيد / لوحده", ex: "Ich wohne allein.", ex_ar: "أسكن لوحدي."}
+      - {vocab: "zusammen", ar: "معاً", ex: "Wir lernen zusammen.", ex_ar: "نتعلم معاً."}
+      - {vocab: "möglich", ar: "ممكن", ex: "Ist das möglich?", ex_ar: "هل هذا ممكن؟"}
+      - {vocab: "privat", ar: "خاص / شخصي"}
+      - {vocab: "bekannt", ar: "معروف"}
+      - {vocab: "breit / schmal", ar: "عريض / ضيّق"}
+      - {vocab: "hoch", ar: "عالٍ / مرتفع"}
+      - {vocab: "tief", ar: "عميق"}
+      - {vocab: "schön / prima / super / toll", ar: "رائع / ممتاز", ex: "Das ist toll!", ex_ar: "هذا رائع!"}
+      - gap: "Der Bus ist ___. Es gibt keinen Platz."
+        options: [voll, leer, frei]
+      - gap: "Sprechen Sie bitte ___. Ich verstehe nicht."
+        options: [langsam, schnell, laut]
+      - gap: "Die Waschmaschine ist ___. Sie funktioniert nicht."
+        options: [kaputt, sauber, fertig]
+      - gap: "Das Kleid kostet 300 Euro. Das ist ___ teuer!"
+        options: [zu, sehr gut, nicht]
+      - quiz: "ما ضد 'richtig'؟"
+        options: [falsch, schlecht, leer, langsam]
+      - match: ["voll = leer", "laut = leise", "sauber = schmutzig", "jung = alt", "glücklich = traurig"]
+        ar: طابق كل صفة بضدّها
+      - order: "Ist der Platz hier frei?"
+        ar: هل هذا المكان فارغ؟
+      - write: "Ich bin müde.|Ich bin müde"
+        ar: "اكتب: أنا متعب."
+
+  - slug: a1-w-kleine-woerter
+    title_de: Kleine Wörter – Adverbien, Mengen, Verbindungen
+    title_ar: الكلمات الصغيرة المهمة — الظروف والكميات والروابط
+    goal_ar: أن تستخدم الكلمات الصغيرة التي تتكرر في كل جملة — hier, dort, immer, oft, viel, alle, auch, noch…
+    explanation_ar: |
+      ## كم مرة؟ (الترتيب من الأكثر للأقل)
+      | immer | oft | manchmal | selten | nie |
+      |---|---|---|---|---|
+      | دائماً | غالباً | أحياناً | نادراً | أبداً |
+      ## المكان
+      hier (هنا) – dort/da (هناك) – oben (فوق) – unten (تحت) – drinnen/draußen (داخل/خارج)
+      ## الكمية
+      viel (كثير) – wenig (قليل) – alle (الجميع) – etwas (شيء ما) – nichts (لا شيء)
+      ## جزيئات مهمة
+      > auch (أيضاً) — noch (ما زال / بعد) — schon (من قبل / بالفعل) — nur (فقط) — erst (فقط/لم… إلا) — wieder (مرة أخرى)
+    items:
+      - {vocab: "immer", ar: "دائماً", ex: "Er kommt immer zu spät.", ex_ar: "هو دائماً يتأخر."}
+      - {vocab: "oft", ar: "غالباً", ex: "Ich gehe oft spazieren.", ex_ar: "أتمشى غالباً."}
+      - {vocab: "manchmal", ar: "أحياناً"}
+      - {vocab: "selten", ar: "نادراً"}
+      - {vocab: "nie", ar: "أبداً", ex: "Ich trinke nie Alkohol.", ex_ar: "لا أشرب الكحول أبداً."}
+      - {vocab: "jetzt", ar: "الآن", ex: "Ich habe jetzt Zeit.", ex_ar: "لدي وقت الآن."}
+      - {vocab: "bald", ar: "قريباً", ex: "Bis bald!", ex_ar: "إلى اللقاء قريباً!"}
+      - {vocab: "dann", ar: "ثم / بعد ذلك"}
+      - {vocab: "zuerst / danach", ar: "أولاً / بعد ذلك"}
+      - {vocab: "schon", ar: "بالفعل / من قبل", ex: "Ich habe schon gegessen.", ex_ar: "أكلت بالفعل."}
+      - {vocab: "noch", ar: "ما زال / أيضاً", ex: "Ich lerne noch.", ex_ar: "ما زلت أدرس."}
+      - {vocab: "noch nicht", ar: "ليس بعد", ex: "Er ist noch nicht da.", ex_ar: "لم يصل بعد."}
+      - {vocab: "wieder", ar: "مرة أخرى"}
+      - {vocab: "auch", ar: "أيضاً", ex: "Ich komme auch.", ex_ar: "أنا آتٍ أيضاً."}
+      - {vocab: "nur", ar: "فقط", ex: "Ich habe nur zehn Euro.", ex_ar: "معي عشرة يورو فقط."}
+      - {vocab: "sehr", ar: "جداً"}
+      - {vocab: "ganz", ar: "تماماً / كامل"}
+      - {vocab: "fast", ar: "تقريباً", ex: "Es ist fast acht Uhr.", ex_ar: "الساعة تقريباً الثامنة."}
+      - {vocab: "vielleicht", ar: "ربما", ex: "Vielleicht komme ich morgen.", ex_ar: "ربما آتي غداً."}
+      - {vocab: "natürlich", ar: "طبعاً"}
+      - {vocab: "leider", ar: "للأسف", ex: "Leider habe ich keine Zeit.", ex_ar: "للأسف ليس لدي وقت."}
+      - {vocab: "hier / dort / da", ar: "هنا / هناك"}
+      - {vocab: "oben / unten", ar: "فوق / تحت"}
+      - {vocab: "draußen / drinnen", ar: "خارج / داخل"}
+      - {vocab: "überall", ar: "في كل مكان"}
+      - {vocab: "viel / viele", ar: "كثير", ex: "Ich habe viele Freunde.", ex_ar: "لدي أصدقاء كثيرون."}
+      - {vocab: "wenig", ar: "قليل"}
+      - {vocab: "alle / alles", ar: "الجميع / كل شيء", ex: "Alles ist gut.", ex_ar: "كل شيء بخير."}
+      - {vocab: "etwas / nichts", ar: "شيء ما / لا شيء"}
+      - {vocab: "jemand / niemand", ar: "أحد / لا أحد"}
+      - {vocab: "jeder / jede / jedes", ar: "كل (واحد)", ex: "Ich lerne jeden Tag.", ex_ar: "أتعلم كل يوم."}
+      - {vocab: "und / oder / aber", ar: "و / أو / لكن"}
+      - {vocab: "denn", ar: "لأنّ (رابط)", ex: "Ich bleibe zu Hause, denn ich bin krank.", ex_ar: "أبقى في البيت لأنني مريض."}
+      - {vocab: "zum Beispiel (z. B.)", ar: "على سبيل المثال"}
+      - {vocab: "ungefähr", ar: "حوالي", ex: "Das kostet ungefähr 20 Euro.", ex_ar: "يكلف حوالي 20 يورو."}
+      - gap: "Ich trinke ___ Kaffee, ich mag ihn nicht."
+        options: [nie, immer, oft]
+      - gap: "Hast du ___ gegessen? – Nein, noch nicht."
+        options: [schon, noch, nie]
+      - gap: "Ich habe ___ fünf Euro. Das reicht nicht."
+        options: [nur, auch, viel]
+      - gap: "___ habe ich keine Zeit. Tut mir leid."
+        options: [Leider, Natürlich, Vielleicht]
+      - gap: "Ich komme nicht, ___ ich muss arbeiten."
+        options: [denn, oder, aber]
+      - match: ["immer = دائماً", "manchmal = أحياناً", "nie = أبداً", "bald = قريباً", "leider = للأسف"]
+      - order: "Ich gehe manchmal ins Kino."
+        ar: أذهب أحياناً إلى السينما.
+      - write: "Ich komme auch.|Ich komme auch"
+        ar: "اكتب: أنا آتٍ أيضاً."
+
+  - slug: a1-w-amt
+    title_de: Ämter, Bank, Post und Kommunikation
+    title_ar: الدوائر الرسمية، البنك، البريد، والتواصل
+    goal_ar: أن تتعامل مع الدوائر والبنك والبريد والهاتف والإنترنت بمفردات A1.
+    explanation_ar: |
+      ## في الدائرة (das Amt)
+      > Ich möchte mich anmelden. (أريد تسجيل السكن)
+      > Ich brauche einen Termin. Füllen Sie bitte das Formular aus.
+      ## في البنك
+      > Ich möchte ein Konto eröffnen. — Geld abheben (سحب) / überweisen (تحويل)
+      ## في البريد
+      > Ich möchte ein Paket nach Syrien schicken. — Eine Briefmarke, bitte.
+      ## الهاتف والإنترنت
+      > Meine Handynummer ist… — Schreib mir eine E-Mail / eine Nachricht.
+    items:
+      - {vocab: "das Amt, ¨-er", ar: "الدائرة الرسمية", ex: "Ich muss zum Amt.", ex_ar: "يجب أن أذهب إلى الدائرة."}
+      - {vocab: "sich an|melden", ar: "يسجّل (نفسه)", ex: "Ich melde mich beim Kurs an.", ex_ar: "أسجّل في الدورة."}
+      - {vocab: "der Ausweis, -e", ar: "الهوية", ex: "Haben Sie Ihren Ausweis dabei?", ex_ar: "هل معك هويتك؟"}
+      - {vocab: "der Pass, ¨-e", ar: "جواز السفر"}
+      - {vocab: "die Bank, -en", ar: "البنك"}
+      - {vocab: "das Konto, Konten", ar: "الحساب البنكي", ex: "Ich habe ein Konto bei der Sparkasse.", ex_ar: "لدي حساب في الشباركاسه."}
+      - {vocab: "das Geld", ar: "المال"}
+      - {vocab: "ab|heben", ar: "يسحب (مالاً)", ex: "Ich hebe 50 Euro ab.", ex_ar: "أسحب 50 يورو."}
+      - {vocab: "der Geldautomat, -en", ar: "الصراف الآلي"}
+      - {vocab: "die Post", ar: "البريد"}
+      - {vocab: "der Brief, -e", ar: "الرسالة"}
+      - {vocab: "die Briefmarke, -n", ar: "الطابع البريدي"}
+      - {vocab: "das Paket, -e", ar: "الطرد", ex: "Das Paket ist angekommen.", ex_ar: "وصل الطرد."}
+      - {vocab: "der Absender / der Empfänger", ar: "المرسِل / المستلِم"}
+      - {vocab: "das Handy, -s", ar: "الهاتف المحمول"}
+      - {vocab: "das Telefon, -e", ar: "الهاتف"}
+      - {vocab: "telefonieren", ar: "يتكلم بالهاتف", ex: "Ich telefoniere mit meiner Mutter.", ex_ar: "أتكلم مع أمي بالهاتف."}
+      - {vocab: "die Nachricht, -en", ar: "الرسالة / الخبر"}
+      - {vocab: "die E-Mail, -s", ar: "البريد الإلكتروني"}
+      - {vocab: "das Internet", ar: "الإنترنت"}
+      - {vocab: "der Computer, -", ar: "الكمبيوتر"}
+      - {vocab: "die Information, -en", ar: "المعلومة"}
+      - {vocab: "die Anzeige, -n", ar: "الإعلان", ex: "Ich lese die Anzeigen in der Zeitung.", ex_ar: "أقرأ الإعلانات في الجريدة."}
+      - {vocab: "die Zeitung, -en", ar: "الجريدة"}
+      - {vocab: "der Schalter, -", ar: "الشبّاك (للخدمة)"}
+      - {vocab: "die Gebühr, -en", ar: "الرسوم"}
+      - {vocab: "unterschreiben", ar: "يوقّع", ex: "Unterschreiben Sie bitte hier.", ex_ar: "وقّع هنا من فضلك."}
+      - {vocab: "die Frage, -n / die Antwort, -en", ar: "السؤال / الجواب"}
+      - {vocab: "die Hilfe", ar: "المساعدة"}
+      - {vocab: "die Polizei", ar: "الشرطة"}
+      - gap: "Ich möchte ein ___ eröffnen."
+        options: [Konto, Paket, Amt]
+      - gap: "Am Geldautomaten kann man Geld ___."
+        options: [abheben, unterschreiben, anmelden]
+      - gap: "Für den Brief brauche ich eine ___."
+        options: [Briefmarke, Gebühr, Nachricht]
+      - gap: "___ Sie bitte das Formular hier."
+        options: [Unterschreiben, Telefonieren, Heben]
+      - listen: "Für Ihren neuen Pass brauchen Sie ein Foto, Ihren alten Pass und sechsunddreißig Euro."
+        ar: كم الرسوم؟
+        options: ["36 €", "63 €", "30 €", "16 €"]
+      - match: ["der Ausweis = الهوية", "das Konto = الحساب", "das Paket = الطرد", "die Gebühr = الرسوم", "die Zeitung = الجريدة"]
+      - order: "Ich möchte ein Paket nach Jordanien schicken."
+        ar: أريد إرسال طرد إلى الأردن.
+      - write: "Ich brauche einen Termin.|Ich brauche einen Termin"
+        ar: "اكتب: أحتاج موعداً."
+
+  - slug: a1-w-reisen
+    title_de: Reisen, Urlaub und Hotel
+    title_ar: السفر والعطلة والفندق
+    goal_ar: أن تحجز غرفة في فندق، وتتكلم عن عطلتك والسفر.
+    explanation_ar: |
+      ## في الفندق
+      > Ich möchte ein Einzelzimmer / Doppelzimmer für zwei Nächte.
+      > Ist das Frühstück inklusive? — Wann muss ich das Zimmer verlassen?
+      ## السفر
+      > Ich mache Urlaub in Spanien. — Ich fliege mit dem Flugzeug.
+      > Gute Reise! (رحلة سعيدة) — Schönen Urlaub!
+    items:
+      - {vocab: "die Reise, -n", ar: "الرحلة", ex: "Gute Reise!", ex_ar: "رحلة سعيدة!"}
+      - {vocab: "reisen", ar: "يسافر"}
+      - {vocab: "der Urlaub, -e", ar: "العطلة / الإجازة", ex: "Im August habe ich Urlaub.", ex_ar: "في آب لدي إجازة."}
+      - {vocab: "die Ferien (Pl.)", ar: "العطلة (مدرسية)"}
+      - {vocab: "das Hotel, -s", ar: "الفندق"}
+      - {vocab: "das Einzelzimmer, - / das Doppelzimmer, -", ar: "غرفة مفردة / مزدوجة"}
+      - {vocab: "die Nacht, ¨-e", ar: "الليلة", ex: "zwei Nächte", ex_ar: "ليلتان"}
+      - {vocab: "der Schlüssel, -", ar: "المفتاح"}
+      - {vocab: "das Gepäck", ar: "الأمتعة"}
+      - {vocab: "der Koffer, -", ar: "الحقيبة (سفر)"}
+      - {vocab: "die Tasche, -n", ar: "الحقيبة"}
+      - {vocab: "das Flugzeug, -e", ar: "الطائرة"}
+      - {vocab: "der Flughafen, ¨-", ar: "المطار"}
+      - {vocab: "der Flug, ¨-e", ar: "الرحلة الجوية"}
+      - {vocab: "das Ticket, -s", ar: "التذكرة"}
+      - {vocab: "das Meer, -e", ar: "البحر", ex: "Wir fahren ans Meer.", ex_ar: "نذهب إلى البحر."}
+      - {vocab: "der Strand, ¨-e", ar: "الشاطئ"}
+      - {vocab: "der Berg, -e", ar: "الجبل"}
+      - {vocab: "das Ausland", ar: "الخارج (بلد أجنبي)", ex: "Er arbeitet im Ausland.", ex_ar: "يعمل في الخارج."}
+      - {vocab: "der Tourist, -en", ar: "السائح"}
+      - {vocab: "die Stadt, ¨-e", ar: "المدينة"}
+      - {vocab: "das Dorf, ¨-er", ar: "القرية"}
+      - {vocab: "das Museum, Museen", ar: "المتحف"}
+      - {vocab: "die Kirche, -n / die Moschee, -n", ar: "الكنيسة / المسجد"}
+      - {vocab: "der Platz, ¨-e", ar: "الساحة / المكان"}
+      - {vocab: "die Straße, -n", ar: "الشارع"}
+      - {vocab: "die Brücke, -n", ar: "الجسر"}
+      - {vocab: "besichtigen", ar: "يزور (معالم)", ex: "Wir besichtigen die Altstadt.", ex_ar: "نزور المدينة القديمة."}
+      - {vocab: "buchen", ar: "يحجز", ex: "Ich buche ein Hotel.", ex_ar: "أحجز فندقاً."}
+      - {vocab: "die Reservierung, -en", ar: "الحجز"}
+      - gap: "Ich möchte ein ___ für eine Person."
+        options: [Einzelzimmer, Doppelzimmer, Gepäck]
+      - gap: "Das Flugzeug landet am ___."
+        options: [Flughafen, Bahnhof, Strand]
+      - gap: "Im Sommer fahren wir ans ___."
+        options: [Meer, Berg, Dorf]
+      - gap: "Ich habe ein Hotel ___."
+        options: [gebucht, gereist, besichtigt]
+      - listen: "Ein Doppelzimmer kostet neunzig Euro pro Nacht, mit Frühstück."
+        ar: كم سعر الغرفة المزدوجة لليلة؟
+        options: ["90 €", "19 €", "99 €", "60 €"]
+      - match: ["der Koffer = حقيبة السفر", "der Schlüssel = المفتاح", "der Strand = الشاطئ", "der Berg = الجبل", "das Dorf = القرية"]
+      - order: "Ist das Frühstück inklusive?"
+        ar: هل الفطور مشمول؟
+      - write: "Gute Reise!|Gute Reise"
+        ar: "اكتب: رحلة سعيدة!"
+
+  - slug: a1-w-schule
+    title_de: Schule, Kurs und Lernen
+    title_ar: المدرسة والدورة والتعلّم
+    goal_ar: أن تفهم لغة الصف واللوازم المدرسية وتتكلم عن تعلمك.
+    explanation_ar: |
+      ## لغة الصف — ستسمعها كثيراً
+      > Öffnen Sie das Buch auf Seite 12. — Hören Sie zu. — Lesen Sie den Text.
+      > Kreuzen Sie an. (ضع علامة X) — Ergänzen Sie. (أكمل) — Ordnen Sie zu. (طابق)
+      > Arbeiten Sie zu zweit / in Gruppen.
+      ## اللوازم
+      der Kuli, der Bleistift, das Heft, das Buch, das Wörterbuch, die Tafel
+    items:
+      - {vocab: "die Schule, -n", ar: "المدرسة"}
+      - {vocab: "der Kurs, -e", ar: "الدورة", ex: "Der Deutschkurs ist am Vormittag.", ex_ar: "دورة الألمانية قبل الظهر."}
+      - {vocab: "die Prüfung, -en", ar: "الامتحان", ex: "Ich habe die Prüfung bestanden.", ex_ar: "نجحت في الامتحان."}
+      - {vocab: "der Schüler, - / die Schülerin, -nen", ar: "التلميذ / التلميذة"}
+      - {vocab: "der Student, -en / die Studentin, -nen", ar: "الطالب الجامعي / الطالبة"}
+      - {vocab: "die Universität, -en", ar: "الجامعة"}
+      - {vocab: "studieren", ar: "يدرس (في الجامعة)"}
+      - {vocab: "die Klasse, -n", ar: "الصف / الفصل"}
+      - {vocab: "der Unterricht", ar: "الدرس / الحصة", ex: "Der Unterricht beginnt um acht.", ex_ar: "الدرس يبدأ الساعة الثامنة."}
+      - {vocab: "die Hausaufgabe, -n", ar: "الواجب المنزلي"}
+      - {vocab: "das Buch, ¨-er", ar: "الكتاب"}
+      - {vocab: "das Heft, -e", ar: "الدفتر"}
+      - {vocab: "der Kuli, -s / der Stift, -e", ar: "قلم حبر / قلم"}
+      - {vocab: "der Bleistift, -e", ar: "قلم رصاص"}
+      - {vocab: "das Papier", ar: "الورق"}
+      - {vocab: "das Wörterbuch, ¨-er", ar: "القاموس"}
+      - {vocab: "die Seite, -n", ar: "الصفحة", ex: "auf Seite zehn", ex_ar: "في الصفحة عشرة"}
+      - {vocab: "das Wort, ¨-er", ar: "الكلمة"}
+      - {vocab: "der Satz, ¨-e", ar: "الجملة"}
+      - {vocab: "der Text, -e", ar: "النص"}
+      - {vocab: "der Fehler, -", ar: "الخطأ", ex: "Ich mache viele Fehler.", ex_ar: "أرتكب أخطاء كثيرة."}
+      - {vocab: "an|kreuzen", ar: "يضع علامة X"}
+      - {vocab: "ergänzen", ar: "يُكمل"}
+      - {vocab: "zu|ordnen", ar: "يطابق"}
+      - {vocab: "üben", ar: "يتمرّن", ex: "Ich übe jeden Tag.", ex_ar: "أتمرن كل يوم."}
+      - {vocab: "erklären", ar: "يشرح", ex: "Können Sie das erklären?", ex_ar: "هل يمكنك شرح ذلك؟"}
+      - {vocab: "die Bedeutung, -en", ar: "المعنى", ex: "Was ist die Bedeutung von …?", ex_ar: "ما معنى …؟"}
+      - {phrase: "Wie sagt man das auf Deutsch?", ar: "كيف نقول هذا بالألمانية؟"}
+      - {phrase: "Was bedeutet das?", ar: "ماذا يعني هذا؟"}
+      - quiz: "المعلم يقول 'Kreuzen Sie an.' — ماذا تفعل؟"
+        options: [تضع علامة X, تكتب نصاً, تستمع, تقرأ بصوت عالٍ]
+      - gap: "Öffnen Sie das Buch auf ___ 20."
+        options: [Seite, Satz, Heft]
+      - gap: "Ich schreibe mit dem ___."
+        options: [Kuli, Heft, Papier]
+      - gap: "Ich habe die Prüfung ___."
+        options: [bestanden, gestanden, gestudiert]
+      - match: ["das Heft = الدفتر", "das Wörterbuch = القاموس", "der Fehler = الخطأ", "die Hausaufgabe = الواجب", "üben = يتمرّن"]
+      - order: "Wie sagt man das auf Deutsch?"
+        ar: كيف نقول هذا بالألمانية؟
+      - write: "Was bedeutet das?|Was bedeutet das"
+        ar: "اكتب: ماذا يعني هذا؟"
+
+  - slug: a1-w-haus-natur
+    title_de: Haushalt, Natur und Tiere
+    title_ar: المنزل والطبيعة والحيوانات
+    goal_ar: أن تكمل مفردات A1 عن أدوات البيت، الطبيعة، والحيوانات.
+    explanation_ar: |
+      ## في البيت
+      > Die Heizung ist kaputt. Ich rufe den Hausmeister an.
+      > Wo ist der Kühlschrank? — In der Küche, neben dem Herd.
+      ## الطبيعة والحيوانات
+      > Im Park gibt es viele Bäume und Blumen. — Hast du ein Haustier? — Ja, eine Katze.
+    items:
+      - {vocab: "das Haus, ¨-er", ar: "البيت"}
+      - {vocab: "der Garten, ¨-", ar: "الحديقة (منزلية)"}
+      - {vocab: "die Tür, -en", ar: "الباب"}
+      - {vocab: "das Fenster, -", ar: "النافذة"}
+      - {vocab: "der Boden, ¨-", ar: "الأرضية"}
+      - {vocab: "die Treppe, -n", ar: "الدرج"}
+      - {vocab: "der Aufzug, ¨-e", ar: "المصعد"}
+      - {vocab: "der Stock / die Etage", ar: "الطابق", ex: "Ich wohne im dritten Stock.", ex_ar: "أسكن في الطابق الثالث."}
+      - {vocab: "die Heizung, -en", ar: "التدفئة"}
+      - {vocab: "der Kühlschrank, ¨-e", ar: "الثلاجة"}
+      - {vocab: "der Herd, -e", ar: "الموقد / الفرن"}
+      - {vocab: "die Waschmaschine, -n", ar: "الغسالة"}
+      - {vocab: "der Fernseher, -", ar: "التلفاز"}
+      - {vocab: "das Licht, -er", ar: "الضوء"}
+      - {vocab: "das Glas, ¨-er", ar: "الكأس / الزجاج"}
+      - {vocab: "die Tasse, -n", ar: "الفنجان"}
+      - {vocab: "der Teller, -", ar: "الصحن"}
+      - {vocab: "das Messer, - / die Gabel, -n / der Löffel, -", ar: "السكين / الشوكة / الملعقة"}
+      - {vocab: "der Hausmeister, -", ar: "ناطور / مسؤول البناية"}
+      - {vocab: "der Nachbar, -n / die Nachbarin, -nen", ar: "الجار / الجارة"}
+      - {vocab: "der Müll", ar: "النفايات", ex: "Bring bitte den Müll raus.", ex_ar: "أخرج النفايات من فضلك."}
+      - {vocab: "der Park, -s", ar: "الحديقة العامة"}
+      - {vocab: "der Baum, ¨-e", ar: "الشجرة"}
+      - {vocab: "die Blume, -n", ar: "الزهرة"}
+      - {vocab: "der Fluss, ¨-e", ar: "النهر"}
+      - {vocab: "der See, -n", ar: "البحيرة"}
+      - {vocab: "das Tier, -e", ar: "الحيوان"}
+      - {vocab: "der Hund, -e", ar: "الكلب"}
+      - {vocab: "die Katze, -n", ar: "القطة"}
+      - {vocab: "der Vogel, ¨-", ar: "الطائر"}
+      - {vocab: "das Pferd, -e", ar: "الحصان"}
+      - {vocab: "die Kuh, ¨-e", ar: "البقرة"}
+      - gap: "Die Milch ist im ___."
+        options: [Kühlschrank, Herd, Fernseher]
+      - gap: "Ich esse die Suppe mit dem ___."
+        options: [Löffel, Messer, Teller]
+      - gap: "Wir wohnen im vierten ___."
+        options: [Stock, Boden, Aufzug]
+      - gap: "Im Park gibt es viele ___."
+        options: [Bäume, Teller, Tassen]
+      - listen: "Die Heizung funktioniert nicht. Können Sie bitte heute noch kommen?"
+        ar: ما المشكلة؟
+        options: [التدفئة لا تعمل, الثلاجة معطلة, الباب مكسور, لا يوجد ضوء]
+      - match: ["der Hund = الكلب", "die Katze = القطة", "der Vogel = الطائر", "der Baum = الشجرة", "die Blume = الزهرة"]
+      - order: "Der Aufzug ist leider kaputt."
+        ar: المصعد للأسف معطّل.
+      - write: "Ich habe eine Katze.|Ich habe eine Katze"
+        ar: "اكتب: لدي قطة."
+
+  - slug: a1-wortschatz-test
+    kind: test
+    title_de: Modultest – Wortschatz A1
+    title_ar: اختبار مفردات A1
+    goal_ar: اختبار مفردات Goethe A1. النجاح من 70٪.
+    items:
+      - gap: "Kannst du mir bitte ___? Der Koffer ist so schwer."
+        options: [helfen, warten, vergessen]
+      - gap: "Ich habe meinen Schlüssel ___."
+        options: [vergessen, verkauft, verstanden]
+      - gap: "Der Zug ist ___. Wir finden keinen Platz."
+        options: [voll, leer, ruhig]
+      - gap: "Ich gehe ___ ins Kino, vielleicht einmal im Jahr."
+        options: [selten, immer, oft]
+      - gap: "Am Automaten kann ich Geld ___."
+        options: [abheben, buchen, ergänzen]
+      - gap: "Wir möchten ein ___ für zwei Personen."
+        options: [Doppelzimmer, Einzelzimmer, Gepäck]
+      - gap: "Bitte ___ Sie die richtige Antwort an."
+        options: [kreuzen, ordnen, üben]
+      - gap: "Die Milch steht im ___."
+        options: [Kühlschrank, Fernseher, Aufzug]
+      - quiz: "ما ضد 'laut'؟"
+        options: [leise, langsam, leicht, leer]
+      - listen: "Mein Flug nach Istanbul geht morgen um sechs Uhr früh."
+        ar: متى الرحلة؟
+        options: [غداً الساعة 6 صباحاً, اليوم الساعة 6, غداً مساءً, بعد غد]
+      - match: ["der Pass = جواز السفر", "das Meer = البحر", "der Satz = الجملة", "der Nachbar = الجار", "kaputt = معطّل"]
+      - order: "Ich habe meine Hausaufgaben noch nicht gemacht."
+        ar: لم أعمل واجباتي بعد.
+      - write: "Ich weiß es nicht.|Ich weiß es nicht|Ich weiss es nicht"
+        ar: "اكتب: لا أعرف."

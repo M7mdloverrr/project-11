@@ -1,0 +1,253 @@
+module:
+  slug: a2-arbeit-reisen
+  level: A2
+  position: 5
+  icon: work
+  title_de: Arbeit, Ausbildung, Reisen, Umwelt
+  title_ar: العمل، التأهيل المهني، السفر، البيئة
+  description_ar: مفردات Goethe A2 — البحث عن عمل والتقديم، الحياة في العمل، المدرسة والتأهيل، السفر والمواصلات، الطبيعة والبيئة والرياضة.
+
+lessons:
+  - slug: a2-bewerbung
+    title_de: Arbeitssuche und Bewerbung
+    title_ar: البحث عن عمل والتقديم
+    goal_ar: أن تفهم إعلانات الوظائف، تكتب سيرة ذاتية بسيطة، وتتحدث في مقابلة عمل.
+    explanation_ar: |
+      ## ملف التقديم (die Bewerbung)
+      das Anschreiben (رسالة التقديم) + der Lebenslauf (السيرة الذاتية) + die Zeugnisse (الشهادات)
+      ## إعلان وظيفة
+      > Wir suchen ab sofort eine/n Verkäufer/in in Vollzeit / Teilzeit.
+      > Sie haben Erfahrung im Verkauf und sprechen gut Deutsch.
+      ## في المقابلة (das Vorstellungsgespräch)
+      > Ich habe drei Jahre als Koch gearbeitet. — Ich kann im Schichtdienst arbeiten.
+      > Wie hoch ist das Gehalt? — Wann kann ich anfangen?
+    items:
+      - {vocab: "die Stelle, -n", ar: "الوظيفة / المكان", ex: "Ich suche eine Stelle als Fahrer.", ex_ar: "أبحث عن وظيفة سائق."}
+      - {vocab: "die Stellenanzeige, -n", ar: "إعلان وظيفة"}
+      - {vocab: "sich bewerben – er bewirbt sich", ar: "يتقدّم لوظيفة", ex: "Ich bewerbe mich bei Siemens.", ex_ar: "أتقدّم لسيمنز."}
+      - {vocab: "die Bewerbung, -en", ar: "طلب التوظيف"}
+      - {vocab: "der Lebenslauf, ¨-e", ar: "السيرة الذاتية"}
+      - {vocab: "das Zeugnis, -se", ar: "الشهادة"}
+      - {vocab: "das Vorstellungsgespräch, -e", ar: "مقابلة العمل"}
+      - {vocab: "die Erfahrung, -en", ar: "الخبرة"}
+      - {vocab: "die Vollzeit / die Teilzeit", ar: "دوام كامل / جزئي"}
+      - {vocab: "das Gehalt, ¨-er / der Lohn, ¨-e", ar: "الراتب / الأجر"}
+      - {vocab: "der Arbeitgeber, - / der Arbeitnehmer, -", ar: "صاحب العمل / الموظف"}
+      - {vocab: "der Chef, -s / die Chefin, -nen", ar: "المدير / المديرة"}
+      - {vocab: "die Schicht, -en", ar: "الوردية", ex: "Ich habe heute Nachtschicht.", ex_ar: "عندي اليوم وردية ليلية."}
+      - {vocab: "die Überstunde, -n", ar: "ساعة إضافية"}
+      - {vocab: "der Vertrag, ¨-e", ar: "العقد"}
+      - {vocab: "befristet / unbefristet", ar: "محدد المدة / غير محدد"}
+      - {vocab: "das Praktikum, Praktika", ar: "التدريب العملي"}
+      - {vocab: "die Ausbildung, -en", ar: "التأهيل المهني", ex: "Ich mache eine Ausbildung als Elektriker.", ex_ar: "أقوم بتأهيل مهني ككهربائي."}
+      - {vocab: "die Kenntnisse (Pl.)", ar: "المعارف / المهارات"}
+      - {vocab: "zuverlässig", ar: "موثوق"}
+      - {vocab: "selbstständig", ar: "مستقل / يعمل لحسابه"}
+      - {vocab: "das Jobcenter / die Agentur für Arbeit", ar: "مركز العمل / وكالة العمل"}
+      - text: "Bäckerei Schmidt sucht ab 1. März eine/n Verkäufer/in in Teilzeit (20 Std./Woche). Arbeitszeit: Mo–Fr 6–10 Uhr. Erfahrung ist nicht nötig, gute Deutschkenntnisse (A2) sind wichtig. Bewerbung bitte per E-Mail an: job@baeckerei-schmidt.de"
+        ar: "مخبز شميت يبحث عن بائع/ة بدوام جزئي (20 ساعة أسبوعياً) من 1 آذار. الدوام: الاثنين–الجمعة 6–10. الخبرة غير ضرورية، الألمانية الجيدة (A2) مهمة. التقديم بالبريد الإلكتروني."
+      - quiz: "كم ساعة في الأسبوع؟"
+        options: ["20", "40", "10", "6"]
+      - quiz: "ما المطلوب بالتأكيد؟"
+        options: [ألمانية جيدة, خبرة في البيع, شهادة جامعية, رخصة قيادة]
+      - gap: "Ich möchte mich um die Stelle ___."
+        options: [bewerben, bewirbt, verwerben]
+      - gap: "Zur Bewerbung gehören das Anschreiben und der ___."
+        options: [Lebenslauf, Vertrag, Lohn]
+      - gap: "Ich arbeite nur 25 Stunden pro Woche, in ___."
+        options: [Teilzeit, Vollzeit, Überstunden]
+      - match: ["das Gehalt = الراتب", "die Erfahrung = الخبرة", "der Vertrag = العقد", "die Schicht = الوردية", "zuverlässig = موثوق"]
+      - order: "Ich habe zwei Jahre als Fahrer gearbeitet."
+        ar: عملت سنتين كسائق.
+      - write: "Wann kann ich anfangen?|Wann kann ich anfangen"
+        ar: "اكتب: متى أستطيع البدء؟"
+
+  - slug: a2-arbeitsalltag
+    title_de: Im Arbeitsalltag
+    title_ar: في الحياة العملية اليومية
+    goal_ar: أن تتواصل مع الزملاء والمدير، تطلب إجازة، وتبلّغ عن المرض.
+    explanation_ar: |
+      ## التبليغ عن المرض
+      > Guten Morgen, hier ist Rami Saleh. Ich bin leider krank und kann heute nicht kommen. Ich gehe zum Arzt und schicke die Krankmeldung.
+      ## طلب إجازة
+      > Ich möchte vom 3. bis 14. August Urlaub nehmen. Ist das möglich?
+      ## الاجتماعات والمواعيد
+      die Besprechung (الاجتماع)، der Termin verschieben (يؤجل الموعد)، Bescheid sagen (يُعلِم)
+    items:
+      - {vocab: "die Besprechung, -en", ar: "الاجتماع"}
+      - {vocab: "verschieben", ar: "يؤجل", ex: "Können wir den Termin verschieben?", ex_ar: "هل يمكننا تأجيل الموعد؟"}
+      - {vocab: "Bescheid sagen / geben", ar: "يُعلِم / يخبر", ex: "Sag mir bitte Bescheid.", ex_ar: "أخبرني من فضلك."}
+      - {vocab: "die Aufgabe, -n", ar: "المهمة"}
+      - {vocab: "erledigen", ar: "يُنجز", ex: "Ich habe alles erledigt.", ex_ar: "أنجزت كل شيء."}
+      - {vocab: "der Kunde, -n", ar: "الزبون"}
+      - {vocab: "die Abteilung, -en", ar: "القسم"}
+      - {vocab: "die Kantine, -n", ar: "المطعم (في العمل)"}
+      - {vocab: "der Feierabend", ar: "نهاية الدوام", ex: "Schönen Feierabend!", ex_ar: "مساء سعيد بعد العمل!"}
+      - {vocab: "der Urlaubsantrag, ¨-e", ar: "طلب إجازة"}
+      - {vocab: "die Gewerkschaft, -en", ar: "النقابة"}
+      - {vocab: "kündigen / die Kündigung", ar: "يستقيل/يفصل / الاستقالة/الفصل"}
+      - {vocab: "der Unfall, ¨-e", ar: "الحادث"}
+      - {vocab: "die Sicherheit", ar: "السلامة / الأمان"}
+      - {vocab: "die Maschine, -n", ar: "الآلة"}
+      - {vocab: "das Werkzeug, -e", ar: "العُدّة / الأداة"}
+      - {vocab: "pünktlich", ar: "في الموعد", ex: "Bitte seien Sie pünktlich.", ex_ar: "كن في الموعد من فضلك."}
+      - {vocab: "verantwortlich", ar: "مسؤول"}
+      - listen: "Hallo Frau Becker, hier ist Omar. Mein Kind ist krank. Ich kann heute leider nicht kommen. Ich rufe morgen wieder an."
+        ar: لماذا لا يأتي عمر؟
+        options: [ابنه مريض, هو مريض, عنده موعد, سيارته معطلة]
+      - listen: "Die Besprechung ist nicht um zehn, sondern um halb zwölf im Raum vier."
+        ar: متى الاجتماع؟
+        options: ["11:30", "10:00", "12:30", "4:00"]
+      - gap: "Können wir die Besprechung auf Freitag ___?"
+        options: [verschieben, erledigen, kündigen]
+      - gap: "Sag mir bitte ___, wenn du fertig bist."
+        options: [Bescheid, Feierabend, Aufgabe]
+      - gap: "Um 17 Uhr habe ich ___."
+        options: [Feierabend, Kantine, Abteilung]
+      - match: ["die Abteilung = القسم", "erledigen = يُنجز", "der Unfall = الحادث", "das Werkzeug = الأداة", "pünktlich = في الموعد"]
+      - order: "Ich möchte im August zwei Wochen Urlaub nehmen."
+        ar: أريد أخذ إجازة أسبوعين في آب.
+      - write: "Schönen Feierabend!|Schönen Feierabend"
+        ar: "اكتب لزميلك في نهاية الدوام: مساء سعيد!"
+
+  - slug: a2-reisen
+    title_de: Reisen und Verkehr
+    title_ar: السفر والمواصلات
+    goal_ar: أن تخطط لرحلة، تفهم الإعلانات في المحطة والمطار، وتتعامل مع المشكلات أثناء السفر.
+    explanation_ar: |
+      ## التخطيط
+      > Wir möchten im Juli an die Ostsee fahren. Wir fahren mit dem Zug und übernachten in einer Pension.
+      ## مشكلات السفر
+      > Der Zug ist ausgefallen. (أُلغي) — Ich habe meinen Anschluss verpasst. (فاتني القطار التالي)
+      > Mein Koffer ist nicht angekommen.
+      ## الاتجاهات بـ Wechselpräpositionen
+      > Wir fahren **in die** Berge / **ans** Meer / **an den** See / **in die** Schweiz.
+    items:
+      - {vocab: "die Abfahrt / die Ankunft", ar: "المغادرة / الوصول"}
+      - {vocab: "der Anschluss, ¨-e", ar: "الاتصال (القطار التالي)"}
+      - {vocab: "verpassen", ar: "يفوّت", ex: "Ich habe den Bus verpasst.", ex_ar: "فاتني الباص."}
+      - {vocab: "aus|fallen", ar: "يُلغى", ex: "Der Zug fällt heute aus.", ex_ar: "القطار ملغى اليوم."}
+      - {vocab: "die Durchsage, -n", ar: "الإعلان الصوتي"}
+      - {vocab: "der Fahrplan, ¨-e", ar: "جدول المواعيد"}
+      - {vocab: "der Bahnsteig, -e", ar: "رصيف المحطة"}
+      - {vocab: "die Rückfahrkarte, -n", ar: "تذكرة ذهاب وعودة"}
+      - {vocab: "die Ermäßigung, -en", ar: "التخفيض"}
+      - {vocab: "der Ausweis / der Reisepass", ar: "الهوية / جواز السفر"}
+      - {vocab: "das Visum, Visa", ar: "التأشيرة"}
+      - {vocab: "die Grenze, -n", ar: "الحدود"}
+      - {vocab: "der Zoll", ar: "الجمارك"}
+      - {vocab: "der Stau, -s", ar: "الازدحام المروري", ex: "Auf der Autobahn ist Stau.", ex_ar: "يوجد ازدحام على الطريق السريع."}
+      - {vocab: "die Autobahn, -en", ar: "الطريق السريع"}
+      - {vocab: "der Führerschein, -e", ar: "رخصة القيادة"}
+      - {vocab: "tanken / die Tankstelle", ar: "يعبّئ وقوداً / محطة الوقود"}
+      - {vocab: "parken / der Parkplatz", ar: "يركن / موقف السيارات"}
+      - {vocab: "übernachten", ar: "يبيت", ex: "Wir übernachten in einer Jugendherberge.", ex_ar: "نبيت في نُزل الشباب."}
+      - {vocab: "die Unterkunft, ¨-e", ar: "مكان الإقامة"}
+      - {vocab: "die Sehenswürdigkeit, -en", ar: "معلم سياحي"}
+      - {vocab: "der Ausflug, ¨-e", ar: "النزهة / الرحلة القصيرة"}
+      - listen: "Achtung an Gleis neun: Der ICE nach Frankfurt fällt heute aus. Bitte benutzen Sie den Zug um vierzehn Uhr zwölf."
+        ar: ما المشكلة؟
+        options: [القطار ملغى, القطار متأخر, تغيّر الرصيف, القطار ممتلئ]
+      - listen: "Wegen eines Unfalls gibt es auf der A3 zehn Kilometer Stau."
+        ar: كم طول الازدحام؟
+        options: ["10 كم", "3 كم", "13 كم", "30 كم"]
+      - gap: "Ich habe meinen Anschluss ___. Der nächste Zug kommt in einer Stunde."
+        options: [verpasst, ausgefallen, getankt]
+      - gap: "Im Sommer fahren wir ___ Meer."
+        options: [ans, am, an das Meer im]
+      - gap: "Für Studenten gibt es eine ___."
+        options: [Ermäßigung, Grenze, Durchsage]
+      - match: ["der Stau = الازدحام", "der Führerschein = رخصة القيادة", "die Ankunft = الوصول", "der Zoll = الجمارك", "der Ausflug = النزهة"]
+      - order: "Wir übernachten in einem kleinen Hotel am See."
+        ar: نبيت في فندق صغير على البحيرة.
+      - write: "Ich habe den Zug verpasst.|Ich habe den Zug verpasst"
+        ar: "اكتب: فاتني القطار."
+
+  - slug: a2-umwelt-sport
+    title_de: Natur, Umwelt und Sport
+    title_ar: الطبيعة والبيئة والرياضة
+    goal_ar: أن تتكلم عن حماية البيئة، فرز النفايات، والرياضة والصحة.
+    explanation_ar: |
+      ## فرز النفايات في ألمانيا
+      | الحاوية | ماذا؟ |
+      |---|---|
+      | gelbe Tonne | البلاستيك والمعلبات |
+      | blaue Tonne | الورق والكرتون |
+      | Biotonne | بقايا الطعام |
+      | Restmüll | الباقي |
+      | Altglas | الزجاج |
+      ## حماية البيئة
+      > Man sollte Energie sparen. — Ich fahre lieber mit dem Fahrrad als mit dem Auto.
+      ## الرياضة
+      > Ich trainiere zweimal pro Woche im Fitnessstudio. — Ich bin Mitglied in einem Fußballverein.
+    items:
+      - {vocab: "die Umwelt", ar: "البيئة"}
+      - {vocab: "die Natur", ar: "الطبيعة"}
+      - {vocab: "schützen", ar: "يحمي", ex: "Wir müssen die Umwelt schützen.", ex_ar: "يجب أن نحمي البيئة."}
+      - {vocab: "trennen", ar: "يفرز / يفصل", ex: "In Deutschland trennt man den Müll.", ex_ar: "في ألمانيا يُفرز القمامة."}
+      - {vocab: "die Mülltonne, -n", ar: "حاوية القمامة"}
+      - {vocab: "das Plastik", ar: "البلاستيك"}
+      - {vocab: "sparen", ar: "يوفّر", ex: "Wir sparen Strom.", ex_ar: "نوفّر الكهرباء."}
+      - {vocab: "die Energie", ar: "الطاقة"}
+      - {vocab: "die Luft", ar: "الهواء"}
+      - {vocab: "das Klima", ar: "المناخ"}
+      - {vocab: "der Wald, ¨-er", ar: "الغابة"}
+      - {vocab: "die Landschaft, -en", ar: "المنظر الطبيعي"}
+      - {vocab: "die Pflanze, -n", ar: "النبات"}
+      - {vocab: "das Gewitter, -", ar: "العاصفة الرعدية"}
+      - {vocab: "der Verein, -e", ar: "النادي / الجمعية"}
+      - {vocab: "das Mitglied, -er", ar: "العضو"}
+      - {vocab: "trainieren", ar: "يتدرّب"}
+      - {vocab: "das Fitnessstudio, -s", ar: "صالة الرياضة"}
+      - {vocab: "die Mannschaft, -en", ar: "الفريق"}
+      - {vocab: "gewinnen / verlieren", ar: "يفوز / يخسر"}
+      - {vocab: "das Spiel, -e", ar: "المباراة / اللعبة"}
+      - {vocab: "fit / gesund leben", ar: "رشيق / يعيش بصحة"}
+      - gap: "Papier kommt in die ___ Tonne."
+        options: [blaue, gelbe, braune]
+      - gap: "Wir sollten Strom und Wasser ___."
+        options: [sparen, trennen, gewinnen]
+      - gap: "Unsere Mannschaft hat das Spiel 3:1 ___."
+        options: [gewonnen, verloren, trainiert]
+      - gap: "Ich bin ___ in einem Schwimmverein."
+        options: [Mitglied, Mannschaft, Pflanze]
+      - listen: "Ich gehe dreimal pro Woche joggen, meistens morgens vor der Arbeit im Wald."
+        ar: أين يركض غالباً؟
+        options: [في الغابة, في صالة الرياضة, في الملعب, في الشارع]
+      - match: ["die Umwelt = البيئة", "der Wald = الغابة", "sparen = يوفّر", "der Verein = النادي", "gewinnen = يفوز"]
+      - order: "Wir müssen die Umwelt schützen."
+        ar: يجب أن نحمي البيئة.
+      - write: "Ich trenne den Müll.|Ich trenne den Müll"
+        ar: "اكتب: أفرز القمامة."
+
+  - slug: a2-arbeit-reisen-test
+    kind: test
+    title_de: Modultest – Arbeit, Reisen, Umwelt
+    title_ar: اختبار وحدة العمل والسفر والبيئة
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Ich ___ mich um eine Stelle als Verkäufer."
+        options: [bewerbe, bewirbt, bewerben]
+      - gap: "Mein ___ ist 2.200 Euro brutto."
+        options: [Gehalt, Vertrag, Zeugnis]
+      - gap: "Mein Vertrag ist ___, bis Dezember."
+        options: [befristet, unbefristet, pünktlich]
+      - gap: "Können wir das Treffen ___?"
+        options: [verschieben, verpassen, verlieren]
+      - gap: "Der Zug ist ___, wir nehmen den Bus."
+        options: [ausgefallen, verpasst, übernachtet]
+      - gap: "Plastik kommt in die ___ Tonne."
+        options: [gelbe, blaue, grüne]
+      - listen: "Wir suchen eine Pflegekraft in Vollzeit, auch am Wochenende. Erfahrung ist wichtig."
+        ar: ما المطلوب؟
+        options: [خبرة ودوام كامل, دوام جزئي فقط, بدون خبرة, شهادة جامعية]
+      - listen: "Hallo, ich stehe im Stau und komme etwa dreißig Minuten später."
+        ar: لماذا يتأخر؟
+        options: [ازدحام مروري, القطار ملغى, هو مريض, نسي الموعد]
+      - match: ["der Lebenslauf = السيرة الذاتية", "der Feierabend = نهاية الدوام", "der Fahrplan = جدول المواعيد", "die Mülltonne = حاوية القمامة", "die Mannschaft = الفريق"]
+      - order: "Ich habe drei Jahre Erfahrung als Koch."
+        ar: لدي ثلاث سنوات خبرة كطبّاخ.
+      - order: "Wegen des Staus bin ich zu spät gekommen."
+        ar: بسبب الازدحام تأخرت.
+      - write: "Ich bin heute krank.|Ich bin heute krank"
+        ar: "اكتب لمديرك: أنا مريض اليوم."

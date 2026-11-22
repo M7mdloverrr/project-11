@@ -1,0 +1,192 @@
+module:
+  slug: a2-fertigkeiten
+  level: A2
+  position: 6
+  icon: exam
+  title_de: Lesen, Hören, Schreiben, Sprechen – Goethe-Zertifikat A2
+  title_ar: القراءة والاستماع والكتابة والمحادثة — امتحان Goethe A2
+  description_ar: تدريب على أجزاء امتحان Goethe-Zertifikat A2 الأربعة، ثم الامتحان النهائي للمستوى A2.
+
+lessons:
+  - slug: a2-lesen
+    title_de: Lesen – Zeitungstexte, Anzeigen, E-Mails
+    title_ar: القراءة — مقالات قصيرة، إعلانات، رسائل
+    goal_ar: أن تفهم نصوصاً أطول قليلاً وتجد المعلومات المهمة (Lesen Teil 1–4).
+    explanation_ar: |
+      ## استراتيجية
+      - اقرأ العنوان والأسئلة أولاً، ثم ابحث عن الكلمات المفتاحية.
+      - في نصوص "richtig/falsch" انتبه للكلمات: **nur, immer, nie, alle, kein**.
+      - في الإعلانات قارن بدقة: السعر، الوقت، المكان، الشروط.
+    items:
+      - text: |
+          Neues Café im Stadtpark
+          Seit letztem Montag gibt es im Stadtpark ein neues Café. Das „Café Grün" ist täglich von 9 bis 19 Uhr geöffnet, im Winter nur bis 17 Uhr. Die Besitzerin, Frau Novak, verkauft vor allem Bio-Produkte aus der Region. Besonders beliebt sind ihre Kuchen. Jeden Sonntag gibt es außerdem ein Frühstücksbuffet für 12,50 Euro. Kinder unter sechs Jahren essen kostenlos.
+        ar: مقهى جديد في حديقة المدينة. منذ الاثنين الماضي… مفتوح يومياً 9–19، في الشتاء حتى 17 فقط. المالكة السيدة نوفاك تبيع منتجات عضوية من المنطقة. الكعك محبوب خاصة. كل أحد يوجد بوفيه فطور بـ 12,50 يورو. الأطفال تحت ست سنوات مجاناً.
+      - quiz: "متى يغلق المقهى في الشتاء؟"
+        options: [الساعة 17, الساعة 19, الساعة 9, لا يفتح في الشتاء]
+      - quiz: "من يأكل مجاناً في البوفيه؟"
+        options: [الأطفال تحت 6 سنوات, كل الأطفال, الطلاب, لا أحد]
+      - quiz: "Das Café gibt es schon seit vielen Jahren. — richtig أم falsch؟"
+        options: [falsch, richtig]
+      - text: |
+          Hallo Jana,
+          danke für deine Nachricht! Leider kann ich am Freitag nicht mit ins Kino kommen, weil ich bis 20 Uhr arbeiten muss. Hast du vielleicht am Samstagnachmittag Zeit? Dann könnten wir zusammen in die Stadt gehen. Ich muss noch ein Geschenk für meinen Vater kaufen – er hat nächste Woche Geburtstag. Vielleicht hast du eine Idee?
+          Liebe Grüße
+          Samira
+        ar: مرحباً يانا، شكراً لرسالتك! للأسف لا أستطيع المجيء للسينما يوم الجمعة لأنني أعمل حتى 20. هل لديك وقت السبت بعد الظهر؟ يمكننا الذهاب للمدينة. يجب أن أشتري هدية لأبي — عيد ميلاده الأسبوع القادم. ربما لديك فكرة؟
+      - quiz: "لماذا لا تذهب سميرة إلى السينما؟"
+        options: [تعمل حتى 20, هي مريضة, عيد ميلاد أبيها, ليس معها مال]
+      - quiz: "ماذا تريد سميرة أن تفعل يوم السبت؟"
+        options: [الذهاب للمدينة وشراء هدية, الذهاب للسينما, زيارة أبيها, العمل]
+      - match: ["kostenlos = مجاناً", "beliebt = محبوب", "die Region = المنطقة", "außerdem = بالإضافة إلى ذلك", "vor allem = خاصةً"]
+
+  - slug: a2-hoeren
+    title_de: Hören – Ansagen, Telefon, Gespräche, Radio
+    title_ar: الاستماع — إعلانات، هاتف، محادثات، راديو
+    goal_ar: أن تفهم المعلومات الأساسية في إعلانات ورسائل هاتفية ومحادثات (Hören Teil 1–4).
+    explanation_ar: |
+      ## استراتيجية
+      - اقرأ الأسئلة قبل الاستماع وتوقّع نوع الجواب (رقم؟ يوم؟ مكان؟).
+      - انتبه للتصحيحات: **nicht … sondern** (ليس… بل)، **doch**، **leider**.
+      - اضغط زر السماعة للإعادة، أو الزر البطيء.
+    items:
+      - listen: "Liebe Fahrgäste, wegen Bauarbeiten fährt die Linie fünf heute nicht bis zum Hauptbahnhof, sondern nur bis zum Rathaus."
+        ar: إلى أين يصل خط 5 اليوم؟
+        options: [حتى البلدية, حتى المحطة الرئيسية, لا يعمل أبداً, حتى المطار]
+      - listen: "Hallo Maria, hier ist Ben. Unser Treffen morgen müssen wir leider verschieben. Geht es vielleicht am Donnerstag um drei?"
+        ar: ماذا يقترح بن؟
+        options: [الخميس الساعة 3, غداً الساعة 3, الخميس صباحاً, إلغاء اللقاء]
+      - listen: "Die Arztpraxis ist vom zwölften bis zum sechsundzwanzigsten August geschlossen. In dringenden Fällen wenden Sie sich bitte an Dr. Krause."
+        ar: متى العيادة مغلقة؟
+        options: [12–26 آب, 2–26 آب, 12–16 آب, كل آب]
+      - listen: "Ich hätte gern zwei Karten für das Konzert am Samstag. – Tut mir leid, Samstag ist ausverkauft. Es gibt nur noch Karten für Sonntag."
+        ar: متى توجد تذاكر؟
+        options: [الأحد فقط, السبت, السبت والأحد, لا توجد تذاكر]
+      - listen: "Und nun das Wetter: Am Wochenende wird es sonnig, aber kühl, nur zwölf Grad. Ab Montag kommt wieder Regen."
+        ar: كيف الطقس يوم الاثنين؟
+        options: [ممطر, مشمس وبارد, حار, ثلج]
+      - listen: "Ich wohne jetzt seit fünf Jahren in Leipzig. Am Anfang war es schwer, weil ich niemanden kannte, aber jetzt habe ich viele Freunde."
+        ar: لماذا كانت البداية صعبة؟
+        options: [لم يكن يعرف أحداً, لم يكن عنده عمل, الطقس بارد, اللغة فقط]
+      - listen: "Der Deutschkurs kostet zweihundertachtzig Euro. Wenn Sie sich bis Ende Mai anmelden, bekommen Sie zehn Prozent Rabatt."
+        ar: كيف تحصل على الخصم؟
+        options: [بالتسجيل حتى نهاية أيار, بالدفع نقداً, بالتسجيل مع صديق, للطلاب فقط]
+
+  - slug: a2-schreiben
+    title_de: Schreiben – Nachricht und E-Mail
+    title_ar: الكتابة — رسالة قصيرة وبريد إلكتروني
+    goal_ar: أن تكتب رسالة (20–30 كلمة) وبريداً شبه رسمي (30–40 كلمة) كما في Schreiben Teil 1–2.
+    explanation_ar: |
+      ## Teil 1: رسالة لصديق (SMS)
+      اكتب النقاط الثلاث: مثلاً **اعتذر – اذكر السبب – اقترح موعداً جديداً**.
+      > Hallo Tim, tut mir leid, ich komme heute 20 Minuten später, weil mein Bus Verspätung hat. Warte bitte im Café auf mich! Lea
+      ## Teil 2: بريد إلى معلم/مؤجر/مدير
+      > Sehr geehrter Herr Wolf,
+      > leider kann ich morgen nicht zum Kurs kommen, weil ich einen Termin beim Amt habe. Könnten Sie mir bitte die Hausaufgaben per E-Mail schicken? Vielen Dank!
+      > Mit freundlichen Grüßen
+      > Hassan Ali
+      ## روابط مفيدة
+      weil, deshalb (لذلك), aber, dann, außerdem, leider, vielleicht
+    items:
+      - {rule: "استعمل **weil** للسبب و **deshalb** للنتيجة. deshalb يأخذ المكان 1 والفعل بعده مباشرة.", de: "Ich bin krank, deshalb kann ich nicht kommen."}
+      - gap: "Ich habe morgen einen Arzttermin, ___ kann ich nicht kommen."
+        options: [deshalb, weil, denn]
+      - gap: "___ Herr Wolf,"
+        options: [Sehr geehrter, Sehr geehrte, Lieber Herr]
+      - gap: "Könnten Sie mir bitte die Unterlagen ___ E-Mail schicken?"
+        options: [per, mit der, durch]
+      - quiz: "أي جملة مناسبة لبريد رسمي؟"
+        options: ["Könnten Sie mir bitte einen neuen Termin geben?", "Gib mir einen neuen Termin!", "Hey, neuer Termin?", "Ich will einen Termin."]
+      - order: "Leider kann ich am Montag nicht kommen, weil ich krank bin."
+        ar: للأسف لا أستطيع المجيء يوم الاثنين لأنني مريض.
+      - order: "Ich freue mich auf Ihre Antwort."
+        ar: أتطلع لردّك.
+      - write: "Vielen Dank für Ihre Hilfe.|Vielen Dank für Ihre Hilfe"
+        ar: "اكتب: شكراً جزيلاً على مساعدتك. (رسمي)"
+      - write: "deshalb"
+        ar: "أي كلمة تعني 'لذلك'؟"
+
+  - slug: a2-sprechen
+    title_de: Sprechen – fragen, erzählen, planen
+    title_ar: المحادثة — السؤال، الحكي، التخطيط معاً
+    goal_ar: أن تستعد للمحادثة في A2 — أسئلة شخصية، الحديث عن حياتك، والتخطيط مع شريك. استمع وكرّر بصوت عالٍ.
+    explanation_ar: |
+      ## Teil 1: اسأل وأجب (بطاقات)
+      > Wo machst du gern Urlaub? — Was isst du gern zum Frühstück?
+      ## Teil 2: تحدّث عن نفسك (موضوع)
+      مثلاً "Wohnen": أين تسكن، كيف شقتك، ماذا تحب/لا تحب، ماذا تتمنى.
+      ## Teil 3: خطّطا معاً
+      > Wann hast du Zeit? — Wie wäre es mit Samstag? — Am Samstag kann ich leider nicht, ich muss arbeiten. — Und Sonntag? — Ja, das passt mir gut!
+      > Was meinst du? — Gute Idee! / Ich weiß nicht… Lieber …
+    items:
+      - {phrase: "Wie wäre es mit Samstag?", ar: "ما رأيك بيوم السبت؟"}
+      - {phrase: "Das passt mir gut.", ar: "هذا يناسبني."}
+      - {phrase: "Da kann ich leider nicht.", ar: "للأسف لا أستطيع في ذلك الوقت."}
+      - {phrase: "Was meinst du?", ar: "ما رأيك؟"}
+      - {phrase: "Ich schlage vor, dass wir zusammen kochen.", ar: "أقترح أن نطبخ معاً."}
+      - {phrase: "Ich wohne seit drei Jahren in einer kleinen Wohnung.", ar: "أسكن منذ ثلاث سنوات في شقة صغيرة."}
+      - {phrase: "Am liebsten würde ich in einem Haus mit Garten wohnen.", ar: "أكثر ما أتمنى أن أسكن في بيت مع حديقة."}
+      - quiz: "شريكك يقول: 'Wie wäre es mit Freitag um acht?' وأنت مشغول. ماذا تقول؟"
+        options: ["Da kann ich leider nicht. Geht es auch am Samstag?", "Ja, gern, das passt mir.", "Ich heiße Samir.", "Was kostet das?"]
+      - quiz: "بطاقة: Thema Urlaub — 'Wohin?' أي سؤال مناسب؟"
+        options: ["Wohin fährst du gern in den Urlaub?", "Wo arbeitest du?", "Wann stehst du auf?", "Was isst du gern?"]
+      - order: "Ich schlage vor, dass wir zusammen ins Kino gehen."
+        ar: أقترح أن نذهب معاً إلى السينما.
+      - order: "Am Sonntag passt es mir gut."
+        ar: يوم الأحد يناسبني.
+      - write: "Was meinst du?|Was meinst du"
+        ar: "اكتب: ما رأيك؟"
+
+  - slug: a2-exam
+    kind: exam
+    title_de: Abschlussprüfung A2
+    title_ar: الامتحان النهائي للمستوى A2
+    goal_ar: امتحان شامل على نمط Goethe-Zertifikat A2 — قراءة، استماع، قواعد، مفردات وكتابة. النجاح من 70٪ يفتح لك المستوى B1.
+    items:
+      - text: |
+          Sehr geehrte Mieterinnen und Mieter,
+          am Dienstag, den 8. Oktober, wird von 8 bis 14 Uhr die Heizung im ganzen Haus repariert. In dieser Zeit gibt es auch kein warmes Wasser. Bitte stellen Sie am Montagabend keine Fahrräder in den Keller, weil die Techniker dort arbeiten müssen. Bei Fragen erreichen Sie mich unter 0221 556677.
+          Ihr Hausmeister, Peter Lang
+        ar: أيها المستأجرون الأعزاء، يوم الثلاثاء 8 تشرين الأول من 8 إلى 14 سيتم إصلاح التدفئة في كل البناية. في هذا الوقت لا يوجد ماء ساخن أيضاً. لا تضعوا الدراجات في القبو مساء الاثنين لأن الفنيين يعملون هناك. للأسئلة اتصلوا بي. الناطور بيتر لانغ.
+      - quiz: "ماذا لن يكون متاحاً يوم الثلاثاء؟"
+        options: [التدفئة والماء الساخن, الكهرباء, المصعد, الإنترنت]
+      - quiz: "لماذا لا توضع الدراجات في القبو؟"
+        options: [الفنيون يعملون هناك, القبو مغلق للأبد, خطر السرقة, القبو مبلل]
+      - listen: "Guten Tag, hier ist das Autohaus Berger. Ihr Wagen ist fertig. Sie können ihn ab sechzehn Uhr abholen. Die Reparatur kostet dreihundertvierzig Euro."
+        ar: كم تكلفة التصليح؟
+        options: ["340 €", "430 €", "316 €", "16 €"]
+      - listen: "Wir treffen uns nicht vor dem Kino, sondern direkt im Restaurant gegenüber."
+        ar: أين اللقاء؟
+        options: [في المطعم المقابل, أمام السينما, في السينما, في المحطة]
+      - listen: "Ich habe früher als Lehrerin gearbeitet, aber seit zwei Jahren mache ich eine Ausbildung als Krankenpflegerin."
+        ar: ماذا تفعل الآن؟
+        options: [تأهيل كممرضة, تعمل معلمة, تدرس في الجامعة, لا تعمل]
+      - gap: "Ich schenke ___ Nachbarin Blumen."
+        options: [meiner, meine, meinem]
+      - gap: "Die Schlüssel liegen auf ___ Tisch."
+        options: [dem, den, der]
+      - gap: "Gestern ___ ich lange warten."
+        options: [musste, muss, müsse]
+      - gap: "Ich bleibe zu Hause, weil ich Fieber ___."
+        options: [habe, hätte, haben]
+      - gap: "Können Sie mir sagen, ob der Zug pünktlich ___?"
+        options: [ist, sei, ist er]
+      - gap: "Diese Wohnung ist größer ___ unsere alte."
+        options: [als, wie, so]
+      - gap: "Ich suche einen ___ Job. (gut)"
+        options: [guten, gute, guter]
+      - gap: "___ Sie mir bitte helfen?"
+        options: [Könnten, Konnten, Kannst]
+      - gap: "Ich interessiere mich sehr ___ Geschichte."
+        options: [für, an, über]
+      - gap: "Wir haben ___ letztes Jahr kennengelernt."
+        options: [uns, sich, euch]
+      - match: ["die Kaution = التأمين", "die Bewerbung = طلب التوظيف", "der Stau = الازدحام", "umtauschen = يستبدل", "die Krankmeldung = شهادة المرض"]
+      - order: "Wenn ich mehr Zeit hätte, würde ich mehr Sport machen."
+        ar: لو كان لدي وقت أكثر لمارست الرياضة أكثر.
+      - order: "Ich habe mich gestern um die Stelle beworben."
+        ar: تقدمت أمس للوظيفة.
+      - write: "Mit freundlichen Grüßen"
+        ar: "اكتب ختام بريد رسمي:"
+      - write: "Ich freue mich auf Ihre Antwort.|Ich freue mich auf Ihre Antwort"
+        ar: "اكتب: أتطلع لردّك. (رسمي)"
