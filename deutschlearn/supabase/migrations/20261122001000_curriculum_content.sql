@@ -2692,5 +2692,179 @@ Er sagt, dass er müde ist.', 'بعد weil / dass / wenn / ob: **الفعل ال
     (l, 12, 'gap', 'Wofür interessierst du dich? – Ich interessiere mich ___ Musik.', '', null, null, '["für", "auf", "an"]'::jsonb, 0),
     (l, 13, 'order', 'Können Sie mir sagen, wann der Kurs beginnt?', 'هل يمكنك أن تقول لي متى تبدأ الدورة؟', null, null, null, null),
     (l, 14, 'write', 'Ich hätte gern einen Kaffee.|Ich hätte gern einen Kaffee bitte|Ich hätte gern einen Kaffee, bitte.', 'اكتب بأدب: أودّ قهوة.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-arbeit-reisen', 'A2', 5, 'Arbeit, Ausbildung, Reisen, Umwelt', 'العمل، التأهيل المهني، السفر، البيئة', 'مفردات Goethe A2 — البحث عن عمل والتقديم، الحياة في العمل، المدرسة والتأهيل، السفر والمواصلات، الطبيعة والبيئة والرياضة.', 'work') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-bewerbung', m, 'A2', 501, 'lesson', 'Arbeitssuche und Bewerbung', 'البحث عن عمل والتقديم', '', 'أن تفهم إعلانات الوظائف، تكتب سيرة ذاتية بسيطة، وتتحدث في مقابلة عمل.', '## ملف التقديم (die Bewerbung)
+das Anschreiben (رسالة التقديم) + der Lebenslauf (السيرة الذاتية) + die Zeugnisse (الشهادات)
+## إعلان وظيفة
+> Wir suchen ab sofort eine/n Verkäufer/in in Vollzeit / Teilzeit.
+> Sie haben Erfahrung im Verkauf und sprechen gut Deutsch.
+## في المقابلة (das Vorstellungsgespräch)
+> Ich habe drei Jahre als Koch gearbeitet. — Ich kann im Schichtdienst arbeiten.
+> Wie hoch ist das Gehalt? — Wann kann ich anfangen?', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Stelle, -n', 'الوظيفة / المكان', 'Ich suche eine Stelle als Fahrer.', 'أبحث عن وظيفة سائق.', null, null),
+    (l, 2, 'vocab', 'die Stellenanzeige, -n', 'إعلان وظيفة', null, null, null, null),
+    (l, 3, 'vocab', 'sich bewerben – er bewirbt sich', 'يتقدّم لوظيفة', 'Ich bewerbe mich bei Siemens.', 'أتقدّم لسيمنز.', null, null),
+    (l, 4, 'vocab', 'die Bewerbung, -en', 'طلب التوظيف', null, null, null, null),
+    (l, 5, 'vocab', 'der Lebenslauf, ¨-e', 'السيرة الذاتية', null, null, null, null),
+    (l, 6, 'vocab', 'das Zeugnis, -se', 'الشهادة', null, null, null, null),
+    (l, 7, 'vocab', 'das Vorstellungsgespräch, -e', 'مقابلة العمل', null, null, null, null),
+    (l, 8, 'vocab', 'die Erfahrung, -en', 'الخبرة', null, null, null, null),
+    (l, 9, 'vocab', 'die Vollzeit / die Teilzeit', 'دوام كامل / جزئي', null, null, null, null),
+    (l, 10, 'vocab', 'das Gehalt, ¨-er / der Lohn, ¨-e', 'الراتب / الأجر', null, null, null, null),
+    (l, 11, 'vocab', 'der Arbeitgeber, - / der Arbeitnehmer, -', 'صاحب العمل / الموظف', null, null, null, null),
+    (l, 12, 'vocab', 'der Chef, -s / die Chefin, -nen', 'المدير / المديرة', null, null, null, null),
+    (l, 13, 'vocab', 'die Schicht, -en', 'الوردية', 'Ich habe heute Nachtschicht.', 'عندي اليوم وردية ليلية.', null, null),
+    (l, 14, 'vocab', 'die Überstunde, -n', 'ساعة إضافية', null, null, null, null),
+    (l, 15, 'vocab', 'der Vertrag, ¨-e', 'العقد', null, null, null, null),
+    (l, 16, 'vocab', 'befristet / unbefristet', 'محدد المدة / غير محدد', null, null, null, null),
+    (l, 17, 'vocab', 'das Praktikum, Praktika', 'التدريب العملي', null, null, null, null),
+    (l, 18, 'vocab', 'die Ausbildung, -en', 'التأهيل المهني', 'Ich mache eine Ausbildung als Elektriker.', 'أقوم بتأهيل مهني ككهربائي.', null, null),
+    (l, 19, 'vocab', 'die Kenntnisse (Pl.)', 'المعارف / المهارات', null, null, null, null),
+    (l, 20, 'vocab', 'zuverlässig', 'موثوق', null, null, null, null),
+    (l, 21, 'vocab', 'selbstständig', 'مستقل / يعمل لحسابه', null, null, null, null),
+    (l, 22, 'vocab', 'das Jobcenter / die Agentur für Arbeit', 'مركز العمل / وكالة العمل', null, null, null, null),
+    (l, 23, 'text', 'Bäckerei Schmidt sucht ab 1. März eine/n Verkäufer/in in Teilzeit (20 Std./Woche). Arbeitszeit: Mo–Fr 6–10 Uhr. Erfahrung ist nicht nötig, gute Deutschkenntnisse (A2) sind wichtig. Bewerbung bitte per E-Mail an: job@baeckerei-schmidt.de', 'مخبز شميت يبحث عن بائع/ة بدوام جزئي (20 ساعة أسبوعياً) من 1 آذار. الدوام: الاثنين–الجمعة 6–10. الخبرة غير ضرورية، الألمانية الجيدة (A2) مهمة. التقديم بالبريد الإلكتروني.', null, null, null, null),
+    (l, 24, 'quiz', '', 'كم ساعة في الأسبوع؟', null, null, '["20", "40", "10", "6"]'::jsonb, 0),
+    (l, 25, 'quiz', '', 'ما المطلوب بالتأكيد؟', null, null, '["ألمانية جيدة", "خبرة في البيع", "شهادة جامعية", "رخصة قيادة"]'::jsonb, 0),
+    (l, 26, 'gap', 'Ich möchte mich um die Stelle ___.', '', null, null, '["bewerben", "bewirbt", "verwerben"]'::jsonb, 0),
+    (l, 27, 'gap', 'Zur Bewerbung gehören das Anschreiben und der ___.', '', null, null, '["Lebenslauf", "Vertrag", "Lohn"]'::jsonb, 0),
+    (l, 28, 'gap', 'Ich arbeite nur 25 Stunden pro Woche, in ___.', '', null, null, '["Teilzeit", "Vollzeit", "Überstunden"]'::jsonb, 0),
+    (l, 29, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["das Gehalt = الراتب", "die Erfahrung = الخبرة", "der Vertrag = العقد", "die Schicht = الوردية", "zuverlässig = موثوق"]'::jsonb, null),
+    (l, 30, 'order', 'Ich habe zwei Jahre als Fahrer gearbeitet.', 'عملت سنتين كسائق.', null, null, null, null),
+    (l, 31, 'write', 'Wann kann ich anfangen?|Wann kann ich anfangen', 'اكتب: متى أستطيع البدء؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-arbeitsalltag', m, 'A2', 502, 'lesson', 'Im Arbeitsalltag', 'في الحياة العملية اليومية', '', 'أن تتواصل مع الزملاء والمدير، تطلب إجازة، وتبلّغ عن المرض.', '## التبليغ عن المرض
+> Guten Morgen, hier ist Rami Saleh. Ich bin leider krank und kann heute nicht kommen. Ich gehe zum Arzt und schicke die Krankmeldung.
+## طلب إجازة
+> Ich möchte vom 3. bis 14. August Urlaub nehmen. Ist das möglich?
+## الاجتماعات والمواعيد
+die Besprechung (الاجتماع)، der Termin verschieben (يؤجل الموعد)، Bescheid sagen (يُعلِم)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Besprechung, -en', 'الاجتماع', null, null, null, null),
+    (l, 2, 'vocab', 'verschieben', 'يؤجل', 'Können wir den Termin verschieben?', 'هل يمكننا تأجيل الموعد؟', null, null),
+    (l, 3, 'vocab', 'Bescheid sagen / geben', 'يُعلِم / يخبر', 'Sag mir bitte Bescheid.', 'أخبرني من فضلك.', null, null),
+    (l, 4, 'vocab', 'die Aufgabe, -n', 'المهمة', null, null, null, null),
+    (l, 5, 'vocab', 'erledigen', 'يُنجز', 'Ich habe alles erledigt.', 'أنجزت كل شيء.', null, null),
+    (l, 6, 'vocab', 'der Kunde, -n', 'الزبون', null, null, null, null),
+    (l, 7, 'vocab', 'die Abteilung, -en', 'القسم', null, null, null, null),
+    (l, 8, 'vocab', 'die Kantine, -n', 'المطعم (في العمل)', null, null, null, null),
+    (l, 9, 'vocab', 'der Feierabend', 'نهاية الدوام', 'Schönen Feierabend!', 'مساء سعيد بعد العمل!', null, null),
+    (l, 10, 'vocab', 'der Urlaubsantrag, ¨-e', 'طلب إجازة', null, null, null, null),
+    (l, 11, 'vocab', 'die Gewerkschaft, -en', 'النقابة', null, null, null, null),
+    (l, 12, 'vocab', 'kündigen / die Kündigung', 'يستقيل/يفصل / الاستقالة/الفصل', null, null, null, null),
+    (l, 13, 'vocab', 'der Unfall, ¨-e', 'الحادث', null, null, null, null),
+    (l, 14, 'vocab', 'die Sicherheit', 'السلامة / الأمان', null, null, null, null),
+    (l, 15, 'vocab', 'die Maschine, -n', 'الآلة', null, null, null, null),
+    (l, 16, 'vocab', 'das Werkzeug, -e', 'العُدّة / الأداة', null, null, null, null),
+    (l, 17, 'vocab', 'pünktlich', 'في الموعد', 'Bitte seien Sie pünktlich.', 'كن في الموعد من فضلك.', null, null),
+    (l, 18, 'vocab', 'verantwortlich', 'مسؤول', null, null, null, null),
+    (l, 19, 'listen', 'Hallo Frau Becker, hier ist Omar. Mein Kind ist krank. Ich kann heute leider nicht kommen. Ich rufe morgen wieder an.', 'لماذا لا يأتي عمر؟', null, null, '["ابنه مريض", "هو مريض", "عنده موعد", "سيارته معطلة"]'::jsonb, 0),
+    (l, 20, 'listen', 'Die Besprechung ist nicht um zehn, sondern um halb zwölf im Raum vier.', 'متى الاجتماع؟', null, null, '["11:30", "10:00", "12:30", "4:00"]'::jsonb, 0),
+    (l, 21, 'gap', 'Können wir die Besprechung auf Freitag ___?', '', null, null, '["verschieben", "erledigen", "kündigen"]'::jsonb, 0),
+    (l, 22, 'gap', 'Sag mir bitte ___, wenn du fertig bist.', '', null, null, '["Bescheid", "Feierabend", "Aufgabe"]'::jsonb, 0),
+    (l, 23, 'gap', 'Um 17 Uhr habe ich ___.', '', null, null, '["Feierabend", "Kantine", "Abteilung"]'::jsonb, 0),
+    (l, 24, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Abteilung = القسم", "erledigen = يُنجز", "der Unfall = الحادث", "das Werkzeug = الأداة", "pünktlich = في الموعد"]'::jsonb, null),
+    (l, 25, 'order', 'Ich möchte im August zwei Wochen Urlaub nehmen.', 'أريد أخذ إجازة أسبوعين في آب.', null, null, null, null),
+    (l, 26, 'write', 'Schönen Feierabend!|Schönen Feierabend', 'اكتب لزميلك في نهاية الدوام: مساء سعيد!', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-reisen', m, 'A2', 503, 'lesson', 'Reisen und Verkehr', 'السفر والمواصلات', '', 'أن تخطط لرحلة، تفهم الإعلانات في المحطة والمطار، وتتعامل مع المشكلات أثناء السفر.', '## التخطيط
+> Wir möchten im Juli an die Ostsee fahren. Wir fahren mit dem Zug und übernachten in einer Pension.
+## مشكلات السفر
+> Der Zug ist ausgefallen. (أُلغي) — Ich habe meinen Anschluss verpasst. (فاتني القطار التالي)
+> Mein Koffer ist nicht angekommen.
+## الاتجاهات بـ Wechselpräpositionen
+> Wir fahren **in die** Berge / **ans** Meer / **an den** See / **in die** Schweiz.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Abfahrt / die Ankunft', 'المغادرة / الوصول', null, null, null, null),
+    (l, 2, 'vocab', 'der Anschluss, ¨-e', 'الاتصال (القطار التالي)', null, null, null, null),
+    (l, 3, 'vocab', 'verpassen', 'يفوّت', 'Ich habe den Bus verpasst.', 'فاتني الباص.', null, null),
+    (l, 4, 'vocab', 'aus|fallen', 'يُلغى', 'Der Zug fällt heute aus.', 'القطار ملغى اليوم.', null, null),
+    (l, 5, 'vocab', 'die Durchsage, -n', 'الإعلان الصوتي', null, null, null, null),
+    (l, 6, 'vocab', 'der Fahrplan, ¨-e', 'جدول المواعيد', null, null, null, null),
+    (l, 7, 'vocab', 'der Bahnsteig, -e', 'رصيف المحطة', null, null, null, null),
+    (l, 8, 'vocab', 'die Rückfahrkarte, -n', 'تذكرة ذهاب وعودة', null, null, null, null),
+    (l, 9, 'vocab', 'die Ermäßigung, -en', 'التخفيض', null, null, null, null),
+    (l, 10, 'vocab', 'der Ausweis / der Reisepass', 'الهوية / جواز السفر', null, null, null, null),
+    (l, 11, 'vocab', 'das Visum, Visa', 'التأشيرة', null, null, null, null),
+    (l, 12, 'vocab', 'die Grenze, -n', 'الحدود', null, null, null, null),
+    (l, 13, 'vocab', 'der Zoll', 'الجمارك', null, null, null, null),
+    (l, 14, 'vocab', 'der Stau, -s', 'الازدحام المروري', 'Auf der Autobahn ist Stau.', 'يوجد ازدحام على الطريق السريع.', null, null),
+    (l, 15, 'vocab', 'die Autobahn, -en', 'الطريق السريع', null, null, null, null),
+    (l, 16, 'vocab', 'der Führerschein, -e', 'رخصة القيادة', null, null, null, null),
+    (l, 17, 'vocab', 'tanken / die Tankstelle', 'يعبّئ وقوداً / محطة الوقود', null, null, null, null),
+    (l, 18, 'vocab', 'parken / der Parkplatz', 'يركن / موقف السيارات', null, null, null, null),
+    (l, 19, 'vocab', 'übernachten', 'يبيت', 'Wir übernachten in einer Jugendherberge.', 'نبيت في نُزل الشباب.', null, null),
+    (l, 20, 'vocab', 'die Unterkunft, ¨-e', 'مكان الإقامة', null, null, null, null),
+    (l, 21, 'vocab', 'die Sehenswürdigkeit, -en', 'معلم سياحي', null, null, null, null),
+    (l, 22, 'vocab', 'der Ausflug, ¨-e', 'النزهة / الرحلة القصيرة', null, null, null, null),
+    (l, 23, 'listen', 'Achtung an Gleis neun: Der ICE nach Frankfurt fällt heute aus. Bitte benutzen Sie den Zug um vierzehn Uhr zwölf.', 'ما المشكلة؟', null, null, '["القطار ملغى", "القطار متأخر", "تغيّر الرصيف", "القطار ممتلئ"]'::jsonb, 0),
+    (l, 24, 'listen', 'Wegen eines Unfalls gibt es auf der A3 zehn Kilometer Stau.', 'كم طول الازدحام؟', null, null, '["10 كم", "3 كم", "13 كم", "30 كم"]'::jsonb, 0),
+    (l, 25, 'gap', 'Ich habe meinen Anschluss ___. Der nächste Zug kommt in einer Stunde.', '', null, null, '["verpasst", "ausgefallen", "getankt"]'::jsonb, 0),
+    (l, 26, 'gap', 'Im Sommer fahren wir ___ Meer.', '', null, null, '["ans", "am", "an das Meer im"]'::jsonb, 0),
+    (l, 27, 'gap', 'Für Studenten gibt es eine ___.', '', null, null, '["Ermäßigung", "Grenze", "Durchsage"]'::jsonb, 0),
+    (l, 28, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Stau = الازدحام", "der Führerschein = رخصة القيادة", "die Ankunft = الوصول", "der Zoll = الجمارك", "der Ausflug = النزهة"]'::jsonb, null),
+    (l, 29, 'order', 'Wir übernachten in einem kleinen Hotel am See.', 'نبيت في فندق صغير على البحيرة.', null, null, null, null),
+    (l, 30, 'write', 'Ich habe den Zug verpasst.|Ich habe den Zug verpasst', 'اكتب: فاتني القطار.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-umwelt-sport', m, 'A2', 504, 'lesson', 'Natur, Umwelt und Sport', 'الطبيعة والبيئة والرياضة', '', 'أن تتكلم عن حماية البيئة، فرز النفايات، والرياضة والصحة.', '## فرز النفايات في ألمانيا
+| الحاوية | ماذا؟ |
+|---|---|
+| gelbe Tonne | البلاستيك والمعلبات |
+| blaue Tonne | الورق والكرتون |
+| Biotonne | بقايا الطعام |
+| Restmüll | الباقي |
+| Altglas | الزجاج |
+## حماية البيئة
+> Man sollte Energie sparen. — Ich fahre lieber mit dem Fahrrad als mit dem Auto.
+## الرياضة
+> Ich trainiere zweimal pro Woche im Fitnessstudio. — Ich bin Mitglied in einem Fußballverein.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Umwelt', 'البيئة', null, null, null, null),
+    (l, 2, 'vocab', 'die Natur', 'الطبيعة', null, null, null, null),
+    (l, 3, 'vocab', 'schützen', 'يحمي', 'Wir müssen die Umwelt schützen.', 'يجب أن نحمي البيئة.', null, null),
+    (l, 4, 'vocab', 'trennen', 'يفرز / يفصل', 'In Deutschland trennt man den Müll.', 'في ألمانيا يُفرز القمامة.', null, null),
+    (l, 5, 'vocab', 'die Mülltonne, -n', 'حاوية القمامة', null, null, null, null),
+    (l, 6, 'vocab', 'das Plastik', 'البلاستيك', null, null, null, null),
+    (l, 7, 'vocab', 'sparen', 'يوفّر', 'Wir sparen Strom.', 'نوفّر الكهرباء.', null, null),
+    (l, 8, 'vocab', 'die Energie', 'الطاقة', null, null, null, null),
+    (l, 9, 'vocab', 'die Luft', 'الهواء', null, null, null, null),
+    (l, 10, 'vocab', 'das Klima', 'المناخ', null, null, null, null),
+    (l, 11, 'vocab', 'der Wald, ¨-er', 'الغابة', null, null, null, null),
+    (l, 12, 'vocab', 'die Landschaft, -en', 'المنظر الطبيعي', null, null, null, null),
+    (l, 13, 'vocab', 'die Pflanze, -n', 'النبات', null, null, null, null),
+    (l, 14, 'vocab', 'das Gewitter, -', 'العاصفة الرعدية', null, null, null, null),
+    (l, 15, 'vocab', 'der Verein, -e', 'النادي / الجمعية', null, null, null, null),
+    (l, 16, 'vocab', 'das Mitglied, -er', 'العضو', null, null, null, null),
+    (l, 17, 'vocab', 'trainieren', 'يتدرّب', null, null, null, null),
+    (l, 18, 'vocab', 'das Fitnessstudio, -s', 'صالة الرياضة', null, null, null, null),
+    (l, 19, 'vocab', 'die Mannschaft, -en', 'الفريق', null, null, null, null),
+    (l, 20, 'vocab', 'gewinnen / verlieren', 'يفوز / يخسر', null, null, null, null),
+    (l, 21, 'vocab', 'das Spiel, -e', 'المباراة / اللعبة', null, null, null, null),
+    (l, 22, 'vocab', 'fit / gesund leben', 'رشيق / يعيش بصحة', null, null, null, null),
+    (l, 23, 'gap', 'Papier kommt in die ___ Tonne.', '', null, null, '["blaue", "gelbe", "braune"]'::jsonb, 0),
+    (l, 24, 'gap', 'Wir sollten Strom und Wasser ___.', '', null, null, '["sparen", "trennen", "gewinnen"]'::jsonb, 0),
+    (l, 25, 'gap', 'Unsere Mannschaft hat das Spiel 3:1 ___.', '', null, null, '["gewonnen", "verloren", "trainiert"]'::jsonb, 0),
+    (l, 26, 'gap', 'Ich bin ___ in einem Schwimmverein.', '', null, null, '["Mitglied", "Mannschaft", "Pflanze"]'::jsonb, 0),
+    (l, 27, 'listen', 'Ich gehe dreimal pro Woche joggen, meistens morgens vor der Arbeit im Wald.', 'أين يركض غالباً؟', null, null, '["في الغابة", "في صالة الرياضة", "في الملعب", "في الشارع"]'::jsonb, 0),
+    (l, 28, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Umwelt = البيئة", "der Wald = الغابة", "sparen = يوفّر", "der Verein = النادي", "gewinnen = يفوز"]'::jsonb, null),
+    (l, 29, 'order', 'Wir müssen die Umwelt schützen.', 'يجب أن نحمي البيئة.', null, null, null, null),
+    (l, 30, 'write', 'Ich trenne den Müll.|Ich trenne den Müll', 'اكتب: أفرز القمامة.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-arbeit-reisen-test', m, 'A2', 505, 'test', 'Modultest – Arbeit, Reisen, Umwelt', 'اختبار وحدة العمل والسفر والبيئة', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich ___ mich um eine Stelle als Verkäufer.', '', null, null, '["bewerbe", "bewirbt", "bewerben"]'::jsonb, 0),
+    (l, 2, 'gap', 'Mein ___ ist 2.200 Euro brutto.', '', null, null, '["Gehalt", "Vertrag", "Zeugnis"]'::jsonb, 0),
+    (l, 3, 'gap', 'Mein Vertrag ist ___, bis Dezember.', '', null, null, '["befristet", "unbefristet", "pünktlich"]'::jsonb, 0),
+    (l, 4, 'gap', 'Können wir das Treffen ___?', '', null, null, '["verschieben", "verpassen", "verlieren"]'::jsonb, 0),
+    (l, 5, 'gap', 'Der Zug ist ___, wir nehmen den Bus.', '', null, null, '["ausgefallen", "verpasst", "übernachtet"]'::jsonb, 0),
+    (l, 6, 'gap', 'Plastik kommt in die ___ Tonne.', '', null, null, '["gelbe", "blaue", "grüne"]'::jsonb, 0),
+    (l, 7, 'listen', 'Wir suchen eine Pflegekraft in Vollzeit, auch am Wochenende. Erfahrung ist wichtig.', 'ما المطلوب؟', null, null, '["خبرة ودوام كامل", "دوام جزئي فقط", "بدون خبرة", "شهادة جامعية"]'::jsonb, 0),
+    (l, 8, 'listen', 'Hallo, ich stehe im Stau und komme etwa dreißig Minuten später.', 'لماذا يتأخر؟', null, null, '["ازدحام مروري", "القطار ملغى", "هو مريض", "نسي الموعد"]'::jsonb, 0),
+    (l, 9, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Lebenslauf = السيرة الذاتية", "der Feierabend = نهاية الدوام", "der Fahrplan = جدول المواعيد", "die Mülltonne = حاوية القمامة", "die Mannschaft = الفريق"]'::jsonb, null),
+    (l, 10, 'order', 'Ich habe drei Jahre Erfahrung als Koch.', 'لدي ثلاث سنوات خبرة كطبّاخ.', null, null, null, null),
+    (l, 11, 'order', 'Wegen des Staus bin ich zu spät gekommen.', 'بسبب الازدحام تأخرت.', null, null, null, null),
+    (l, 12, 'write', 'Ich bin heute krank.|Ich bin heute krank', 'اكتب لمديرك: أنا مريض اليوم.', null, null, null, null);
 end
 $$;
