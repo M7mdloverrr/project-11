@@ -1,0 +1,9 @@
+# Minimal Supabase CLI config (used by `supabase link` / `supabase db push` / `supabase functions deploy`).
+project_id = "deutschlearn"
+
+[auth]
+site_url = "com.deutschlearn.student://auth-callback"
+additional_redirect_urls = [
+  "com.deutschlearn.student://auth-callback",
+  "com.deutschlearn.teacher://auth-callback",
+]
