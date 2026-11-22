@@ -1,0 +1,301 @@
+module:
+  slug: a1-stadt-gesundheit
+  level: A1
+  position: 3
+  icon: city
+  title_de: Stadt, Verkehr, Arbeit, Gesundheit
+  title_ar: المدينة، المواصلات، العمل، الصحة
+  description_ar: مفردات Goethe A1 — الملابس والألوان، الجسم والطبيب، الطقس، الاتجاهات والمواصلات، المهن والعمل.
+
+lessons:
+  - slug: a1-kleidung
+    title_de: Kleidung und Farben
+    title_ar: الملابس والألوان
+    goal_ar: أن تسمّي الملابس والألوان وتشتري ملابس (المقاس، السعر، التجربة).
+    explanation_ar: |
+      ## الألوان
+      | rot أحمر | blau أزرق | grün أخضر | gelb أصفر |
+      |---|---|---|---|
+      | schwarz أسود | weiß أبيض | grau رمادي | braun بني |
+      ## في محل الملابس
+      > Kann ich die Hose anprobieren? (هل أستطيع تجربة البنطال؟)
+      > Welche Größe haben Sie? — Größe M / 40.
+      > Die Jacke ist zu groß / zu klein. Haben Sie sie eine Nummer kleiner?
+      > Die Schuhe gefallen mir. (تعجبني الأحذية)
+      ## gefallen — يعجب
+      > Das Kleid gefällt mir. — Die Schuhe gefallen mir.
+    items:
+      - {vocab: "die Kleidung", ar: "الملابس", ex: "Ich kaufe neue Kleidung.", ex_ar: "أشتري ملابس جديدة."}
+      - {vocab: "die Hose, -n", ar: "البنطال", ex: "Die Hose ist zu lang.", ex_ar: "البنطال طويل جداً."}
+      - {vocab: "das Hemd, -en", ar: "القميص", ex: "Er trägt ein weißes Hemd.", ex_ar: "يلبس قميصاً أبيض."}
+      - {vocab: "das T-Shirt, -s", ar: "التيشيرت"}
+      - {vocab: "der Pullover, -", ar: "الكنزة", ex: "Im Winter trage ich einen Pullover.", ex_ar: "في الشتاء ألبس كنزة."}
+      - {vocab: "die Jacke, -n", ar: "الجاكيت", ex: "Die Jacke ist warm.", ex_ar: "الجاكيت دافئ."}
+      - {vocab: "der Mantel, ¨-", ar: "المعطف"}
+      - {vocab: "das Kleid, -er", ar: "الفستان", ex: "Das Kleid ist schön.", ex_ar: "الفستان جميل."}
+      - {vocab: "der Rock, ¨-e", ar: "التنورة"}
+      - {vocab: "der Schuh, -e", ar: "الحذاء", ex: "Die Schuhe sind bequem.", ex_ar: "الحذاء مريح."}
+      - {vocab: "die Größe, -n", ar: "المقاس", ex: "Welche Größe haben Sie?", ex_ar: "ما مقاسك؟"}
+      - {vocab: "anprobieren", ar: "يجرّب (لباساً)", ex: "Kann ich das anprobieren?", ex_ar: "هل يمكنني تجربته؟"}
+      - {vocab: "tragen", ar: "يلبس / يحمل", ex: "Sie trägt eine Brille.", ex_ar: "هي تلبس نظارة."}
+      - {vocab: "gefallen", ar: "يعجب", ex: "Die Farbe gefällt mir.", ex_ar: "اللون يعجبني."}
+      - {vocab: "rot / blau / grün / gelb", ar: "أحمر / أزرق / أخضر / أصفر"}
+      - {vocab: "schwarz / weiß / grau / braun", ar: "أسود / أبيض / رمادي / بني"}
+      - gap: "Kann ich die Hose ___?"
+        options: [anprobieren, tragen, gefallen]
+      - gap: "Die Schuhe ___ mir."
+        options: [gefallen, gefällt, gefalle]
+      - gap: "Das Kleid ___ mir."
+        options: [gefällt, gefallen, gefällst]
+      - quiz: "الجاكيت كبير عليك. ماذا تقول؟"
+        options: ["Die Jacke ist zu groß.", "Die Jacke ist zu klein.", "Die Jacke gefällt mir.", "Die Jacke ist billig."]
+      - listen: "Ich suche eine Jacke in Schwarz, Größe M."
+        ar: استمع — ما اللون الذي يبحث عنه؟
+        options: [أسود, أبيض, أزرق, رمادي]
+      - match: ["die Hose = البنطال", "das Hemd = القميص", "der Schuh = الحذاء", "die Größe = المقاس", "schwarz = أسود"]
+      - order: "Welche Größe haben Sie?"
+        ar: ما مقاسك؟
+      - write: "Die Jacke ist zu klein.|Die Jacke ist zu klein"
+        ar: "اكتب: الجاكيت صغير جداً."
+
+  - slug: a1-gesundheit
+    title_de: Körper und Gesundheit
+    title_ar: الجسم والصحة
+    goal_ar: أن تسمّي أعضاء الجسم، وتقول ما يؤلمك، وتأخذ موعداً عند الطبيب.
+    explanation_ar: |
+      ## ما الذي يؤلمك؟
+      > Ich habe Kopfschmerzen / Bauchschmerzen / Fieber / Husten / Schnupfen.
+      > Mein Kopf tut weh. — Meine Füße tun weh.
+      **tut weh** للمفرد، **tun weh** للجمع.
+      ## عند الطبيب (beim Arzt)
+      > Ich möchte einen Termin, bitte. — Haben Sie Ihre Versichertenkarte?
+      > Was fehlt Ihnen? (ما بك؟)
+      > Sie müssen im Bett bleiben und viel trinken.
+      ## الصيدلية (die Apotheke)
+      الدواء: das Medikament / die Tablette. الوصفة: das Rezept.
+    items:
+      - {vocab: "der Körper, -", ar: "الجسم"}
+      - {vocab: "der Kopf, ¨-e", ar: "الرأس", ex: "Mein Kopf tut weh.", ex_ar: "رأسي يؤلمني."}
+      - {vocab: "der Bauch, ¨-e", ar: "البطن", ex: "Ich habe Bauchschmerzen.", ex_ar: "عندي ألم في البطن."}
+      - {vocab: "der Rücken, -", ar: "الظهر", ex: "Der Rücken tut weh.", ex_ar: "الظهر يؤلمني."}
+      - {vocab: "das Auge, -n", ar: "العين"}
+      - {vocab: "das Ohr, -en", ar: "الأذن"}
+      - {vocab: "der Mund, ¨-er", ar: "الفم"}
+      - {vocab: "die Hand, ¨-e", ar: "اليد"}
+      - {vocab: "der Arm, -e", ar: "الذراع"}
+      - {vocab: "das Bein, -e", ar: "الساق / الرجل"}
+      - {vocab: "der Fuß, ¨-e", ar: "القدم"}
+      - {vocab: "krank / gesund", ar: "مريض / صحي", ex: "Ich bin krank.", ex_ar: "أنا مريض."}
+      - {vocab: "das Fieber", ar: "الحرارة (الحمّى)", ex: "Das Kind hat Fieber.", ex_ar: "الطفل عنده حرارة."}
+      - {vocab: "der Arzt, ¨-e / die Ärztin, -nen", ar: "الطبيب / الطبيبة", ex: "Ich gehe zum Arzt.", ex_ar: "أذهب إلى الطبيب."}
+      - {vocab: "die Apotheke, -n", ar: "الصيدلية"}
+      - {vocab: "das Medikament, -e", ar: "الدواء", ex: "Nehmen Sie das Medikament dreimal täglich.", ex_ar: "خذ الدواء ثلاث مرات يومياً."}
+      - {vocab: "wehtun", ar: "يؤلم", ex: "Was tut Ihnen weh?", ex_ar: "ما الذي يؤلمك؟"}
+      - gap: "Mein Kopf ___ weh."
+        options: [tut, tun, tust]
+      - gap: "Meine Füße ___ weh."
+        options: [tun, tut, tue]
+      - gap: "Ich habe ___. Meine Temperatur ist 39 Grad."
+        options: [Fieber, Husten, Rücken]
+      - gap: "Medikamente kauft man in der ___."
+        options: [Apotheke, Bäckerei, Praxis]
+      - listen: "Ich habe seit zwei Tagen Halsschmerzen und Husten."
+        ar: استمع — منذ متى هو مريض؟
+        options: [منذ يومين, منذ أسبوع, منذ اليوم, منذ شهرين]
+      - match: ["der Kopf = الرأس", "der Bauch = البطن", "die Hand = اليد", "der Fuß = القدم", "das Auge = العين"]
+      - order: "Ich möchte einen Termin beim Arzt."
+        ar: أريد موعداً عند الطبيب.
+      - write: "Ich bin krank.|Ich bin krank"
+        ar: "اكتب: أنا مريض."
+
+  - slug: a1-wetter
+    title_de: Wetter und Jahreszeiten
+    title_ar: الطقس وفصول السنة
+    goal_ar: أن تصف الطقس وتتكلم عن الفصول.
+    explanation_ar: |
+      ## الفصول — كلها مذكر
+      der Frühling (الربيع)، der Sommer (الصيف)، der Herbst (الخريف)، der Winter (الشتاء) — **im** Sommer.
+      ## الطقس
+      | الفعل | الصفة |
+      |---|---|
+      | Es regnet. (تمطر) | Es ist sonnig. (مشمس) |
+      | Es schneit. (تثلج) | Es ist kalt / warm / heiß. |
+      | Die Sonne scheint. | Es ist windig / bewölkt. |
+      > Wie ist das Wetter heute? — Es ist kalt und es regnet.
+      > Es sind 25 Grad.
+    items:
+      - {vocab: "das Wetter", ar: "الطقس", ex: "Wie ist das Wetter?", ex_ar: "كيف الطقس؟"}
+      - {vocab: "die Sonne", ar: "الشمس", ex: "Die Sonne scheint.", ex_ar: "الشمس مشرقة."}
+      - {vocab: "der Regen", ar: "المطر"}
+      - {vocab: "regnen", ar: "تمطر", ex: "Es regnet schon wieder.", ex_ar: "تمطر مرة أخرى."}
+      - {vocab: "der Schnee", ar: "الثلج", ex: "Im Winter gibt es Schnee.", ex_ar: "في الشتاء يوجد ثلج."}
+      - {vocab: "der Wind", ar: "الريح"}
+      - {vocab: "warm / kalt / heiß", ar: "دافئ / بارد / حار"}
+      - {vocab: "das Grad", ar: "درجة (حرارة)", ex: "Es sind 30 Grad.", ex_ar: "الحرارة 30 درجة."}
+      - {vocab: "der Frühling", ar: "الربيع"}
+      - {vocab: "der Sommer", ar: "الصيف", ex: "Im Sommer ist es heiß.", ex_ar: "في الصيف الجو حار."}
+      - {vocab: "der Herbst", ar: "الخريف"}
+      - {vocab: "der Winter", ar: "الشتاء"}
+      - gap: "Im Winter ist es ___."
+        options: [kalt, heiß, warm]
+      - gap: "Nimm einen Regenschirm. Es ___."
+        options: [regnet, scheint, schneit]
+      - gap: "___ Herbst sind die Blätter bunt."
+        options: [Im, Am, Um]
+      - listen: "Heute ist es sonnig und warm, zweiundzwanzig Grad."
+        ar: استمع — كم درجة الحرارة؟
+        options: ["22", "12", "32", "20"]
+      - listen: "Morgen regnet es im Norden, im Süden scheint die Sonne."
+        ar: استمع — أين ستمطر غداً؟
+        options: [في الشمال, في الجنوب, في كل مكان, لن تمطر]
+      - match: ["der Sommer = الصيف", "der Winter = الشتاء", "der Schnee = الثلج", "der Regen = المطر", "die Sonne = الشمس"]
+      - order: "Wie ist das Wetter heute?"
+        ar: كيف الطقس اليوم؟
+      - write: "Es regnet.|Es regnet"
+        ar: "اكتب: تمطر."
+
+  - slug: a1-verkehr
+    title_de: In der Stadt – Wege und Verkehr
+    title_ar: في المدينة — الاتجاهات والمواصلات
+    goal_ar: أن تسأل عن الطريق وتفهم الاتجاهات، وتستخدم المواصلات وتشتري تذكرة.
+    explanation_ar: |
+      ## السؤال عن الطريق
+      > Entschuldigung, wo ist der Bahnhof?
+      > Wie komme ich zum Rathaus? (zum = zu dem للمذكر والمحايد، zur = zu der للمؤنث)
+      ## الاتجاهات
+      | geradeaus | nach links | nach rechts | an der Ampel |
+      |---|---|---|---|
+      | إلى الأمام مباشرة | يساراً | يميناً | عند الإشارة |
+      ## المواصلات: mit + الوسيلة
+      > Ich fahre mit dem Bus / mit der U-Bahn / mit dem Zug / mit dem Fahrrad.
+      > Ich gehe zu Fuß. (أمشي على الأقدام)
+      ## في المحطة
+      > Eine Fahrkarte nach Hamburg, bitte. — Einfach oder hin und zurück?
+      > Von welchem Gleis fährt der Zug? — Von Gleis 5.
+    items:
+      - {vocab: "der Bahnhof, ¨-e", ar: "محطة القطار", ex: "Der Bahnhof ist nicht weit.", ex_ar: "المحطة ليست بعيدة."}
+      - {vocab: "die Haltestelle, -n", ar: "موقف (باص/ترام)", ex: "Die Haltestelle ist dort.", ex_ar: "الموقف هناك."}
+      - {vocab: "der Bus, -se", ar: "الباص", ex: "Ich fahre mit dem Bus.", ex_ar: "أركب الباص."}
+      - {vocab: "die U-Bahn, -en", ar: "المترو"}
+      - {vocab: "der Zug, ¨-e", ar: "القطار", ex: "Der Zug hat Verspätung.", ex_ar: "القطار متأخر."}
+      - {vocab: "das Auto, -s", ar: "السيارة"}
+      - {vocab: "das Fahrrad, ¨-er", ar: "الدراجة"}
+      - {vocab: "die Fahrkarte, -n", ar: "التذكرة", ex: "Wo kann ich eine Fahrkarte kaufen?", ex_ar: "أين أشتري تذكرة؟"}
+      - {vocab: "das Gleis, -e", ar: "الرصيف (السكة)", ex: "Der Zug fährt von Gleis 3.", ex_ar: "القطار ينطلق من الرصيف 3."}
+      - {vocab: "fahren", ar: "يسافر / يركب / يقود", ex: "Du fährst mit dem Auto.", ex_ar: "أنت تذهب بالسيارة."}
+      - {vocab: "abfahren / ankommen", ar: "ينطلق / يصل", ex: "Der Zug kommt um 10 Uhr an.", ex_ar: "يصل القطار الساعة العاشرة."}
+      - {vocab: "links / rechts / geradeaus", ar: "يسار / يمين / إلى الأمام"}
+      - {vocab: "die Ampel, -n", ar: "إشارة المرور"}
+      - {vocab: "weit / nah", ar: "بعيد / قريب", ex: "Ist es weit?", ex_ar: "هل هو بعيد؟"}
+      - {vocab: "die Verspätung, -en", ar: "التأخير"}
+      - {phrase: "Wie komme ich zum Bahnhof?", ar: "كيف أصل إلى المحطة؟"}
+      - gap: "Ich fahre mit ___ Bus."
+        options: [dem, der, den]
+      - gap: "Ich fahre mit ___ U-Bahn."
+        options: [der, dem, die]
+      - gap: "Wie komme ich ___ Post? (die Post)"
+        options: [zur, zum, zu]
+      - gap: "Der Zug ___ um 8:15 Uhr ab."
+        options: [fährt, fahrt, fahren]
+      - listen: "Gehen Sie geradeaus und dann an der Ampel nach links."
+        ar: استمع — أين تتجه عند الإشارة؟
+        options: [يساراً, يميناً, إلى الأمام, ترجع]
+      - listen: "Der ICE nach München fährt heute von Gleis sieben."
+        ar: استمع — من أي رصيف؟
+        options: ["7", "17", "70", "1"]
+      - match: ["der Bahnhof = محطة القطار", "die Fahrkarte = التذكرة", "links = يسار", "rechts = يمين", "die Ampel = إشارة المرور"]
+      - order: "Wie komme ich zum Bahnhof?"
+        ar: كيف أصل إلى المحطة؟
+      - write: "Ich fahre mit dem Bus.|Ich fahre mit dem Bus"
+        ar: "اكتب: أذهب بالباص."
+
+  - slug: a1-arbeit
+    title_de: Arbeit und Beruf
+    title_ar: العمل والمهنة
+    goal_ar: أن تذكر مهنتك ومكان عملك وتصف يوم عملك.
+    explanation_ar: |
+      ## المهن: المذكر و المؤنث (-in)
+      | مذكر | مؤنث |
+      |---|---|
+      | der Lehrer | die Lehrerin |
+      | der Arzt | die Ärztin |
+      | der Verkäufer | die Verkäuferin |
+      | der Koch | die Köchin |
+      ## السؤال عن المهنة
+      > Was sind Sie von Beruf? — Ich bin Ingenieur. (بدون ein!)
+      > Wo arbeiten Sie? — Ich arbeite bei Siemens / in einem Krankenhaus.
+      > Ich bin arbeitslos. — Ich suche Arbeit.
+      ## يوم العمل
+      > Ich arbeite von 8 bis 17 Uhr. Ich habe eine Stunde Pause.
+    items:
+      - {vocab: "die Arbeit", ar: "العمل", ex: "Ich gehe zur Arbeit.", ex_ar: "أذهب إلى العمل."}
+      - {vocab: "arbeiten", ar: "يعمل", ex: "Er arbeitet als Koch.", ex_ar: "يعمل طبّاخاً."}
+      - {vocab: "der Lehrer, - / die Lehrerin, -nen", ar: "المعلّم / المعلّمة"}
+      - {vocab: "der Verkäufer, - / die Verkäuferin, -nen", ar: "البائع / البائعة"}
+      - {vocab: "der Koch, ¨-e / die Köchin, -nen", ar: "الطبّاخ / الطبّاخة"}
+      - {vocab: "der Ingenieur, -e", ar: "المهندس"}
+      - {vocab: "der Krankenpfleger, - / die Krankenschwester, -n", ar: "الممرّض / الممرّضة"}
+      - {vocab: "die Firma, Firmen", ar: "الشركة", ex: "Die Firma ist in Stuttgart.", ex_ar: "الشركة في شتوتغارت."}
+      - {vocab: "das Büro, -s", ar: "المكتب", ex: "Ich arbeite im Büro.", ex_ar: "أعمل في المكتب."}
+      - {vocab: "das Krankenhaus, ¨-er", ar: "المستشفى"}
+      - {vocab: "der Kollege, -n / die Kollegin, -nen", ar: "الزميل / الزميلة"}
+      - {vocab: "die Pause, -n", ar: "الاستراحة"}
+      - {vocab: "arbeitslos", ar: "عاطل عن العمل"}
+      - {vocab: "verdienen", ar: "يكسب (مالاً)", ex: "Sie verdient gut.", ex_ar: "هي تكسب جيداً."}
+      - gap: "Was sind Sie von ___?"
+        options: [Beruf, Arbeit, Firma]
+      - gap: "Ich bin ___. (مهندس)"
+        options: [Ingenieur, ein Ingenieur, Ingenieurin]
+      - gap: "Maria ist ___. Sie arbeitet in einer Schule."
+        options: [Lehrerin, Lehrer, Köchin]
+      - gap: "Ich arbeite ___ 9 ___ 17 Uhr."
+        options: ["von … bis", "um … am", "seit … nach"]
+      - listen: "Ich bin Krankenschwester und arbeite im Krankenhaus, oft auch nachts."
+        ar: استمع — أين تعمل؟
+        options: [في المستشفى, في المدرسة, في المكتب, في المطعم]
+      - match: ["der Koch = الطبّاخ", "die Firma = الشركة", "das Büro = المكتب", "der Kollege = الزميل", "die Pause = الاستراحة"]
+      - order: "Was sind Sie von Beruf?"
+        ar: ما مهنتك؟
+      - write: "Ich bin Lehrer.|Ich bin Lehrerin.|Ich bin Lehrer|Ich bin Lehrerin"
+        ar: "اكتب: أنا معلّم/معلّمة."
+
+  - slug: a1-stadt-test
+    kind: test
+    title_de: Modultest – Stadt, Arbeit, Gesundheit
+    title_ar: اختبار وحدة المدينة والعمل والصحة
+    goal_ar: اختبار الملابس والصحة والطقس والمواصلات والعمل. النجاح من 70٪.
+    items:
+      - gap: "Die Schuhe ___ mir gut."
+        options: [gefallen, gefällt, gefalle]
+      - gap: "Mein Bauch ___ weh."
+        options: [tut, tun, tust]
+      - gap: "Im Sommer ist es ___."
+        options: [heiß, kalt, windig]
+      - gap: "Ich fahre mit ___ Zug."
+        options: [dem, der, die]
+      - gap: "Wie komme ich ___ Bahnhof?"
+        options: [zum, zur, zu]
+      - gap: "Sie ist ___. Sie arbeitet im Krankenhaus."
+        options: [Ärztin, Arzt, Köchin]
+      - quiz: "ماذا تعني 'Der Zug hat Verspätung'؟"
+        options: [القطار متأخر, القطار وصل, القطار ممتلئ, القطار ملغى]
+      - quiz: "أين تشتري الدواء؟"
+        options: [in der Apotheke, in der Bäckerei, im Büro, am Bahnhof]
+      - listen: "Gehen Sie hier rechts und dann immer geradeaus."
+        ar: إلى أين تذهب أولاً؟
+        options: [يميناً, يساراً, ترجع, عند الإشارة]
+      - listen: "Ich arbeite als Verkäuferin in einem Supermarkt."
+        ar: ما مهنتها؟
+        options: [بائعة, طبّاخة, معلّمة, ممرّضة]
+      - listen: "Morgen wird es kalt, nur drei Grad, und es schneit."
+        ar: كيف الطقس غداً؟
+        options: [بارد وثلج, حار ومشمس, ممطر ودافئ, رياح]
+      - match: ["die Jacke = الجاكيت", "der Rücken = الظهر", "der Herbst = الخريف", "die Haltestelle = الموقف", "verdienen = يكسب"]
+      - order: "Kann ich das Hemd anprobieren?"
+        ar: هل أستطيع تجربة القميص؟
+      - order: "Der Zug fährt von Gleis fünf ab."
+        ar: القطار ينطلق من الرصيف 5.
+      - write: "Ich habe Kopfschmerzen.|Ich habe Kopfschmerzen"
+        ar: "اكتب: عندي صداع."
+      - write: "Es schneit.|Es schneit"
+        ar: "اكتب: تثلج."

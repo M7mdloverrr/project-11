@@ -906,5 +906,208 @@ Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, Nove
     (l, 14, 'order', 'Ich esse gern Reis mit Gemüse.', 'أحب أكل الأرز مع الخضار.', null, null, null, null),
     (l, 15, 'write', 'Ich möchte einen Tee.|Ich möchte einen Tee bitte|Ich möchte einen Tee, bitte.', 'اكتب: أريد شاياً.', null, null, null, null),
     (l, 16, 'write', 'Viertel nach acht', 'اكتب الساعة 8:15 بالطريقة غير الرسمية:', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a1-stadt-gesundheit', 'A1', 3, 'Stadt, Verkehr, Arbeit, Gesundheit', 'المدينة، المواصلات، العمل، الصحة', 'مفردات Goethe A1 — الملابس والألوان، الجسم والطبيب، الطقس، الاتجاهات والمواصلات، المهن والعمل.', 'city') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-kleidung', m, 'A1', 301, 'lesson', 'Kleidung und Farben', 'الملابس والألوان', '', 'أن تسمّي الملابس والألوان وتشتري ملابس (المقاس، السعر، التجربة).', '## الألوان
+| rot أحمر | blau أزرق | grün أخضر | gelb أصفر |
+|---|---|---|---|
+| schwarz أسود | weiß أبيض | grau رمادي | braun بني |
+## في محل الملابس
+> Kann ich die Hose anprobieren? (هل أستطيع تجربة البنطال؟)
+> Welche Größe haben Sie? — Größe M / 40.
+> Die Jacke ist zu groß / zu klein. Haben Sie sie eine Nummer kleiner?
+> Die Schuhe gefallen mir. (تعجبني الأحذية)
+## gefallen — يعجب
+> Das Kleid gefällt mir. — Die Schuhe gefallen mir.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Kleidung', 'الملابس', 'Ich kaufe neue Kleidung.', 'أشتري ملابس جديدة.', null, null),
+    (l, 2, 'vocab', 'die Hose, -n', 'البنطال', 'Die Hose ist zu lang.', 'البنطال طويل جداً.', null, null),
+    (l, 3, 'vocab', 'das Hemd, -en', 'القميص', 'Er trägt ein weißes Hemd.', 'يلبس قميصاً أبيض.', null, null),
+    (l, 4, 'vocab', 'das T-Shirt, -s', 'التيشيرت', null, null, null, null),
+    (l, 5, 'vocab', 'der Pullover, -', 'الكنزة', 'Im Winter trage ich einen Pullover.', 'في الشتاء ألبس كنزة.', null, null),
+    (l, 6, 'vocab', 'die Jacke, -n', 'الجاكيت', 'Die Jacke ist warm.', 'الجاكيت دافئ.', null, null),
+    (l, 7, 'vocab', 'der Mantel, ¨-', 'المعطف', null, null, null, null),
+    (l, 8, 'vocab', 'das Kleid, -er', 'الفستان', 'Das Kleid ist schön.', 'الفستان جميل.', null, null),
+    (l, 9, 'vocab', 'der Rock, ¨-e', 'التنورة', null, null, null, null),
+    (l, 10, 'vocab', 'der Schuh, -e', 'الحذاء', 'Die Schuhe sind bequem.', 'الحذاء مريح.', null, null),
+    (l, 11, 'vocab', 'die Größe, -n', 'المقاس', 'Welche Größe haben Sie?', 'ما مقاسك؟', null, null),
+    (l, 12, 'vocab', 'anprobieren', 'يجرّب (لباساً)', 'Kann ich das anprobieren?', 'هل يمكنني تجربته؟', null, null),
+    (l, 13, 'vocab', 'tragen', 'يلبس / يحمل', 'Sie trägt eine Brille.', 'هي تلبس نظارة.', null, null),
+    (l, 14, 'vocab', 'gefallen', 'يعجب', 'Die Farbe gefällt mir.', 'اللون يعجبني.', null, null),
+    (l, 15, 'vocab', 'rot / blau / grün / gelb', 'أحمر / أزرق / أخضر / أصفر', null, null, null, null),
+    (l, 16, 'vocab', 'schwarz / weiß / grau / braun', 'أسود / أبيض / رمادي / بني', null, null, null, null),
+    (l, 17, 'gap', 'Kann ich die Hose ___?', '', null, null, '["anprobieren", "tragen", "gefallen"]'::jsonb, 0),
+    (l, 18, 'gap', 'Die Schuhe ___ mir.', '', null, null, '["gefallen", "gefällt", "gefalle"]'::jsonb, 0),
+    (l, 19, 'gap', 'Das Kleid ___ mir.', '', null, null, '["gefällt", "gefallen", "gefällst"]'::jsonb, 0),
+    (l, 20, 'quiz', '', 'الجاكيت كبير عليك. ماذا تقول؟', null, null, '["Die Jacke ist zu groß.", "Die Jacke ist zu klein.", "Die Jacke gefällt mir.", "Die Jacke ist billig."]'::jsonb, 0),
+    (l, 21, 'listen', 'Ich suche eine Jacke in Schwarz, Größe M.', 'استمع — ما اللون الذي يبحث عنه؟', null, null, '["أسود", "أبيض", "أزرق", "رمادي"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Hose = البنطال", "das Hemd = القميص", "der Schuh = الحذاء", "die Größe = المقاس", "schwarz = أسود"]'::jsonb, null),
+    (l, 23, 'order', 'Welche Größe haben Sie?', 'ما مقاسك؟', null, null, null, null),
+    (l, 24, 'write', 'Die Jacke ist zu klein.|Die Jacke ist zu klein', 'اكتب: الجاكيت صغير جداً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-gesundheit', m, 'A1', 302, 'lesson', 'Körper und Gesundheit', 'الجسم والصحة', '', 'أن تسمّي أعضاء الجسم، وتقول ما يؤلمك، وتأخذ موعداً عند الطبيب.', '## ما الذي يؤلمك؟
+> Ich habe Kopfschmerzen / Bauchschmerzen / Fieber / Husten / Schnupfen.
+> Mein Kopf tut weh. — Meine Füße tun weh.
+**tut weh** للمفرد، **tun weh** للجمع.
+## عند الطبيب (beim Arzt)
+> Ich möchte einen Termin, bitte. — Haben Sie Ihre Versichertenkarte?
+> Was fehlt Ihnen? (ما بك؟)
+> Sie müssen im Bett bleiben und viel trinken.
+## الصيدلية (die Apotheke)
+الدواء: das Medikament / die Tablette. الوصفة: das Rezept.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'der Körper, -', 'الجسم', null, null, null, null),
+    (l, 2, 'vocab', 'der Kopf, ¨-e', 'الرأس', 'Mein Kopf tut weh.', 'رأسي يؤلمني.', null, null),
+    (l, 3, 'vocab', 'der Bauch, ¨-e', 'البطن', 'Ich habe Bauchschmerzen.', 'عندي ألم في البطن.', null, null),
+    (l, 4, 'vocab', 'der Rücken, -', 'الظهر', 'Der Rücken tut weh.', 'الظهر يؤلمني.', null, null),
+    (l, 5, 'vocab', 'das Auge, -n', 'العين', null, null, null, null),
+    (l, 6, 'vocab', 'das Ohr, -en', 'الأذن', null, null, null, null),
+    (l, 7, 'vocab', 'der Mund, ¨-er', 'الفم', null, null, null, null),
+    (l, 8, 'vocab', 'die Hand, ¨-e', 'اليد', null, null, null, null),
+    (l, 9, 'vocab', 'der Arm, -e', 'الذراع', null, null, null, null),
+    (l, 10, 'vocab', 'das Bein, -e', 'الساق / الرجل', null, null, null, null),
+    (l, 11, 'vocab', 'der Fuß, ¨-e', 'القدم', null, null, null, null),
+    (l, 12, 'vocab', 'krank / gesund', 'مريض / صحي', 'Ich bin krank.', 'أنا مريض.', null, null),
+    (l, 13, 'vocab', 'das Fieber', 'الحرارة (الحمّى)', 'Das Kind hat Fieber.', 'الطفل عنده حرارة.', null, null),
+    (l, 14, 'vocab', 'der Arzt, ¨-e / die Ärztin, -nen', 'الطبيب / الطبيبة', 'Ich gehe zum Arzt.', 'أذهب إلى الطبيب.', null, null),
+    (l, 15, 'vocab', 'die Apotheke, -n', 'الصيدلية', null, null, null, null),
+    (l, 16, 'vocab', 'das Medikament, -e', 'الدواء', 'Nehmen Sie das Medikament dreimal täglich.', 'خذ الدواء ثلاث مرات يومياً.', null, null),
+    (l, 17, 'vocab', 'wehtun', 'يؤلم', 'Was tut Ihnen weh?', 'ما الذي يؤلمك؟', null, null),
+    (l, 18, 'gap', 'Mein Kopf ___ weh.', '', null, null, '["tut", "tun", "tust"]'::jsonb, 0),
+    (l, 19, 'gap', 'Meine Füße ___ weh.', '', null, null, '["tun", "tut", "tue"]'::jsonb, 0),
+    (l, 20, 'gap', 'Ich habe ___. Meine Temperatur ist 39 Grad.', '', null, null, '["Fieber", "Husten", "Rücken"]'::jsonb, 0),
+    (l, 21, 'gap', 'Medikamente kauft man in der ___.', '', null, null, '["Apotheke", "Bäckerei", "Praxis"]'::jsonb, 0),
+    (l, 22, 'listen', 'Ich habe seit zwei Tagen Halsschmerzen und Husten.', 'استمع — منذ متى هو مريض؟', null, null, '["منذ يومين", "منذ أسبوع", "منذ اليوم", "منذ شهرين"]'::jsonb, 0),
+    (l, 23, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Kopf = الرأس", "der Bauch = البطن", "die Hand = اليد", "der Fuß = القدم", "das Auge = العين"]'::jsonb, null),
+    (l, 24, 'order', 'Ich möchte einen Termin beim Arzt.', 'أريد موعداً عند الطبيب.', null, null, null, null),
+    (l, 25, 'write', 'Ich bin krank.|Ich bin krank', 'اكتب: أنا مريض.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-wetter', m, 'A1', 303, 'lesson', 'Wetter und Jahreszeiten', 'الطقس وفصول السنة', '', 'أن تصف الطقس وتتكلم عن الفصول.', '## الفصول — كلها مذكر
+der Frühling (الربيع)، der Sommer (الصيف)، der Herbst (الخريف)، der Winter (الشتاء) — **im** Sommer.
+## الطقس
+| الفعل | الصفة |
+|---|---|
+| Es regnet. (تمطر) | Es ist sonnig. (مشمس) |
+| Es schneit. (تثلج) | Es ist kalt / warm / heiß. |
+| Die Sonne scheint. | Es ist windig / bewölkt. |
+> Wie ist das Wetter heute? — Es ist kalt und es regnet.
+> Es sind 25 Grad.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'das Wetter', 'الطقس', 'Wie ist das Wetter?', 'كيف الطقس؟', null, null),
+    (l, 2, 'vocab', 'die Sonne', 'الشمس', 'Die Sonne scheint.', 'الشمس مشرقة.', null, null),
+    (l, 3, 'vocab', 'der Regen', 'المطر', null, null, null, null),
+    (l, 4, 'vocab', 'regnen', 'تمطر', 'Es regnet schon wieder.', 'تمطر مرة أخرى.', null, null),
+    (l, 5, 'vocab', 'der Schnee', 'الثلج', 'Im Winter gibt es Schnee.', 'في الشتاء يوجد ثلج.', null, null),
+    (l, 6, 'vocab', 'der Wind', 'الريح', null, null, null, null),
+    (l, 7, 'vocab', 'warm / kalt / heiß', 'دافئ / بارد / حار', null, null, null, null),
+    (l, 8, 'vocab', 'das Grad', 'درجة (حرارة)', 'Es sind 30 Grad.', 'الحرارة 30 درجة.', null, null),
+    (l, 9, 'vocab', 'der Frühling', 'الربيع', null, null, null, null),
+    (l, 10, 'vocab', 'der Sommer', 'الصيف', 'Im Sommer ist es heiß.', 'في الصيف الجو حار.', null, null),
+    (l, 11, 'vocab', 'der Herbst', 'الخريف', null, null, null, null),
+    (l, 12, 'vocab', 'der Winter', 'الشتاء', null, null, null, null),
+    (l, 13, 'gap', 'Im Winter ist es ___.', '', null, null, '["kalt", "heiß", "warm"]'::jsonb, 0),
+    (l, 14, 'gap', 'Nimm einen Regenschirm. Es ___.', '', null, null, '["regnet", "scheint", "schneit"]'::jsonb, 0),
+    (l, 15, 'gap', '___ Herbst sind die Blätter bunt.', '', null, null, '["Im", "Am", "Um"]'::jsonb, 0),
+    (l, 16, 'listen', 'Heute ist es sonnig und warm, zweiundzwanzig Grad.', 'استمع — كم درجة الحرارة؟', null, null, '["22", "12", "32", "20"]'::jsonb, 0),
+    (l, 17, 'listen', 'Morgen regnet es im Norden, im Süden scheint die Sonne.', 'استمع — أين ستمطر غداً؟', null, null, '["في الشمال", "في الجنوب", "في كل مكان", "لن تمطر"]'::jsonb, 0),
+    (l, 18, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Sommer = الصيف", "der Winter = الشتاء", "der Schnee = الثلج", "der Regen = المطر", "die Sonne = الشمس"]'::jsonb, null),
+    (l, 19, 'order', 'Wie ist das Wetter heute?', 'كيف الطقس اليوم؟', null, null, null, null),
+    (l, 20, 'write', 'Es regnet.|Es regnet', 'اكتب: تمطر.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-verkehr', m, 'A1', 304, 'lesson', 'In der Stadt – Wege und Verkehr', 'في المدينة — الاتجاهات والمواصلات', '', 'أن تسأل عن الطريق وتفهم الاتجاهات، وتستخدم المواصلات وتشتري تذكرة.', '## السؤال عن الطريق
+> Entschuldigung, wo ist der Bahnhof?
+> Wie komme ich zum Rathaus? (zum = zu dem للمذكر والمحايد، zur = zu der للمؤنث)
+## الاتجاهات
+| geradeaus | nach links | nach rechts | an der Ampel |
+|---|---|---|---|
+| إلى الأمام مباشرة | يساراً | يميناً | عند الإشارة |
+## المواصلات: mit + الوسيلة
+> Ich fahre mit dem Bus / mit der U-Bahn / mit dem Zug / mit dem Fahrrad.
+> Ich gehe zu Fuß. (أمشي على الأقدام)
+## في المحطة
+> Eine Fahrkarte nach Hamburg, bitte. — Einfach oder hin und zurück?
+> Von welchem Gleis fährt der Zug? — Von Gleis 5.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'der Bahnhof, ¨-e', 'محطة القطار', 'Der Bahnhof ist nicht weit.', 'المحطة ليست بعيدة.', null, null),
+    (l, 2, 'vocab', 'die Haltestelle, -n', 'موقف (باص/ترام)', 'Die Haltestelle ist dort.', 'الموقف هناك.', null, null),
+    (l, 3, 'vocab', 'der Bus, -se', 'الباص', 'Ich fahre mit dem Bus.', 'أركب الباص.', null, null),
+    (l, 4, 'vocab', 'die U-Bahn, -en', 'المترو', null, null, null, null),
+    (l, 5, 'vocab', 'der Zug, ¨-e', 'القطار', 'Der Zug hat Verspätung.', 'القطار متأخر.', null, null),
+    (l, 6, 'vocab', 'das Auto, -s', 'السيارة', null, null, null, null),
+    (l, 7, 'vocab', 'das Fahrrad, ¨-er', 'الدراجة', null, null, null, null),
+    (l, 8, 'vocab', 'die Fahrkarte, -n', 'التذكرة', 'Wo kann ich eine Fahrkarte kaufen?', 'أين أشتري تذكرة؟', null, null),
+    (l, 9, 'vocab', 'das Gleis, -e', 'الرصيف (السكة)', 'Der Zug fährt von Gleis 3.', 'القطار ينطلق من الرصيف 3.', null, null),
+    (l, 10, 'vocab', 'fahren', 'يسافر / يركب / يقود', 'Du fährst mit dem Auto.', 'أنت تذهب بالسيارة.', null, null),
+    (l, 11, 'vocab', 'abfahren / ankommen', 'ينطلق / يصل', 'Der Zug kommt um 10 Uhr an.', 'يصل القطار الساعة العاشرة.', null, null),
+    (l, 12, 'vocab', 'links / rechts / geradeaus', 'يسار / يمين / إلى الأمام', null, null, null, null),
+    (l, 13, 'vocab', 'die Ampel, -n', 'إشارة المرور', null, null, null, null),
+    (l, 14, 'vocab', 'weit / nah', 'بعيد / قريب', 'Ist es weit?', 'هل هو بعيد؟', null, null),
+    (l, 15, 'vocab', 'die Verspätung, -en', 'التأخير', null, null, null, null),
+    (l, 16, 'phrase', 'Wie komme ich zum Bahnhof?', 'كيف أصل إلى المحطة؟', null, null, null, null),
+    (l, 17, 'gap', 'Ich fahre mit ___ Bus.', '', null, null, '["dem", "der", "den"]'::jsonb, 0),
+    (l, 18, 'gap', 'Ich fahre mit ___ U-Bahn.', '', null, null, '["der", "dem", "die"]'::jsonb, 0),
+    (l, 19, 'gap', 'Wie komme ich ___ Post? (die Post)', '', null, null, '["zur", "zum", "zu"]'::jsonb, 0),
+    (l, 20, 'gap', 'Der Zug ___ um 8:15 Uhr ab.', '', null, null, '["fährt", "fahrt", "fahren"]'::jsonb, 0),
+    (l, 21, 'listen', 'Gehen Sie geradeaus und dann an der Ampel nach links.', 'استمع — أين تتجه عند الإشارة؟', null, null, '["يساراً", "يميناً", "إلى الأمام", "ترجع"]'::jsonb, 0),
+    (l, 22, 'listen', 'Der ICE nach München fährt heute von Gleis sieben.', 'استمع — من أي رصيف؟', null, null, '["7", "17", "70", "1"]'::jsonb, 0),
+    (l, 23, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Bahnhof = محطة القطار", "die Fahrkarte = التذكرة", "links = يسار", "rechts = يمين", "die Ampel = إشارة المرور"]'::jsonb, null),
+    (l, 24, 'order', 'Wie komme ich zum Bahnhof?', 'كيف أصل إلى المحطة؟', null, null, null, null),
+    (l, 25, 'write', 'Ich fahre mit dem Bus.|Ich fahre mit dem Bus', 'اكتب: أذهب بالباص.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-arbeit', m, 'A1', 305, 'lesson', 'Arbeit und Beruf', 'العمل والمهنة', '', 'أن تذكر مهنتك ومكان عملك وتصف يوم عملك.', '## المهن: المذكر و المؤنث (-in)
+| مذكر | مؤنث |
+|---|---|
+| der Lehrer | die Lehrerin |
+| der Arzt | die Ärztin |
+| der Verkäufer | die Verkäuferin |
+| der Koch | die Köchin |
+## السؤال عن المهنة
+> Was sind Sie von Beruf? — Ich bin Ingenieur. (بدون ein!)
+> Wo arbeiten Sie? — Ich arbeite bei Siemens / in einem Krankenhaus.
+> Ich bin arbeitslos. — Ich suche Arbeit.
+## يوم العمل
+> Ich arbeite von 8 bis 17 Uhr. Ich habe eine Stunde Pause.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Arbeit', 'العمل', 'Ich gehe zur Arbeit.', 'أذهب إلى العمل.', null, null),
+    (l, 2, 'vocab', 'arbeiten', 'يعمل', 'Er arbeitet als Koch.', 'يعمل طبّاخاً.', null, null),
+    (l, 3, 'vocab', 'der Lehrer, - / die Lehrerin, -nen', 'المعلّم / المعلّمة', null, null, null, null),
+    (l, 4, 'vocab', 'der Verkäufer, - / die Verkäuferin, -nen', 'البائع / البائعة', null, null, null, null),
+    (l, 5, 'vocab', 'der Koch, ¨-e / die Köchin, -nen', 'الطبّاخ / الطبّاخة', null, null, null, null),
+    (l, 6, 'vocab', 'der Ingenieur, -e', 'المهندس', null, null, null, null),
+    (l, 7, 'vocab', 'der Krankenpfleger, - / die Krankenschwester, -n', 'الممرّض / الممرّضة', null, null, null, null),
+    (l, 8, 'vocab', 'die Firma, Firmen', 'الشركة', 'Die Firma ist in Stuttgart.', 'الشركة في شتوتغارت.', null, null),
+    (l, 9, 'vocab', 'das Büro, -s', 'المكتب', 'Ich arbeite im Büro.', 'أعمل في المكتب.', null, null),
+    (l, 10, 'vocab', 'das Krankenhaus, ¨-er', 'المستشفى', null, null, null, null),
+    (l, 11, 'vocab', 'der Kollege, -n / die Kollegin, -nen', 'الزميل / الزميلة', null, null, null, null),
+    (l, 12, 'vocab', 'die Pause, -n', 'الاستراحة', null, null, null, null),
+    (l, 13, 'vocab', 'arbeitslos', 'عاطل عن العمل', null, null, null, null),
+    (l, 14, 'vocab', 'verdienen', 'يكسب (مالاً)', 'Sie verdient gut.', 'هي تكسب جيداً.', null, null),
+    (l, 15, 'gap', 'Was sind Sie von ___?', '', null, null, '["Beruf", "Arbeit", "Firma"]'::jsonb, 0),
+    (l, 16, 'gap', 'Ich bin ___. (مهندس)', '', null, null, '["Ingenieur", "ein Ingenieur", "Ingenieurin"]'::jsonb, 0),
+    (l, 17, 'gap', 'Maria ist ___. Sie arbeitet in einer Schule.', '', null, null, '["Lehrerin", "Lehrer", "Köchin"]'::jsonb, 0),
+    (l, 18, 'gap', 'Ich arbeite ___ 9 ___ 17 Uhr.', '', null, null, '["von … bis", "um … am", "seit … nach"]'::jsonb, 0),
+    (l, 19, 'listen', 'Ich bin Krankenschwester und arbeite im Krankenhaus, oft auch nachts.', 'استمع — أين تعمل؟', null, null, '["في المستشفى", "في المدرسة", "في المكتب", "في المطعم"]'::jsonb, 0),
+    (l, 20, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Koch = الطبّاخ", "die Firma = الشركة", "das Büro = المكتب", "der Kollege = الزميل", "die Pause = الاستراحة"]'::jsonb, null),
+    (l, 21, 'order', 'Was sind Sie von Beruf?', 'ما مهنتك؟', null, null, null, null),
+    (l, 22, 'write', 'Ich bin Lehrer.|Ich bin Lehrerin.|Ich bin Lehrer|Ich bin Lehrerin', 'اكتب: أنا معلّم/معلّمة.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-stadt-test', m, 'A1', 306, 'test', 'Modultest – Stadt, Arbeit, Gesundheit', 'اختبار وحدة المدينة والعمل والصحة', '', 'اختبار الملابس والصحة والطقس والمواصلات والعمل. النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Die Schuhe ___ mir gut.', '', null, null, '["gefallen", "gefällt", "gefalle"]'::jsonb, 0),
+    (l, 2, 'gap', 'Mein Bauch ___ weh.', '', null, null, '["tut", "tun", "tust"]'::jsonb, 0),
+    (l, 3, 'gap', 'Im Sommer ist es ___.', '', null, null, '["heiß", "kalt", "windig"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich fahre mit ___ Zug.', '', null, null, '["dem", "der", "die"]'::jsonb, 0),
+    (l, 5, 'gap', 'Wie komme ich ___ Bahnhof?', '', null, null, '["zum", "zur", "zu"]'::jsonb, 0),
+    (l, 6, 'gap', 'Sie ist ___. Sie arbeitet im Krankenhaus.', '', null, null, '["Ärztin", "Arzt", "Köchin"]'::jsonb, 0),
+    (l, 7, 'quiz', '', 'ماذا تعني ''Der Zug hat Verspätung''؟', null, null, '["القطار متأخر", "القطار وصل", "القطار ممتلئ", "القطار ملغى"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'أين تشتري الدواء؟', null, null, '["in der Apotheke", "in der Bäckerei", "im Büro", "am Bahnhof"]'::jsonb, 0),
+    (l, 9, 'listen', 'Gehen Sie hier rechts und dann immer geradeaus.', 'إلى أين تذهب أولاً؟', null, null, '["يميناً", "يساراً", "ترجع", "عند الإشارة"]'::jsonb, 0),
+    (l, 10, 'listen', 'Ich arbeite als Verkäuferin in einem Supermarkt.', 'ما مهنتها؟', null, null, '["بائعة", "طبّاخة", "معلّمة", "ممرّضة"]'::jsonb, 0),
+    (l, 11, 'listen', 'Morgen wird es kalt, nur drei Grad, und es schneit.', 'كيف الطقس غداً؟', null, null, '["بارد وثلج", "حار ومشمس", "ممطر ودافئ", "رياح"]'::jsonb, 0),
+    (l, 12, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Jacke = الجاكيت", "der Rücken = الظهر", "der Herbst = الخريف", "die Haltestelle = الموقف", "verdienen = يكسب"]'::jsonb, null),
+    (l, 13, 'order', 'Kann ich das Hemd anprobieren?', 'هل أستطيع تجربة القميص؟', null, null, null, null),
+    (l, 14, 'order', 'Der Zug fährt von Gleis fünf ab.', 'القطار ينطلق من الرصيف 5.', null, null, null, null),
+    (l, 15, 'write', 'Ich habe Kopfschmerzen.|Ich habe Kopfschmerzen', 'اكتب: عندي صداع.', null, null, null, null),
+    (l, 16, 'write', 'Es schneit.|Es schneit', 'اكتب: تثلج.', null, null, null, null);
 end
 $$;
