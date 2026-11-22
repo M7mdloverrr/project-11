@@ -1,0 +1,215 @@
+module:
+  slug: b1-alltag
+  level: B1
+  position: 3
+  icon: home
+  title_de: Alltag B1 – Wohnen, Behörden, Geld, Kultur
+  title_ar: الحياة اليومية B1 — السكن، الدوائر، المال، الثقافة
+  description_ar: مفردات Goethe B1 — الجيران والمشكلات في السكن، الدوائر والعقود والتأمينات، المال والبنك والاستهلاك، الثقافة والإعلام.
+
+lessons:
+  - slug: b1-nachbarn
+    title_de: Zusammenleben und Nachbarschaft
+    title_ar: العيش المشترك والجيران
+    goal_ar: أن تحل مشكلات السكن مع الجيران والمؤجر وتكتب شكوى مهذبة.
+    explanation_ar: |
+      ## الشكوى المهذبة
+      > Es tut mir leid, dass ich Sie stören muss, aber … — Könnten Sie bitte darauf achten, dass …?
+      > Ich möchte mich über den Lärm beschweren.
+      ## مشكلات السكن
+      der Schimmel (العفن)، die Heizung fällt aus، der Wasserhahn tropft (الصنبور يقطر)، die Mieterhöhung (رفع الإيجار)
+    items:
+      - {vocab: "die Nachbarschaft", ar: "الجيرة / الحي"}
+      - {vocab: "stören", ar: "يزعج", ex: "Stört es Sie, wenn ich Musik höre?", ex_ar: "هل يزعجك أن أسمع موسيقى؟"}
+      - {vocab: "sich beschweren über", ar: "يشتكي من"}
+      - {vocab: "die Beschwerde, -n", ar: "الشكوى"}
+      - {vocab: "Rücksicht nehmen auf", ar: "يراعي"}
+      - {vocab: "achten auf", ar: "ينتبه لـ"}
+      - {vocab: "der Schimmel", ar: "العفن"}
+      - {vocab: "tropfen", ar: "يقطر"}
+      - {vocab: "die Reparatur, -en", ar: "التصليح"}
+      - {vocab: "der Handwerker, -", ar: "الحِرفي (سبّاك، كهربائي)"}
+      - {vocab: "die Mieterhöhung, -en", ar: "رفع الإيجار"}
+      - {vocab: "der Mieterverein", ar: "جمعية المستأجرين"}
+      - {vocab: "die Vereinbarung, -en", ar: "الاتفاق"}
+      - {vocab: "das Treppenhaus", ar: "بيت الدرج"}
+      - {vocab: "der Hof, ¨-e", ar: "الفناء"}
+      - {vocab: "gemeinsam", ar: "مشترك / معاً"}
+      - {vocab: "das Verständnis", ar: "التفهّم"}
+      - gap: "Ich möchte mich ___ den Lärm beschweren."
+        options: [über, auf, für]
+      - gap: "Bitte nehmen Sie ___ die Nachbarn Rücksicht."
+        options: [auf, an, über]
+      - gap: "Im Bad ist ___ an der Wand."
+        options: [Schimmel, Hof, Verständnis]
+      - listen: "Sehr geehrte Frau Weber, seit zwei Wochen tropft der Wasserhahn in der Küche. Bitte schicken Sie einen Handwerker."
+        ar: ما المشكلة؟
+        options: [الصنبور يقطر, التدفئة معطلة, عفن في الحمام, ضجيج الجيران]
+      - match: ["stören = يزعج", "die Beschwerde = الشكوى", "der Handwerker = الحِرفي", "gemeinsam = مشترك", "die Reparatur = التصليح"]
+      - order: "Könnten Sie bitte darauf achten, dass es nachts ruhig ist?"
+        ar: هل يمكنك أن تنتبه أن يكون الهدوء ليلاً؟
+      - write: "Entschuldigen Sie die Störung.|Entschuldigen Sie die Störung"
+        ar: "اكتب: عذراً على الإزعاج."
+
+  - slug: b1-behoerden
+    title_de: Behörden, Verträge und Versicherungen
+    title_ar: الدوائر والعقود والتأمينات
+    goal_ar: أن تفهم الرسائل الرسمية والعقود والتأمينات وتتصرف بشكل صحيح.
+    explanation_ar: |
+      ## كلمات الرسائل الرسمية
+      der Antrag stellen (يقدّم طلباً)، die Frist (المهلة)، einreichen (يقدّم أوراقاً)، der Bescheid (القرار)، der Widerspruch (الاعتراض)
+      > Bitte reichen Sie die Unterlagen innerhalb von zwei Wochen ein.
+      ## التأمينات
+      die Haftpflichtversicherung (تأمين المسؤولية)، die Krankenversicherung، die Rentenversicherung، die Kfz-Versicherung
+      ## العقود
+      > Der Vertrag läuft zwei Jahre. Die Kündigungsfrist beträgt drei Monate.
+    items:
+      - {vocab: "die Behörde, -n", ar: "الدائرة الحكومية"}
+      - {vocab: "der Antrag, ¨-e", ar: "الطلب الرسمي", ex: "Ich habe einen Antrag auf Kindergeld gestellt.", ex_ar: "قدّمت طلباً لمخصصات الأطفال."}
+      - {vocab: "beantragen", ar: "يطلب رسمياً"}
+      - {vocab: "die Unterlagen (Pl.)", ar: "الأوراق / المستندات"}
+      - {vocab: "ein|reichen", ar: "يقدّم (أوراقاً)"}
+      - {vocab: "die Frist, -en", ar: "المهلة"}
+      - {vocab: "der Bescheid, -e", ar: "القرار الرسمي"}
+      - {vocab: "der Widerspruch, ¨-e", ar: "الاعتراض"}
+      - {vocab: "die Genehmigung, -en", ar: "التصريح / الموافقة"}
+      - {vocab: "die Aufenthaltserlaubnis", ar: "تصريح الإقامة"}
+      - {vocab: "die Staatsangehörigkeit", ar: "الجنسية"}
+      - {vocab: "die Versicherung, -en", ar: "التأمين"}
+      - {vocab: "versichert sein", ar: "مؤمَّن عليه"}
+      - {vocab: "die Haftpflichtversicherung", ar: "تأمين المسؤولية المدنية"}
+      - {vocab: "der Schaden, ¨-", ar: "الضرر"}
+      - {vocab: "die Kündigungsfrist", ar: "مهلة إنهاء العقد"}
+      - {vocab: "die Bedingung, -en", ar: "الشرط"}
+      - {vocab: "gültig / ungültig", ar: "صالح / غير صالح"}
+      - {vocab: "verlängern", ar: "يمدّد", ex: "Ich muss meinen Pass verlängern.", ex_ar: "يجب أن أمدد جوازي."}
+      - {vocab: "die Steuer, -n", ar: "الضريبة"}
+      - text: "Sehr geehrter Herr Karimi, für die Bearbeitung Ihres Antrags auf Wohngeld fehlen noch folgende Unterlagen: Ihre Gehaltsabrechnungen der letzten drei Monate und eine Kopie Ihres Mietvertrags. Bitte reichen Sie diese bis zum 15. März ein. Andernfalls kann Ihr Antrag nicht bearbeitet werden."
+        ar: "السيد كريمي المحترم، لمعالجة طلبك لمساعدة السكن تنقص المستندات التالية: كشوف راتبك لآخر ثلاثة أشهر ونسخة من عقد الإيجار. قدّمها حتى 15 آذار، وإلا لا يمكن معالجة طلبك."
+      - quiz: "ما الذي ينقص؟"
+        options: [كشوف الراتب وعقد الإيجار, جواز السفر, شهادة الميلاد, صورة شخصية]
+      - quiz: "ماذا يحدث إذا لم يقدّمها في الموعد؟"
+        options: [لا يُعالج الطلب, يدفع غرامة, يُقبل الطلب, يحصل على موعد جديد]
+      - gap: "Die ___ für den Widerspruch ist ein Monat."
+        options: [Frist, Steuer, Bedingung]
+      - gap: "Mein Ausweis ist nicht mehr ___."
+        options: [gültig, versichert, beantragt]
+      - match: ["der Antrag = الطلب", "die Frist = المهلة", "der Schaden = الضرر", "die Steuer = الضريبة", "verlängern = يمدّد"]
+      - order: "Ich möchte gegen den Bescheid Widerspruch einlegen."
+        ar: أريد الاعتراض على القرار.
+      - write: "Ich habe einen Antrag gestellt.|Ich habe einen Antrag gestellt"
+        ar: "اكتب: قدّمت طلباً."
+
+  - slug: b1-geld
+    title_de: Geld, Bank und Konsum
+    title_ar: المال والبنك والاستهلاك
+    goal_ar: أن تتكلم عن الميزانية والتوفير والديون والشراء الواعي.
+    explanation_ar: |
+      ## تعابير المال
+      > Ich muss sparen, weil ich wenig verdiene. — Ich habe Schulden. — Das kann ich mir nicht leisten. (لا أستطيع تحمّل ثمنه)
+      ## البنك
+      das Girokonto، die Überweisung، der Dauerauftrag (أمر دفع دائم)، die Zinsen (الفوائد)، der Kredit (القرض)
+    items:
+      - {vocab: "aus|geben", ar: "يصرف / ينفق", ex: "Wie viel gibst du für Essen aus?", ex_ar: "كم تصرف على الطعام؟"}
+      - {vocab: "die Ausgaben / die Einnahmen (Pl.)", ar: "المصاريف / المداخيل"}
+      - {vocab: "sich (Dat.) leisten", ar: "يقدر على شراء", ex: "Das kann ich mir nicht leisten.", ex_ar: "لا أقدر على ذلك ماديّاً."}
+      - {vocab: "die Schulden (Pl.)", ar: "الديون"}
+      - {vocab: "der Kredit, -e", ar: "القرض"}
+      - {vocab: "die Zinsen (Pl.)", ar: "الفوائد"}
+      - {vocab: "überweisen", ar: "يحوّل (مالاً)"}
+      - {vocab: "der Dauerauftrag, ¨-e", ar: "أمر الدفع الدائم"}
+      - {vocab: "der Kontoauszug, ¨-e", ar: "كشف الحساب"}
+      - {vocab: "die Geheimzahl / PIN", ar: "الرقم السري"}
+      - {vocab: "das Haushaltsgeld", ar: "مصروف البيت"}
+      - {vocab: "der Verbraucher, -", ar: "المستهلك"}
+      - {vocab: "nachhaltig", ar: "مستدام"}
+      - {vocab: "die Marke, -n", ar: "الماركة"}
+      - {vocab: "der Kauf / der Verkauf", ar: "الشراء / البيع"}
+      - {vocab: "gebraucht / der Flohmarkt", ar: "مستعمل / سوق المستعمل"}
+      - {vocab: "der Vergleich / vergleichen", ar: "المقارنة / يقارن"}
+      - gap: "Ein neues Auto kann ich mir nicht ___."
+        options: [leisten, ausgeben, sparen]
+      - gap: "Ich zahle die Miete per ___ jeden Monat automatisch."
+        options: [Dauerauftrag, Kredit, Flohmarkt]
+      - gap: "Für den Kredit muss man ___ zahlen."
+        options: [Zinsen, Schulden, Marken]
+      - listen: "Ich kaufe Kleidung meistens gebraucht auf dem Flohmarkt. Das ist billiger und auch besser für die Umwelt."
+        ar: لماذا يشتري ملابس مستعملة؟
+        options: [أرخص وأفضل للبيئة, لا يحب الملابس الجديدة, لا توجد محلات, هي أجمل]
+      - match: ["die Schulden = الديون", "überweisen = يحوّل", "die Zinsen = الفوائد", "der Verbraucher = المستهلك", "vergleichen = يقارن"]
+      - order: "Ich gebe zu viel Geld für Kleidung aus."
+        ar: أصرف مالاً كثيراً على الملابس.
+      - write: "Ich muss sparen.|Ich muss sparen"
+        ar: "اكتب: يجب أن أوفّر."
+
+  - slug: b1-kultur
+    title_de: Kultur, Medien und Freizeit
+    title_ar: الثقافة والإعلام ووقت الفراغ
+    goal_ar: أن تتكلم عن الكتب والأفلام والمسرح والمتاحف، وتلخّص وتقيّم عملاً فنياً.
+    explanation_ar: |
+      ## التقييم
+      > Der Film hat mir gut gefallen, weil die Schauspieler toll waren.
+      > Das Buch handelt von einer Familie, die … (الكتاب يتحدث عن…)
+      > Ich kann den Film empfehlen. / Er war ziemlich langweilig.
+      ## الإعلام
+      die Zeitschrift (المجلة)، der Artikel، die sozialen Medien، der Bericht (التقرير)
+    items:
+      - {vocab: "die Kultur", ar: "الثقافة"}
+      - {vocab: "das Theater, -", ar: "المسرح"}
+      - {vocab: "die Ausstellung, -en", ar: "المعرض"}
+      - {vocab: "das Konzert, -e", ar: "الحفلة الموسيقية"}
+      - {vocab: "der Schauspieler, -", ar: "الممثل"}
+      - {vocab: "der Roman, -e", ar: "الرواية"}
+      - {vocab: "der Autor, -en", ar: "المؤلف"}
+      - {vocab: "handeln von", ar: "يتحدث عن (قصة)", ex: "Der Film handelt von zwei Brüdern.", ex_ar: "الفيلم يتحدث عن أخوين."}
+      - {vocab: "spannend", ar: "مشوّق"}
+      - {vocab: "die Handlung, -en", ar: "الحبكة / الأحداث"}
+      - {vocab: "die Zeitschrift, -en", ar: "المجلة"}
+      - {vocab: "der Artikel, -", ar: "المقال"}
+      - {vocab: "der Bericht, -e", ar: "التقرير"}
+      - {vocab: "die sozialen Medien", ar: "وسائل التواصل الاجتماعي"}
+      - {vocab: "veröffentlichen", ar: "ينشر"}
+      - {vocab: "die Eintrittskarte, -n", ar: "تذكرة الدخول"}
+      - {vocab: "der Eintritt", ar: "الدخول / رسم الدخول"}
+      - gap: "Der Roman ___ von einem Mädchen, das nach Berlin zieht."
+        options: [handelt, spielt von, berichtet von dem]
+      - gap: "Der Film war sehr ___. Ich konnte nicht aufhören zu schauen."
+        options: [spannend, langweilig, gültig]
+      - gap: "Der ___ ins Museum ist am Sonntag frei."
+        options: [Eintritt, Bericht, Autor]
+      - listen: "Die Ausstellung über moderne Kunst ist noch bis Ende Juni im Stadtmuseum zu sehen. Studenten zahlen nur vier Euro."
+        ar: حتى متى المعرض؟
+        options: [حتى نهاية حزيران, حتى نهاية تموز, اليوم فقط, دائماً]
+      - match: ["die Ausstellung = المعرض", "der Roman = الرواية", "spannend = مشوّق", "die Zeitschrift = المجلة", "veröffentlichen = ينشر"]
+      - order: "Der Film hat mir sehr gut gefallen."
+        ar: أعجبني الفيلم كثيراً.
+      - write: "Ich kann das Buch empfehlen.|Ich kann das Buch empfehlen"
+        ar: "اكتب: أستطيع أن أنصح بالكتاب."
+
+  - slug: b1-alltag-test
+    kind: test
+    title_de: Modultest – Alltag B1
+    title_ar: اختبار وحدة الحياة اليومية B1
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Ich beschwere mich ___ die laute Musik."
+        options: [über, auf, für]
+      - gap: "Bitte reichen Sie die ___ bis Montag ein."
+        options: [Unterlagen, Zinsen, Handlung]
+      - gap: "Ich muss meine Aufenthaltserlaubnis ___."
+        options: [verlängern, veröffentlichen, überweisen]
+      - gap: "Diese Wohnung kann ich mir nicht ___."
+        options: [leisten, ausgeben, stören]
+      - gap: "Das Theaterstück ___ von einer armen Familie."
+        options: [handelt, beschwert, achtet]
+      - listen: "Die Kündigungsfrist für Ihren Handyvertrag beträgt einen Monat zum Monatsende."
+        ar: كم مهلة إنهاء العقد؟
+        options: [شهر واحد, ثلاثة أشهر, أسبوعان, سنة]
+      - listen: "Bei einem Wasserschaden zahlt die Haftpflichtversicherung, wenn Sie den Schaden verursacht haben."
+        ar: متى يدفع التأمين؟
+        options: [إذا كنت سبب الضرر, دائماً, أبداً, إذا كان المؤجر السبب]
+      - match: ["der Bescheid = القرار", "der Kredit = القرض", "die Ausstellung = المعرض", "der Schimmel = العفن", "gültig = صالح"]
+      - order: "Ich habe gegen den Bescheid Widerspruch eingelegt."
+        ar: اعترضت على القرار.
+      - write: "Das kann ich mir nicht leisten.|Das kann ich mir nicht leisten"
+        ar: "اكتب: لا أقدر على ذلك ماديّاً."

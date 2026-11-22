@@ -3281,5 +3281,149 @@ bevor (قبل أن)، während (بينما)، seitdem (منذ أن)، bis (حت�
     (l, 11, 'order', 'Das ist der Kollege, mit dem ich jeden Tag arbeite.', 'هذا الزميل الذي أعمل معه كل يوم.', null, null, null, null),
     (l, 12, 'order', 'Die Fenster werden morgen geputzt.', 'النوافذ ستُنظّف غداً.', null, null, null, null),
     (l, 13, 'write', 'Hier wird Deutsch gesprochen.|Hier wird Deutsch gesprochen', 'اكتب: هنا يُتكلم بالألمانية.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-alltag', 'B1', 3, 'Alltag B1 – Wohnen, Behörden, Geld, Kultur', 'الحياة اليومية B1 — السكن، الدوائر، المال، الثقافة', 'مفردات Goethe B1 — الجيران والمشكلات في السكن، الدوائر والعقود والتأمينات، المال والبنك والاستهلاك، الثقافة والإعلام.', 'home') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-nachbarn', m, 'B1', 301, 'lesson', 'Zusammenleben und Nachbarschaft', 'العيش المشترك والجيران', '', 'أن تحل مشكلات السكن مع الجيران والمؤجر وتكتب شكوى مهذبة.', '## الشكوى المهذبة
+> Es tut mir leid, dass ich Sie stören muss, aber … — Könnten Sie bitte darauf achten, dass …?
+> Ich möchte mich über den Lärm beschweren.
+## مشكلات السكن
+der Schimmel (العفن)، die Heizung fällt aus، der Wasserhahn tropft (الصنبور يقطر)، die Mieterhöhung (رفع الإيجار)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Nachbarschaft', 'الجيرة / الحي', null, null, null, null),
+    (l, 2, 'vocab', 'stören', 'يزعج', 'Stört es Sie, wenn ich Musik höre?', 'هل يزعجك أن أسمع موسيقى؟', null, null),
+    (l, 3, 'vocab', 'sich beschweren über', 'يشتكي من', null, null, null, null),
+    (l, 4, 'vocab', 'die Beschwerde, -n', 'الشكوى', null, null, null, null),
+    (l, 5, 'vocab', 'Rücksicht nehmen auf', 'يراعي', null, null, null, null),
+    (l, 6, 'vocab', 'achten auf', 'ينتبه لـ', null, null, null, null),
+    (l, 7, 'vocab', 'der Schimmel', 'العفن', null, null, null, null),
+    (l, 8, 'vocab', 'tropfen', 'يقطر', null, null, null, null),
+    (l, 9, 'vocab', 'die Reparatur, -en', 'التصليح', null, null, null, null),
+    (l, 10, 'vocab', 'der Handwerker, -', 'الحِرفي (سبّاك، كهربائي)', null, null, null, null),
+    (l, 11, 'vocab', 'die Mieterhöhung, -en', 'رفع الإيجار', null, null, null, null),
+    (l, 12, 'vocab', 'der Mieterverein', 'جمعية المستأجرين', null, null, null, null),
+    (l, 13, 'vocab', 'die Vereinbarung, -en', 'الاتفاق', null, null, null, null),
+    (l, 14, 'vocab', 'das Treppenhaus', 'بيت الدرج', null, null, null, null),
+    (l, 15, 'vocab', 'der Hof, ¨-e', 'الفناء', null, null, null, null),
+    (l, 16, 'vocab', 'gemeinsam', 'مشترك / معاً', null, null, null, null),
+    (l, 17, 'vocab', 'das Verständnis', 'التفهّم', null, null, null, null),
+    (l, 18, 'gap', 'Ich möchte mich ___ den Lärm beschweren.', '', null, null, '["über", "auf", "für"]'::jsonb, 0),
+    (l, 19, 'gap', 'Bitte nehmen Sie ___ die Nachbarn Rücksicht.', '', null, null, '["auf", "an", "über"]'::jsonb, 0),
+    (l, 20, 'gap', 'Im Bad ist ___ an der Wand.', '', null, null, '["Schimmel", "Hof", "Verständnis"]'::jsonb, 0),
+    (l, 21, 'listen', 'Sehr geehrte Frau Weber, seit zwei Wochen tropft der Wasserhahn in der Küche. Bitte schicken Sie einen Handwerker.', 'ما المشكلة؟', null, null, '["الصنبور يقطر", "التدفئة معطلة", "عفن في الحمام", "ضجيج الجيران"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["stören = يزعج", "die Beschwerde = الشكوى", "der Handwerker = الحِرفي", "gemeinsam = مشترك", "die Reparatur = التصليح"]'::jsonb, null),
+    (l, 23, 'order', 'Könnten Sie bitte darauf achten, dass es nachts ruhig ist?', 'هل يمكنك أن تنتبه أن يكون الهدوء ليلاً؟', null, null, null, null),
+    (l, 24, 'write', 'Entschuldigen Sie die Störung.|Entschuldigen Sie die Störung', 'اكتب: عذراً على الإزعاج.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-behoerden', m, 'B1', 302, 'lesson', 'Behörden, Verträge und Versicherungen', 'الدوائر والعقود والتأمينات', '', 'أن تفهم الرسائل الرسمية والعقود والتأمينات وتتصرف بشكل صحيح.', '## كلمات الرسائل الرسمية
+der Antrag stellen (يقدّم طلباً)، die Frist (المهلة)، einreichen (يقدّم أوراقاً)، der Bescheid (القرار)، der Widerspruch (الاعتراض)
+> Bitte reichen Sie die Unterlagen innerhalb von zwei Wochen ein.
+## التأمينات
+die Haftpflichtversicherung (تأمين المسؤولية)، die Krankenversicherung، die Rentenversicherung، die Kfz-Versicherung
+## العقود
+> Der Vertrag läuft zwei Jahre. Die Kündigungsfrist beträgt drei Monate.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Behörde, -n', 'الدائرة الحكومية', null, null, null, null),
+    (l, 2, 'vocab', 'der Antrag, ¨-e', 'الطلب الرسمي', 'Ich habe einen Antrag auf Kindergeld gestellt.', 'قدّمت طلباً لمخصصات الأطفال.', null, null),
+    (l, 3, 'vocab', 'beantragen', 'يطلب رسمياً', null, null, null, null),
+    (l, 4, 'vocab', 'die Unterlagen (Pl.)', 'الأوراق / المستندات', null, null, null, null),
+    (l, 5, 'vocab', 'ein|reichen', 'يقدّم (أوراقاً)', null, null, null, null),
+    (l, 6, 'vocab', 'die Frist, -en', 'المهلة', null, null, null, null),
+    (l, 7, 'vocab', 'der Bescheid, -e', 'القرار الرسمي', null, null, null, null),
+    (l, 8, 'vocab', 'der Widerspruch, ¨-e', 'الاعتراض', null, null, null, null),
+    (l, 9, 'vocab', 'die Genehmigung, -en', 'التصريح / الموافقة', null, null, null, null),
+    (l, 10, 'vocab', 'die Aufenthaltserlaubnis', 'تصريح الإقامة', null, null, null, null),
+    (l, 11, 'vocab', 'die Staatsangehörigkeit', 'الجنسية', null, null, null, null),
+    (l, 12, 'vocab', 'die Versicherung, -en', 'التأمين', null, null, null, null),
+    (l, 13, 'vocab', 'versichert sein', 'مؤمَّن عليه', null, null, null, null),
+    (l, 14, 'vocab', 'die Haftpflichtversicherung', 'تأمين المسؤولية المدنية', null, null, null, null),
+    (l, 15, 'vocab', 'der Schaden, ¨-', 'الضرر', null, null, null, null),
+    (l, 16, 'vocab', 'die Kündigungsfrist', 'مهلة إنهاء العقد', null, null, null, null),
+    (l, 17, 'vocab', 'die Bedingung, -en', 'الشرط', null, null, null, null),
+    (l, 18, 'vocab', 'gültig / ungültig', 'صالح / غير صالح', null, null, null, null),
+    (l, 19, 'vocab', 'verlängern', 'يمدّد', 'Ich muss meinen Pass verlängern.', 'يجب أن أمدد جوازي.', null, null),
+    (l, 20, 'vocab', 'die Steuer, -n', 'الضريبة', null, null, null, null),
+    (l, 21, 'text', 'Sehr geehrter Herr Karimi, für die Bearbeitung Ihres Antrags auf Wohngeld fehlen noch folgende Unterlagen: Ihre Gehaltsabrechnungen der letzten drei Monate und eine Kopie Ihres Mietvertrags. Bitte reichen Sie diese bis zum 15. März ein. Andernfalls kann Ihr Antrag nicht bearbeitet werden.', 'السيد كريمي المحترم، لمعالجة طلبك لمساعدة السكن تنقص المستندات التالية: كشوف راتبك لآخر ثلاثة أشهر ونسخة من عقد الإيجار. قدّمها حتى 15 آذار، وإلا لا يمكن معالجة طلبك.', null, null, null, null),
+    (l, 22, 'quiz', '', 'ما الذي ينقص؟', null, null, '["كشوف الراتب وعقد الإيجار", "جواز السفر", "شهادة الميلاد", "صورة شخصية"]'::jsonb, 0),
+    (l, 23, 'quiz', '', 'ماذا يحدث إذا لم يقدّمها في الموعد؟', null, null, '["لا يُعالج الطلب", "يدفع غرامة", "يُقبل الطلب", "يحصل على موعد جديد"]'::jsonb, 0),
+    (l, 24, 'gap', 'Die ___ für den Widerspruch ist ein Monat.', '', null, null, '["Frist", "Steuer", "Bedingung"]'::jsonb, 0),
+    (l, 25, 'gap', 'Mein Ausweis ist nicht mehr ___.', '', null, null, '["gültig", "versichert", "beantragt"]'::jsonb, 0),
+    (l, 26, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Antrag = الطلب", "die Frist = المهلة", "der Schaden = الضرر", "die Steuer = الضريبة", "verlängern = يمدّد"]'::jsonb, null),
+    (l, 27, 'order', 'Ich möchte gegen den Bescheid Widerspruch einlegen.', 'أريد الاعتراض على القرار.', null, null, null, null),
+    (l, 28, 'write', 'Ich habe einen Antrag gestellt.|Ich habe einen Antrag gestellt', 'اكتب: قدّمت طلباً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-geld', m, 'B1', 303, 'lesson', 'Geld, Bank und Konsum', 'المال والبنك والاستهلاك', '', 'أن تتكلم عن الميزانية والتوفير والديون والشراء الواعي.', '## تعابير المال
+> Ich muss sparen, weil ich wenig verdiene. — Ich habe Schulden. — Das kann ich mir nicht leisten. (لا أستطيع تحمّل ثمنه)
+## البنك
+das Girokonto، die Überweisung، der Dauerauftrag (أمر دفع دائم)، die Zinsen (الفوائد)، der Kredit (القرض)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'aus|geben', 'يصرف / ينفق', 'Wie viel gibst du für Essen aus?', 'كم تصرف على الطعام؟', null, null),
+    (l, 2, 'vocab', 'die Ausgaben / die Einnahmen (Pl.)', 'المصاريف / المداخيل', null, null, null, null),
+    (l, 3, 'vocab', 'sich (Dat.) leisten', 'يقدر على شراء', 'Das kann ich mir nicht leisten.', 'لا أقدر على ذلك ماديّاً.', null, null),
+    (l, 4, 'vocab', 'die Schulden (Pl.)', 'الديون', null, null, null, null),
+    (l, 5, 'vocab', 'der Kredit, -e', 'القرض', null, null, null, null),
+    (l, 6, 'vocab', 'die Zinsen (Pl.)', 'الفوائد', null, null, null, null),
+    (l, 7, 'vocab', 'überweisen', 'يحوّل (مالاً)', null, null, null, null),
+    (l, 8, 'vocab', 'der Dauerauftrag, ¨-e', 'أمر الدفع الدائم', null, null, null, null),
+    (l, 9, 'vocab', 'der Kontoauszug, ¨-e', 'كشف الحساب', null, null, null, null),
+    (l, 10, 'vocab', 'die Geheimzahl / PIN', 'الرقم السري', null, null, null, null),
+    (l, 11, 'vocab', 'das Haushaltsgeld', 'مصروف البيت', null, null, null, null),
+    (l, 12, 'vocab', 'der Verbraucher, -', 'المستهلك', null, null, null, null),
+    (l, 13, 'vocab', 'nachhaltig', 'مستدام', null, null, null, null),
+    (l, 14, 'vocab', 'die Marke, -n', 'الماركة', null, null, null, null),
+    (l, 15, 'vocab', 'der Kauf / der Verkauf', 'الشراء / البيع', null, null, null, null),
+    (l, 16, 'vocab', 'gebraucht / der Flohmarkt', 'مستعمل / سوق المستعمل', null, null, null, null),
+    (l, 17, 'vocab', 'der Vergleich / vergleichen', 'المقارنة / يقارن', null, null, null, null),
+    (l, 18, 'gap', 'Ein neues Auto kann ich mir nicht ___.', '', null, null, '["leisten", "ausgeben", "sparen"]'::jsonb, 0),
+    (l, 19, 'gap', 'Ich zahle die Miete per ___ jeden Monat automatisch.', '', null, null, '["Dauerauftrag", "Kredit", "Flohmarkt"]'::jsonb, 0),
+    (l, 20, 'gap', 'Für den Kredit muss man ___ zahlen.', '', null, null, '["Zinsen", "Schulden", "Marken"]'::jsonb, 0),
+    (l, 21, 'listen', 'Ich kaufe Kleidung meistens gebraucht auf dem Flohmarkt. Das ist billiger und auch besser für die Umwelt.', 'لماذا يشتري ملابس مستعملة؟', null, null, '["أرخص وأفضل للبيئة", "لا يحب الملابس الجديدة", "لا توجد محلات", "هي أجمل"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Schulden = الديون", "überweisen = يحوّل", "die Zinsen = الفوائد", "der Verbraucher = المستهلك", "vergleichen = يقارن"]'::jsonb, null),
+    (l, 23, 'order', 'Ich gebe zu viel Geld für Kleidung aus.', 'أصرف مالاً كثيراً على الملابس.', null, null, null, null),
+    (l, 24, 'write', 'Ich muss sparen.|Ich muss sparen', 'اكتب: يجب أن أوفّر.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-kultur', m, 'B1', 304, 'lesson', 'Kultur, Medien und Freizeit', 'الثقافة والإعلام ووقت الفراغ', '', 'أن تتكلم عن الكتب والأفلام والمسرح والمتاحف، وتلخّص وتقيّم عملاً فنياً.', '## التقييم
+> Der Film hat mir gut gefallen, weil die Schauspieler toll waren.
+> Das Buch handelt von einer Familie, die … (الكتاب يتحدث عن…)
+> Ich kann den Film empfehlen. / Er war ziemlich langweilig.
+## الإعلام
+die Zeitschrift (المجلة)، der Artikel، die sozialen Medien، der Bericht (التقرير)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Kultur', 'الثقافة', null, null, null, null),
+    (l, 2, 'vocab', 'das Theater, -', 'المسرح', null, null, null, null),
+    (l, 3, 'vocab', 'die Ausstellung, -en', 'المعرض', null, null, null, null),
+    (l, 4, 'vocab', 'das Konzert, -e', 'الحفلة الموسيقية', null, null, null, null),
+    (l, 5, 'vocab', 'der Schauspieler, -', 'الممثل', null, null, null, null),
+    (l, 6, 'vocab', 'der Roman, -e', 'الرواية', null, null, null, null),
+    (l, 7, 'vocab', 'der Autor, -en', 'المؤلف', null, null, null, null),
+    (l, 8, 'vocab', 'handeln von', 'يتحدث عن (قصة)', 'Der Film handelt von zwei Brüdern.', 'الفيلم يتحدث عن أخوين.', null, null),
+    (l, 9, 'vocab', 'spannend', 'مشوّق', null, null, null, null),
+    (l, 10, 'vocab', 'die Handlung, -en', 'الحبكة / الأحداث', null, null, null, null),
+    (l, 11, 'vocab', 'die Zeitschrift, -en', 'المجلة', null, null, null, null),
+    (l, 12, 'vocab', 'der Artikel, -', 'المقال', null, null, null, null),
+    (l, 13, 'vocab', 'der Bericht, -e', 'التقرير', null, null, null, null),
+    (l, 14, 'vocab', 'die sozialen Medien', 'وسائل التواصل الاجتماعي', null, null, null, null),
+    (l, 15, 'vocab', 'veröffentlichen', 'ينشر', null, null, null, null),
+    (l, 16, 'vocab', 'die Eintrittskarte, -n', 'تذكرة الدخول', null, null, null, null),
+    (l, 17, 'vocab', 'der Eintritt', 'الدخول / رسم الدخول', null, null, null, null),
+    (l, 18, 'gap', 'Der Roman ___ von einem Mädchen, das nach Berlin zieht.', '', null, null, '["handelt", "spielt von", "berichtet von dem"]'::jsonb, 0),
+    (l, 19, 'gap', 'Der Film war sehr ___. Ich konnte nicht aufhören zu schauen.', '', null, null, '["spannend", "langweilig", "gültig"]'::jsonb, 0),
+    (l, 20, 'gap', 'Der ___ ins Museum ist am Sonntag frei.', '', null, null, '["Eintritt", "Bericht", "Autor"]'::jsonb, 0),
+    (l, 21, 'listen', 'Die Ausstellung über moderne Kunst ist noch bis Ende Juni im Stadtmuseum zu sehen. Studenten zahlen nur vier Euro.', 'حتى متى المعرض؟', null, null, '["حتى نهاية حزيران", "حتى نهاية تموز", "اليوم فقط", "دائماً"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Ausstellung = المعرض", "der Roman = الرواية", "spannend = مشوّق", "die Zeitschrift = المجلة", "veröffentlichen = ينشر"]'::jsonb, null),
+    (l, 23, 'order', 'Der Film hat mir sehr gut gefallen.', 'أعجبني الفيلم كثيراً.', null, null, null, null),
+    (l, 24, 'write', 'Ich kann das Buch empfehlen.|Ich kann das Buch empfehlen', 'اكتب: أستطيع أن أنصح بالكتاب.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-alltag-test', m, 'B1', 305, 'test', 'Modultest – Alltag B1', 'اختبار وحدة الحياة اليومية B1', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich beschwere mich ___ die laute Musik.', '', null, null, '["über", "auf", "für"]'::jsonb, 0),
+    (l, 2, 'gap', 'Bitte reichen Sie die ___ bis Montag ein.', '', null, null, '["Unterlagen", "Zinsen", "Handlung"]'::jsonb, 0),
+    (l, 3, 'gap', 'Ich muss meine Aufenthaltserlaubnis ___.', '', null, null, '["verlängern", "veröffentlichen", "überweisen"]'::jsonb, 0),
+    (l, 4, 'gap', 'Diese Wohnung kann ich mir nicht ___.', '', null, null, '["leisten", "ausgeben", "stören"]'::jsonb, 0),
+    (l, 5, 'gap', 'Das Theaterstück ___ von einer armen Familie.', '', null, null, '["handelt", "beschwert", "achtet"]'::jsonb, 0),
+    (l, 6, 'listen', 'Die Kündigungsfrist für Ihren Handyvertrag beträgt einen Monat zum Monatsende.', 'كم مهلة إنهاء العقد؟', null, null, '["شهر واحد", "ثلاثة أشهر", "أسبوعان", "سنة"]'::jsonb, 0),
+    (l, 7, 'listen', 'Bei einem Wasserschaden zahlt die Haftpflichtversicherung, wenn Sie den Schaden verursacht haben.', 'متى يدفع التأمين؟', null, null, '["إذا كنت سبب الضرر", "دائماً", "أبداً", "إذا كان المؤجر السبب"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Bescheid = القرار", "der Kredit = القرض", "die Ausstellung = المعرض", "der Schimmel = العفن", "gültig = صالح"]'::jsonb, null),
+    (l, 9, 'order', 'Ich habe gegen den Bescheid Widerspruch eingelegt.', 'اعترضت على القرار.', null, null, null, null),
+    (l, 10, 'write', 'Das kann ich mir nicht leisten.|Das kann ich mir nicht leisten', 'اكتب: لا أقدر على ذلك ماديّاً.', null, null, null, null);
 end
 $$;
