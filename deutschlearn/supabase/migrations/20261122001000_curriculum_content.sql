@@ -3556,5 +3556,144 @@ die Zeitschrift (المجلة)، der Artikel، die sozialen Medien، der Bericht
     (l, 11, 'order', 'Obwohl er krank war, ist er zur Arbeit gegangen.', 'رغم أنه كان مريضاً ذهب إلى العمل.', null, null, null, null),
     (l, 12, 'order', 'Die Wohnung ist zwar klein, aber sehr gemütlich.', 'الشقة صحيح أنها صغيرة لكنها مريحة جداً.', null, null, null, null),
     (l, 13, 'write', 'Wenn ich Zeit hätte|Wenn ich Zeit hätte,', 'اكتب: لو كان عندي وقت (Wenn …)', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('b1-gesellschaft', 'B1', 5, 'Gesellschaft, Umwelt, Politik, Technik', 'المجتمع والبيئة والسياسة والتكنولوجيا', 'مفردات Goethe B1 — البيئة والمناخ، السياسة والمجتمع، الهجرة والاندماج، التكنولوجيا والمستقبل.', 'world') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-umwelt', m, 'B1', 501, 'lesson', 'Umwelt und Klima', 'البيئة والمناخ', '', 'أن تناقش مشكلات البيئة والمناخ وتقترح حلولاً.', '## المشكلات والحلول
+> Der Klimawandel ist eines der größten Probleme. — Die Luftverschmutzung nimmt zu.
+> Man könnte mehr öffentliche Verkehrsmittel nutzen. — Es wäre besser, wenn …
+## تعابير
+zunehmen/abnehmen (يزداد/يقلّ)، verursachen (يسبّب)، vermeiden (يتجنّب)، verbrauchen (يستهلك)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'der Klimawandel', 'تغيّر المناخ', null, null, null, null),
+    (l, 2, 'vocab', 'die Verschmutzung', 'التلوث', null, null, null, null),
+    (l, 3, 'vocab', 'verursachen', 'يسبّب', null, null, null, null),
+    (l, 4, 'vocab', 'vermeiden', 'يتجنّب', 'Wir sollten Plastik vermeiden.', 'يجب أن نتجنب البلاستيك.', null, null),
+    (l, 5, 'vocab', 'verbrauchen / der Verbrauch', 'يستهلك / الاستهلاك', null, null, null, null),
+    (l, 6, 'vocab', 'zu|nehmen / ab|nehmen', 'يزداد / يقلّ', null, null, null, null),
+    (l, 7, 'vocab', 'erneuerbare Energie', 'الطاقة المتجددة', null, null, null, null),
+    (l, 8, 'vocab', 'die Sonnenenergie / die Windkraft', 'الطاقة الشمسية / طاقة الرياح', null, null, null, null),
+    (l, 9, 'vocab', 'die öffentlichen Verkehrsmittel', 'وسائل النقل العامة', null, null, null, null),
+    (l, 10, 'vocab', 'die Ressource, -n', 'المورد', null, null, null, null),
+    (l, 11, 'vocab', 'die Temperatur, -en', 'درجة الحرارة', null, null, null, null),
+    (l, 12, 'vocab', 'die Katastrophe, -n', 'الكارثة', null, null, null, null),
+    (l, 13, 'vocab', 'die Hitze / die Dürre', 'الحرّ / الجفاف', null, null, null, null),
+    (l, 14, 'vocab', 'das Hochwasser', 'الفيضان', null, null, null, null),
+    (l, 15, 'vocab', 'umweltfreundlich', 'صديق للبيئة', null, null, null, null),
+    (l, 16, 'vocab', 'die Zukunft', 'المستقبل', null, null, null, null),
+    (l, 17, 'gap', 'Autos ___ viele Abgase.', '', null, null, '["verursachen", "vermeiden", "abnehmen"]'::jsonb, 0),
+    (l, 18, 'gap', 'Die Temperaturen ___ jedes Jahr zu.', '', null, null, '["nehmen", "kommen", "gehen"]'::jsonb, 0),
+    (l, 19, 'gap', 'Fahrradfahren ist ___.', '', null, null, '["umweltfreundlich", "erneuerbar", "verbraucht"]'::jsonb, 0),
+    (l, 20, 'listen', 'Immer mehr Menschen in Deutschland fahren mit dem Fahrrad zur Arbeit, weil es gesund ist und die Umwelt schont.', 'لماذا يركبون الدراجة؟', null, null, '["صحي ويحمي البيئة", "أرخص فقط", "لا توجد باصات", "القانون يفرض ذلك"]'::jsonb, 0),
+    (l, 21, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Klimawandel = تغيّر المناخ", "vermeiden = يتجنّب", "die Dürre = الجفاف", "das Hochwasser = الفيضان", "die Zukunft = المستقبل"]'::jsonb, null),
+    (l, 22, 'order', 'Wir sollten weniger Energie verbrauchen.', 'يجب أن نستهلك طاقة أقل.', null, null, null, null),
+    (l, 23, 'write', 'Wir müssen Plastik vermeiden.|Wir müssen Plastik vermeiden', 'اكتب: يجب أن نتجنب البلاستيك.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-politik', m, 'B1', 502, 'lesson', 'Politik und Gesellschaft', 'السياسة والمجتمع', '', 'أن تفهم المفردات الأساسية للنظام السياسي في ألمانيا والمشاركة في المجتمع.', '## النظام السياسي
+Deutschland ist eine **Demokratie** und ein **Bundesstaat** mit 16 **Bundesländern**. Das **Parlament** heißt **Bundestag**. Alle vier Jahre gibt es **Wahlen**.
+## الحقوق والواجبات
+das Recht (الحق)، die Pflicht (الواجب)، das Grundgesetz (الدستور)، die Meinungsfreiheit، die Gleichberechtigung (المساواة)
+## المشاركة
+> Ich engagiere mich ehrenamtlich in einem Verein. (أتطوع)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Politik / politisch', 'السياسة / سياسي', null, null, null, null),
+    (l, 2, 'vocab', 'die Demokratie', 'الديمقراطية', null, null, null, null),
+    (l, 3, 'vocab', 'die Regierung, -en', 'الحكومة', null, null, null, null),
+    (l, 4, 'vocab', 'das Parlament', 'البرلمان', null, null, null, null),
+    (l, 5, 'vocab', 'die Partei, -en', 'الحزب', null, null, null, null),
+    (l, 6, 'vocab', 'die Wahl, -en / wählen', 'الانتخاب / ينتخب', null, null, null, null),
+    (l, 7, 'vocab', 'der Bürger, - / die Bürgerin, -nen', 'المواطن / المواطنة', null, null, null, null),
+    (l, 8, 'vocab', 'das Bundesland, ¨-er', 'الولاية', null, null, null, null),
+    (l, 9, 'vocab', 'das Grundgesetz', 'الدستور الألماني', null, null, null, null),
+    (l, 10, 'vocab', 'das Recht, -e', 'الحق / القانون', null, null, null, null),
+    (l, 11, 'vocab', 'das Gesetz, -e', 'القانون', null, null, null, null),
+    (l, 12, 'vocab', 'die Freiheit', 'الحرية', null, null, null, null),
+    (l, 13, 'vocab', 'die Gleichberechtigung', 'المساواة في الحقوق', null, null, null, null),
+    (l, 14, 'vocab', 'die Gesellschaft, -en', 'المجتمع', null, null, null, null),
+    (l, 15, 'vocab', 'sich engagieren', 'ينخرط / يلتزم', null, null, null, null),
+    (l, 16, 'vocab', 'ehrenamtlich', 'تطوعي', null, null, null, null),
+    (l, 17, 'vocab', 'die Religion, -en', 'الدين', null, null, null, null),
+    (l, 18, 'vocab', 'die Toleranz', 'التسامح', null, null, null, null),
+    (l, 19, 'gap', 'Deutschland hat 16 ___.', '', null, null, '["Bundesländer", "Parteien", "Regierungen"]'::jsonb, 0),
+    (l, 20, 'gap', 'Alle vier Jahre ___ die Bürger ein neues Parlament.', '', null, null, '["wählen", "engagieren", "gründen"]'::jsonb, 0),
+    (l, 21, 'gap', 'Männer und Frauen sind gleichberechtigt. Das steht im ___.', '', null, null, '["Grundgesetz", "Parlament", "Verein"]'::jsonb, 0),
+    (l, 22, 'gap', 'Sie arbeitet ___ im Altenheim. Sie bekommt kein Geld.', '', null, null, '["ehrenamtlich", "politisch", "gesetzlich"]'::jsonb, 0),
+    (l, 23, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Regierung = الحكومة", "die Wahl = الانتخاب", "das Gesetz = القانون", "die Freiheit = الحرية", "die Gesellschaft = المجتمع"]'::jsonb, null),
+    (l, 24, 'order', 'In Deutschland gilt die Meinungsfreiheit.', 'في ألمانيا تسري حرية الرأي.', null, null, null, null),
+    (l, 25, 'write', 'Ich engagiere mich ehrenamtlich.|Ich engagiere mich ehrenamtlich', 'اكتب: أتطوّع.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-integration', m, 'B1', 503, 'lesson', 'Migration und Integration', 'الهجرة والاندماج', '', 'أن تتحدث عن تجربتك في بلد جديد، التحديات، والفروق الثقافية.', '## التجربة الشخصية
+> Als ich nach Deutschland kam, war vieles neu für mich. Am Anfang hatte ich Heimweh.
+> Mit der Zeit habe ich mich an das Leben hier gewöhnt.
+## sich gewöhnen an + Akk. = يتعوّد على
+## الفروق الثقافية
+> In meinem Heimatland ist es üblich, dass … Hier dagegen … (هنا بالمقابل)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Migration / der Migrant, -en', 'الهجرة / المهاجر', null, null, null, null),
+    (l, 2, 'vocab', 'die Integration / sich integrieren', 'الاندماج / يندمج', null, null, null, null),
+    (l, 3, 'vocab', 'die Heimat / das Heimatland', 'الوطن / البلد الأم', null, null, null, null),
+    (l, 4, 'vocab', 'das Heimweh', 'الحنين إلى الوطن', null, null, null, null),
+    (l, 5, 'vocab', 'aus|wandern / ein|wandern', 'يهاجر من / يهاجر إلى', null, null, null, null),
+    (l, 6, 'vocab', 'fliehen / der Flüchtling', 'يهرب / اللاجئ', null, null, null, null),
+    (l, 7, 'vocab', 'sich gewöhnen an', 'يتعوّد على', 'Ich habe mich an das Wetter gewöhnt.', 'تعوّدت على الطقس.', null, null),
+    (l, 8, 'vocab', 'fremd / die Fremde', 'غريب / الغربة', null, null, null, null),
+    (l, 9, 'vocab', 'das Vorurteil, -e', 'الحكم المسبق', null, null, null, null),
+    (l, 10, 'vocab', 'die Herkunft', 'الأصل', null, null, null, null),
+    (l, 11, 'vocab', 'die Sitte, -n / die Tradition, -en', 'العادة / التقليد', null, null, null, null),
+    (l, 12, 'vocab', 'üblich', 'معتاد / متعارف عليه', null, null, null, null),
+    (l, 13, 'vocab', 'dagegen', 'بالمقابل', null, null, null, null),
+    (l, 14, 'vocab', 'der Integrationskurs, -e', 'دورة الاندماج', null, null, null, null),
+    (l, 15, 'vocab', 'die Chance, -n', 'الفرصة', null, null, null, null),
+    (l, 16, 'vocab', 'die Schwierigkeit, -en', 'الصعوبة', null, null, null, null),
+    (l, 17, 'gap', 'Am Anfang hatte ich großes ___ nach meiner Familie.', '', null, null, '["Heimweh", "Vorurteil", "Herkunft"]'::jsonb, 0),
+    (l, 18, 'gap', 'Ich habe mich ___ das deutsche Essen gewöhnt.', '', null, null, '["an", "auf", "für"]'::jsonb, 0),
+    (l, 19, 'gap', 'In Syrien ist es ___, dass Gäste lange bleiben.', '', null, null, '["üblich", "fremd", "dagegen"]'::jsonb, 0),
+    (l, 20, 'listen', 'Als ich vor sechs Jahren aus dem Irak kam, konnte ich kein Wort Deutsch. Heute arbeite ich als Krankenpfleger und habe viele deutsche Freunde.', 'ماذا يعمل الآن؟', null, null, '["ممرض", "معلم", "طالب", "لا يعمل"]'::jsonb, 0),
+    (l, 21, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["das Heimweh = الحنين للوطن", "das Vorurteil = الحكم المسبق", "die Herkunft = الأصل", "üblich = معتاد", "die Chance = الفرصة"]'::jsonb, null),
+    (l, 22, 'order', 'Mit der Zeit habe ich mich an das Leben hier gewöhnt.', 'مع الوقت تعوّدت على الحياة هنا.', null, null, null, null),
+    (l, 23, 'write', 'Ich habe Heimweh.|Ich habe Heimweh', 'اكتب: أشعر بالحنين إلى الوطن.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-technik', m, 'B1', 504, 'lesson', 'Technik, Digitalisierung und Zukunft', 'التكنولوجيا والرقمنة والمستقبل', '', 'أن تناقش مزايا وعيوب التكنولوجيا والذكاء الاصطناعي والتسوق والعمل عبر الإنترنت.', '## نقاش المزايا والعيوب
+> Ein Vorteil der Digitalisierung ist, dass man schneller kommunizieren kann.
+> Ein Nachteil ist, dass viele Menschen süchtig nach dem Handy werden.
+## تعابير
+> Ohne Internet könnte ich mir mein Leben nicht vorstellen. (لا أتخيّل)
+> Die Technik entwickelt sich sehr schnell. (تتطوّر)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Technik', 'التقنية', null, null, null, null),
+    (l, 2, 'vocab', 'die Digitalisierung', 'الرقمنة', null, null, null, null),
+    (l, 3, 'vocab', 'die Entwicklung / sich entwickeln', 'التطوّر / يتطوّر', null, null, null, null),
+    (l, 4, 'vocab', 'die Erfindung, -en / erfinden', 'الاختراع / يخترع', null, null, null, null),
+    (l, 5, 'vocab', 'künstliche Intelligenz (KI)', 'الذكاء الاصطناعي', null, null, null, null),
+    (l, 6, 'vocab', 'der Roboter, -', 'الروبوت', null, null, null, null),
+    (l, 7, 'vocab', 'das Gerät, -e', 'الجهاز', null, null, null, null),
+    (l, 8, 'vocab', 'die Daten (Pl.) / der Datenschutz', 'البيانات / حماية البيانات', null, null, null, null),
+    (l, 9, 'vocab', 'die Sicherheit', 'الأمان', null, null, null, null),
+    (l, 10, 'vocab', 'sich (Dat.) vor|stellen', 'يتخيّل', 'Ich kann mir das nicht vorstellen.', 'لا أستطيع تخيّل ذلك.', null, null),
+    (l, 11, 'vocab', 'ersetzen', 'يستبدل / يحل محل', null, null, null, null),
+    (l, 12, 'vocab', 'die Abhängigkeit / abhängig von', 'الاعتماد / معتمد على', null, null, null, null),
+    (l, 13, 'vocab', 'die Forschung', 'البحث العلمي', null, null, null, null),
+    (l, 14, 'vocab', 'der Fortschritt, -e', 'التقدم', null, null, null, null),
+    (l, 15, 'vocab', 'praktisch', 'عملي', null, null, null, null),
+    (l, 16, 'vocab', 'gefährlich', 'خطير', null, null, null, null),
+    (l, 17, 'gap', 'Ich kann ___ ein Leben ohne Handy nicht vorstellen.', '', null, null, '["mir", "mich", "ich"]'::jsonb, 0),
+    (l, 18, 'gap', 'Werden Roboter in Zukunft viele Menschen bei der Arbeit ___?', '', null, null, '["ersetzen", "erfinden", "entwickeln"]'::jsonb, 0),
+    (l, 19, 'gap', 'Viele junge Leute sind ___ vom Internet.', '', null, null, '["abhängig", "praktisch", "sicher"]'::jsonb, 0),
+    (l, 20, 'listen', 'Ich bestelle fast alles online, weil es bequem ist. Aber ich mache mir Sorgen um meine Daten.', 'ما الذي يقلقه؟', null, null, '["بياناته", "الأسعار", "التوصيل", "الجودة"]'::jsonb, 0),
+    (l, 21, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Erfindung = الاختراع", "der Fortschritt = التقدم", "der Datenschutz = حماية البيانات", "ersetzen = يحل محل", "gefährlich = خطير"]'::jsonb, null),
+    (l, 22, 'order', 'Die Technik entwickelt sich sehr schnell.', 'التكنولوجيا تتطوّر بسرعة كبيرة.', null, null, null, null),
+    (l, 23, 'write', 'Das ist sehr praktisch.|Das ist sehr praktisch', 'اكتب: هذا عملي جداً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('b1-gesellschaft-test', m, 'B1', 505, 'test', 'Modultest – Gesellschaft und Technik', 'اختبار وحدة المجتمع والتكنولوجيا', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Flugzeuge ___ viel CO2.', '', null, null, '["verursachen", "vermeiden", "wählen"]'::jsonb, 0),
+    (l, 2, 'gap', 'Wir sollten mehr ___ Energie nutzen.', '', null, null, '["erneuerbare", "gefährliche", "fremde"]'::jsonb, 0),
+    (l, 3, 'gap', 'Im Herbst ___ die Bürger einen neuen Bürgermeister.', '', null, null, '["wählen", "gewöhnen", "ersetzen"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich habe mich noch nicht ___ die Kälte gewöhnt.', '', null, null, '["an", "auf", "über"]'::jsonb, 0),
+    (l, 5, 'gap', 'Ich kann ___ nicht vorstellen, ohne Auto zu leben.', '', null, null, '["mir", "mich", "sich"]'::jsonb, 0),
+    (l, 6, 'listen', 'Viele Freiwillige helfen jeden Samstag bei der Tafel. Dort bekommen Menschen mit wenig Geld Lebensmittel.', 'ماذا يحصل الناس في الـ Tafel؟', null, null, '["مواد غذائية", "مال", "ملابس", "سكناً"]'::jsonb, 0),
+    (l, 7, 'listen', 'Am Anfang war alles fremd für mich, aber der Integrationskurs hat mir sehr geholfen.', 'ما الذي ساعده؟', null, null, '["دورة الاندماج", "أصدقاؤه", "العمل", "التلفاز"]'::jsonb, 0),
+    (l, 8, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Regierung = الحكومة", "das Heimweh = الحنين للوطن", "die Erfindung = الاختراع", "die Verschmutzung = التلوث", "ehrenamtlich = تطوعي"]'::jsonb, null),
+    (l, 9, 'order', 'Ein Vorteil des Internets ist, dass man schnell Informationen findet.', 'من مزايا الإنترنت أنك تجد المعلومات بسرعة.', null, null, null, null),
+    (l, 10, 'write', 'Ich habe mich daran gewöhnt.|Ich habe mich daran gewöhnt', 'اكتب: تعوّدت على ذلك.', null, null, null, null);
 end
 $$;
