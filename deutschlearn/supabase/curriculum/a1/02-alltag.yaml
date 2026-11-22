@@ -1,0 +1,337 @@
+module:
+  slug: a1-alltag
+  level: A1
+  position: 2
+  icon: home
+  title_de: Alltag – Wohnen, Essen, Einkaufen, Zeit
+  title_ar: الحياة اليومية — السكن، الطعام، التسوق، الوقت
+  description_ar: مفردات Goethe A1 للحياة اليومية — البيت والأثاث، الطعام والشراب، التسوق، الساعة والأيام، أوقات الفراغ.
+
+lessons:
+  - slug: a1-wohnen
+    title_de: Wohnen – Haus und Möbel
+    title_ar: السكن — البيت والأثاث
+    goal_ar: أن تصف شقتك وغرفها وأثاثها، وتستخدم الصفات البسيطة.
+    explanation_ar: |
+      ## الغرف
+      | der | die | das |
+      |---|---|---|
+      | der Flur (الممر) | die Küche (المطبخ) | das Zimmer (الغرفة) |
+      | der Balkon (الشرفة) | die Toilette (الحمام) | das Bad (الحمّام) |
+      | der Keller (القبو) | die Wohnung (الشقة) | das Schlafzimmer (غرفة النوم) |
+      ## الوصف بـ sein + صفة
+      > Die Wohnung ist groß und hell.
+      > Das Zimmer ist klein, aber gemütlich.
+      الصفة بعد sein **لا تتغير**.
+      ## es gibt = يوجد
+      > In der Wohnung gibt es zwei Zimmer und einen Balkon.
+    items:
+      - {vocab: "die Wohnung, -en", ar: "الشقة", ex: "Meine Wohnung hat drei Zimmer.", ex_ar: "شقتي فيها ثلاث غرف."}
+      - {vocab: "die Küche, -n", ar: "المطبخ", ex: "Die Küche ist neu.", ex_ar: "المطبخ جديد."}
+      - {vocab: "das Bad, ¨-er", ar: "الحمّام", ex: "Das Bad ist klein.", ex_ar: "الحمّام صغير."}
+      - {vocab: "das Schlafzimmer, -", ar: "غرفة النوم", ex: "Das Schlafzimmer ist ruhig.", ex_ar: "غرفة النوم هادئة."}
+      - {vocab: "das Wohnzimmer, -", ar: "غرفة الجلوس", ex: "Wir sitzen im Wohnzimmer.", ex_ar: "نجلس في غرفة الجلوس."}
+      - {vocab: "der Balkon, -e", ar: "الشرفة", ex: "Die Wohnung hat einen Balkon.", ex_ar: "الشقة فيها شرفة."}
+      - {vocab: "der Tisch, -e", ar: "الطاولة", ex: "Der Tisch ist aus Holz.", ex_ar: "الطاولة من خشب."}
+      - {vocab: "der Stuhl, ¨-e", ar: "الكرسي", ex: "Wir brauchen vier Stühle.", ex_ar: "نحتاج أربعة كراسي."}
+      - {vocab: "das Bett, -en", ar: "السرير", ex: "Das Bett ist bequem.", ex_ar: "السرير مريح."}
+      - {vocab: "der Schrank, ¨-e", ar: "الخزانة", ex: "Der Schrank ist zu groß.", ex_ar: "الخزانة كبيرة جداً."}
+      - {vocab: "das Sofa, -s", ar: "الكنبة", ex: "Das Sofa ist neu.", ex_ar: "الكنبة جديدة."}
+      - {vocab: "die Lampe, -n", ar: "المصباح", ex: "Die Lampe ist kaputt.", ex_ar: "المصباح معطّل."}
+      - {vocab: "groß / klein", ar: "كبير / صغير", ex: "Das Zimmer ist klein.", ex_ar: "الغرفة صغيرة."}
+      - {vocab: "hell / dunkel", ar: "مضيء / مظلم", ex: "Die Küche ist hell.", ex_ar: "المطبخ مضيء."}
+      - {vocab: "die Miete, -n", ar: "الإيجار", ex: "Die Miete kostet 600 Euro.", ex_ar: "الإيجار 600 يورو."}
+      - {phrase: "Es gibt einen Balkon.", ar: "توجد شرفة."}
+      - gap: "Ich koche in der ___."
+        options: [Küche, Bad, Schlafzimmer]
+      - gap: "Ich schlafe im ___."
+        options: [Bett, Schrank, Stuhl]
+      - gap: "Die Wohnung ist nicht dunkel, sie ist ___."
+        options: [hell, klein, alt]
+      - gap: "In der Wohnung ___ es zwei Zimmer."
+        options: [gibt, hat, ist]
+      - listen: "Die Wohnung hat zwei Zimmer, eine Küche, ein Bad und einen Balkon. Die Miete ist 550 Euro."
+        ar: استمع — كم الإيجار؟
+        options: ["550 €", "500 €", "505 €", "250 €"]
+      - match: ["der Tisch = الطاولة", "der Stuhl = الكرسي", "der Schrank = الخزانة", "die Lampe = المصباح", "das Bett = السرير"]
+      - order: "Das Zimmer ist klein, aber hell."
+        ar: الغرفة صغيرة لكنها مضيئة.
+      - write: "Die Wohnung ist groß.|Die Wohnung ist groß"
+        ar: "اكتب: الشقة كبيرة."
+
+  - slug: a1-essen
+    title_de: Essen und Trinken
+    title_ar: الطعام والشراب
+    goal_ar: أن تسمّي الأطعمة والمشروبات، وتقول ماذا تحب، وتطلب في المقهى.
+    explanation_ar: |
+      ## الوجبات
+      | das Frühstück | das Mittagessen | das Abendessen |
+      |---|---|---|
+      | الفطور | الغداء | العشاء |
+      ## ماذا تحب؟
+      > Ich esse gern Reis. (أحب أكل الأرز)
+      > Ich trinke gern Tee. — Ich trinke nicht gern Kaffee.
+      > Was ist dein Lieblingsessen? — Mein Lieblingsessen ist Pizza.
+      **gern** بعد الفعل = يحب أن يفعل.
+      ## الطلب في المقهى
+      > Ich möchte einen Kaffee, bitte.
+      > Ich nehme ein Wasser.
+      > Die Rechnung, bitte! / Zahlen, bitte!
+      ## essen (غير منتظم): ich esse, du **isst**, er **isst**
+    items:
+      - {vocab: "das Brot, -e", ar: "الخبز", ex: "Ich kaufe Brot.", ex_ar: "أشتري خبزاً."}
+      - {vocab: "das Brötchen, -", ar: "خبز صغير (صمّون)", ex: "Zum Frühstück esse ich Brötchen.", ex_ar: "على الفطور آكل صمّوناً."}
+      - {vocab: "der Reis", ar: "الأرز", ex: "Wir essen Reis mit Huhn.", ex_ar: "نأكل الأرز مع الدجاج."}
+      - {vocab: "das Fleisch", ar: "اللحم", ex: "Ich esse kein Schweinefleisch.", ex_ar: "لا آكل لحم الخنزير."}
+      - {vocab: "das Hähnchen, -", ar: "الدجاج", ex: "Das Hähnchen ist lecker.", ex_ar: "الدجاج لذيذ."}
+      - {vocab: "der Fisch, -e", ar: "السمك", ex: "Freitags essen wir Fisch.", ex_ar: "يوم الجمعة نأكل السمك."}
+      - {vocab: "das Gemüse", ar: "الخضار", ex: "Gemüse ist gesund.", ex_ar: "الخضار صحية."}
+      - {vocab: "das Obst", ar: "الفاكهة", ex: "Ich esse jeden Tag Obst.", ex_ar: "آكل الفاكهة كل يوم."}
+      - {vocab: "der Apfel, ¨-", ar: "التفاحة", ex: "Ein Kilo Äpfel, bitte.", ex_ar: "كيلو تفاح من فضلك."}
+      - {vocab: "die Kartoffel, -n", ar: "البطاطا", ex: "Die Kartoffeln sind billig.", ex_ar: "البطاطا رخيصة."}
+      - {vocab: "das Ei, -er", ar: "البيضة", ex: "Ich esse zwei Eier.", ex_ar: "آكل بيضتين."}
+      - {vocab: "der Kaffee", ar: "القهوة", ex: "Einen Kaffee, bitte.", ex_ar: "قهوة من فضلك."}
+      - {vocab: "der Tee", ar: "الشاي", ex: "Ich trinke gern Tee.", ex_ar: "أحب شرب الشاي."}
+      - {vocab: "der Saft, ¨-e", ar: "العصير", ex: "Ein Orangensaft, bitte.", ex_ar: "عصير برتقال من فضلك."}
+      - {vocab: "das Frühstück", ar: "الفطور", ex: "Das Frühstück ist um sieben.", ex_ar: "الفطور الساعة السابعة."}
+      - {vocab: "lecker", ar: "لذيذ", ex: "Die Suppe ist lecker!", ex_ar: "الشوربة لذيذة!"}
+      - {vocab: "gern", ar: "بحب / بكل سرور", ex: "Ich koche gern.", ex_ar: "أحب الطبخ."}
+      - {vocab: "die Rechnung, -en", ar: "الفاتورة", ex: "Die Rechnung, bitte!", ex_ar: "الفاتورة من فضلك!"}
+      - text: |
+          Kellner: Guten Tag! Was möchten Sie?
+          Gast: Ich möchte einen Tee und ein Stück Kuchen, bitte.
+          Kellner: Gern. Und Sie?
+          Gast 2: Ich nehme ein Wasser und eine Suppe.
+          …
+          Gast: Wir möchten bitte zahlen.
+          Kellner: Zusammen oder getrennt?
+          Gast: Zusammen, bitte. – Das macht 14,80 Euro.
+        ar: |
+          النادل: نهاركم سعيد! ماذا تريدون؟ — الزبون: أريد شاياً وقطعة كعك من فضلك.
+          النادل: بكل سرور. وأنت؟ — الزبون 2: آخذ ماءً وشوربة.
+          الزبون: نريد أن ندفع. — النادل: معاً أم كل واحد لوحده؟ — معاً من فضلك. — المجموع 14,80 يورو.
+      - quiz: "حسب الحوار: ماذا طلب الزبون الثاني؟"
+        options: [ماء وشوربة, شاي وكعك, قهوة, عصير]
+      - quiz: "ماذا يعني 'getrennt' عند الدفع؟"
+        options: [كل واحد يدفع لوحده, معاً, بالبطاقة, نقداً]
+      - gap: "Du ___ gern Fisch."
+        options: [isst, esst, essen]
+      - gap: "Ich ___ einen Kaffee, bitte."
+        options: [möchte, möchtest, möchten]
+      - listen: "Zum Frühstück esse ich Brot mit Käse und trinke Tee."
+        ar: استمع — ماذا يشرب على الفطور؟
+        options: [الشاي, القهوة, الحليب, العصير]
+      - match: ["das Obst = الفاكهة", "das Gemüse = الخضار", "das Fleisch = اللحم", "der Saft = العصير", "lecker = لذيذ"]
+      - order: "Ich trinke nicht gern Kaffee."
+        ar: لا أحب شرب القهوة.
+      - write: "Die Rechnung, bitte!|Die Rechnung bitte"
+        ar: "اكتب: الفاتورة من فضلك!"
+
+  - slug: a1-einkaufen
+    title_de: Einkaufen
+    title_ar: التسوق
+    goal_ar: أن تشتري في السوبرماركت والمخبز، وتسأل عن المكان والسعر والكمية.
+    explanation_ar: |
+      ## أين تشتري؟
+      | der Supermarkt | die Bäckerei | der Markt | die Apotheke |
+      |---|---|---|---|
+      | السوبرماركت | المخبز | السوق | الصيدلية |
+      ## الكميات
+      > ein Kilo Tomaten, ein Liter Milch, eine Flasche Wasser, eine Packung Reis, 200 Gramm Käse
+      ## حوار في المتجر
+      > Verkäufer: Was darf es sein? / Kann ich Ihnen helfen?
+      > Kunde: Ich brauche… / Haben Sie…? / Wo finde ich…?
+      > Verkäufer: Sonst noch etwas? — Kunde: Nein, danke. Das ist alles.
+      ## الدفع
+      > Kann ich mit Karte zahlen? — Bar oder mit Karte?
+    items:
+      - {vocab: "einkaufen", ar: "يتسوّق", ex: "Ich kaufe am Samstag ein.", ex_ar: "أتسوّق يوم السبت."}
+      - {vocab: "kaufen", ar: "يشتري", ex: "Ich kaufe Milch.", ex_ar: "أشتري حليباً."}
+      - {vocab: "brauchen", ar: "يحتاج", ex: "Wir brauchen Eier.", ex_ar: "نحتاج بيضاً."}
+      - {vocab: "der Supermarkt, ¨-e", ar: "السوبرماركت", ex: "Der Supermarkt ist bis 22 Uhr offen.", ex_ar: "السوبرماركت مفتوح حتى العاشرة."}
+      - {vocab: "die Bäckerei, -en", ar: "المخبز", ex: "Die Bäckerei ist an der Ecke.", ex_ar: "المخبز على الزاوية."}
+      - {vocab: "die Flasche, -n", ar: "القنينة", ex: "eine Flasche Wasser", ex_ar: "قنينة ماء"}
+      - {vocab: "das Kilo, -s", ar: "الكيلو", ex: "ein Kilo Tomaten", ex_ar: "كيلو طماطم"}
+      - {vocab: "der Liter, -", ar: "اللتر", ex: "ein Liter Milch", ex_ar: "لتر حليب"}
+      - {vocab: "die Packung, -en", ar: "العلبة / الكيس", ex: "eine Packung Reis", ex_ar: "كيس أرز"}
+      - {vocab: "die Kasse, -n", ar: "الصندوق (مكان الدفع)", ex: "Bitte zahlen Sie an der Kasse.", ex_ar: "ادفع عند الصندوق من فضلك."}
+      - {vocab: "bar", ar: "نقداً", ex: "Ich zahle bar.", ex_ar: "أدفع نقداً."}
+      - {vocab: "die Karte, -n", ar: "البطاقة", ex: "Kann ich mit Karte zahlen?", ex_ar: "هل أستطيع الدفع بالبطاقة؟"}
+      - {vocab: "das Angebot, -e", ar: "العرض (تخفيض)", ex: "Äpfel sind heute im Angebot.", ex_ar: "التفاح اليوم عليه عرض."}
+      - {phrase: "Was darf es sein?", ar: "ماذا تريد؟ (البائع)"}
+      - {phrase: "Sonst noch etwas?", ar: "شيء آخر؟"}
+      - {phrase: "Das ist alles.", ar: "هذا كل شيء."}
+      - gap: "Ich möchte eine ___ Wasser."
+        options: [Flasche, Kilo, Liter]
+      - gap: "Brot kaufe ich in der ___."
+        options: [Bäckerei, Apotheke, Kasse]
+      - gap: "Kann ich mit ___ zahlen?"
+        options: [Karte, Kasse, Kilo]
+      - quiz: "البائع يسأل: 'Sonst noch etwas?' — ماذا تجيب إذا لا تريد شيئاً آخر؟"
+        options: ["Nein, danke. Das ist alles.", "Ja, bitte.", "Guten Tag!", "Was kostet das?"]
+      - listen: "Ich brauche ein Kilo Kartoffeln, zwei Liter Milch und zehn Eier."
+        ar: استمع — كم بيضة يحتاج؟
+        options: ["10", "2", "1", "12"]
+      - match: ["die Flasche = القنينة", "die Kasse = الصندوق", "brauchen = يحتاج", "bar = نقداً", "das Angebot = العرض"]
+      - order: "Wo finde ich den Reis?"
+        ar: أين أجد الأرز؟
+      - write: "Ich brauche Milch.|Ich brauche Milch"
+        ar: "اكتب: أحتاج حليباً."
+
+  - slug: a1-time
+    title_de: Uhrzeit, Tage und Monate
+    title_ar: الساعة والأيام والأشهر
+    goal_ar: أن تقول الساعة رسمياً وغير رسمي، وتعرف أيام الأسبوع والأشهر والمواعيد.
+    explanation_ar: |
+      ## كم الساعة؟ — Wie spät ist es? / Wie viel Uhr ist es?
+      | الساعة | رسمي (راديو، قطار) | غير رسمي |
+      |---|---|---|
+      | 8:00 | acht Uhr | acht |
+      | 8:15 | acht Uhr fünfzehn | Viertel nach acht |
+      | 8:30 | acht Uhr dreißig | **halb neun** (!) |
+      | 8:45 | acht Uhr fünfundvierzig | Viertel vor neun |
+      | 8:10 | acht Uhr zehn | zehn nach acht |
+      انتبه: **halb neun = 8:30** (نصف الطريق إلى التاسعة).
+      ## حروف الجر مع الوقت
+      | um + ساعة | am + يوم/جزء يوم | im + شهر/فصل |
+      |---|---|---|
+      | um 9 Uhr | am Montag, am Abend | im Mai, im Sommer |
+      ## الأيام
+      Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag — كلها مذكر (der).
+      ## الأشهر
+      Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember.
+    items:
+      - {vocab: "die Uhr, -en", ar: "الساعة", ex: "Es ist drei Uhr.", ex_ar: "الساعة الثالثة."}
+      - {vocab: "die Stunde, -n", ar: "الساعة (مدة)", ex: "Der Kurs dauert zwei Stunden.", ex_ar: "الدورة تستمر ساعتين."}
+      - {vocab: "die Minute, -n", ar: "الدقيقة", ex: "Ich komme in fünf Minuten.", ex_ar: "آتي بعد خمس دقائق."}
+      - {vocab: "der Montag", ar: "الاثنين", ex: "Am Montag arbeite ich.", ex_ar: "يوم الاثنين أعمل."}
+      - {vocab: "der Mittwoch", ar: "الأربعاء"}
+      - {vocab: "der Donnerstag", ar: "الخميس"}
+      - {vocab: "der Samstag", ar: "السبت"}
+      - {vocab: "der Sonntag", ar: "الأحد", ex: "Am Sonntag ist alles geschlossen.", ex_ar: "يوم الأحد كل شيء مغلق."}
+      - {vocab: "die Woche, -n", ar: "الأسبوع", ex: "Ich lerne jede Woche.", ex_ar: "أتعلم كل أسبوع."}
+      - {vocab: "das Wochenende, -n", ar: "عطلة نهاية الأسبوع", ex: "Schönes Wochenende!", ex_ar: "عطلة سعيدة!"}
+      - {vocab: "der Monat, -e", ar: "الشهر", ex: "Der Kurs dauert drei Monate.", ex_ar: "الدورة ثلاثة أشهر."}
+      - {vocab: "der Termin, -e", ar: "الموعد", ex: "Ich habe einen Termin beim Arzt.", ex_ar: "لدي موعد عند الطبيب."}
+      - {vocab: "der Morgen / der Vormittag", ar: "الصباح / قبل الظهر"}
+      - {vocab: "der Mittag / der Nachmittag", ar: "الظهر / بعد الظهر"}
+      - {vocab: "der Abend / die Nacht", ar: "المساء / الليل"}
+      - {vocab: "heute / morgen / gestern", ar: "اليوم / غداً / أمس"}
+      - {vocab: "früh / spät", ar: "مبكر / متأخر", ex: "Es ist schon spät.", ex_ar: "الوقت متأخر."}
+      - {phrase: "Wie spät ist es?", ar: "كم الساعة؟"}
+      - quiz: "halb neun = ?"
+        options: ["8:30", "9:30", "9:00", "8:00"]
+      - quiz: "Viertel vor drei = ?"
+        options: ["2:45", "3:15", "3:45", "2:15"]
+      - listen: "Es ist Viertel nach sieben."
+        ar: استمع — كم الساعة؟
+        options: ["7:15", "6:45", "7:45", "7:30"]
+      - listen: "Der Zug fährt um vierzehn Uhr zwanzig."
+        ar: استمع — متى ينطلق القطار؟
+        options: ["14:20", "4:20", "14:02", "20:14"]
+      - listen: "Der Termin ist am Donnerstag um halb zehn."
+        ar: استمع — متى الموعد؟
+        options: [الخميس 9:30, الخميس 10:30, الثلاثاء 9:30, الأربعاء 10:00]
+      - gap: "Der Kurs beginnt ___ 9 Uhr."
+        options: [um, am, im]
+      - gap: "___ Samstag gehe ich einkaufen."
+        options: [Am, Um, Im]
+      - gap: "Ich habe ___ Juli Urlaub."
+        options: [im, am, um]
+      - match: ["der Montag = الاثنين", "der Mittwoch = الأربعاء", "der Donnerstag = الخميس", "der Sonntag = الأحد", "das Wochenende = عطلة نهاية الأسبوع"]
+      - order: "Am Montag habe ich einen Termin."
+        ar: يوم الاثنين لدي موعد.
+      - write: "Wie spät ist es?"
+        ar: "اكتب: كم الساعة؟"
+
+  - slug: a1-freizeit
+    title_de: Freizeit und Hobbys
+    title_ar: وقت الفراغ والهوايات
+    goal_ar: أن تتحدث عن هواياتك، وتسأل الآخرين، وتقترح موعداً.
+    explanation_ar: |
+      ## الهوايات
+      > Ich spiele Fußball. — Ich lese gern. — Ich höre Musik. — Ich schwimme.
+      > Was machst du in deiner Freizeit? — Ich treffe Freunde.
+      ## Was machst du gern / lieber / am liebsten?
+      | gern | lieber | am liebsten |
+      |---|---|---|
+      | أحب | أفضّل | أحب أكثر شيء |
+      > Ich schwimme gern, aber ich spiele lieber Fußball.
+      ## الاقتراح والموعد
+      > Hast du am Samstag Zeit? — Ja, gern! / Tut mir leid, ich habe keine Zeit.
+      > Wollen wir ins Kino gehen? — Gute Idee!
+      ## أفعال تتغير: lesen → du liest, fahren → du fährst, treffen → du triffst
+    items:
+      - {vocab: "die Freizeit", ar: "وقت الفراغ", ex: "In meiner Freizeit lese ich.", ex_ar: "في وقت فراغي أقرأ."}
+      - {vocab: "das Hobby, -s", ar: "الهواية", ex: "Mein Hobby ist Kochen.", ex_ar: "هوايتي الطبخ."}
+      - {vocab: "spielen", ar: "يلعب", ex: "Wir spielen Fußball.", ex_ar: "نلعب كرة القدم."}
+      - {vocab: "lesen", ar: "يقرأ", ex: "Liest du gern?", ex_ar: "هل تحب القراءة؟"}
+      - {vocab: "schwimmen", ar: "يسبح", ex: "Im Sommer schwimme ich.", ex_ar: "في الصيف أسبح."}
+      - {vocab: "tanzen", ar: "يرقص"}
+      - {vocab: "fotografieren", ar: "يصوّر", ex: "Sie fotografiert gern.", ex_ar: "هي تحب التصوير."}
+      - {vocab: "treffen", ar: "يلتقي", ex: "Ich treffe meine Freunde.", ex_ar: "ألتقي أصدقائي."}
+      - {vocab: "der Freund, -e / die Freundin, -nen", ar: "الصديق / الصديقة"}
+      - {vocab: "das Kino, -s", ar: "السينما", ex: "Gehen wir ins Kino?", ex_ar: "هل نذهب إلى السينما؟"}
+      - {vocab: "der Sport", ar: "الرياضة", ex: "Ich mache viel Sport.", ex_ar: "أمارس الرياضة كثيراً."}
+      - {vocab: "die Musik", ar: "الموسيقى", ex: "Ich höre gern Musik.", ex_ar: "أحب سماع الموسيقى."}
+      - {vocab: "spazieren gehen", ar: "يتنزّه مشياً", ex: "Wir gehen im Park spazieren.", ex_ar: "نتمشى في الحديقة."}
+      - {vocab: "die Zeit", ar: "الوقت", ex: "Hast du Zeit?", ex_ar: "هل عندك وقت؟"}
+      - {phrase: "Tut mir leid, ich habe keine Zeit.", ar: "آسف، ليس عندي وقت."}
+      - {phrase: "Gute Idee!", ar: "فكرة جيدة!"}
+      - gap: "___ du gern? – Ja, ich lese jeden Abend."
+        options: [Liest, Lest, Lesen]
+      - gap: "Ich schwimme gern, aber ich tanze ___."
+        options: [lieber, gern, viel]
+      - gap: "Er ___ seine Freunde am Wochenende."
+        options: [trifft, treffen, triffst]
+      - quiz: "صديقك يسأل: 'Hast du am Freitag Zeit?' وأنت مشغول. ماذا تقول؟"
+        options: ["Tut mir leid, ich habe keine Zeit.", "Gute Idee!", "Ja, gern!", "Bis später!"]
+      - listen: "Am Wochenende spiele ich Fußball und am Abend gehe ich mit Freunden ins Kino."
+        ar: استمع — ماذا يفعل في المساء؟
+        options: [يذهب إلى السينما, يلعب كرة القدم, يقرأ, يسبح]
+      - match: ["lesen = يقرأ", "schwimmen = يسبح", "treffen = يلتقي", "die Freizeit = وقت الفراغ", "das Kino = السينما"]
+      - order: "Was machst du in deiner Freizeit?"
+        ar: ماذا تفعل في وقت فراغك؟
+      - write: "Ich spiele gern Fußball.|Ich spiele gern Fussball"
+        ar: "اكتب: أحب لعب كرة القدم."
+
+  - slug: a1-alltag-test
+    kind: test
+    title_de: Modultest – Alltag
+    title_ar: اختبار وحدة الحياة اليومية
+    goal_ar: اختبار السكن والطعام والتسوق والوقت والهوايات. النجاح من 70٪.
+    items:
+      - gap: "Ich koche in der ___."
+        options: [Küche, Bad, Flur]
+      - gap: "In der Wohnung ___ es einen Balkon."
+        options: [gibt, ist, hat]
+      - gap: "Du ___ gern Obst."
+        options: [isst, esst, esse]
+      - gap: "Ich möchte einen Liter ___."
+        options: [Milch, Brötchen, Eier]
+      - gap: "Der Termin ist ___ Freitag."
+        options: [am, um, im]
+      - gap: "Wir treffen uns ___ halb acht."
+        options: [um, am, im]
+      - quiz: "halb vier = ?"
+        options: ["3:30", "4:30", "3:00", "4:00"]
+      - quiz: "ماذا تقول في المقهى لتدفع؟"
+        options: ["Die Rechnung, bitte!", "Was darf es sein?", "Guten Appetit!", "Sonst noch etwas?"]
+      - listen: "Der Supermarkt ist von Montag bis Samstag von acht bis zwanzig Uhr geöffnet."
+        ar: متى يغلق السوبرماركت؟
+        options: ["20:00", "8:00", "18:00", "22:00"]
+      - listen: "Die Wohnung hat drei Zimmer und kostet achthundert Euro."
+        ar: كم الإيجار؟
+        options: ["800 €", "300 €", "830 €", "80 €"]
+      - listen: "Ich spiele lieber Tennis als Fußball."
+        ar: ماذا يفضّل؟
+        options: [التنس, كرة القدم, السباحة, لا شيء]
+      - match: ["die Bäckerei = المخبز", "die Flasche = القنينة", "der Termin = الموعد", "lecker = لذيذ", "der Schrank = الخزانة"]
+      - order: "Hast du am Samstag Zeit?"
+        ar: هل عندك وقت يوم السبت؟
+      - order: "Ich esse gern Reis mit Gemüse."
+        ar: أحب أكل الأرز مع الخضار.
+      - write: "Ich möchte einen Tee.|Ich möchte einen Tee bitte|Ich möchte einen Tee, bitte."
+        ar: "اكتب: أريد شاياً."
+      - write: "Viertel nach acht"
+        ar: "اكتب الساعة 8:15 بالطريقة غير الرسمية:"

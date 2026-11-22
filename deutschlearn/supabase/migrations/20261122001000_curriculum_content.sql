@@ -671,5 +671,240 @@ Meine Eltern und meine Geschwister wohnen noch in Amman. Ich habe einen Bruder u
     (l, 16, 'write', 'Ich heiße Ali.|Ich heiße Ali|Mein Name ist Ali.|Mein Name ist Ali', 'اكتب: اسمي علي.', null, null, null, null),
     (l, 17, 'write', 'vierzig', 'اكتب الرقم 40 بالحروف:', null, null, null, null),
     (l, 18, 'write', 'Wo wohnen Sie?', 'اكتب: أين تسكن؟ (رسمي)', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a1-alltag', 'A1', 2, 'Alltag – Wohnen, Essen, Einkaufen, Zeit', 'الحياة اليومية — السكن، الطعام، التسوق، الوقت', 'مفردات Goethe A1 للحياة اليومية — البيت والأثاث، الطعام والشراب، التسوق، الساعة والأيام، أوقات الفراغ.', 'home') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-wohnen', m, 'A1', 201, 'lesson', 'Wohnen – Haus und Möbel', 'السكن — البيت والأثاث', '', 'أن تصف شقتك وغرفها وأثاثها، وتستخدم الصفات البسيطة.', '## الغرف
+| der | die | das |
+|---|---|---|
+| der Flur (الممر) | die Küche (المطبخ) | das Zimmer (الغرفة) |
+| der Balkon (الشرفة) | die Toilette (الحمام) | das Bad (الحمّام) |
+| der Keller (القبو) | die Wohnung (الشقة) | das Schlafzimmer (غرفة النوم) |
+## الوصف بـ sein + صفة
+> Die Wohnung ist groß und hell.
+> Das Zimmer ist klein, aber gemütlich.
+الصفة بعد sein **لا تتغير**.
+## es gibt = يوجد
+> In der Wohnung gibt es zwei Zimmer und einen Balkon.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Wohnung, -en', 'الشقة', 'Meine Wohnung hat drei Zimmer.', 'شقتي فيها ثلاث غرف.', null, null),
+    (l, 2, 'vocab', 'die Küche, -n', 'المطبخ', 'Die Küche ist neu.', 'المطبخ جديد.', null, null),
+    (l, 3, 'vocab', 'das Bad, ¨-er', 'الحمّام', 'Das Bad ist klein.', 'الحمّام صغير.', null, null),
+    (l, 4, 'vocab', 'das Schlafzimmer, -', 'غرفة النوم', 'Das Schlafzimmer ist ruhig.', 'غرفة النوم هادئة.', null, null),
+    (l, 5, 'vocab', 'das Wohnzimmer, -', 'غرفة الجلوس', 'Wir sitzen im Wohnzimmer.', 'نجلس في غرفة الجلوس.', null, null),
+    (l, 6, 'vocab', 'der Balkon, -e', 'الشرفة', 'Die Wohnung hat einen Balkon.', 'الشقة فيها شرفة.', null, null),
+    (l, 7, 'vocab', 'der Tisch, -e', 'الطاولة', 'Der Tisch ist aus Holz.', 'الطاولة من خشب.', null, null),
+    (l, 8, 'vocab', 'der Stuhl, ¨-e', 'الكرسي', 'Wir brauchen vier Stühle.', 'نحتاج أربعة كراسي.', null, null),
+    (l, 9, 'vocab', 'das Bett, -en', 'السرير', 'Das Bett ist bequem.', 'السرير مريح.', null, null),
+    (l, 10, 'vocab', 'der Schrank, ¨-e', 'الخزانة', 'Der Schrank ist zu groß.', 'الخزانة كبيرة جداً.', null, null),
+    (l, 11, 'vocab', 'das Sofa, -s', 'الكنبة', 'Das Sofa ist neu.', 'الكنبة جديدة.', null, null),
+    (l, 12, 'vocab', 'die Lampe, -n', 'المصباح', 'Die Lampe ist kaputt.', 'المصباح معطّل.', null, null),
+    (l, 13, 'vocab', 'groß / klein', 'كبير / صغير', 'Das Zimmer ist klein.', 'الغرفة صغيرة.', null, null),
+    (l, 14, 'vocab', 'hell / dunkel', 'مضيء / مظلم', 'Die Küche ist hell.', 'المطبخ مضيء.', null, null),
+    (l, 15, 'vocab', 'die Miete, -n', 'الإيجار', 'Die Miete kostet 600 Euro.', 'الإيجار 600 يورو.', null, null),
+    (l, 16, 'phrase', 'Es gibt einen Balkon.', 'توجد شرفة.', null, null, null, null),
+    (l, 17, 'gap', 'Ich koche in der ___.', '', null, null, '["Küche", "Bad", "Schlafzimmer"]'::jsonb, 0),
+    (l, 18, 'gap', 'Ich schlafe im ___.', '', null, null, '["Bett", "Schrank", "Stuhl"]'::jsonb, 0),
+    (l, 19, 'gap', 'Die Wohnung ist nicht dunkel, sie ist ___.', '', null, null, '["hell", "klein", "alt"]'::jsonb, 0),
+    (l, 20, 'gap', 'In der Wohnung ___ es zwei Zimmer.', '', null, null, '["gibt", "hat", "ist"]'::jsonb, 0),
+    (l, 21, 'listen', 'Die Wohnung hat zwei Zimmer, eine Küche, ein Bad und einen Balkon. Die Miete ist 550 Euro.', 'استمع — كم الإيجار؟', null, null, '["550 €", "500 €", "505 €", "250 €"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Tisch = الطاولة", "der Stuhl = الكرسي", "der Schrank = الخزانة", "die Lampe = المصباح", "das Bett = السرير"]'::jsonb, null),
+    (l, 23, 'order', 'Das Zimmer ist klein, aber hell.', 'الغرفة صغيرة لكنها مضيئة.', null, null, null, null),
+    (l, 24, 'write', 'Die Wohnung ist groß.|Die Wohnung ist groß', 'اكتب: الشقة كبيرة.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-essen', m, 'A1', 202, 'lesson', 'Essen und Trinken', 'الطعام والشراب', '', 'أن تسمّي الأطعمة والمشروبات، وتقول ماذا تحب، وتطلب في المقهى.', '## الوجبات
+| das Frühstück | das Mittagessen | das Abendessen |
+|---|---|---|
+| الفطور | الغداء | العشاء |
+## ماذا تحب؟
+> Ich esse gern Reis. (أحب أكل الأرز)
+> Ich trinke gern Tee. — Ich trinke nicht gern Kaffee.
+> Was ist dein Lieblingsessen? — Mein Lieblingsessen ist Pizza.
+**gern** بعد الفعل = يحب أن يفعل.
+## الطلب في المقهى
+> Ich möchte einen Kaffee, bitte.
+> Ich nehme ein Wasser.
+> Die Rechnung, bitte! / Zahlen, bitte!
+## essen (غير منتظم): ich esse, du **isst**, er **isst**', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'das Brot, -e', 'الخبز', 'Ich kaufe Brot.', 'أشتري خبزاً.', null, null),
+    (l, 2, 'vocab', 'das Brötchen, -', 'خبز صغير (صمّون)', 'Zum Frühstück esse ich Brötchen.', 'على الفطور آكل صمّوناً.', null, null),
+    (l, 3, 'vocab', 'der Reis', 'الأرز', 'Wir essen Reis mit Huhn.', 'نأكل الأرز مع الدجاج.', null, null),
+    (l, 4, 'vocab', 'das Fleisch', 'اللحم', 'Ich esse kein Schweinefleisch.', 'لا آكل لحم الخنزير.', null, null),
+    (l, 5, 'vocab', 'das Hähnchen, -', 'الدجاج', 'Das Hähnchen ist lecker.', 'الدجاج لذيذ.', null, null),
+    (l, 6, 'vocab', 'der Fisch, -e', 'السمك', 'Freitags essen wir Fisch.', 'يوم الجمعة نأكل السمك.', null, null),
+    (l, 7, 'vocab', 'das Gemüse', 'الخضار', 'Gemüse ist gesund.', 'الخضار صحية.', null, null),
+    (l, 8, 'vocab', 'das Obst', 'الفاكهة', 'Ich esse jeden Tag Obst.', 'آكل الفاكهة كل يوم.', null, null),
+    (l, 9, 'vocab', 'der Apfel, ¨-', 'التفاحة', 'Ein Kilo Äpfel, bitte.', 'كيلو تفاح من فضلك.', null, null),
+    (l, 10, 'vocab', 'die Kartoffel, -n', 'البطاطا', 'Die Kartoffeln sind billig.', 'البطاطا رخيصة.', null, null),
+    (l, 11, 'vocab', 'das Ei, -er', 'البيضة', 'Ich esse zwei Eier.', 'آكل بيضتين.', null, null),
+    (l, 12, 'vocab', 'der Kaffee', 'القهوة', 'Einen Kaffee, bitte.', 'قهوة من فضلك.', null, null),
+    (l, 13, 'vocab', 'der Tee', 'الشاي', 'Ich trinke gern Tee.', 'أحب شرب الشاي.', null, null),
+    (l, 14, 'vocab', 'der Saft, ¨-e', 'العصير', 'Ein Orangensaft, bitte.', 'عصير برتقال من فضلك.', null, null),
+    (l, 15, 'vocab', 'das Frühstück', 'الفطور', 'Das Frühstück ist um sieben.', 'الفطور الساعة السابعة.', null, null),
+    (l, 16, 'vocab', 'lecker', 'لذيذ', 'Die Suppe ist lecker!', 'الشوربة لذيذة!', null, null),
+    (l, 17, 'vocab', 'gern', 'بحب / بكل سرور', 'Ich koche gern.', 'أحب الطبخ.', null, null),
+    (l, 18, 'vocab', 'die Rechnung, -en', 'الفاتورة', 'Die Rechnung, bitte!', 'الفاتورة من فضلك!', null, null),
+    (l, 19, 'text', 'Kellner: Guten Tag! Was möchten Sie?
+Gast: Ich möchte einen Tee und ein Stück Kuchen, bitte.
+Kellner: Gern. Und Sie?
+Gast 2: Ich nehme ein Wasser und eine Suppe.
+…
+Gast: Wir möchten bitte zahlen.
+Kellner: Zusammen oder getrennt?
+Gast: Zusammen, bitte. – Das macht 14,80 Euro.', 'النادل: نهاركم سعيد! ماذا تريدون؟ — الزبون: أريد شاياً وقطعة كعك من فضلك.
+النادل: بكل سرور. وأنت؟ — الزبون 2: آخذ ماءً وشوربة.
+الزبون: نريد أن ندفع. — النادل: معاً أم كل واحد لوحده؟ — معاً من فضلك. — المجموع 14,80 يورو.
+', null, null, null, null),
+    (l, 20, 'quiz', '', 'حسب الحوار: ماذا طلب الزبون الثاني؟', null, null, '["ماء وشوربة", "شاي وكعك", "قهوة", "عصير"]'::jsonb, 0),
+    (l, 21, 'quiz', '', 'ماذا يعني ''getrennt'' عند الدفع؟', null, null, '["كل واحد يدفع لوحده", "معاً", "بالبطاقة", "نقداً"]'::jsonb, 0),
+    (l, 22, 'gap', 'Du ___ gern Fisch.', '', null, null, '["isst", "esst", "essen"]'::jsonb, 0),
+    (l, 23, 'gap', 'Ich ___ einen Kaffee, bitte.', '', null, null, '["möchte", "möchtest", "möchten"]'::jsonb, 0),
+    (l, 24, 'listen', 'Zum Frühstück esse ich Brot mit Käse und trinke Tee.', 'استمع — ماذا يشرب على الفطور؟', null, null, '["الشاي", "القهوة", "الحليب", "العصير"]'::jsonb, 0),
+    (l, 25, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["das Obst = الفاكهة", "das Gemüse = الخضار", "das Fleisch = اللحم", "der Saft = العصير", "lecker = لذيذ"]'::jsonb, null),
+    (l, 26, 'order', 'Ich trinke nicht gern Kaffee.', 'لا أحب شرب القهوة.', null, null, null, null),
+    (l, 27, 'write', 'Die Rechnung, bitte!|Die Rechnung bitte', 'اكتب: الفاتورة من فضلك!', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-einkaufen', m, 'A1', 203, 'lesson', 'Einkaufen', 'التسوق', '', 'أن تشتري في السوبرماركت والمخبز، وتسأل عن المكان والسعر والكمية.', '## أين تشتري؟
+| der Supermarkt | die Bäckerei | der Markt | die Apotheke |
+|---|---|---|---|
+| السوبرماركت | المخبز | السوق | الصيدلية |
+## الكميات
+> ein Kilo Tomaten, ein Liter Milch, eine Flasche Wasser, eine Packung Reis, 200 Gramm Käse
+## حوار في المتجر
+> Verkäufer: Was darf es sein? / Kann ich Ihnen helfen?
+> Kunde: Ich brauche… / Haben Sie…? / Wo finde ich…?
+> Verkäufer: Sonst noch etwas? — Kunde: Nein, danke. Das ist alles.
+## الدفع
+> Kann ich mit Karte zahlen? — Bar oder mit Karte?', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'einkaufen', 'يتسوّق', 'Ich kaufe am Samstag ein.', 'أتسوّق يوم السبت.', null, null),
+    (l, 2, 'vocab', 'kaufen', 'يشتري', 'Ich kaufe Milch.', 'أشتري حليباً.', null, null),
+    (l, 3, 'vocab', 'brauchen', 'يحتاج', 'Wir brauchen Eier.', 'نحتاج بيضاً.', null, null),
+    (l, 4, 'vocab', 'der Supermarkt, ¨-e', 'السوبرماركت', 'Der Supermarkt ist bis 22 Uhr offen.', 'السوبرماركت مفتوح حتى العاشرة.', null, null),
+    (l, 5, 'vocab', 'die Bäckerei, -en', 'المخبز', 'Die Bäckerei ist an der Ecke.', 'المخبز على الزاوية.', null, null),
+    (l, 6, 'vocab', 'die Flasche, -n', 'القنينة', 'eine Flasche Wasser', 'قنينة ماء', null, null),
+    (l, 7, 'vocab', 'das Kilo, -s', 'الكيلو', 'ein Kilo Tomaten', 'كيلو طماطم', null, null),
+    (l, 8, 'vocab', 'der Liter, -', 'اللتر', 'ein Liter Milch', 'لتر حليب', null, null),
+    (l, 9, 'vocab', 'die Packung, -en', 'العلبة / الكيس', 'eine Packung Reis', 'كيس أرز', null, null),
+    (l, 10, 'vocab', 'die Kasse, -n', 'الصندوق (مكان الدفع)', 'Bitte zahlen Sie an der Kasse.', 'ادفع عند الصندوق من فضلك.', null, null),
+    (l, 11, 'vocab', 'bar', 'نقداً', 'Ich zahle bar.', 'أدفع نقداً.', null, null),
+    (l, 12, 'vocab', 'die Karte, -n', 'البطاقة', 'Kann ich mit Karte zahlen?', 'هل أستطيع الدفع بالبطاقة؟', null, null),
+    (l, 13, 'vocab', 'das Angebot, -e', 'العرض (تخفيض)', 'Äpfel sind heute im Angebot.', 'التفاح اليوم عليه عرض.', null, null),
+    (l, 14, 'phrase', 'Was darf es sein?', 'ماذا تريد؟ (البائع)', null, null, null, null),
+    (l, 15, 'phrase', 'Sonst noch etwas?', 'شيء آخر؟', null, null, null, null),
+    (l, 16, 'phrase', 'Das ist alles.', 'هذا كل شيء.', null, null, null, null),
+    (l, 17, 'gap', 'Ich möchte eine ___ Wasser.', '', null, null, '["Flasche", "Kilo", "Liter"]'::jsonb, 0),
+    (l, 18, 'gap', 'Brot kaufe ich in der ___.', '', null, null, '["Bäckerei", "Apotheke", "Kasse"]'::jsonb, 0),
+    (l, 19, 'gap', 'Kann ich mit ___ zahlen?', '', null, null, '["Karte", "Kasse", "Kilo"]'::jsonb, 0),
+    (l, 20, 'quiz', '', 'البائع يسأل: ''Sonst noch etwas?'' — ماذا تجيب إذا لا تريد شيئاً آخر؟', null, null, '["Nein, danke. Das ist alles.", "Ja, bitte.", "Guten Tag!", "Was kostet das?"]'::jsonb, 0),
+    (l, 21, 'listen', 'Ich brauche ein Kilo Kartoffeln, zwei Liter Milch und zehn Eier.', 'استمع — كم بيضة يحتاج؟', null, null, '["10", "2", "1", "12"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Flasche = القنينة", "die Kasse = الصندوق", "brauchen = يحتاج", "bar = نقداً", "das Angebot = العرض"]'::jsonb, null),
+    (l, 23, 'order', 'Wo finde ich den Reis?', 'أين أجد الأرز؟', null, null, null, null),
+    (l, 24, 'write', 'Ich brauche Milch.|Ich brauche Milch', 'اكتب: أحتاج حليباً.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-time', m, 'A1', 204, 'lesson', 'Uhrzeit, Tage und Monate', 'الساعة والأيام والأشهر', '', 'أن تقول الساعة رسمياً وغير رسمي، وتعرف أيام الأسبوع والأشهر والمواعيد.', '## كم الساعة؟ — Wie spät ist es? / Wie viel Uhr ist es?
+| الساعة | رسمي (راديو، قطار) | غير رسمي |
+|---|---|---|
+| 8:00 | acht Uhr | acht |
+| 8:15 | acht Uhr fünfzehn | Viertel nach acht |
+| 8:30 | acht Uhr dreißig | **halb neun** (!) |
+| 8:45 | acht Uhr fünfundvierzig | Viertel vor neun |
+| 8:10 | acht Uhr zehn | zehn nach acht |
+انتبه: **halb neun = 8:30** (نصف الطريق إلى التاسعة).
+## حروف الجر مع الوقت
+| um + ساعة | am + يوم/جزء يوم | im + شهر/فصل |
+|---|---|---|
+| um 9 Uhr | am Montag, am Abend | im Mai, im Sommer |
+## الأيام
+Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag — كلها مذكر (der).
+## الأشهر
+Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Uhr, -en', 'الساعة', 'Es ist drei Uhr.', 'الساعة الثالثة.', null, null),
+    (l, 2, 'vocab', 'die Stunde, -n', 'الساعة (مدة)', 'Der Kurs dauert zwei Stunden.', 'الدورة تستمر ساعتين.', null, null),
+    (l, 3, 'vocab', 'die Minute, -n', 'الدقيقة', 'Ich komme in fünf Minuten.', 'آتي بعد خمس دقائق.', null, null),
+    (l, 4, 'vocab', 'der Montag', 'الاثنين', 'Am Montag arbeite ich.', 'يوم الاثنين أعمل.', null, null),
+    (l, 5, 'vocab', 'der Mittwoch', 'الأربعاء', null, null, null, null),
+    (l, 6, 'vocab', 'der Donnerstag', 'الخميس', null, null, null, null),
+    (l, 7, 'vocab', 'der Samstag', 'السبت', null, null, null, null),
+    (l, 8, 'vocab', 'der Sonntag', 'الأحد', 'Am Sonntag ist alles geschlossen.', 'يوم الأحد كل شيء مغلق.', null, null),
+    (l, 9, 'vocab', 'die Woche, -n', 'الأسبوع', 'Ich lerne jede Woche.', 'أتعلم كل أسبوع.', null, null),
+    (l, 10, 'vocab', 'das Wochenende, -n', 'عطلة نهاية الأسبوع', 'Schönes Wochenende!', 'عطلة سعيدة!', null, null),
+    (l, 11, 'vocab', 'der Monat, -e', 'الشهر', 'Der Kurs dauert drei Monate.', 'الدورة ثلاثة أشهر.', null, null),
+    (l, 12, 'vocab', 'der Termin, -e', 'الموعد', 'Ich habe einen Termin beim Arzt.', 'لدي موعد عند الطبيب.', null, null),
+    (l, 13, 'vocab', 'der Morgen / der Vormittag', 'الصباح / قبل الظهر', null, null, null, null),
+    (l, 14, 'vocab', 'der Mittag / der Nachmittag', 'الظهر / بعد الظهر', null, null, null, null),
+    (l, 15, 'vocab', 'der Abend / die Nacht', 'المساء / الليل', null, null, null, null),
+    (l, 16, 'vocab', 'heute / morgen / gestern', 'اليوم / غداً / أمس', null, null, null, null),
+    (l, 17, 'vocab', 'früh / spät', 'مبكر / متأخر', 'Es ist schon spät.', 'الوقت متأخر.', null, null),
+    (l, 18, 'phrase', 'Wie spät ist es?', 'كم الساعة؟', null, null, null, null),
+    (l, 19, 'quiz', '', 'halb neun = ?', null, null, '["8:30", "9:30", "9:00", "8:00"]'::jsonb, 0),
+    (l, 20, 'quiz', '', 'Viertel vor drei = ?', null, null, '["2:45", "3:15", "3:45", "2:15"]'::jsonb, 0),
+    (l, 21, 'listen', 'Es ist Viertel nach sieben.', 'استمع — كم الساعة؟', null, null, '["7:15", "6:45", "7:45", "7:30"]'::jsonb, 0),
+    (l, 22, 'listen', 'Der Zug fährt um vierzehn Uhr zwanzig.', 'استمع — متى ينطلق القطار؟', null, null, '["14:20", "4:20", "14:02", "20:14"]'::jsonb, 0),
+    (l, 23, 'listen', 'Der Termin ist am Donnerstag um halb zehn.', 'استمع — متى الموعد؟', null, null, '["الخميس 9:30", "الخميس 10:30", "الثلاثاء 9:30", "الأربعاء 10:00"]'::jsonb, 0),
+    (l, 24, 'gap', 'Der Kurs beginnt ___ 9 Uhr.', '', null, null, '["um", "am", "im"]'::jsonb, 0),
+    (l, 25, 'gap', '___ Samstag gehe ich einkaufen.', '', null, null, '["Am", "Um", "Im"]'::jsonb, 0),
+    (l, 26, 'gap', 'Ich habe ___ Juli Urlaub.', '', null, null, '["im", "am", "um"]'::jsonb, 0),
+    (l, 27, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Montag = الاثنين", "der Mittwoch = الأربعاء", "der Donnerstag = الخميس", "der Sonntag = الأحد", "das Wochenende = عطلة نهاية الأسبوع"]'::jsonb, null),
+    (l, 28, 'order', 'Am Montag habe ich einen Termin.', 'يوم الاثنين لدي موعد.', null, null, null, null),
+    (l, 29, 'write', 'Wie spät ist es?', 'اكتب: كم الساعة؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-freizeit', m, 'A1', 205, 'lesson', 'Freizeit und Hobbys', 'وقت الفراغ والهوايات', '', 'أن تتحدث عن هواياتك، وتسأل الآخرين، وتقترح موعداً.', '## الهوايات
+> Ich spiele Fußball. — Ich lese gern. — Ich höre Musik. — Ich schwimme.
+> Was machst du in deiner Freizeit? — Ich treffe Freunde.
+## Was machst du gern / lieber / am liebsten?
+| gern | lieber | am liebsten |
+|---|---|---|
+| أحب | أفضّل | أحب أكثر شيء |
+> Ich schwimme gern, aber ich spiele lieber Fußball.
+## الاقتراح والموعد
+> Hast du am Samstag Zeit? — Ja, gern! / Tut mir leid, ich habe keine Zeit.
+> Wollen wir ins Kino gehen? — Gute Idee!
+## أفعال تتغير: lesen → du liest, fahren → du fährst, treffen → du triffst', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Freizeit', 'وقت الفراغ', 'In meiner Freizeit lese ich.', 'في وقت فراغي أقرأ.', null, null),
+    (l, 2, 'vocab', 'das Hobby, -s', 'الهواية', 'Mein Hobby ist Kochen.', 'هوايتي الطبخ.', null, null),
+    (l, 3, 'vocab', 'spielen', 'يلعب', 'Wir spielen Fußball.', 'نلعب كرة القدم.', null, null),
+    (l, 4, 'vocab', 'lesen', 'يقرأ', 'Liest du gern?', 'هل تحب القراءة؟', null, null),
+    (l, 5, 'vocab', 'schwimmen', 'يسبح', 'Im Sommer schwimme ich.', 'في الصيف أسبح.', null, null),
+    (l, 6, 'vocab', 'tanzen', 'يرقص', null, null, null, null),
+    (l, 7, 'vocab', 'fotografieren', 'يصوّر', 'Sie fotografiert gern.', 'هي تحب التصوير.', null, null),
+    (l, 8, 'vocab', 'treffen', 'يلتقي', 'Ich treffe meine Freunde.', 'ألتقي أصدقائي.', null, null),
+    (l, 9, 'vocab', 'der Freund, -e / die Freundin, -nen', 'الصديق / الصديقة', null, null, null, null),
+    (l, 10, 'vocab', 'das Kino, -s', 'السينما', 'Gehen wir ins Kino?', 'هل نذهب إلى السينما؟', null, null),
+    (l, 11, 'vocab', 'der Sport', 'الرياضة', 'Ich mache viel Sport.', 'أمارس الرياضة كثيراً.', null, null),
+    (l, 12, 'vocab', 'die Musik', 'الموسيقى', 'Ich höre gern Musik.', 'أحب سماع الموسيقى.', null, null),
+    (l, 13, 'vocab', 'spazieren gehen', 'يتنزّه مشياً', 'Wir gehen im Park spazieren.', 'نتمشى في الحديقة.', null, null),
+    (l, 14, 'vocab', 'die Zeit', 'الوقت', 'Hast du Zeit?', 'هل عندك وقت؟', null, null),
+    (l, 15, 'phrase', 'Tut mir leid, ich habe keine Zeit.', 'آسف، ليس عندي وقت.', null, null, null, null),
+    (l, 16, 'phrase', 'Gute Idee!', 'فكرة جيدة!', null, null, null, null),
+    (l, 17, 'gap', '___ du gern? – Ja, ich lese jeden Abend.', '', null, null, '["Liest", "Lest", "Lesen"]'::jsonb, 0),
+    (l, 18, 'gap', 'Ich schwimme gern, aber ich tanze ___.', '', null, null, '["lieber", "gern", "viel"]'::jsonb, 0),
+    (l, 19, 'gap', 'Er ___ seine Freunde am Wochenende.', '', null, null, '["trifft", "treffen", "triffst"]'::jsonb, 0),
+    (l, 20, 'quiz', '', 'صديقك يسأل: ''Hast du am Freitag Zeit?'' وأنت مشغول. ماذا تقول؟', null, null, '["Tut mir leid, ich habe keine Zeit.", "Gute Idee!", "Ja, gern!", "Bis später!"]'::jsonb, 0),
+    (l, 21, 'listen', 'Am Wochenende spiele ich Fußball und am Abend gehe ich mit Freunden ins Kino.', 'استمع — ماذا يفعل في المساء؟', null, null, '["يذهب إلى السينما", "يلعب كرة القدم", "يقرأ", "يسبح"]'::jsonb, 0),
+    (l, 22, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["lesen = يقرأ", "schwimmen = يسبح", "treffen = يلتقي", "die Freizeit = وقت الفراغ", "das Kino = السينما"]'::jsonb, null),
+    (l, 23, 'order', 'Was machst du in deiner Freizeit?', 'ماذا تفعل في وقت فراغك؟', null, null, null, null),
+    (l, 24, 'write', 'Ich spiele gern Fußball.|Ich spiele gern Fussball', 'اكتب: أحب لعب كرة القدم.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a1-alltag-test', m, 'A1', 206, 'test', 'Modultest – Alltag', 'اختبار وحدة الحياة اليومية', '', 'اختبار السكن والطعام والتسوق والوقت والهوايات. النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Ich koche in der ___.', '', null, null, '["Küche", "Bad", "Flur"]'::jsonb, 0),
+    (l, 2, 'gap', 'In der Wohnung ___ es einen Balkon.', '', null, null, '["gibt", "ist", "hat"]'::jsonb, 0),
+    (l, 3, 'gap', 'Du ___ gern Obst.', '', null, null, '["isst", "esst", "esse"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich möchte einen Liter ___.', '', null, null, '["Milch", "Brötchen", "Eier"]'::jsonb, 0),
+    (l, 5, 'gap', 'Der Termin ist ___ Freitag.', '', null, null, '["am", "um", "im"]'::jsonb, 0),
+    (l, 6, 'gap', 'Wir treffen uns ___ halb acht.', '', null, null, '["um", "am", "im"]'::jsonb, 0),
+    (l, 7, 'quiz', '', 'halb vier = ?', null, null, '["3:30", "4:30", "3:00", "4:00"]'::jsonb, 0),
+    (l, 8, 'quiz', '', 'ماذا تقول في المقهى لتدفع؟', null, null, '["Die Rechnung, bitte!", "Was darf es sein?", "Guten Appetit!", "Sonst noch etwas?"]'::jsonb, 0),
+    (l, 9, 'listen', 'Der Supermarkt ist von Montag bis Samstag von acht bis zwanzig Uhr geöffnet.', 'متى يغلق السوبرماركت؟', null, null, '["20:00", "8:00", "18:00", "22:00"]'::jsonb, 0),
+    (l, 10, 'listen', 'Die Wohnung hat drei Zimmer und kostet achthundert Euro.', 'كم الإيجار؟', null, null, '["800 €", "300 €", "830 €", "80 €"]'::jsonb, 0),
+    (l, 11, 'listen', 'Ich spiele lieber Tennis als Fußball.', 'ماذا يفضّل؟', null, null, '["التنس", "كرة القدم", "السباحة", "لا شيء"]'::jsonb, 0),
+    (l, 12, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Bäckerei = المخبز", "die Flasche = القنينة", "der Termin = الموعد", "lecker = لذيذ", "der Schrank = الخزانة"]'::jsonb, null),
+    (l, 13, 'order', 'Hast du am Samstag Zeit?', 'هل عندك وقت يوم السبت؟', null, null, null, null),
+    (l, 14, 'order', 'Ich esse gern Reis mit Gemüse.', 'أحب أكل الأرز مع الخضار.', null, null, null, null),
+    (l, 15, 'write', 'Ich möchte einen Tee.|Ich möchte einen Tee bitte|Ich möchte einen Tee, bitte.', 'اكتب: أريد شاياً.', null, null, null, null),
+    (l, 16, 'write', 'Viertel nach acht', 'اكتب الساعة 8:15 بالطريقة غير الرسمية:', null, null, null, null);
 end
 $$;
