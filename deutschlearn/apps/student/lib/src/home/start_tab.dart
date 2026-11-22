@@ -4,6 +4,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../lessons/lesson_providers.dart';
+import '../lessons/progress_tab.dart';
 import 'home_shell.dart';
 import 'teacher_link_tile.dart';
 
@@ -75,6 +77,12 @@ class StartTab extends ConsumerWidget {
             ],
           ),
         ),
+        if (ref.watch(progressSummaryProvider).value?.next case final next?) ...[
+          const SizedBox(height: DLSpacing.xl),
+          const DLSectionHeader(arabic: 'تابع التعلّم', german: 'Weiterlernen'),
+          const SizedBox(height: DLSpacing.md),
+          NextLessonCard(lesson: next),
+        ],
         const SizedBox(height: DLSpacing.xl),
         const DLSectionHeader(arabic: 'معلّمي', german: 'Lehrkraft'),
         const SizedBox(height: DLSpacing.md),
@@ -86,7 +94,7 @@ class StartTab extends ConsumerWidget {
           icon: Icons.menu_book_rounded,
           color: DLColors.teal,
           title: bilingualLabel('الدروس', 'Lektionen'),
-          subtitle: 'قريباً • Demnächst',
+          subtitle: 'مفردات وعبارات واختبارات • Wörter, Sätze, Quiz',
           onTap: () => openTab(HomeTab.lessons),
         ),
         const SizedBox(height: DLSpacing.md),
@@ -94,7 +102,7 @@ class StartTab extends ConsumerWidget {
           icon: Icons.insights_rounded,
           color: DLColors.yellow,
           title: bilingualLabel('التقدّم', 'Fortschritt'),
-          subtitle: 'قريباً • Demnächst',
+          subtitle: 'نتائجك ودروسك المكتملة • Deine Ergebnisse',
           onTap: () => openTab(HomeTab.progress),
         ),
         const SizedBox(height: DLSpacing.md),

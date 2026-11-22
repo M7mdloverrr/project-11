@@ -25,7 +25,11 @@ class LinkTeacherScreen extends ConsumerWidget {
                 LinkActive(:final link) => LinkStatusCard(link: link),
                 LinkDisconnected(:final link) => Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [LinkStatusCard(link: link), const SizedBox(height: DLSpacing.xl), const LinkCodeFlow()],
+                  children: [
+                    LinkStatusCard(link: link),
+                    const SizedBox(height: DLSpacing.xl),
+                    const LinkCodeFlow(),
+                  ],
                 ),
                 NoTeacherLinked() => const LinkCodeFlow(),
               },
@@ -37,7 +41,10 @@ class LinkTeacherScreen extends ConsumerWidget {
                   child: const Text('إعادة • Erneut'),
                 ),
               ),
-              _ => const Padding(padding: EdgeInsets.all(DLSpacing.xxl), child: Center(child: CircularProgressIndicator())),
+              _ => const Padding(
+                padding: EdgeInsets.all(DLSpacing.xxl),
+                child: Center(child: CircularProgressIndicator()),
+              ),
             },
           ],
         ),
@@ -58,7 +65,9 @@ class LinkStatusCard extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('فك الارتباط؟ • Verbindung trennen?'),
-        content: const Text('لن يتمكن المعلّم من متابعة تقدّمك.\nDeine Lehrkraft sieht deinen Fortschritt dann nicht mehr.'),
+        content: const Text(
+          'لن يتمكن المعلّم من متابعة تقدّمك.\nDeine Lehrkraft sieht deinen Fortschritt dann nicht mehr.',
+        ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('إلغاء • Abbrechen')),
           TextButton(
@@ -87,7 +96,11 @@ class LinkStatusCard extends ConsumerWidget {
         DLStatusTone.warning,
         'أُرسل طلبك. سيظهر الربط كنشط بعد موافقة المعلّم.\nDeine Anfrage wurde gesendet.',
       ),
-      LinkStatus.active => ('مرتبط • Verbunden', DLStatusTone.success, 'معلّمك يتابع تقدّمك.\nDeine Lehrkraft begleitet dich.'),
+      LinkStatus.active => (
+        'مرتبط • Verbunden',
+        DLStatusTone.success,
+        'معلّمك يتابع تقدّمك.\nDeine Lehrkraft begleitet dich.',
+      ),
       LinkStatus.disconnected => (
         'غير مرتبط • Getrennt',
         DLStatusTone.neutral,
@@ -137,7 +150,9 @@ class LinkStatusCard extends ConsumerWidget {
               onPressed: () => _disconnect(context, ref),
               icon: const Icon(Icons.link_off, color: DLColors.error),
               label: Text(
-                link.status == LinkStatus.pending ? 'إلغاء الطلب • Anfrage zurückziehen' : 'فك الارتباط • Verbindung trennen',
+                link.status == LinkStatus.pending
+                    ? 'إلغاء الطلب • Anfrage zurückziehen'
+                    : 'فك الارتباط • Verbindung trennen',
                 style: const TextStyle(color: DLColors.error),
               ),
             ),
@@ -222,12 +237,25 @@ class _LinkCodeFlowState extends ConsumerState<LinkCodeFlow> {
               child: CircleAvatar(
                 radius: 40,
                 backgroundColor: DLColors.tintTeal,
-                child: Text(_initial(teacher.displayName), style: theme.textTheme.headlineMedium?.copyWith(color: DLColors.teal)),
+                child: Text(
+                  _initial(teacher.displayName),
+                  style: theme.textTheme.headlineMedium?.copyWith(color: DLColors.teal),
+                ),
               ),
             ),
             const SizedBox(height: DLSpacing.md),
-            Text(teacher.displayName, key: const Key('link-teacher-name'), textAlign: TextAlign.center, style: theme.textTheme.titleLarge),
-            Text(code, textAlign: TextAlign.center, textDirection: TextDirection.ltr, style: theme.textTheme.bodyMedium),
+            Text(
+              teacher.displayName,
+              key: const Key('link-teacher-name'),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleLarge,
+            ),
+            Text(
+              code,
+              textAlign: TextAlign.center,
+              textDirection: TextDirection.ltr,
+              style: theme.textTheme.bodyMedium,
+            ),
             const SizedBox(height: DLSpacing.lg),
             if (error != null) ...[
               DLBanner(tone: DLStatusTone.error, message: error.message),

@@ -2,11 +2,13 @@ import 'dart:async';
 
 import '../backend/admin_repository.dart';
 import '../backend/auth_gateway.dart';
+import '../backend/lesson_repository.dart';
 import '../backend/link_repository.dart';
 import '../backend/profile_repository.dart';
 import '../failure.dart';
 import '../models/admin.dart';
 import '../models/cefr_level.dart';
+import '../models/lesson.dart';
 import '../models/link.dart';
 import '../models/profile.dart';
 import '../models/role.dart';
@@ -527,5 +529,138 @@ class FakeAdminRepository implements AdminRepository {
   Future<List<AuditEntry>> auditLog({int limit = 100}) async {
     await _tick();
     return audit.take(limit).toList();
+  }
+}
+
+/// In-memory lessons and progress.
+class FakeLessonRepository implements LessonRepository {
+  FakeLessonRepository({this.studentId = 'student-1'});
+
+  final String studentId;
+  final List<Lesson> lessons = [];
+  final Map<String, LessonProgress> progress = {};
+  final completions = <({String lessonId, int score, int max})>[];
+  AppFailure? nextError;
+  int _seq = 0;
+
+  Future<void> _tick() async {
+    await Future<void>.delayed(Duration.zero);
+    final e = nextError;
+    if (e != null) {
+      nextError = null;
+      throw e;
+    }
+  }
+
+  Lesson _withItems(Lesson l, List<LessonItem> items) => Lesson(
+    id: l.id,
+    titleDe: l.titleDe,
+    titleAr: l.titleAr,
+    descriptionAr: l.descriptionAr,
+    level: l.level,
+    position: l.position,
+    published: l.published,
+    items: items,
+    itemCount: items.length,
+  );
+
+  @override
+  Future<List<Lesson>> listLessons() async {
+    await _tick();
+    return [for (final l in lessons) _withItems(l, const [])].map((l) {
+      final full = lessons.firstWhere((x) => x.id == l.id);
+      return Lesson(
+        id: l.id,
+        titleDe: l.titleDe,
+        titleAr: l.titleAr,
+        descriptionAr: l.descriptionAr,
+        level: l.level,
+        position: l.position,
+        published: l.published,
+        itemCount: full.items.length,
+      );
+    }).toList();
+  }
+
+  @override
+  Future<Lesson> fetchLesson(String lessonId) async {
+    await _tick();
+    return lessons.firstWhere((l) => l.id == lessonId, orElse: () => throw const AppFailure(FailureKind.notFound));
+  }
+
+  @override
+  Future<List<LessonProgress>> fetchProgress({String? studentId}) async {
+    await _tick();
+    final id = studentId ?? this.studentId;
+    return progress.values.where((p) => p.studentId == id || p.studentId.isEmpty).toList();
+  }
+
+  @override
+  Future<LessonProgress> completeLesson(String lessonId, {required int score, required int maxScore}) async {
+    await _tick();
+    completions.add((lessonId: lessonId, score: score, max: maxScore));
+    final old = progress[lessonId];
+    final p = LessonProgress(
+      studentId: studentId,
+      lessonId: lessonId,
+      bestScore: old == null || score > old.bestScore ? score : old.bestScore,
+      maxScore: maxScore,
+      attempts: (old?.attempts ?? 0) + 1,
+      completedAt: DateTime.now(),
+    );
+    progress[lessonId] = p;
+    return p;
+  }
+
+  @override
+  Future<Lesson> saveLesson(Lesson l) async {
+    await _tick();
+    final id = l.id.isEmpty ? 'lesson-${++_seq}' : l.id;
+    final i = lessons.indexWhere((x) => x.id == id);
+    final saved = _withItems(
+      Lesson(
+        id: id,
+        titleDe: l.titleDe,
+        titleAr: l.titleAr,
+        descriptionAr: l.descriptionAr,
+        level: l.level,
+        position: l.position,
+        published: l.published,
+      ),
+      i < 0 ? const [] : lessons[i].items,
+    );
+    if (i < 0) {
+      lessons.add(saved);
+    } else {
+      lessons[i] = saved;
+    }
+    return saved;
+  }
+
+  @override
+  Future<void> deleteLesson(String lessonId) async {
+    await _tick();
+    lessons.removeWhere((l) => l.id == lessonId);
+  }
+
+  @override
+  Future<void> saveItems(String lessonId, List<LessonItem> items) async {
+    await _tick();
+    final i = lessons.indexWhere((l) => l.id == lessonId);
+    if (i < 0) throw const AppFailure(FailureKind.notFound);
+    lessons[i] = _withItems(lessons[i], [
+      for (final (n, it) in items.indexed)
+        LessonItem(
+          id: it.id.isEmpty ? 'item-${++_seq}' : it.id,
+          kind: it.kind,
+          position: n + 1,
+          german: it.german,
+          arabic: it.arabic,
+          exampleDe: it.exampleDe,
+          exampleAr: it.exampleAr,
+          options: it.options,
+          answer: it.answer,
+        ),
+    ]);
   }
 }

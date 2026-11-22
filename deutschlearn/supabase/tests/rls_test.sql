@@ -194,4 +194,37 @@ set role service_role;
 select public.log_admin_action_as('00000000-0000-0000-0000-00000000000d', 'block_user', 'user', '00000000-0000-0000-0000-00000000000b');
 reset role;
 
+-- Lessons ---------------------------------------------------------------------
+do $$ begin
+  assert (select count(*) from public.lessons where cefr_level = 'A1') = 8, 'seeded A1 lessons';
+  assert (select count(*) from public.lesson_items where kind = 'quiz') >= 16, 'seeded quizzes';
+end $$;
+-- Admin hides a lesson; students no longer see it.
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000d');
+update public.lessons set published = false where position = 8;
+insert into public.lessons (title_de) values ('Admin Test');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000b');
+do $$ declare p record; lid uuid; begin
+  assert (select count(*) from public.lessons) = 8, 'student sees published lessons only';
+  assert (select count(*) from public.lesson_items i join public.lessons l on l.id = i.lesson_id where l.position = 8) = 0;
+  select id into lid from public.lessons where position = 1;
+  select * into p from public.complete_lesson(lid, 2, 3);
+  assert p.best_score = 2 and p.attempts = 1;
+  select * into p from public.complete_lesson(lid, 1, 3);
+  assert p.best_score = 2 and p.attempts = 2, 'best score kept';
+end $$;
+select pg_temp.expect_error($$insert into public.lessons (title_de) values ('x')$$, 'student creates lesson');
+select pg_temp.expect_error($$select public.complete_lesson((select id from public.lessons where position = 1), 5, 3)$$, 'score above max');
+select pg_temp.expect_error($$insert into public.lesson_progress (student_id, lesson_id) values (auth.uid(), (select id from public.lessons limit 1))$$, 'direct progress insert');
+reset role;
+-- Sara (not linked to anyone active now) cannot see Ahmed's progress; admin can.
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000c');
+do $$ begin assert (select count(*) from public.lesson_progress) = 0, 'other student sees no progress'; end $$;
+select pg_temp.expect_error($$select public.complete_lesson((select id from public.lessons where position = 8), 1, 1)$$, 'unpublished lesson');
+reset role;
+select pg_temp.as_user('00000000-0000-0000-0000-00000000000d');
+do $$ begin assert (select count(*) from public.lesson_progress) = 1, 'admin sees progress'; end $$;
+reset role;
+
 select 'ALL SQL TESTS PASSED' as result;
