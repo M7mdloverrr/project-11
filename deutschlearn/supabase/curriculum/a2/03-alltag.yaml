@@ -1,0 +1,313 @@
+module:
+  slug: a2-alltag
+  level: A2
+  position: 3
+  icon: home
+  title_de: Alltag A2 – Wohnen, Gesundheit, Konsum, Medien
+  title_ar: الحياة اليومية A2 — السكن، الصحة، الاستهلاك، الإعلام
+  description_ar: البحث عن شقة والانتقال، عند الطبيب وفي المستشفى، في المطعم، الشكوى والإرجاع في المتجر، الإنترنت والتكنولوجيا.
+
+lessons:
+  - slug: a2-wohnungssuche
+    title_de: Wohnungssuche und Umzug
+    title_ar: البحث عن شقة والانتقال
+    goal_ar: أن تفهم إعلانات الشقق، وتتصل بالمؤجر، وتتكلم عن الانتقال.
+    explanation_ar: |
+      ## اختصارات إعلانات الشقق
+      | الاختصار | المعنى |
+      |---|---|
+      | 3-Zi.-Whg. | شقة 3 غرف |
+      | 70 m² | 70 متراً مربعاً |
+      | KM / WM | الإيجار بدون / مع التكاليف |
+      | NK | التكاليف الإضافية (Nebenkosten) |
+      | EG / OG | الطابق الأرضي / العلوي |
+      | ab sofort | متاحة فوراً |
+      ## الاتصال بالمؤجر
+      > Ist die Wohnung noch frei? — Wann kann ich die Wohnung besichtigen?
+      > Wie hoch ist die Kaution? (التأمين)
+    items:
+      - {vocab: "die Anzeige, -n", ar: "الإعلان"}
+      - {vocab: "der Vermieter, - / der Mieter, -", ar: "المؤجِّر / المستأجِر"}
+      - {vocab: "die Kaltmiete / die Warmmiete", ar: "الإيجار بدون/مع التدفئة والتكاليف"}
+      - {vocab: "die Nebenkosten (Pl.)", ar: "التكاليف الإضافية"}
+      - {vocab: "die Kaution, -en", ar: "مبلغ التأمين", ex: "Die Kaution ist zwei Monatsmieten.", ex_ar: "التأمين إيجار شهرين."}
+      - {vocab: "der Quadratmeter (m²)", ar: "المتر المربع"}
+      - {vocab: "besichtigen", ar: "يعاين", ex: "Kann ich die Wohnung besichtigen?", ex_ar: "هل أستطيع معاينة الشقة؟"}
+      - {vocab: "der Mietvertrag, ¨-e", ar: "عقد الإيجار"}
+      - {vocab: "um|ziehen", ar: "ينتقل (سكن)", ex: "Wir ziehen nächsten Monat um.", ex_ar: "ننتقل الشهر القادم."}
+      - {vocab: "der Umzug, ¨-e", ar: "الانتقال"}
+      - {vocab: "ein|ziehen / aus|ziehen", ar: "ينتقل إلى / يخرج من (سكن)"}
+      - {vocab: "möbliert", ar: "مفروشة"}
+      - {vocab: "die Lage", ar: "الموقع", ex: "Die Lage ist zentral.", ex_ar: "الموقع مركزي."}
+      - {vocab: "zentral / am Stadtrand", ar: "مركزي / على أطراف المدينة"}
+      - {vocab: "die Hausordnung", ar: "نظام البناية"}
+      - {vocab: "die Ruhezeit, -en", ar: "وقت الهدوء"}
+      - {vocab: "der Lärm", ar: "الضجيج"}
+      - {vocab: "der Strom / das Gas / das Wasser", ar: "الكهرباء / الغاز / الماء"}
+      - {vocab: "kündigen", ar: "يُنهي (عقداً)", ex: "Ich habe die Wohnung gekündigt.", ex_ar: "أنهيت عقد الشقة."}
+      - text: "Helle 3-Zi.-Whg., 75 m², 2. OG, Balkon, Einbauküche, zentrale Lage, KM 720 €, NK 180 €, Kaution 2 KM, ab 1. Mai frei. Tel. 0176 2233445 (ab 18 Uhr)."
+        ar: "شقة مضيئة 3 غرف، 75م²، الطابق 2، شرفة، مطبخ مجهّز، موقع مركزي، الإيجار 720€، التكاليف 180€، التأمين إيجار شهرين، متاحة من 1 أيار. اتصل بعد الساعة 18."
+      - quiz: "كم الإيجار الكلي (Warmmiete)؟"
+        options: ["900 €", "720 €", "180 €", "1440 €"]
+      - quiz: "كم التأمين؟"
+        options: ["1440 €", "720 €", "900 €", "180 €"]
+      - quiz: "متى يمكنك الاتصال؟"
+        options: [بعد الساعة 18, قبل الساعة 18, في أي وقت, صباحاً فقط]
+      - gap: "Wir ___ am Samstag in die neue Wohnung um."
+        options: [ziehen, gehen, wohnen]
+      - gap: "Ist die Wohnung ___? – Ja, mit Bett, Tisch und Schrank."
+        options: [möbliert, zentral, gekündigt]
+      - match: ["der Vermieter = المؤجّر", "die Kaution = التأمين", "der Umzug = الانتقال", "der Lärm = الضجيج", "kündigen = يُنهي عقداً"]
+      - order: "Wann kann ich die Wohnung besichtigen?"
+        ar: متى أستطيع معاينة الشقة؟
+      - write: "Ist die Wohnung noch frei?|Ist die Wohnung noch frei"
+        ar: "اكتب: هل الشقة ما زالت متاحة؟"
+
+  - slug: a2-arzt
+    title_de: Beim Arzt und im Krankenhaus
+    title_ar: عند الطبيب وفي المستشفى
+    goal_ar: أن تصف أعراضك بالتفصيل، تفهم تعليمات الطبيب والدواء، وتتعامل مع التأمين الصحي.
+    explanation_ar: |
+      ## وصف الأعراض
+      > Seit gestern habe ich Halsschmerzen und mir ist schlecht. (أشعر بالغثيان)
+      > Ich habe mich erkältet. (أصبت بالبرد) — Ich habe mir den Arm gebrochen.
+      ## تعليمات الطبيب
+      > Sie sollten viel trinken und im Bett bleiben.
+      > Nehmen Sie die Tabletten dreimal täglich nach dem Essen.
+      ## الأوراق
+      die Krankenkasse (التأمين الصحي)، die Versichertenkarte، die Krankmeldung / AU (ورقة المرض للعمل)، das Rezept، die Überweisung (تحويل لطبيب مختص)
+    items:
+      - {vocab: "die Krankenkasse, -n", ar: "صندوق التأمين الصحي"}
+      - {vocab: "die Versichertenkarte, -n", ar: "بطاقة التأمين الصحي"}
+      - {vocab: "die Praxis, Praxen", ar: "العيادة"}
+      - {vocab: "das Wartezimmer, -", ar: "غرفة الانتظار"}
+      - {vocab: "der Notfall, ¨-e", ar: "حالة الطوارئ"}
+      - {vocab: "die Notaufnahme", ar: "قسم الطوارئ"}
+      - {vocab: "der Krankenwagen, -", ar: "سيارة الإسعاف", ex: "Ruf einen Krankenwagen! – 112", ex_ar: "اتصل بالإسعاف! — 112"}
+      - {vocab: "das Rezept, -e", ar: "الوصفة الطبية"}
+      - {vocab: "die Überweisung, -en", ar: "تحويل (لطبيب مختص) / تحويل بنكي"}
+      - {vocab: "die Krankmeldung, -en", ar: "شهادة المرض (للعمل)"}
+      - {vocab: "die Tablette, -n", ar: "الحبة / القرص"}
+      - {vocab: "die Salbe, -n", ar: "المرهم"}
+      - {vocab: "die Erkältung, -en", ar: "الزكام / البرد"}
+      - {vocab: "der Husten / der Schnupfen", ar: "السعال / الرشح"}
+      - {vocab: "die Grippe", ar: "الإنفلونزا"}
+      - {vocab: "die Verletzung, -en", ar: "الإصابة / الجرح"}
+      - {vocab: "sich verletzen", ar: "يُصاب", ex: "Ich habe mich am Bein verletzt.", ex_ar: "أصبت في ساقي."}
+      - {vocab: "untersuchen", ar: "يفحص", ex: "Der Arzt untersucht mich.", ex_ar: "الطبيب يفحصني."}
+      - {vocab: "die Untersuchung, -en", ar: "الفحص"}
+      - {vocab: "der Zahnarzt, ¨-e", ar: "طبيب الأسنان"}
+      - {vocab: "der Facharzt, ¨-e", ar: "الطبيب المختص"}
+      - {vocab: "schwanger", ar: "حامل"}
+      - {vocab: "die Allergie, -n", ar: "الحساسية", ex: "Ich habe eine Allergie gegen Nüsse.", ex_ar: "عندي حساسية من المكسرات."}
+      - {vocab: "mir ist schlecht / schwindelig", ar: "أشعر بالغثيان / بالدوار"}
+      - {vocab: "täglich", ar: "يومياً"}
+      - listen: "Nehmen Sie die Tabletten zweimal täglich, morgens und abends, nach dem Essen. Und bleiben Sie drei Tage zu Hause."
+        ar: كم مرة يومياً؟
+        options: [مرتين, مرة واحدة, ثلاث مرات, عند الحاجة]
+      - listen: "Ich gebe Ihnen eine Überweisung zum Hautarzt und eine Krankmeldung bis Freitag."
+        ar: حتى متى شهادة المرض؟
+        options: [حتى الجمعة, حتى الاثنين, أسبوعين, يوم واحد]
+      - gap: "Ich habe mich ___. Ich habe Husten und Schnupfen."
+        options: [erkältet, verletzt, untersucht]
+      - gap: "Für die Arbeit brauche ich eine ___."
+        options: [Krankmeldung, Salbe, Allergie]
+      - gap: "Im Notfall rufen Sie den ___ unter 112."
+        options: [Krankenwagen, Zahnarzt, Facharzt]
+      - match: ["das Rezept = الوصفة", "die Salbe = المرهم", "die Grippe = الإنفلونزا", "untersuchen = يفحص", "der Notfall = الطوارئ"]
+      - order: "Seit drei Tagen habe ich starke Kopfschmerzen."
+        ar: منذ ثلاثة أيام عندي صداع شديد.
+      - write: "Mir ist schlecht.|Mir ist schlecht"
+        ar: "اكتب: أشعر بالغثيان."
+
+  - slug: a2-restaurant
+    title_de: Im Restaurant und Kochen
+    title_ar: في المطعم والطبخ
+    goal_ar: أن تحجز طاولة، تطلب، تشتكي بأدب، وتتكلم عن الوصفات والطبخ.
+    explanation_ar: |
+      ## في المطعم
+      > Ich möchte einen Tisch für vier Personen reservieren.
+      > Was können Sie empfehlen? — Ich hätte gern die Suppe. (أودّ…)
+      > Entschuldigung, das Essen ist kalt. / Hier fehlt eine Gabel.
+      > Das Trinkgeld (البقشيش) — Stimmt so! (احتفظ بالباقي)
+      ## الطبخ
+      schneiden (يقطّع)، braten (يقلي)، kochen (يسلق/يطبخ)، backen (يخبز)، mischen (يخلط)، würzen (يتبّل)
+    items:
+      - {vocab: "reservieren", ar: "يحجز"}
+      - {vocab: "die Speisekarte, -n", ar: "قائمة الطعام"}
+      - {vocab: "die Vorspeise / das Hauptgericht / die Nachspeise", ar: "المقبلات / الطبق الرئيسي / الحلوى"}
+      - {vocab: "das Gericht, -e", ar: "الطبق / الوجبة"}
+      - {vocab: "bestellen", ar: "يطلب", ex: "Haben Sie schon bestellt?", ex_ar: "هل طلبتم بالفعل؟"}
+      - {vocab: "empfehlen", ar: "يوصي / ينصح", ex: "Was empfehlen Sie?", ex_ar: "بماذا تنصح؟"}
+      - {vocab: "der Kellner, - / die Kellnerin, -nen", ar: "النادل / النادلة"}
+      - {vocab: "das Trinkgeld", ar: "البقشيش"}
+      - {vocab: "vegetarisch / vegan", ar: "نباتي / نباتي صرف"}
+      - {vocab: "scharf / süß / salzig / sauer / bitter", ar: "حار / حلو / مالح / حامض / مر"}
+      - {vocab: "das Rezept, -e", ar: "الوصفة (طبخ)"}
+      - {vocab: "die Zutat, -en", ar: "المكوّن"}
+      - {vocab: "schneiden", ar: "يقطّع"}
+      - {vocab: "braten", ar: "يقلي / يحمّر"}
+      - {vocab: "backen", ar: "يخبز"}
+      - {vocab: "der Topf, ¨-e / die Pfanne, -n", ar: "القدر / المقلاة"}
+      - {vocab: "das Öl / das Salz / der Pfeffer / der Zucker", ar: "الزيت / الملح / الفلفل / السكر"}
+      - {vocab: "die Sahne / die Butter / der Käse", ar: "القشطة / الزبدة / الجبن"}
+      - {vocab: "die Zwiebel, -n / der Knoblauch", ar: "البصل / الثوم"}
+      - {vocab: "satt / hungrig / durstig", ar: "شبعان / جائع / عطشان"}
+      - {phrase: "Ich hätte gern einen Tee.", ar: "أودّ شاياً."}
+      - {phrase: "Guten Appetit!", ar: "بالهناء والشفاء!"}
+      - text: |
+          Kellnerin: Guten Abend! Haben Sie reserviert?
+          Gast: Ja, auf den Namen Haddad, ein Tisch für zwei.
+          Kellnerin: Hier ist die Speisekarte. Möchten Sie schon etwas trinken?
+          Gast: Zwei Apfelschorlen, bitte. Was können Sie heute empfehlen?
+          Kellnerin: Der Fisch mit Gemüse ist sehr gut. Es gibt auch ein vegetarisches Curry.
+          Gast: Dann nehme ich den Fisch und meine Frau das Curry, bitte – aber nicht so scharf.
+        ar: |
+          النادلة: هل حجزتم؟ — الزبون: نعم باسم حداد، طاولة لشخصين. — هذه القائمة. هل تشربون شيئاً؟ — عصيرا تفاح بالصودا. بماذا تنصحين اليوم؟ — السمك مع الخضار جيد جداً، ويوجد كاري نباتي. — آخذ السمك، وزوجتي الكاري — لكن ليس حاراً جداً.
+      - quiz: "ماذا طلبت الزوجة؟"
+        options: [كاري نباتي غير حار, السمك, كاري حار, شوربة]
+      - gap: "Ich möchte einen Tisch für Freitag ___."
+        options: [reservieren, bestellen, empfehlen]
+      - gap: "Ich esse kein Fleisch, ich bin ___."
+        options: [Vegetarier, satt, scharf]
+      - gap: "Danke, ich bin ___. Ich kann nichts mehr essen."
+        options: [satt, hungrig, durstig]
+      - match: ["die Vorspeise = المقبلات", "die Nachspeise = الحلوى", "das Trinkgeld = البقشيش", "die Zwiebel = البصل", "braten = يقلي"]
+      - order: "Was können Sie uns empfehlen?"
+        ar: بماذا تنصحنا؟
+      - write: "Ich hätte gern eine Suppe.|Ich hätte gern eine Suppe"
+        ar: "اكتب: أودّ شوربة."
+
+  - slug: a2-reklamation
+    title_de: Einkaufen, Reklamation und Umtausch
+    title_ar: التسوق، الشكوى، والاستبدال
+    goal_ar: أن تشتكي من منتج معيب، تطلب الاستبدال أو إرجاع المال، وتتسوّق أونلاين.
+    explanation_ar: |
+      ## الشكوى (die Reklamation)
+      > Ich habe diesen Föhn letzte Woche gekauft, aber er funktioniert nicht.
+      > Kann ich ihn umtauschen? — Ich möchte mein Geld zurück.
+      > Haben Sie den Kassenbon (الإيصال) noch?
+      ## الضمان والإرجاع
+      die Garantie (الضمان) — zurückgeben/zurückschicken (يُرجع) — das Paket ist beschädigt (تالف)
+    items:
+      - {vocab: "die Reklamation, -en", ar: "الشكوى (على منتج)"}
+      - {vocab: "reklamieren / sich beschweren", ar: "يشتكي", ex: "Ich möchte mich beschweren.", ex_ar: "أريد أن أشتكي."}
+      - {vocab: "um|tauschen", ar: "يستبدل"}
+      - {vocab: "zurück|geben", ar: "يُرجع"}
+      - {vocab: "der Kassenbon, -s / die Quittung, -en", ar: "الإيصال"}
+      - {vocab: "die Garantie, -n", ar: "الضمان", ex: "Das Handy hat zwei Jahre Garantie.", ex_ar: "الهاتف عليه ضمان سنتين."}
+      - {vocab: "funktionieren", ar: "يعمل (جهاز)"}
+      - {vocab: "beschädigt", ar: "تالف / متضرر"}
+      - {vocab: "der Kunde, -n / die Kundin, -nen", ar: "الزبون / الزبونة"}
+      - {vocab: "die Bestellung, -en", ar: "الطلبية"}
+      - {vocab: "liefern", ar: "يوصّل", ex: "Das Paket wird morgen geliefert.", ex_ar: "الطرد سيوصل غداً."}
+      - {vocab: "die Lieferung, -en", ar: "التوصيل / الشحنة"}
+      - {vocab: "online bestellen", ar: "يطلب عبر الإنترنت"}
+      - {vocab: "das Sonderangebot, -e", ar: "عرض خاص"}
+      - {vocab: "der Rabatt, -e", ar: "الخصم"}
+      - {vocab: "günstig", ar: "بسعر مناسب"}
+      - {vocab: "die Qualität", ar: "الجودة"}
+      - {vocab: "die Öffnungszeiten (Pl.)", ar: "أوقات الدوام"}
+      - listen: "Guten Tag. Ich habe gestern diese Hose gekauft, aber sie ist zu klein. Kann ich sie in Größe 40 umtauschen?"
+        ar: ماذا تريد الزبونة؟
+        options: [تبديل البنطال بمقاس أكبر, إرجاع المال, شراء بنطال آخر, تصليح البنطال]
+      - listen: "Leider können wir reduzierte Ware nicht zurücknehmen."
+        ar: ماذا يقول البائع؟
+        options: [لا يمكن إرجاع البضائع المخفّضة, يمكن الإرجاع خلال أسبوع, البضاعة مجانية, يجب الدفع نقداً]
+      - gap: "Der Wasserkocher ___ nicht. Er ist kaputt."
+        options: [funktioniert, liefert, tauscht]
+      - gap: "Haben Sie noch den ___? Ohne ihn geht es leider nicht."
+        options: [Kassenbon, Rabatt, Kunden]
+      - gap: "Ich möchte die Jacke ___. Sie ist zu groß."
+        options: [umtauschen, liefern, reservieren]
+      - match: ["die Garantie = الضمان", "der Rabatt = الخصم", "liefern = يوصّل", "beschädigt = تالف", "die Quittung = الإيصال"]
+      - order: "Ich möchte mein Geld zurück."
+        ar: أريد استرجاع مالي.
+      - write: "Das funktioniert nicht.|Das funktioniert nicht"
+        ar: "اكتب: هذا لا يعمل."
+
+  - slug: a2-medien
+    title_de: Medien und Technik
+    title_ar: الإعلام والتكنولوجيا
+    goal_ar: أن تتكلم عن استخدام الهاتف والإنترنت والتلفاز والتطبيقات.
+    explanation_ar: |
+      ## أفعال التكنولوجيا
+      herunterladen (ينزّل)، hochladen (يرفع)، speichern (يحفظ)، löschen (يحذف)، drucken (يطبع)، klicken، sich einloggen (يسجل الدخول)، aufladen (يشحن)
+      > Mein Akku ist leer. Ich muss das Handy aufladen.
+      > Ich habe das Passwort vergessen.
+      ## Wie oft? — Wie lange?
+      > Ich surfe jeden Tag zwei Stunden im Internet.
+    items:
+      - {vocab: "die Medien (Pl.)", ar: "وسائل الإعلام"}
+      - {vocab: "das Fernsehen / das Programm", ar: "التلفزيون / البرنامج"}
+      - {vocab: "die Sendung, -en", ar: "البرنامج (التلفزيوني)"}
+      - {vocab: "die Nachrichten (Pl.)", ar: "الأخبار"}
+      - {vocab: "das Radio, -s", ar: "الراديو"}
+      - {vocab: "der Laptop, -s", ar: "اللابتوب"}
+      - {vocab: "die App, -s", ar: "التطبيق"}
+      - {vocab: "das Passwort, ¨-er", ar: "كلمة السر"}
+      - {vocab: "herunter|laden", ar: "يُنزّل (تحميل)"}
+      - {vocab: "speichern", ar: "يحفظ"}
+      - {vocab: "löschen", ar: "يحذف"}
+      - {vocab: "drucken", ar: "يطبع", ex: "Ich muss das Formular drucken.", ex_ar: "يجب أن أطبع الاستمارة."}
+      - {vocab: "der Drucker, -", ar: "الطابعة"}
+      - {vocab: "auf|laden", ar: "يشحن"}
+      - {vocab: "der Akku, -s", ar: "البطارية"}
+      - {vocab: "das Netz / das WLAN", ar: "الشبكة / الواي فاي"}
+      - {vocab: "online / offline", ar: "متصل / غير متصل"}
+      - {vocab: "die Webseite, -n", ar: "الموقع الإلكتروني"}
+      - {vocab: "der Bildschirm, -e", ar: "الشاشة"}
+      - {vocab: "die Datei, -en", ar: "الملف"}
+      - {vocab: "der Anhang, ¨-e", ar: "المرفق"}
+      - {vocab: "die Werbung", ar: "الإعلانات (التجارية)"}
+      - gap: "Mein Akku ist leer. Ich muss das Handy ___."
+        options: [aufladen, löschen, drucken]
+      - gap: "Ich habe das ___ vergessen. Ich kann mich nicht einloggen."
+        options: [Passwort, Programm, Netz]
+      - gap: "Bitte schicken Sie die Datei im ___."
+        options: [Anhang, Drucker, Radio]
+      - gap: "Gibt es hier ___? – Ja, das Passwort steht an der Tür."
+        options: [WLAN, Werbung, Nachrichten]
+      - listen: "Ich sehe abends selten fern, aber ich höre morgens im Auto immer die Nachrichten."
+        ar: متى يسمع الأخبار؟
+        options: [صباحاً في السيارة, مساءً في التلفاز, لا يسمعها أبداً, ظهراً]
+      - match: ["speichern = يحفظ", "löschen = يحذف", "drucken = يطبع", "die Datei = الملف", "der Bildschirm = الشاشة"]
+      - order: "Ich habe die App heruntergeladen."
+        ar: نزّلت التطبيق.
+      - write: "Mein Akku ist leer.|Mein Akku ist leer"
+        ar: "اكتب: بطاريتي فارغة."
+
+  - slug: a2-alltag-test
+    kind: test
+    title_de: Modultest – Alltag A2
+    title_ar: اختبار وحدة الحياة اليومية A2
+    goal_ar: النجاح من 70٪.
+    items:
+      - gap: "Die Warmmiete ist die Kaltmiete plus ___."
+        options: [Nebenkosten, Kaution, Rabatt]
+      - gap: "Kann ich die Wohnung am Montag ___?"
+        options: [besichtigen, umtauschen, kündigen]
+      - gap: "Der Arzt gibt mir ein ___ für die Apotheke."
+        options: [Rezept, Trinkgeld, Passwort]
+      - gap: "Ich habe ___ erkältet."
+        options: [mich, mir, sich]
+      - gap: "Was können Sie uns ___?"
+        options: [empfehlen, bestellen, liefern]
+      - gap: "Der Toaster ist kaputt. Ich möchte ihn ___."
+        options: [umtauschen, speichern, braten]
+      - gap: "Vergiss nicht, die Datei zu ___."
+        options: [speichern, schneiden, mieten]
+      - listen: "Die Wohnung kostet sechshundertfünfzig Euro warm, die Kaution ist eintausend Euro."
+        ar: كم التأمين؟
+        options: ["1000 €", "650 €", "1650 €", "600 €"]
+      - listen: "Bitte nehmen Sie die Tropfen vor dem Schlafen, eine Woche lang."
+        ar: متى تأخذ القطرات؟
+        options: [قبل النوم, بعد الطعام, صباحاً, عند الألم]
+      - listen: "Ich habe die Lampe online bestellt, aber sie war beschädigt. Ich schicke sie zurück."
+        ar: ماذا سيفعل؟
+        options: [يُرجع المصباح, يصلحه, يطلب واحداً آخر من المتجر, يحتفظ به]
+      - match: ["der Mietvertrag = عقد الإيجار", "die Überweisung = التحويل", "die Pfanne = المقلاة", "die Garantie = الضمان", "der Akku = البطارية"]
+      - order: "Wir sind letzten Monat umgezogen."
+        ar: انتقلنا الشهر الماضي.
+      - write: "Ich hätte gern die Rechnung.|Ich hätte gern die Rechnung bitte|Ich hätte gern die Rechnung, bitte."
+        ar: "اكتب بأدب: أودّ الفاتورة."

@@ -2299,5 +2299,224 @@ sich anziehen (يلبس)، sich ausruhen (يرتاح)، sich beeilen (يستعج
     (l, 12, 'order', 'Hast du dich schon angemeldet?', 'هل سجّلت نفسك بالفعل؟', null, null, null, null),
     (l, 13, 'order', 'Das Buch gehört meiner Schwester.', 'الكتاب لأختي.', null, null, null, null),
     (l, 14, 'write', 'Ich konnte nicht kommen.|Ich konnte nicht kommen', 'اكتب: لم أستطع المجيء.', null, null, null, null);
+  insert into public.modules (slug, cefr_level, position, title_de, title_ar, description_ar, icon) values ('a2-alltag', 'A2', 3, 'Alltag A2 – Wohnen, Gesundheit, Konsum, Medien', 'الحياة اليومية A2 — السكن، الصحة، الاستهلاك، الإعلام', 'البحث عن شقة والانتقال، عند الطبيب وفي المستشفى، في المطعم، الشكوى والإرجاع في المتجر، الإنترنت والتكنولوجيا.', 'home') on conflict (slug) do update set cefr_level = excluded.cefr_level, position = excluded.position, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, icon = excluded.icon returning id into m;
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-wohnungssuche', m, 'A2', 301, 'lesson', 'Wohnungssuche und Umzug', 'البحث عن شقة والانتقال', '', 'أن تفهم إعلانات الشقق، وتتصل بالمؤجر، وتتكلم عن الانتقال.', '## اختصارات إعلانات الشقق
+| الاختصار | المعنى |
+|---|---|
+| 3-Zi.-Whg. | شقة 3 غرف |
+| 70 m² | 70 متراً مربعاً |
+| KM / WM | الإيجار بدون / مع التكاليف |
+| NK | التكاليف الإضافية (Nebenkosten) |
+| EG / OG | الطابق الأرضي / العلوي |
+| ab sofort | متاحة فوراً |
+## الاتصال بالمؤجر
+> Ist die Wohnung noch frei? — Wann kann ich die Wohnung besichtigen?
+> Wie hoch ist die Kaution? (التأمين)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Anzeige, -n', 'الإعلان', null, null, null, null),
+    (l, 2, 'vocab', 'der Vermieter, - / der Mieter, -', 'المؤجِّر / المستأجِر', null, null, null, null),
+    (l, 3, 'vocab', 'die Kaltmiete / die Warmmiete', 'الإيجار بدون/مع التدفئة والتكاليف', null, null, null, null),
+    (l, 4, 'vocab', 'die Nebenkosten (Pl.)', 'التكاليف الإضافية', null, null, null, null),
+    (l, 5, 'vocab', 'die Kaution, -en', 'مبلغ التأمين', 'Die Kaution ist zwei Monatsmieten.', 'التأمين إيجار شهرين.', null, null),
+    (l, 6, 'vocab', 'der Quadratmeter (m²)', 'المتر المربع', null, null, null, null),
+    (l, 7, 'vocab', 'besichtigen', 'يعاين', 'Kann ich die Wohnung besichtigen?', 'هل أستطيع معاينة الشقة؟', null, null),
+    (l, 8, 'vocab', 'der Mietvertrag, ¨-e', 'عقد الإيجار', null, null, null, null),
+    (l, 9, 'vocab', 'um|ziehen', 'ينتقل (سكن)', 'Wir ziehen nächsten Monat um.', 'ننتقل الشهر القادم.', null, null),
+    (l, 10, 'vocab', 'der Umzug, ¨-e', 'الانتقال', null, null, null, null),
+    (l, 11, 'vocab', 'ein|ziehen / aus|ziehen', 'ينتقل إلى / يخرج من (سكن)', null, null, null, null),
+    (l, 12, 'vocab', 'möbliert', 'مفروشة', null, null, null, null),
+    (l, 13, 'vocab', 'die Lage', 'الموقع', 'Die Lage ist zentral.', 'الموقع مركزي.', null, null),
+    (l, 14, 'vocab', 'zentral / am Stadtrand', 'مركزي / على أطراف المدينة', null, null, null, null),
+    (l, 15, 'vocab', 'die Hausordnung', 'نظام البناية', null, null, null, null),
+    (l, 16, 'vocab', 'die Ruhezeit, -en', 'وقت الهدوء', null, null, null, null),
+    (l, 17, 'vocab', 'der Lärm', 'الضجيج', null, null, null, null),
+    (l, 18, 'vocab', 'der Strom / das Gas / das Wasser', 'الكهرباء / الغاز / الماء', null, null, null, null),
+    (l, 19, 'vocab', 'kündigen', 'يُنهي (عقداً)', 'Ich habe die Wohnung gekündigt.', 'أنهيت عقد الشقة.', null, null),
+    (l, 20, 'text', 'Helle 3-Zi.-Whg., 75 m², 2. OG, Balkon, Einbauküche, zentrale Lage, KM 720 €, NK 180 €, Kaution 2 KM, ab 1. Mai frei. Tel. 0176 2233445 (ab 18 Uhr).', 'شقة مضيئة 3 غرف، 75م²، الطابق 2، شرفة، مطبخ مجهّز، موقع مركزي، الإيجار 720€، التكاليف 180€، التأمين إيجار شهرين، متاحة من 1 أيار. اتصل بعد الساعة 18.', null, null, null, null),
+    (l, 21, 'quiz', '', 'كم الإيجار الكلي (Warmmiete)؟', null, null, '["900 €", "720 €", "180 €", "1440 €"]'::jsonb, 0),
+    (l, 22, 'quiz', '', 'كم التأمين؟', null, null, '["1440 €", "720 €", "900 €", "180 €"]'::jsonb, 0),
+    (l, 23, 'quiz', '', 'متى يمكنك الاتصال؟', null, null, '["بعد الساعة 18", "قبل الساعة 18", "في أي وقت", "صباحاً فقط"]'::jsonb, 0),
+    (l, 24, 'gap', 'Wir ___ am Samstag in die neue Wohnung um.', '', null, null, '["ziehen", "gehen", "wohnen"]'::jsonb, 0),
+    (l, 25, 'gap', 'Ist die Wohnung ___? – Ja, mit Bett, Tisch und Schrank.', '', null, null, '["möbliert", "zentral", "gekündigt"]'::jsonb, 0),
+    (l, 26, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Vermieter = المؤجّر", "die Kaution = التأمين", "der Umzug = الانتقال", "der Lärm = الضجيج", "kündigen = يُنهي عقداً"]'::jsonb, null),
+    (l, 27, 'order', 'Wann kann ich die Wohnung besichtigen?', 'متى أستطيع معاينة الشقة؟', null, null, null, null),
+    (l, 28, 'write', 'Ist die Wohnung noch frei?|Ist die Wohnung noch frei', 'اكتب: هل الشقة ما زالت متاحة؟', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-arzt', m, 'A2', 302, 'lesson', 'Beim Arzt und im Krankenhaus', 'عند الطبيب وفي المستشفى', '', 'أن تصف أعراضك بالتفصيل، تفهم تعليمات الطبيب والدواء، وتتعامل مع التأمين الصحي.', '## وصف الأعراض
+> Seit gestern habe ich Halsschmerzen und mir ist schlecht. (أشعر بالغثيان)
+> Ich habe mich erkältet. (أصبت بالبرد) — Ich habe mir den Arm gebrochen.
+## تعليمات الطبيب
+> Sie sollten viel trinken und im Bett bleiben.
+> Nehmen Sie die Tabletten dreimal täglich nach dem Essen.
+## الأوراق
+die Krankenkasse (التأمين الصحي)، die Versichertenkarte، die Krankmeldung / AU (ورقة المرض للعمل)، das Rezept، die Überweisung (تحويل لطبيب مختص)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Krankenkasse, -n', 'صندوق التأمين الصحي', null, null, null, null),
+    (l, 2, 'vocab', 'die Versichertenkarte, -n', 'بطاقة التأمين الصحي', null, null, null, null),
+    (l, 3, 'vocab', 'die Praxis, Praxen', 'العيادة', null, null, null, null),
+    (l, 4, 'vocab', 'das Wartezimmer, -', 'غرفة الانتظار', null, null, null, null),
+    (l, 5, 'vocab', 'der Notfall, ¨-e', 'حالة الطوارئ', null, null, null, null),
+    (l, 6, 'vocab', 'die Notaufnahme', 'قسم الطوارئ', null, null, null, null),
+    (l, 7, 'vocab', 'der Krankenwagen, -', 'سيارة الإسعاف', 'Ruf einen Krankenwagen! – 112', 'اتصل بالإسعاف! — 112', null, null),
+    (l, 8, 'vocab', 'das Rezept, -e', 'الوصفة الطبية', null, null, null, null),
+    (l, 9, 'vocab', 'die Überweisung, -en', 'تحويل (لطبيب مختص) / تحويل بنكي', null, null, null, null),
+    (l, 10, 'vocab', 'die Krankmeldung, -en', 'شهادة المرض (للعمل)', null, null, null, null),
+    (l, 11, 'vocab', 'die Tablette, -n', 'الحبة / القرص', null, null, null, null),
+    (l, 12, 'vocab', 'die Salbe, -n', 'المرهم', null, null, null, null),
+    (l, 13, 'vocab', 'die Erkältung, -en', 'الزكام / البرد', null, null, null, null),
+    (l, 14, 'vocab', 'der Husten / der Schnupfen', 'السعال / الرشح', null, null, null, null),
+    (l, 15, 'vocab', 'die Grippe', 'الإنفلونزا', null, null, null, null),
+    (l, 16, 'vocab', 'die Verletzung, -en', 'الإصابة / الجرح', null, null, null, null),
+    (l, 17, 'vocab', 'sich verletzen', 'يُصاب', 'Ich habe mich am Bein verletzt.', 'أصبت في ساقي.', null, null),
+    (l, 18, 'vocab', 'untersuchen', 'يفحص', 'Der Arzt untersucht mich.', 'الطبيب يفحصني.', null, null),
+    (l, 19, 'vocab', 'die Untersuchung, -en', 'الفحص', null, null, null, null),
+    (l, 20, 'vocab', 'der Zahnarzt, ¨-e', 'طبيب الأسنان', null, null, null, null),
+    (l, 21, 'vocab', 'der Facharzt, ¨-e', 'الطبيب المختص', null, null, null, null),
+    (l, 22, 'vocab', 'schwanger', 'حامل', null, null, null, null),
+    (l, 23, 'vocab', 'die Allergie, -n', 'الحساسية', 'Ich habe eine Allergie gegen Nüsse.', 'عندي حساسية من المكسرات.', null, null),
+    (l, 24, 'vocab', 'mir ist schlecht / schwindelig', 'أشعر بالغثيان / بالدوار', null, null, null, null),
+    (l, 25, 'vocab', 'täglich', 'يومياً', null, null, null, null),
+    (l, 26, 'listen', 'Nehmen Sie die Tabletten zweimal täglich, morgens und abends, nach dem Essen. Und bleiben Sie drei Tage zu Hause.', 'كم مرة يومياً؟', null, null, '["مرتين", "مرة واحدة", "ثلاث مرات", "عند الحاجة"]'::jsonb, 0),
+    (l, 27, 'listen', 'Ich gebe Ihnen eine Überweisung zum Hautarzt und eine Krankmeldung bis Freitag.', 'حتى متى شهادة المرض؟', null, null, '["حتى الجمعة", "حتى الاثنين", "أسبوعين", "يوم واحد"]'::jsonb, 0),
+    (l, 28, 'gap', 'Ich habe mich ___. Ich habe Husten und Schnupfen.', '', null, null, '["erkältet", "verletzt", "untersucht"]'::jsonb, 0),
+    (l, 29, 'gap', 'Für die Arbeit brauche ich eine ___.', '', null, null, '["Krankmeldung", "Salbe", "Allergie"]'::jsonb, 0),
+    (l, 30, 'gap', 'Im Notfall rufen Sie den ___ unter 112.', '', null, null, '["Krankenwagen", "Zahnarzt", "Facharzt"]'::jsonb, 0),
+    (l, 31, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["das Rezept = الوصفة", "die Salbe = المرهم", "die Grippe = الإنفلونزا", "untersuchen = يفحص", "der Notfall = الطوارئ"]'::jsonb, null),
+    (l, 32, 'order', 'Seit drei Tagen habe ich starke Kopfschmerzen.', 'منذ ثلاثة أيام عندي صداع شديد.', null, null, null, null),
+    (l, 33, 'write', 'Mir ist schlecht.|Mir ist schlecht', 'اكتب: أشعر بالغثيان.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-restaurant', m, 'A2', 303, 'lesson', 'Im Restaurant und Kochen', 'في المطعم والطبخ', '', 'أن تحجز طاولة، تطلب، تشتكي بأدب، وتتكلم عن الوصفات والطبخ.', '## في المطعم
+> Ich möchte einen Tisch für vier Personen reservieren.
+> Was können Sie empfehlen? — Ich hätte gern die Suppe. (أودّ…)
+> Entschuldigung, das Essen ist kalt. / Hier fehlt eine Gabel.
+> Das Trinkgeld (البقشيش) — Stimmt so! (احتفظ بالباقي)
+## الطبخ
+schneiden (يقطّع)، braten (يقلي)، kochen (يسلق/يطبخ)، backen (يخبز)، mischen (يخلط)، würzen (يتبّل)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'reservieren', 'يحجز', null, null, null, null),
+    (l, 2, 'vocab', 'die Speisekarte, -n', 'قائمة الطعام', null, null, null, null),
+    (l, 3, 'vocab', 'die Vorspeise / das Hauptgericht / die Nachspeise', 'المقبلات / الطبق الرئيسي / الحلوى', null, null, null, null),
+    (l, 4, 'vocab', 'das Gericht, -e', 'الطبق / الوجبة', null, null, null, null),
+    (l, 5, 'vocab', 'bestellen', 'يطلب', 'Haben Sie schon bestellt?', 'هل طلبتم بالفعل؟', null, null),
+    (l, 6, 'vocab', 'empfehlen', 'يوصي / ينصح', 'Was empfehlen Sie?', 'بماذا تنصح؟', null, null),
+    (l, 7, 'vocab', 'der Kellner, - / die Kellnerin, -nen', 'النادل / النادلة', null, null, null, null),
+    (l, 8, 'vocab', 'das Trinkgeld', 'البقشيش', null, null, null, null),
+    (l, 9, 'vocab', 'vegetarisch / vegan', 'نباتي / نباتي صرف', null, null, null, null),
+    (l, 10, 'vocab', 'scharf / süß / salzig / sauer / bitter', 'حار / حلو / مالح / حامض / مر', null, null, null, null),
+    (l, 11, 'vocab', 'das Rezept, -e', 'الوصفة (طبخ)', null, null, null, null),
+    (l, 12, 'vocab', 'die Zutat, -en', 'المكوّن', null, null, null, null),
+    (l, 13, 'vocab', 'schneiden', 'يقطّع', null, null, null, null),
+    (l, 14, 'vocab', 'braten', 'يقلي / يحمّر', null, null, null, null),
+    (l, 15, 'vocab', 'backen', 'يخبز', null, null, null, null),
+    (l, 16, 'vocab', 'der Topf, ¨-e / die Pfanne, -n', 'القدر / المقلاة', null, null, null, null),
+    (l, 17, 'vocab', 'das Öl / das Salz / der Pfeffer / der Zucker', 'الزيت / الملح / الفلفل / السكر', null, null, null, null),
+    (l, 18, 'vocab', 'die Sahne / die Butter / der Käse', 'القشطة / الزبدة / الجبن', null, null, null, null),
+    (l, 19, 'vocab', 'die Zwiebel, -n / der Knoblauch', 'البصل / الثوم', null, null, null, null),
+    (l, 20, 'vocab', 'satt / hungrig / durstig', 'شبعان / جائع / عطشان', null, null, null, null),
+    (l, 21, 'phrase', 'Ich hätte gern einen Tee.', 'أودّ شاياً.', null, null, null, null),
+    (l, 22, 'phrase', 'Guten Appetit!', 'بالهناء والشفاء!', null, null, null, null),
+    (l, 23, 'text', 'Kellnerin: Guten Abend! Haben Sie reserviert?
+Gast: Ja, auf den Namen Haddad, ein Tisch für zwei.
+Kellnerin: Hier ist die Speisekarte. Möchten Sie schon etwas trinken?
+Gast: Zwei Apfelschorlen, bitte. Was können Sie heute empfehlen?
+Kellnerin: Der Fisch mit Gemüse ist sehr gut. Es gibt auch ein vegetarisches Curry.
+Gast: Dann nehme ich den Fisch und meine Frau das Curry, bitte – aber nicht so scharf.', 'النادلة: هل حجزتم؟ — الزبون: نعم باسم حداد، طاولة لشخصين. — هذه القائمة. هل تشربون شيئاً؟ — عصيرا تفاح بالصودا. بماذا تنصحين اليوم؟ — السمك مع الخضار جيد جداً، ويوجد كاري نباتي. — آخذ السمك، وزوجتي الكاري — لكن ليس حاراً جداً.
+', null, null, null, null),
+    (l, 24, 'quiz', '', 'ماذا طلبت الزوجة؟', null, null, '["كاري نباتي غير حار", "السمك", "كاري حار", "شوربة"]'::jsonb, 0),
+    (l, 25, 'gap', 'Ich möchte einen Tisch für Freitag ___.', '', null, null, '["reservieren", "bestellen", "empfehlen"]'::jsonb, 0),
+    (l, 26, 'gap', 'Ich esse kein Fleisch, ich bin ___.', '', null, null, '["Vegetarier", "satt", "scharf"]'::jsonb, 0),
+    (l, 27, 'gap', 'Danke, ich bin ___. Ich kann nichts mehr essen.', '', null, null, '["satt", "hungrig", "durstig"]'::jsonb, 0),
+    (l, 28, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Vorspeise = المقبلات", "die Nachspeise = الحلوى", "das Trinkgeld = البقشيش", "die Zwiebel = البصل", "braten = يقلي"]'::jsonb, null),
+    (l, 29, 'order', 'Was können Sie uns empfehlen?', 'بماذا تنصحنا؟', null, null, null, null),
+    (l, 30, 'write', 'Ich hätte gern eine Suppe.|Ich hätte gern eine Suppe', 'اكتب: أودّ شوربة.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-reklamation', m, 'A2', 304, 'lesson', 'Einkaufen, Reklamation und Umtausch', 'التسوق، الشكوى، والاستبدال', '', 'أن تشتكي من منتج معيب، تطلب الاستبدال أو إرجاع المال، وتتسوّق أونلاين.', '## الشكوى (die Reklamation)
+> Ich habe diesen Föhn letzte Woche gekauft, aber er funktioniert nicht.
+> Kann ich ihn umtauschen? — Ich möchte mein Geld zurück.
+> Haben Sie den Kassenbon (الإيصال) noch?
+## الضمان والإرجاع
+die Garantie (الضمان) — zurückgeben/zurückschicken (يُرجع) — das Paket ist beschädigt (تالف)', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Reklamation, -en', 'الشكوى (على منتج)', null, null, null, null),
+    (l, 2, 'vocab', 'reklamieren / sich beschweren', 'يشتكي', 'Ich möchte mich beschweren.', 'أريد أن أشتكي.', null, null),
+    (l, 3, 'vocab', 'um|tauschen', 'يستبدل', null, null, null, null),
+    (l, 4, 'vocab', 'zurück|geben', 'يُرجع', null, null, null, null),
+    (l, 5, 'vocab', 'der Kassenbon, -s / die Quittung, -en', 'الإيصال', null, null, null, null),
+    (l, 6, 'vocab', 'die Garantie, -n', 'الضمان', 'Das Handy hat zwei Jahre Garantie.', 'الهاتف عليه ضمان سنتين.', null, null),
+    (l, 7, 'vocab', 'funktionieren', 'يعمل (جهاز)', null, null, null, null),
+    (l, 8, 'vocab', 'beschädigt', 'تالف / متضرر', null, null, null, null),
+    (l, 9, 'vocab', 'der Kunde, -n / die Kundin, -nen', 'الزبون / الزبونة', null, null, null, null),
+    (l, 10, 'vocab', 'die Bestellung, -en', 'الطلبية', null, null, null, null),
+    (l, 11, 'vocab', 'liefern', 'يوصّل', 'Das Paket wird morgen geliefert.', 'الطرد سيوصل غداً.', null, null),
+    (l, 12, 'vocab', 'die Lieferung, -en', 'التوصيل / الشحنة', null, null, null, null),
+    (l, 13, 'vocab', 'online bestellen', 'يطلب عبر الإنترنت', null, null, null, null),
+    (l, 14, 'vocab', 'das Sonderangebot, -e', 'عرض خاص', null, null, null, null),
+    (l, 15, 'vocab', 'der Rabatt, -e', 'الخصم', null, null, null, null),
+    (l, 16, 'vocab', 'günstig', 'بسعر مناسب', null, null, null, null),
+    (l, 17, 'vocab', 'die Qualität', 'الجودة', null, null, null, null),
+    (l, 18, 'vocab', 'die Öffnungszeiten (Pl.)', 'أوقات الدوام', null, null, null, null),
+    (l, 19, 'listen', 'Guten Tag. Ich habe gestern diese Hose gekauft, aber sie ist zu klein. Kann ich sie in Größe 40 umtauschen?', 'ماذا تريد الزبونة؟', null, null, '["تبديل البنطال بمقاس أكبر", "إرجاع المال", "شراء بنطال آخر", "تصليح البنطال"]'::jsonb, 0),
+    (l, 20, 'listen', 'Leider können wir reduzierte Ware nicht zurücknehmen.', 'ماذا يقول البائع؟', null, null, '["لا يمكن إرجاع البضائع المخفّضة", "يمكن الإرجاع خلال أسبوع", "البضاعة مجانية", "يجب الدفع نقداً"]'::jsonb, 0),
+    (l, 21, 'gap', 'Der Wasserkocher ___ nicht. Er ist kaputt.', '', null, null, '["funktioniert", "liefert", "tauscht"]'::jsonb, 0),
+    (l, 22, 'gap', 'Haben Sie noch den ___? Ohne ihn geht es leider nicht.', '', null, null, '["Kassenbon", "Rabatt", "Kunden"]'::jsonb, 0),
+    (l, 23, 'gap', 'Ich möchte die Jacke ___. Sie ist zu groß.', '', null, null, '["umtauschen", "liefern", "reservieren"]'::jsonb, 0),
+    (l, 24, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["die Garantie = الضمان", "der Rabatt = الخصم", "liefern = يوصّل", "beschädigt = تالف", "die Quittung = الإيصال"]'::jsonb, null),
+    (l, 25, 'order', 'Ich möchte mein Geld zurück.', 'أريد استرجاع مالي.', null, null, null, null),
+    (l, 26, 'write', 'Das funktioniert nicht.|Das funktioniert nicht', 'اكتب: هذا لا يعمل.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-medien', m, 'A2', 305, 'lesson', 'Medien und Technik', 'الإعلام والتكنولوجيا', '', 'أن تتكلم عن استخدام الهاتف والإنترنت والتلفاز والتطبيقات.', '## أفعال التكنولوجيا
+herunterladen (ينزّل)، hochladen (يرفع)، speichern (يحفظ)، löschen (يحذف)، drucken (يطبع)، klicken، sich einloggen (يسجل الدخول)، aufladen (يشحن)
+> Mein Akku ist leer. Ich muss das Handy aufladen.
+> Ich habe das Passwort vergessen.
+## Wie oft? — Wie lange?
+> Ich surfe jeden Tag zwei Stunden im Internet.', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'vocab', 'die Medien (Pl.)', 'وسائل الإعلام', null, null, null, null),
+    (l, 2, 'vocab', 'das Fernsehen / das Programm', 'التلفزيون / البرنامج', null, null, null, null),
+    (l, 3, 'vocab', 'die Sendung, -en', 'البرنامج (التلفزيوني)', null, null, null, null),
+    (l, 4, 'vocab', 'die Nachrichten (Pl.)', 'الأخبار', null, null, null, null),
+    (l, 5, 'vocab', 'das Radio, -s', 'الراديو', null, null, null, null),
+    (l, 6, 'vocab', 'der Laptop, -s', 'اللابتوب', null, null, null, null),
+    (l, 7, 'vocab', 'die App, -s', 'التطبيق', null, null, null, null),
+    (l, 8, 'vocab', 'das Passwort, ¨-er', 'كلمة السر', null, null, null, null),
+    (l, 9, 'vocab', 'herunter|laden', 'يُنزّل (تحميل)', null, null, null, null),
+    (l, 10, 'vocab', 'speichern', 'يحفظ', null, null, null, null),
+    (l, 11, 'vocab', 'löschen', 'يحذف', null, null, null, null),
+    (l, 12, 'vocab', 'drucken', 'يطبع', 'Ich muss das Formular drucken.', 'يجب أن أطبع الاستمارة.', null, null),
+    (l, 13, 'vocab', 'der Drucker, -', 'الطابعة', null, null, null, null),
+    (l, 14, 'vocab', 'auf|laden', 'يشحن', null, null, null, null),
+    (l, 15, 'vocab', 'der Akku, -s', 'البطارية', null, null, null, null),
+    (l, 16, 'vocab', 'das Netz / das WLAN', 'الشبكة / الواي فاي', null, null, null, null),
+    (l, 17, 'vocab', 'online / offline', 'متصل / غير متصل', null, null, null, null),
+    (l, 18, 'vocab', 'die Webseite, -n', 'الموقع الإلكتروني', null, null, null, null),
+    (l, 19, 'vocab', 'der Bildschirm, -e', 'الشاشة', null, null, null, null),
+    (l, 20, 'vocab', 'die Datei, -en', 'الملف', null, null, null, null),
+    (l, 21, 'vocab', 'der Anhang, ¨-e', 'المرفق', null, null, null, null),
+    (l, 22, 'vocab', 'die Werbung', 'الإعلانات (التجارية)', null, null, null, null),
+    (l, 23, 'gap', 'Mein Akku ist leer. Ich muss das Handy ___.', '', null, null, '["aufladen", "löschen", "drucken"]'::jsonb, 0),
+    (l, 24, 'gap', 'Ich habe das ___ vergessen. Ich kann mich nicht einloggen.', '', null, null, '["Passwort", "Programm", "Netz"]'::jsonb, 0),
+    (l, 25, 'gap', 'Bitte schicken Sie die Datei im ___.', '', null, null, '["Anhang", "Drucker", "Radio"]'::jsonb, 0),
+    (l, 26, 'gap', 'Gibt es hier ___? – Ja, das Passwort steht an der Tür.', '', null, null, '["WLAN", "Werbung", "Nachrichten"]'::jsonb, 0),
+    (l, 27, 'listen', 'Ich sehe abends selten fern, aber ich höre morgens im Auto immer die Nachrichten.', 'متى يسمع الأخبار؟', null, null, '["صباحاً في السيارة", "مساءً في التلفاز", "لا يسمعها أبداً", "ظهراً"]'::jsonb, 0),
+    (l, 28, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["speichern = يحفظ", "löschen = يحذف", "drucken = يطبع", "die Datei = الملف", "der Bildschirm = الشاشة"]'::jsonb, null),
+    (l, 29, 'order', 'Ich habe die App heruntergeladen.', 'نزّلت التطبيق.', null, null, null, null),
+    (l, 30, 'write', 'Mein Akku ist leer.|Mein Akku ist leer', 'اكتب: بطاريتي فارغة.', null, null, null, null);
+  insert into public.lessons (slug, module_id, cefr_level, position, kind, title_de, title_ar, description_ar, goal_ar, explanation_ar, pass_percent) values ('a2-alltag-test', m, 'A2', 306, 'test', 'Modultest – Alltag A2', 'اختبار وحدة الحياة اليومية A2', '', 'النجاح من 70٪.', '', 70) on conflict (slug) do update set module_id = excluded.module_id, cefr_level = excluded.cefr_level, position = excluded.position, kind = excluded.kind, title_de = excluded.title_de, title_ar = excluded.title_ar, description_ar = excluded.description_ar, goal_ar = excluded.goal_ar, explanation_ar = excluded.explanation_ar, pass_percent = excluded.pass_percent returning id into l;
+  delete from public.lesson_items where lesson_id = l;
+  insert into public.lesson_items (lesson_id, position, kind, german, arabic, example_de, example_ar, options, answer) values
+    (l, 1, 'gap', 'Die Warmmiete ist die Kaltmiete plus ___.', '', null, null, '["Nebenkosten", "Kaution", "Rabatt"]'::jsonb, 0),
+    (l, 2, 'gap', 'Kann ich die Wohnung am Montag ___?', '', null, null, '["besichtigen", "umtauschen", "kündigen"]'::jsonb, 0),
+    (l, 3, 'gap', 'Der Arzt gibt mir ein ___ für die Apotheke.', '', null, null, '["Rezept", "Trinkgeld", "Passwort"]'::jsonb, 0),
+    (l, 4, 'gap', 'Ich habe ___ erkältet.', '', null, null, '["mich", "mir", "sich"]'::jsonb, 0),
+    (l, 5, 'gap', 'Was können Sie uns ___?', '', null, null, '["empfehlen", "bestellen", "liefern"]'::jsonb, 0),
+    (l, 6, 'gap', 'Der Toaster ist kaputt. Ich möchte ihn ___.', '', null, null, '["umtauschen", "speichern", "braten"]'::jsonb, 0),
+    (l, 7, 'gap', 'Vergiss nicht, die Datei zu ___.', '', null, null, '["speichern", "schneiden", "mieten"]'::jsonb, 0),
+    (l, 8, 'listen', 'Die Wohnung kostet sechshundertfünfzig Euro warm, die Kaution ist eintausend Euro.', 'كم التأمين؟', null, null, '["1000 €", "650 €", "1650 €", "600 €"]'::jsonb, 0),
+    (l, 9, 'listen', 'Bitte nehmen Sie die Tropfen vor dem Schlafen, eine Woche lang.', 'متى تأخذ القطرات؟', null, null, '["قبل النوم", "بعد الطعام", "صباحاً", "عند الألم"]'::jsonb, 0),
+    (l, 10, 'listen', 'Ich habe die Lampe online bestellt, aber sie war beschädigt. Ich schicke sie zurück.', 'ماذا سيفعل؟', null, null, '["يُرجع المصباح", "يصلحه", "يطلب واحداً آخر من المتجر", "يحتفظ به"]'::jsonb, 0),
+    (l, 11, 'match', '', 'طابق كل كلمة بمعناها', null, null, '["der Mietvertrag = عقد الإيجار", "die Überweisung = التحويل", "die Pfanne = المقلاة", "die Garantie = الضمان", "der Akku = البطارية"]'::jsonb, null),
+    (l, 12, 'order', 'Wir sind letzten Monat umgezogen.', 'انتقلنا الشهر الماضي.', null, null, null, null),
+    (l, 13, 'write', 'Ich hätte gern die Rechnung.|Ich hätte gern die Rechnung bitte|Ich hätte gern die Rechnung, bitte.', 'اكتب بأدب: أودّ الفاتورة.', null, null, null, null);
 end
 $$;
