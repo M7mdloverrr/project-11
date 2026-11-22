@@ -34,7 +34,7 @@ Legend: ✅ implemented & tested locally · 🔑 implemented, needs Supabase cre
 - Next: run the end-to-end check in `SETUP.md` §5 on a phone with APKs built with `--dart-define-from-file=../../.env`.
 
 ## Blocked / limits
-- E-mail confirmation and reset links use Supabase's built-in mailer, which only sends a few e-mails per hour on the free plan. For real classes add free SMTP (e.g. Resend free tier) under Authentication → Emails → SMTP, or turn off "Confirm email" while testing.
+- "Confirm email" is **off** on the live project (sign-ups need no e-mail). Password-reset e-mails use Supabase's built-in mailer, limited to 2 e-mails/hour on the free plan; admins can instead create a one-time reset link in the admin panel and share it by hand. To raise the limit, add free SMTP (e.g. Resend) under Authentication → Emails → SMTP.
 
 ## Not started (later phases)
 - ⏳ Lessons content, progress tracking, chat, notifications, iOS builds, release signing / Play Store.
