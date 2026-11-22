@@ -1,0 +1,600 @@
+module:
+  slug: a1-grammatik
+  level: A1
+  position: 4
+  icon: grammar
+  title_de: Grammatik A1
+  title_ar: قواعد المستوى A1
+  description_ar: كل قواعد Goethe A1 خطوة بخطوة — الأدوات والجمع، تصريف المضارع، الأسئلة، ترتيب الجملة، المفعول به، النفي، الملكية، الأفعال الناقصة والمنفصلة، الأمر، حروف الجر، والماضي التام.
+
+lessons:
+  - slug: a1-g-articles
+    title_de: Artikel und Plural
+    title_ar: أدوات التعريف والتنكير والجمع
+    goal_ar: أن تفهم der/die/das و ein/eine، وكيف تتعلم الاسم مع أداته وجمعه.
+    explanation_ar: |
+      ## ثلاثة أجناس
+      كل اسم ألماني له جنس: مذكر **der**، مؤنث **die**، محايد **das**. الجنس غالباً لا يتبع المعنى، لذلك **احفظ كل اسم مع أداته**.
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | معرّف | der Tisch | die Lampe | das Buch | die Bücher |
+      | نكرة | ein Tisch | eine Lampe | ein Buch | — Bücher |
+      ## قواعد مساعدة
+      - die: معظم الأسماء المنتهية بـ -ung, -heit, -keit, -e: die Wohnung, die Freiheit.
+      - das: المنتهية بـ -chen, -lein: das Mädchen.
+      - der: الأيام، الأشهر، الفصول: der Montag, der Mai.
+      ## الجمع
+      أداة الجمع دائماً **die**. نهايات الجمع: -e, -er, -n/-en, -s، وأحياناً ¨ على حرف العلة:
+      > der Tisch → die Tische, das Buch → die Bücher, die Lampe → die Lampen, das Auto → die Autos
+      ## متى ein ومتى der؟
+      > Das ist ein Tisch. Der Tisch ist neu. (أول مرة نكرة، بعدها معرّف)
+    items:
+      - {rule: "**احفظ الاسم بثلاثة أجزاء**: الأداة + الاسم + الجمع، مثل: der Tisch, die Tische.", de: "der Tisch, -e\ndie Lampe, -n\ndas Buch, ¨-er"}
+      - gap: "___ Wohnung ist groß."
+        options: [Die, Der, Das]
+      - gap: "___ Mädchen heißt Lea."
+        options: [Das, Die, Der]
+      - gap: "___ Montag ist ein Arbeitstag."
+        options: [Der, Die, Das]
+      - gap: "Das ist ___ Lampe."
+        options: [eine, ein, einen]
+      - gap: "Das ist ___ Buch."
+        options: [ein, eine, einer]
+      - gap: "Das ist ein Stuhl. ___ Stuhl ist bequem."
+        options: [Der, Ein, Das]
+      - quiz: "ما جمع das Buch؟"
+        options: [die Bücher, die Buchs, die Buchen, das Bücher]
+      - quiz: "ما جمع die Lampe؟"
+        options: [die Lampen, die Lämpe, die Lampes, die Lampe]
+      - quiz: "أداة الجمع دائماً..."
+        options: [die, der, das, den]
+      - match: ["die Zeitung = -ung → die", "das Brötchen = -chen → das", "der Mai = شهر → der", "die Kinder = جمع → die"]
+        ar: طابق كل اسم بالقاعدة
+      - write: "die Freiheit"
+        ar: "اكتب كلمة Freiheit مع أداتها الصحيحة:"
+
+  - slug: a1-g-present
+    title_de: Präsens – regelmäßige Verben
+    title_ar: المضارع — الأفعال المنتظمة
+    goal_ar: أن تصرّف أي فعل منتظم مع كل الضمائر.
+    explanation_ar: |
+      ## الضمائر
+      | ich أنا | du أنت | er/sie/es هو/هي | wir نحن | ihr أنتم | sie/Sie هم/حضرتك |
+      |---|---|---|---|---|---|
+      ## التصريف: جذع الفعل + النهاية
+      الفعل في المصدر ينتهي بـ -en: wohn**en** → الجذع **wohn**
+      | | wohnen | arbeiten* |
+      |---|---|---|
+      | ich | wohn**e** | arbeit**e** |
+      | du | wohn**st** | arbeit**est** |
+      | er/sie/es | wohn**t** | arbeit**et** |
+      | wir | wohn**en** | arbeit**en** |
+      | ihr | wohn**t** | arbeit**et** |
+      | sie/Sie | wohn**en** | arbeit**en** |
+      *إذا انتهى الجذع بـ -t أو -d نضيف e: du arbeitest, er findet.
+      - إذا انتهى الجذع بـ s/ß/z: du heißt, du tanzt (بدون s إضافية).
+    items:
+      - {rule: "النهايات: ich **-e**، du **-st**، er/sie/es **-t**، wir **-en**، ihr **-t**، sie/Sie **-en**.", de: "ich lerne – du lernst – er lernt\nwir lernen – ihr lernt – sie lernen"}
+      - gap: "Wir ___ in Köln."
+        options: [wohnen, wohnt, wohnst]
+      - gap: "Ihr ___ Deutsch."
+        options: [lernt, lernen, lernst]
+      - gap: "Er ___ bei Siemens."
+        options: [arbeitet, arbeitt, arbeiten]
+      - gap: "Du ___ Musik."
+        options: [hörst, hört, hören]
+      - gap: "Sie (هي) ___ gern."
+        options: [kocht, kochen, kochst]
+      - gap: "Was ___ ihr am Wochenende?"
+        options: [macht, machen, machst]
+      - gap: "Du ___ sehr gut!"
+        options: [tanzt, tanzst, tanzen]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Du findest das Buch.", "Du findst das Buch.", "Du finden das Buch.", "Du findet das Buch."]
+      - order: "Wir lernen jeden Tag Deutsch."
+        ar: نتعلم الألمانية كل يوم.
+      - write: "du spielst"
+        ar: "صرّف spielen مع du (اكتب: du + الفعل):"
+      - write: "er kauft"
+        ar: "صرّف kaufen مع er (اكتب: er + الفعل):"
+
+  - slug: a1-g-irregular
+    title_de: sein, haben und Verben mit Vokalwechsel
+    title_ar: sein و haben والأفعال التي يتغير حرف العلة فيها
+    goal_ar: أن تتقن أهم فعلين sein و haben، والأفعال التي تتغير مع du و er.
+    explanation_ar: |
+      ## sein و haben — احفظهما تماماً
+      | | sein (يكون) | haben (يملك) |
+      |---|---|---|
+      | ich | bin | habe |
+      | du | bist | hast |
+      | er/sie/es | ist | hat |
+      | wir | sind | haben |
+      | ihr | seid | habt |
+      | sie/Sie | sind | haben |
+      ## تغيير حرف العلة (فقط مع du و er/sie/es)
+      | النوع | المصدر | du | er/sie |
+      |---|---|---|---|
+      | a → ä | fahren | fährst | fährt |
+      | a → ä | schlafen | schläfst | schläft |
+      | e → i | sprechen | sprichst | spricht |
+      | e → i | essen | isst | isst |
+      | e → ie | lesen | liest | liest |
+      | e → ie | sehen | siehst | sieht |
+      ## werden و wissen
+      > werden: ich werde, du wirst, er wird — wissen: ich weiß, du weißt, er weiß
+    items:
+      - gap: "Wir ___ aus Marokko."
+        options: [sind, seid, ist]
+      - gap: "Ihr ___ sehr nett."
+        options: [seid, sind, seit]
+      - gap: "___ du Kinder?"
+        options: [Hast, Hat, Habst]
+      - gap: "Er ___ ein Auto."
+        options: [hat, habt, hast]
+      - gap: "Sie (هي) ___ nach Berlin."
+        options: [fährt, fahrt, fährst]
+      - gap: "Du ___ zu viel."
+        options: [schläfst, schlafst, schläft]
+      - gap: "Er ___ jeden Tag die Zeitung."
+        options: [liest, lest, lesst]
+      - gap: "___ du den Bus?"
+        options: [Siehst, Sehst, Sieht]
+      - gap: "Ich ___ es nicht."
+        options: [weiß, wisse, weißt]
+      - gap: "Sie (هي) ___ Ärztin."
+        options: [wird, werdet, wirst]
+      - match: ["fahren = du fährst", "sprechen = du sprichst", "lesen = du liest", "essen = du isst", "schlafen = du schläfst"]
+        ar: طابق كل فعل بتصريفه مع du
+      - write: "er spricht"
+        ar: "صرّف sprechen مع er:"
+
+  - slug: a1-g-questions
+    title_de: W-Fragen und Ja/Nein-Fragen
+    title_ar: أسئلة الاستفهام وأسئلة نعم/لا
+    goal_ar: أن تطرح كل أنواع الأسئلة البسيطة وتجيب بـ ja / nein / doch.
+    explanation_ar: |
+      ## أدوات الاستفهام (W-Wörter)
+      | Wer? مَن | Was? ماذا | Wo? أين | Woher? من أين | Wohin? إلى أين |
+      |---|---|---|---|---|
+      | Wann? متى | Wie? كيف | Wie viel? كم | Warum? لماذا | Welche? أي |
+      ## سؤال W: أداة الاستفهام + الفعل + الفاعل
+      > Wo wohnst du? — Was machst du?
+      ## سؤال نعم/لا: الفعل أولاً
+      > Wohnst du in Berlin? — Ja, ich wohne in Berlin. / Nein, ich wohne in Bonn.
+      ## doch
+      للرد بالإيجاب على سؤال **منفي**:
+      > Kommst du nicht? — **Doch**, ich komme! (بلى، سآتي)
+    items:
+      - gap: "___ wohnst du? – In Hamburg."
+        options: [Wo, Woher, Wohin]
+      - gap: "___ kommst du? – Aus Tunesien."
+        options: [Woher, Wo, Wohin]
+      - gap: "___ fährst du? – Nach München."
+        options: [Wohin, Woher, Wo]
+      - gap: "___ ist das? – Das ist mein Bruder."
+        options: [Wer, Was, Wie]
+      - gap: "___ beginnt der Kurs? – Um 9 Uhr."
+        options: [Wann, Wie, Wo]
+      - gap: "___ lernst du Deutsch? – Weil ich hier arbeite."
+        options: [Warum, Wann, Was]
+      - gap: "___ kostet das? – 5 Euro."
+        options: [Wie viel, Wie, Wann]
+      - quiz: "Hast du keine Zeit? — نعم عندي وقت. ماذا تقول؟"
+        options: ["Doch, ich habe Zeit.", "Ja, ich habe keine Zeit.", "Nein, ich habe Zeit.", "Ja, ich habe Zeit."]
+      - order: "Sprichst du Arabisch?"
+        ar: هل تتكلم العربية؟
+      - order: "Wann kommt der Bus?"
+        ar: متى يأتي الباص؟
+      - write: "Woher kommst du?"
+        ar: "اكتب: من أين أنت؟ (غير رسمي)"
+
+  - slug: a1-g-word-order
+    title_de: Satzstellung – das Verb auf Position 2
+    title_ar: ترتيب الجملة — الفعل في المكان الثاني
+    goal_ar: أن تبني جملاً صحيحة والفعل دائماً في المكان الثاني، حتى لو بدأت بالزمن أو المكان.
+    explanation_ar: |
+      ## القاعدة الذهبية
+      في الجملة الخبرية: **الفعل دائماً في المكان الثاني**.
+      | المكان 1 | المكان 2 (الفعل) | الباقي |
+      |---|---|---|
+      | Ich | fahre | morgen nach Berlin. |
+      | Morgen | fahre | ich nach Berlin. |
+      | Nach Berlin | fahre | ich morgen. |
+      إذا بدأت بشيء غير الفاعل، يأتي الفاعل **بعد** الفعل.
+      ## الروابط und, aber, oder, denn
+      لا تأخذ مكاناً (مكان 0):
+      > Ich lerne Deutsch, **denn** ich **arbeite** hier.
+      > Ich bin müde, **aber** ich **gehe** zur Arbeit.
+    items:
+      - {rule: "المكان 1 يمكن أن يكون أي شيء (الفاعل، الزمن، المكان...)، لكن الفعل يبقى **ثانياً**.", de: "Heute arbeite ich.\nIn Berlin wohnt mein Bruder."}
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Heute gehe ich ins Kino.", "Heute ich gehe ins Kino.", "Heute ins Kino ich gehe.", "Ich heute gehe ins Kino."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Am Montag habe ich einen Termin.", "Am Montag ich habe einen Termin.", "Ich am Montag habe einen Termin.", "Am Montag einen Termin habe ich."]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich komme nicht, denn ich bin krank.", "Ich komme nicht, denn ich krank bin.", "Ich komme nicht, denn bin ich krank.", "Ich nicht komme, denn ich bin krank."]
+      - order: "Morgen fahre ich nach Hamburg."
+        ar: غداً أسافر إلى هامبورغ.
+      - order: "Am Wochenende spielen wir Fußball."
+        ar: في عطلة نهاية الأسبوع نلعب كرة القدم.
+      - order: "In der Küche steht ein Tisch."
+        ar: في المطبخ توجد طاولة.
+      - order: "Ich bin müde, aber ich lerne."
+        ar: أنا متعب لكني أدرس.
+      - gap: "Heute ___ ich keine Zeit."
+        options: [habe, ich habe, hat]
+      - write: "Heute arbeite ich.|Heute arbeite ich"
+        ar: "ابدأ بـ Heute: 'اليوم أعمل.'"
+
+  - slug: a1-g-accusative
+    title_de: Der Akkusativ
+    title_ar: حالة المفعول به (Akkusativ)
+    goal_ar: أن تستخدم den/einen للمذكر بعد أفعال مثل haben, kaufen, brauchen, möchten.
+    explanation_ar: |
+      ## ما هو الأكوزاتيف؟
+      هو حالة **المفعول به** (الشيء الذي يقع عليه الفعل). **يتغير المذكر فقط!**
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Nominativ (فاعل) | der / ein | die / eine | das / ein | die |
+      | Akkusativ (مفعول) | **den / einen** | die / eine | das / ein | die |
+      > Der Tisch ist neu. → Ich kaufe **den** Tisch.
+      > Ich habe **einen** Bruder. — Ich brauche **einen** Stift.
+      ## أفعال تأخذ الأكوزاتيف
+      haben, kaufen, brauchen, möchten, nehmen, sehen, suchen, finden, essen, trinken, besuchen, es gibt
+      > Es gibt **einen** Park.
+      ## الضمائر
+      ich → mich, du → dich, er → **ihn**, sie → sie, es → es
+      > Ich sehe **ihn**. (أراه)
+    items:
+      - {rule: "في الأكوزاتيف يتغير **المذكر فقط**: der → **den**، ein → **einen**، kein → **keinen**.", de: "Der Kaffee ist heiß. → Ich trinke den Kaffee.\nIch habe einen Hund."}
+      - gap: "Ich kaufe ___ Tisch."
+        options: [den, der, dem]
+      - gap: "Ich habe ___ Bruder."
+        options: [einen, ein, eine]
+      - gap: "Wir brauchen ___ Lampe."
+        options: [eine, einen, ein]
+      - gap: "Siehst du ___ Auto?"
+        options: [das, den, der]
+      - gap: "Es gibt hier ___ Supermarkt."
+        options: [einen, ein, der]
+      - gap: "Ich möchte ___ Kaffee, bitte."
+        options: [einen, ein, der]
+      - gap: "Kennst du Ali? – Ja, ich kenne ___."
+        options: [ihn, er, ihm]
+      - gap: "Ich liebe ___. (أحبك)"
+        options: [dich, du, dir]
+      - quiz: "في أي جنس يتغير الأكوزاتيف؟"
+        options: [المذكر فقط, المؤنث فقط, كل الأجناس, المحايد والجمع]
+      - order: "Ich suche einen Schlüssel."
+        ar: أبحث عن مفتاح.
+      - write: "Ich kaufe einen Apfel.|Ich kaufe einen Apfel"
+        ar: "اكتب: أشتري تفاحة. (der Apfel)"
+
+  - slug: a1-g-negation
+    title_de: Verneinung – nicht und kein
+    title_ar: النفي — nicht و kein
+    goal_ar: أن تعرف متى تنفي بـ nicht ومتى بـ kein.
+    explanation_ar: |
+      ## kein = لا يوجد / ولا (بدل ein أو بدون أداة)
+      > Ich habe **ein** Auto. → Ich habe **kein** Auto.
+      > Ich trinke Kaffee. → Ich trinke **keinen** Kaffee.
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Nom. | kein | keine | kein | keine |
+      | Akk. | **keinen** | keine | kein | keine |
+      ## nicht = لا (لكل شيء آخر)
+      مع الأفعال، الصفات، الأسماء المعرّفة، الأسماء العلم:
+      > Ich komme **nicht**. — Das ist **nicht** teuer. — Das ist **nicht** mein Buch. — Ich wohne **nicht** in Berlin.
+      ## مكان nicht
+      غالباً في آخر الجملة، أو قبل الصفة/المكان/الشيء المنفي.
+    items:
+      - gap: "Ich habe ___ Zeit."
+        options: [keine, nicht, kein]
+      - gap: "Das ist ___ teuer."
+        options: [nicht, kein, keine]
+      - gap: "Er hat ___ Bruder."
+        options: [keinen, kein, nicht]
+      - gap: "Wir haben ___ Kinder."
+        options: [keine, keinen, nicht]
+      - gap: "Ich komme heute ___."
+        options: [nicht, kein, keine]
+      - gap: "Das ist ___ Hund, das ist eine Katze."
+        options: [kein, nicht, keinen]
+      - gap: "Ich wohne ___ in München."
+        options: [nicht, kein, keine]
+      - quiz: "Hast du ein Auto? – (لا)"
+        options: ["Nein, ich habe kein Auto.", "Nein, ich habe nicht Auto.", "Nein, ich habe nicht ein Auto.", "Nein, ich habe keinen Auto."]
+      - order: "Ich trinke keinen Kaffee."
+        ar: لا أشرب القهوة.
+      - write: "Ich habe kein Geld.|Ich habe kein Geld"
+        ar: "اكتب: ليس لدي مال. (das Geld)"
+
+  - slug: a1-g-possessive
+    title_de: Possessivartikel
+    title_ar: أدوات الملكية
+    goal_ar: أن تستخدم mein, dein, sein, ihr, unser, euer, Ihr بشكل صحيح.
+    explanation_ar: |
+      ## أدوات الملكية
+      | ich → mein | du → dein | er/es → sein | sie → ihr |
+      |---|---|---|---|
+      | wir → unser | ihr → euer | sie → ihr | Sie → Ihr |
+      ## النهايات مثل ein/kein
+      | | مذكر | مؤنث | محايد | جمع |
+      |---|---|---|---|---|
+      | Nom. | mein | meine | mein | meine |
+      | Akk. | **meinen** | meine | mein | meine |
+      > Das ist **sein** Auto. (سيارته) — Das ist **ihr** Auto. (سيارتها)
+      > Ich besuche **meinen** Vater. — Wie ist **Ihre** Adresse?
+    items:
+      - gap: "Ali hat ein Auto. Das ist ___ Auto."
+        options: [sein, ihr, mein]
+      - gap: "Lina hat eine Katze. Das ist ___ Katze."
+        options: [ihre, seine, ihr]
+      - gap: "Wir haben ein Haus. Das ist ___ Haus."
+        options: [unser, unsere, euer]
+      - gap: "Wie ist ___ Name? (رسمي)"
+        options: [Ihr, dein, ihr]
+      - gap: "Ich besuche ___ Großvater."
+        options: [meinen, mein, meine]
+      - gap: "Ihr habt Kinder. Wie alt sind ___ Kinder?"
+        options: [eure, euer, unsere]
+      - gap: "Wo ist ___ Tasche, Mama?"
+        options: [deine, dein, deinen]
+      - quiz: "'Das ist ihr Buch' — لمن الكتاب؟"
+        options: [لها أو لهم, له, لي, لك]
+      - order: "Ich rufe meine Mutter an."
+        ar: أتصل بأمي.
+      - write: "Das ist unser Lehrer.|Das ist unser Lehrer"
+        ar: "اكتب: هذا معلّمنا."
+
+  - slug: a1-g-modal
+    title_de: Modalverben
+    title_ar: الأفعال الناقصة (Modalverben)
+    goal_ar: أن تستخدم können, müssen, wollen, möchten, dürfen, sollen مع الفعل في آخر الجملة.
+    explanation_ar: |
+      ## المعاني
+      | können | müssen | wollen | möchten | dürfen | sollen |
+      |---|---|---|---|---|---|
+      | يستطيع | يجب | يريد | يودّ | مسموح له | ينبغي (طلب من شخص آخر) |
+      ## التصريف (ich و er متشابهان، بدون نهاية!)
+      | | können | müssen | wollen | möchten |
+      |---|---|---|---|---|
+      | ich | kann | muss | will | möchte |
+      | du | kannst | musst | willst | möchtest |
+      | er/sie | kann | muss | will | möchte |
+      | wir/sie/Sie | können | müssen | wollen | möchten |
+      ## بناء الجملة: قوس الجملة (Satzklammer)
+      الفعل الناقص في المكان 2، والفعل الأساسي **مصدر في آخر الجملة**:
+      > Ich **kann** gut Deutsch **sprechen**.
+      > Du **musst** heute **arbeiten**.
+      > Hier **darf** man nicht **rauchen**.
+    items:
+      - {rule: "الفعل الناقص في المكان الثاني، والفعل الثاني **مصدر في الآخر**.", de: "Ich kann schwimmen.\nWir müssen morgen früh aufstehen."}
+      - gap: "Ich ___ gut kochen."
+        options: [kann, könne, kannst]
+      - gap: "Er ___ heute arbeiten."
+        options: [muss, müsst, musst]
+      - gap: "___ du mit ins Kino kommen?"
+        options: [Willst, Will, Wollt]
+      - gap: "Hier ___ man nicht parken."
+        options: [darf, dürft, darfst]
+      - gap: "Ich ___ einen Kaffee trinken."
+        options: [möchte, möchtest, möchten]
+      - gap: "Der Arzt sagt, ich ___ im Bett bleiben."
+        options: [soll, sollst, sollen]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich muss heute lernen.", "Ich muss lernen heute.", "Ich lernen muss heute.", "Ich muss heute lerne."]
+      - order: "Kannst du mir helfen?"
+        ar: هل تستطيع مساعدتي؟
+      - order: "Wir müssen um acht Uhr da sein."
+        ar: يجب أن نكون هناك الساعة الثامنة.
+      - write: "Ich kann schwimmen.|Ich kann schwimmen"
+        ar: "اكتب: أستطيع السباحة."
+
+  - slug: a1-g-separable
+    title_de: Trennbare Verben
+    title_ar: الأفعال المنفصلة
+    goal_ar: أن تستخدم الأفعال المنفصلة مثل aufstehen, einkaufen, anrufen، والبادئة في آخر الجملة.
+    explanation_ar: |
+      ## ما هي؟
+      أفعال لها بادئة تنفصل في المضارع وتذهب **إلى آخر الجملة**:
+      > auf|stehen → Ich **stehe** um 7 Uhr **auf**.
+      > ein|kaufen → Wir **kaufen** am Samstag **ein**.
+      > an|rufen → Ich **rufe** dich morgen **an**.
+      ## البادئات المنفصلة الشائعة
+      ab-, an-, auf-, aus-, ein-, mit-, vor-, zu-, zurück-, fern-
+      | المصدر | المعنى |
+      |---|---|
+      | aufstehen | يستيقظ وينهض |
+      | anfangen | يبدأ |
+      | fernsehen | يشاهد التلفاز |
+      | mitkommen | يأتي معه |
+      | aufräumen | يرتّب |
+      | abholen | يأخذ / يستلم شخصاً |
+      ## مع فعل ناقص: لا ينفصل
+      > Ich muss morgen früh **aufstehen**.
+    items:
+      - gap: "Ich stehe jeden Tag um sechs Uhr ___."
+        options: [auf, an, ein]
+      - gap: "Wir kaufen am Samstag ___."
+        options: [ein, auf, aus]
+      - gap: "Der Kurs fängt um neun Uhr ___."
+        options: [an, auf, mit]
+      - gap: "Kommst du ___? – Ja, gern!"
+        options: [mit, an, zu]
+      - gap: "Ich muss heute mein Zimmer ___."
+        options: [aufräumen, räume auf, aufräume]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich rufe dich morgen an.", "Ich anrufe dich morgen.", "Ich rufe an dich morgen.", "Ich rufe dich an morgen."]
+      - order: "Am Abend sehe ich fern."
+        ar: في المساء أشاهد التلفاز.
+      - order: "Ich hole meine Tochter um vier Uhr ab."
+        ar: آخذ ابنتي الساعة الرابعة.
+      - write: "Ich stehe um sieben Uhr auf.|Ich stehe um 7 Uhr auf"
+        ar: "اكتب: أستيقظ الساعة السابعة."
+
+  - slug: a1-g-imperative
+    title_de: Der Imperativ
+    title_ar: صيغة الأمر
+    goal_ar: أن تعطي تعليمات وتطلب بلطف بصيغة Sie و du و ihr.
+    explanation_ar: |
+      ## ثلاث صيغ
+      | | kommen | lesen | aufstehen |
+      |---|---|---|---|
+      | Sie | Kommen Sie! | Lesen Sie! | Stehen Sie auf! |
+      | du | Komm! | **Lies!** | Steh auf! |
+      | ihr | Kommt! | Lest! | Steht auf! |
+      - صيغة du: تصريف du **بدون -st** وبدون du: du kommst → Komm!
+      - الأفعال e→i تحتفظ بالتغيير: Lies! Iss! Sprich! — لكن a→ä لا: Fahr!
+      - sein: **Sei** ruhig! / Seien Sie… / Seid…
+      ## اللطف
+      أضف **bitte**: Kommen Sie bitte herein! / Hilf mir bitte!
+    items:
+      - gap: "___ Sie bitte langsam! (sprechen)"
+        options: [Sprechen, Sprich, Sprecht]
+      - gap: "___ mir bitte! (helfen, du)"
+        options: [Hilf, Helf, Hilfst]
+      - gap: "___ das Buch! (lesen, du)"
+        options: [Lies, Les, Liest]
+      - gap: "Kinder, ___ leise! (sein, ihr)"
+        options: [seid, sind, sei]
+      - gap: "___ bitte das Fenster! (öffnen, du)"
+        options: [Öffne, Öffnest, Öffnen]
+      - quiz: "كيف تقول لصديقك: 'تعال معنا!'"
+        options: ["Komm mit!", "Kommst mit!", "Kommen Sie mit!", "Kommt du mit!"]
+      - order: "Machen Sie bitte die Tür zu."
+        ar: أغلق الباب من فضلك. (رسمي)
+      - write: "Komm her!|Komm her"
+        ar: "اكتب لصديقك: تعال إلى هنا! (herkommen)"
+
+  - slug: a1-g-prepositions
+    title_de: Präpositionen – Zeit und Ort
+    title_ar: حروف الجر — الزمان والمكان
+    goal_ar: أن تستخدم أهم حروف الجر للزمان والمكان مع الحالة الصحيحة على مستوى A1.
+    explanation_ar: |
+      ## الزمان
+      | um | am | im | von … bis | seit | vor / nach |
+      |---|---|---|---|---|---|
+      | الساعة | اليوم | الشهر/الفصل | من… إلى | منذ | قبل / بعد |
+      > seit zwei Jahren — vor dem Essen — nach der Arbeit
+      ## المكان والاتجاه
+      | السؤال | حرف الجر | مثال |
+      |---|---|---|
+      | Wohin? (إلى البلد/المدينة) | nach | nach Berlin, nach Hause |
+      | Wohin? (إلى شخص/مكان) | zu | zum Arzt, zur Schule |
+      | Woher? | aus / von | aus Syrien, vom Arzt |
+      | Wo? | in / bei | in Berlin, beim Arzt, zu Hause |
+      ## حروف تأخذ دائماً Dativ
+      **aus, bei, mit, nach, seit, von, zu** — المذكر/المحايد: dem، المؤنث: der، الجمع: den…n
+      > mit dem Bus, mit der Bahn — zum (zu dem), zur (zu der), beim (bei dem), vom (von dem)
+    items:
+      - gap: "Ich fahre ___ Berlin."
+        options: [nach, zu, in]
+      - gap: "Ich gehe ___ Arzt."
+        options: [zum, nach, zur]
+      - gap: "Sie geht ___ Schule."
+        options: [zur, zum, nach]
+      - gap: "Ich bin ___ Hause."
+        options: [zu, nach, bei]
+      - gap: "Ich gehe jetzt ___ Hause."
+        options: [nach, zu, bei]
+      - gap: "Ich wohne ___ drei Jahren in Deutschland."
+        options: [seit, vor, für]
+      - gap: "Er arbeitet ___ einer Bank."
+        options: [bei, zu, nach]
+      - gap: "Nach ___ Arbeit gehe ich einkaufen."
+        options: [der, die, dem]
+      - match: ["nach Hause = إلى البيت", "zu Hause = في البيت", "seit = منذ", "beim Arzt = عند الطبيب", "vom Bahnhof = من المحطة"]
+      - write: "Ich gehe nach Hause.|Ich gehe nach Hause"
+        ar: "اكتب: أذهب إلى البيت."
+
+  - slug: a1-g-perfekt
+    title_de: Perfekt und Präteritum von sein/haben
+    title_ar: الماضي — Perfekt وماضي sein و haben
+    goal_ar: أن تتكلم عن الماضي بالـ Perfekt، وتستخدم war و hatte.
+    explanation_ar: |
+      ## Perfekt = haben/sein (مكان 2) + Partizip II (آخر الجملة)
+      > Ich **habe** gestern Fußball **gespielt**.
+      > Wir **sind** nach Berlin **gefahren**.
+      ## Partizip II
+      | النوع | المصدر | Partizip |
+      |---|---|---|
+      | منتظم: ge…t | machen, kaufen | gemacht, gekauft |
+      | غير منتظم: ge…en | fahren, essen, sehen | gefahren, gegessen, gesehen |
+      | منفصل: البادئة + ge | einkaufen, aufstehen | eingekauft, aufgestanden |
+      | بدون ge: -ieren, be-, ver- | studieren, besuchen | studiert, besucht |
+      ## haben أم sein؟
+      **sein** مع أفعال الحركة (gehen, fahren, kommen, fliegen) وتغيير الحالة (aufstehen) و bleiben, sein. **haben** مع البقية.
+      ## sein و haben في الماضي: Präteritum
+      | ich war | du warst | er war | wir waren | ich hatte | du hattest | er hatte | wir hatten |
+      |---|---|---|---|---|---|---|---|
+      > Gestern **war** ich krank. Ich **hatte** Fieber.
+    items:
+      - gap: "Ich ___ gestern Pizza gegessen."
+        options: [habe, bin, hat]
+      - gap: "Wir ___ nach Hamburg gefahren."
+        options: [sind, haben, seid]
+      - gap: "Er hat ein Buch ___."
+        options: [gekauft, kaufen, gekauf]
+      - gap: "Ich habe am Samstag ___."
+        options: [eingekauft, geeinkauft, einkauft]
+      - gap: "Sie hat Medizin ___."
+        options: [studiert, gestudiert, studieren]
+      - gap: "Ich bin um 7 Uhr ___."
+        options: [aufgestanden, aufgesteht, geaufstanden]
+      - gap: "Gestern ___ ich keine Zeit."
+        options: [hatte, war, habe]
+      - gap: "Wo ___ du gestern?"
+        options: [warst, hattest, bist]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Ich bin nach Hause gegangen.", "Ich habe nach Hause gegangen.", "Ich bin nach Hause gegeht.", "Ich gegangen bin nach Hause."]
+      - order: "Was hast du am Wochenende gemacht?"
+        ar: ماذا فعلت في عطلة نهاية الأسبوع؟
+      - order: "Gestern war ich beim Arzt."
+        ar: أمس كنت عند الطبيب.
+      - write: "Ich habe Tee getrunken.|Ich habe Tee getrunken"
+        ar: "اكتب بالـ Perfekt: شربت شاياً. (trinken → getrunken)"
+
+  - slug: a1-grammatik-test
+    kind: test
+    title_de: Modultest – Grammatik A1
+    title_ar: اختبار قواعد A1
+    goal_ar: اختبار شامل لكل قواعد A1. النجاح من 70٪.
+    items:
+      - gap: "___ Zeitung liegt auf dem Tisch."
+        options: [Die, Der, Das]
+      - gap: "Ihr ___ sehr gut Deutsch."
+        options: [sprecht, sprechen, sprichst]
+      - gap: "Er ___ jeden Morgen Zeitung."
+        options: [liest, lest, lesen]
+      - gap: "___ fährst du am Wochenende? – Nach Wien."
+        options: [Wohin, Wo, Woher]
+      - gap: "Ich kaufe ___ Computer."
+        options: [einen, ein, eine]
+      - gap: "Wir haben ___ Hund."
+        options: [keinen, kein, nicht]
+      - gap: "Das ist Herr Saleh und ___ Frau."
+        options: [seine, ihre, sein]
+      - gap: "Hier ___ man nicht rauchen."
+        options: [darf, dürfen, darfst]
+      - gap: "Der Film fängt um acht Uhr ___."
+        options: [an, auf, ein]
+      - gap: "___ mir bitte das Salz! (geben, du)"
+        options: [Gib, Geb, Gibst]
+      - gap: "Ich fahre ___ dem Fahrrad zur Arbeit."
+        options: [mit, bei, von]
+      - gap: "Wir ___ gestern ins Kino gegangen."
+        options: [sind, haben, waren]
+      - gap: "Letzte Woche ___ ich krank."
+        options: [war, hatte, bin]
+      - quiz: "أي جملة صحيحة؟"
+        options: ["Morgen muss ich früh aufstehen.", "Morgen ich muss früh aufstehen.", "Morgen muss ich aufstehen früh.", "Morgen muss früh ich aufstehen."]
+      - order: "Am Sonntag haben wir unsere Freunde besucht."
+        ar: يوم الأحد زرنا أصدقاءنا.
+      - order: "Kannst du mich morgen anrufen?"
+        ar: هل تستطيع أن تتصل بي غداً؟
+      - write: "Ich habe keine Zeit.|Ich habe keine Zeit"
+        ar: "اكتب: ليس لدي وقت."
+      - write: "Wir sind nach Berlin gefahren.|Wir sind nach Berlin gefahren"
+        ar: "اكتب بالـ Perfekt: سافرنا إلى برلين."

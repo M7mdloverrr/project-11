@@ -542,7 +542,9 @@ class FakeLessonRepository implements LessonRepository {
   final String teacherId;
   final List<LessonAssignment> assignments = [];
   final List<Lesson> lessons = [];
+  final List<CurriculumModule> modules = [];
   final Map<String, LessonProgress> progress = {};
+  CefrLevel? placementLevel;
   final completions = <({String lessonId, int score, int max})>[];
   AppFailure? nextError;
   int _seq = 0;
@@ -556,6 +558,18 @@ class FakeLessonRepository implements LessonRepository {
     }
   }
 
+  @override
+  Future<List<CurriculumModule>> listModules() async {
+    await _tick();
+    return [...modules];
+  }
+
+  @override
+  Future<void> setPlacementLevel(CefrLevel level) async {
+    await _tick();
+    placementLevel = level;
+  }
+
   Lesson _withItems(Lesson l, List<LessonItem> items) => Lesson(
     id: l.id,
     titleDe: l.titleDe,
@@ -566,6 +580,11 @@ class FakeLessonRepository implements LessonRepository {
     published: l.published,
     items: items,
     itemCount: items.length,
+    moduleId: l.moduleId,
+    kind: l.kind,
+    goalAr: l.goalAr,
+    explanationAr: l.explanationAr,
+    passPercent: l.passPercent,
   );
 
   @override

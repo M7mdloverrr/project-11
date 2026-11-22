@@ -5,6 +5,7 @@ import '../models/link.dart';
 import '../models/profile.dart';
 import '../models/role.dart';
 import '../models/teacher_code.dart';
+import '../models/cefr_level.dart';
 import '../models/chat.dart';
 import 'admin_repository.dart';
 import 'auth_gateway.dart';
@@ -124,6 +125,10 @@ class UnconfiguredLessonRepository implements LessonRepository {
 
   @override
   Future<List<Lesson>> listLessons() => Future.error(_notConfigured);
+  @override
+  Future<List<CurriculumModule>> listModules() => Future.error(_notConfigured);
+  @override
+  Future<void> setPlacementLevel(CefrLevel level) => Future.error(_notConfigured);
   @override
   Future<Lesson> fetchLesson(String lessonId) => Future.error(_notConfigured);
   @override
