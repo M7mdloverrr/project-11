@@ -1,0 +1,210 @@
+module:
+  slug: a1-fertigkeiten
+  level: A1
+  position: 5
+  icon: exam
+  title_de: Lesen, Hören, Schreiben, Sprechen – Start Deutsch 1
+  title_ar: القراءة والاستماع والكتابة والمحادثة — امتحان Start Deutsch 1
+  description_ar: تدريب على أجزاء امتحان Goethe A1 الأربعة، ثم الامتحان النهائي للمستوى A1.
+
+lessons:
+  - slug: a1-lesen
+    title_de: Lesen – E-Mails, Anzeigen, Schilder
+    title_ar: القراءة — رسائل، إعلانات، لافتات
+    goal_ar: أن تفهم رسائل قصيرة وإعلانات ولافتات كما في امتحان Goethe A1 (Lesen Teil 1–3).
+    explanation_ar: |
+      ## استراتيجية القراءة
+      - اقرأ **السؤال أولاً**، ثم ابحث في النص عن المعلومة.
+      - لا تحتاج أن تفهم كل كلمة؛ ابحث عن الأرقام والأوقات والأماكن.
+      - انتبه للنفي: nicht, kein, geschlossen (مغلق) ≠ geöffnet (مفتوح).
+      ## كلمات اللافتات
+      | geöffnet / geschlossen | Eingang / Ausgang | Ziehen / Drücken | Ruhetag |
+      |---|---|---|---|
+      | مفتوح / مغلق | مدخل / مخرج | اسحب / ادفع | يوم العطلة |
+    items:
+      - text: |
+          Liebe Sara,
+          ich habe am Samstag Geburtstag und mache eine kleine Party. Kommst du auch? Die Party beginnt um 19 Uhr bei mir zu Hause, Bergstraße 4. Mein Bruder kocht. Kannst du bitte Getränke mitbringen?
+          Viele Grüße
+          Mona
+        ar: |
+          عزيزتي سارة، عيد ميلادي يوم السبت وسأقيم حفلة صغيرة. هل تأتين؟ تبدأ الحفلة الساعة 19 في بيتي، شارع بيرغ 4. أخي سيطبخ. هل يمكنك إحضار مشروبات؟ مع التحية، منى
+      - quiz: "متى تبدأ الحفلة؟"
+        options: [السبت الساعة 19, الأحد الساعة 19, السبت الساعة 9, الجمعة مساءً]
+      - quiz: "ماذا يجب أن تُحضر سارة؟"
+        options: [مشروبات, كعكة, طعاماً, هدية]
+      - quiz: "من سيطبخ؟"
+        options: [أخو منى, منى, سارة, أم منى]
+      - text: |
+          Praxis Dr. Weber – Allgemeinmedizin
+          Sprechzeiten: Mo, Di, Do 8–12 und 15–18 Uhr, Mi und Fr 8–12 Uhr
+          Termine nur nach telefonischer Vereinbarung: 030 44 55 66
+        ar: "عيادة د. فيبر — طب عام. أوقات الاستقبال: الاثنين والثلاثاء والخميس 8–12 و 15–18، الأربعاء والجمعة 8–12. المواعيد بالهاتف فقط."
+      - quiz: "هل يمكنك زيارة الطبيب يوم الأربعاء الساعة 16؟"
+        options: [لا, نعم]
+      - quiz: "كيف تأخذ موعداً؟"
+        options: [بالهاتف, بالبريد الإلكتروني, بدون موعد, في الموقع]
+      - text: "Bäckerei Krause – Montag Ruhetag. Di–Sa 6:30–18 Uhr, So 7–11 Uhr."
+        ar: "مخبز كراوزه — الاثنين عطلة. من الثلاثاء للسبت 6:30–18، الأحد 7–11."
+      - quiz: "هل المخبز مفتوح يوم الأحد الساعة 10؟"
+        options: [نعم, لا]
+      - match: ["geöffnet = مفتوح", "geschlossen = مغلق", "der Eingang = المدخل", "der Ausgang = المخرج", "der Ruhetag = يوم العطلة"]
+
+  - slug: a1-hoeren
+    title_de: Hören – Gespräche und Durchsagen
+    title_ar: الاستماع — محادثات وإعلانات
+    goal_ar: أن تفهم محادثات قصيرة وإعلانات في المحطة والهاتف (Hören Teil 1–3).
+    explanation_ar: |
+      ## استراتيجية الاستماع
+      - اقرأ السؤال والخيارات **قبل** الاستماع.
+      - ركّز على: **الأرقام، الأوقات، الأيام، الأماكن**.
+      - في الامتحان تسمع بعض النصوص مرتين. هنا اضغط على زر السمّاعة لتسمع مرة أخرى أو ببطء.
+    items:
+      - listen: "Achtung am Gleis drei: Der Regionalexpress nach Hannover hat heute zwanzig Minuten Verspätung."
+        ar: كم دقيقة تأخير القطار؟
+        options: ["20", "3", "30", "12"]
+      - listen: "Hallo Tom, hier ist Anna. Ich kann heute nicht kommen. Treffen wir uns morgen um fünf Uhr im Café?"
+        ar: متى تريد آنا أن تلتقي؟
+        options: [غداً الساعة 5, اليوم الساعة 5, غداً الساعة 3, اليوم مساءً]
+      - listen: "Der Deutschkurs findet ab nächster Woche nicht in Raum zwölf, sondern in Raum einundzwanzig statt."
+        ar: في أي غرفة الدورة الآن؟
+        options: ["21", "12", "2", "11"]
+      - listen: "Liebe Kunden, heute sind alle Getränke im Angebot: zwanzig Prozent billiger!"
+        ar: ما الذي عليه عرض اليوم؟
+        options: [كل المشروبات, الخبز, الفاكهة, اللحوم]
+      - listen: "Guten Tag, Praxis Dr. Müller. Ihr Termin ist am Dienstag um zehn Uhr dreißig."
+        ar: متى الموعد؟
+        options: [الثلاثاء 10:30, الخميس 10:30, الثلاثاء 9:30, الاثنين 10:00]
+      - listen: "Entschuldigung, wo ist die Post? – Die Post? Gehen Sie hier links und dann die zweite Straße rechts."
+        ar: كيف يصل إلى البريد؟
+        options: [يسار ثم الشارع الثاني يميناً, يمين ثم يسار, إلى الأمام, الشارع الأول يساراً]
+      - listen: "Ich nehme den Fisch mit Reis und ein Glas Wasser, bitte."
+        ar: ماذا طلب؟
+        options: [سمك مع أرز وماء, دجاج مع أرز, سمك مع بطاطا, شوربة]
+      - listen: "Das Wetter morgen: am Vormittag Regen, am Nachmittag Sonne bei achtzehn Grad."
+        ar: كيف الطقس بعد الظهر؟
+        options: [مشمس, ممطر, ثلج, رياح]
+
+  - slug: a1-schreiben
+    title_de: Schreiben – Formular und kurze Nachricht
+    title_ar: الكتابة — استمارة ورسالة قصيرة
+    goal_ar: أن تكتب رسالة قصيرة (حوالي 30 كلمة) كما في Schreiben Teil 2، مع التحية والختام.
+    explanation_ar: |
+      ## شكل الرسالة
+      | غير رسمية | رسمية |
+      |---|---|
+      | Liebe Anna, / Lieber Tom, | Sehr geehrte Damen und Herren, |
+      | Viele Grüße / Liebe Grüße | Mit freundlichen Grüßen |
+      ## اكتب عن النقاط الثلاث المطلوبة
+      في الامتحان تُعطى 3 نقاط؛ اكتب جملة أو جملتين لكل نقطة.
+      ## مثال: تعتذر عن موعد
+      > Liebe Frau Klein,
+      > leider kann ich morgen nicht zum Kurs kommen. Ich bin krank und muss zum Arzt. Können Sie mir bitte die Hausaufgaben schicken?
+      > Viele Grüße
+      > Samir
+    items:
+      - {rule: "ابدأ بالتحية، ثم اكتب النقاط الثلاث بجمل قصيرة، واختم بتحية واسمك.", de: "Liebe Anna,\nleider kann ich am Freitag nicht kommen.\nViele Grüße\nAli"}
+      - gap: "___ Damen und Herren,"
+        ar: بداية رسالة رسمية
+        options: [Sehr geehrte, Liebe, Hallo]
+      - gap: "Mit freundlichen ___"
+        options: [Grüßen, Gruß, Grüße]
+      - gap: "___ Tom, wie geht es dir?"
+        options: [Lieber, Liebe, Sehr geehrter]
+      - quiz: "أي ختام مناسب لرسالة إلى صديق؟"
+        options: ["Viele Grüße", "Mit freundlichen Grüßen", "Sehr geehrte Damen und Herren", "Hochachtungsvoll"]
+      - order: "Leider kann ich morgen nicht kommen."
+        ar: للأسف لا أستطيع المجيء غداً.
+      - order: "Können Sie mir bitte einen neuen Termin geben?"
+        ar: هل يمكنك إعطائي موعداً جديداً من فضلك؟
+      - write: "Liebe Grüße|Viele Grüße"
+        ar: "اكتب ختاماً غير رسمي لرسالة (تحيات حارة):"
+      - write: "Ich bin krank.|Ich bin krank"
+        ar: "اكتب السبب: أنا مريض."
+
+  - slug: a1-sprechen
+    title_de: Sprechen – sich vorstellen, fragen, bitten
+    title_ar: المحادثة — التعريف بالنفس، السؤال، الطلب
+    goal_ar: أن تستعد لأجزاء المحادثة الثلاثة في امتحان A1. استمع وكرّر كل جملة بصوت عالٍ.
+    explanation_ar: |
+      ## الجزء 1: عرّف بنفسك
+      Name – Alter – Land – Wohnort – Sprachen – Beruf – Hobby
+      > Ich heiße… Ich bin … Jahre alt. Ich komme aus… Ich wohne in… Ich spreche… Ich bin … von Beruf. Mein Hobby ist…
+      ## الجزء 2: اسأل وأجب (بطاقات مواضيع)
+      موضوع "Essen" وكلمة "Frühstück" → **Was isst du zum Frühstück?**
+      ## الجزء 3: اطلب شيئاً وأجب
+      > Kannst du bitte das Fenster aufmachen? — Ja, gern. / Natürlich.
+      > Können Sie mir bitte helfen?
+      **نصيحة**: اضغط زر السمّاعة، ثم كرّر الجملة بصوت عالٍ مرتين.
+    items:
+      - {phrase: "Ich heiße Samir und bin 30 Jahre alt.", ar: "اسمي سمير وعمري 30 سنة."}
+      - {phrase: "Ich komme aus Syrien und wohne in Dortmund.", ar: "أنا من سوريا وأسكن في دورتموند."}
+      - {phrase: "Ich spreche Arabisch, Englisch und ein bisschen Deutsch.", ar: "أتكلم العربية والإنجليزية وقليلاً من الألمانية."}
+      - {phrase: "Mein Hobby ist Fußball.", ar: "هوايتي كرة القدم."}
+      - {phrase: "Kannst du bitte das Fenster aufmachen?", ar: "هل يمكنك فتح النافذة من فضلك؟"}
+      - {phrase: "Können Sie das bitte wiederholen?", ar: "هل يمكنك إعادة ذلك من فضلك؟"}
+      - {phrase: "Ich habe das nicht verstanden.", ar: "لم أفهم ذلك."}
+      - quiz: "بطاقة: Thema Wohnen — Balkon. أي سؤال مناسب؟"
+        options: ["Hast du einen Balkon?", "Wie spät ist es?", "Wo ist der Bahnhof?", "Was kostet das?"]
+      - quiz: "بطاقة: Thema Freizeit — Sonntag. أي سؤال مناسب؟"
+        options: ["Was machst du am Sonntag?", "Wo wohnst du?", "Hast du Geschwister?", "Was isst du gern?"]
+      - quiz: "شخص يطلب: 'Kannst du mir bitte einen Stift geben?' — ماذا تجيب؟"
+        options: ["Ja, natürlich. Hier, bitte.", "Nein, ich heiße Ali.", "Guten Tag!", "Ich bin 25."]
+      - order: "Können Sie das bitte wiederholen?"
+        ar: هل يمكنك إعادة ذلك من فضلك؟
+      - order: "Was isst du zum Frühstück?"
+        ar: ماذا تأكل على الفطور؟
+      - write: "Ich habe das nicht verstanden.|Ich habe das nicht verstanden"
+        ar: "اكتب: لم أفهم ذلك."
+
+  - slug: a1-exam
+    kind: exam
+    title_de: Abschlussprüfung A1
+    title_ar: الامتحان النهائي للمستوى A1
+    goal_ar: امتحان شامل على نمط Start Deutsch 1 — قراءة، استماع، قواعد، مفردات وكتابة. النجاح من 70٪ يفتح لك المستوى A2.
+    items:
+      - text: |
+          Hallo Kerstin,
+          ich bin jetzt in Freiburg. Die Stadt ist sehr schön! Mein Hotel ist klein, aber es liegt im Zentrum. Morgen besuche ich ein Museum, und am Freitag fahre ich mit dem Zug nach Basel. Am Sonntag komme ich zurück.
+          Liebe Grüße, Jonas
+        ar: "مرحباً كيرستين، أنا الآن في فرايبورغ... الفندق صغير لكنه في المركز. غداً أزور متحفاً، ويوم الجمعة أسافر بالقطار إلى بازل. أعود يوم الأحد."
+      - quiz: "كيف فندق يوناس؟"
+        options: [صغير وفي المركز, كبير وبعيد, صغير وبعيد, كبير وفي المركز]
+      - quiz: "متى يسافر إلى بازل؟"
+        options: [يوم الجمعة, غداً, يوم الأحد, يوم السبت]
+      - listen: "Der Bus Nummer achtundvierzig fährt heute nicht. Bitte nehmen Sie die Linie vierundachtzig."
+        ar: أي باص يجب أن تأخذ؟
+        options: ["84", "48", "8", "40"]
+      - listen: "Ich möchte bitte zwei Kilo Kartoffeln und ein Pfund Tomaten."
+        ar: كم كيلو بطاطا؟
+        options: ["2", "1", "5", "10"]
+      - listen: "Mein Name ist Hoffmann. Ich rufe an, weil ich meinen Termin am Mittwoch absagen muss."
+        ar: لماذا يتصل؟
+        options: [لإلغاء موعد, لأخذ موعد, للسؤال عن الطريق, لطلب طعام]
+      - gap: "Woher ___ ihr?"
+        options: [kommt, kommen, kommst]
+      - gap: "Ich brauche ___ neuen Pass."
+        options: [einen, ein, eine]
+      - gap: "Er hat ___ Auto, er fährt mit dem Fahrrad."
+        options: [kein, nicht, keinen]
+      - gap: "___ du schwimmen?"
+        options: [Kannst, Kann, Könnt]
+      - gap: "Wann stehst du morgens ___?"
+        options: [auf, an, aus]
+      - gap: "Ich gehe heute ___ Arzt."
+        options: [zum, zur, nach]
+      - gap: "Wir haben gestern einen Film ___."
+        options: [gesehen, gesieht, sehen]
+      - gap: "Am Wochenende ___ ich in Hamburg."
+        options: [war, hatte, habe]
+      - quiz: "halb sieben = ?"
+        options: ["6:30", "7:30", "7:00", "6:00"]
+      - match: ["die Fahrkarte = التذكرة", "die Rechnung = الفاتورة", "die Miete = الإيجار", "der Termin = الموعد", "die Apotheke = الصيدلية"]
+      - order: "Am Montag muss ich zum Amt gehen."
+        ar: يوم الاثنين يجب أن أذهب إلى الدائرة.
+      - order: "Ich habe gestern meine Freunde getroffen."
+        ar: أمس التقيت أصدقائي.
+      - write: "Mit freundlichen Grüßen"
+        ar: "اكتب ختام رسالة رسمية:"
+      - write: "Ich wohne in Berlin.|Ich wohne in Berlin"
+        ar: "اكتب: أسكن في برلين."
