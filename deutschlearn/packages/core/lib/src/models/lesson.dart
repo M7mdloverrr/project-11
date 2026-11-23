@@ -338,8 +338,7 @@ class LessonAssignment {
   final DateTime createdAt;
 }
 
-/// The ordered A1→B1 path with unlocking: a lesson opens once the previous
-/// one is passed; levels below the student's level are open from the start.
+/// The ordered A1→B1 path. All lessons are open; progress is tracked per lesson.
 class Curriculum {
   Curriculum({
     required List<CurriculumModule> modules,
@@ -368,13 +367,8 @@ class Curriculum {
 
   bool isPassed(Lesson l) => l.passedWith(progress[l.id]);
 
-  bool isUnlocked(Lesson l) {
-    if (l.kind == LessonKind.placement || l.level.index < level.index) return true;
-    final i = path.indexWhere((x) => x.id == l.id);
-    if (i <= 0) return true;
-    final prev = path[i - 1];
-    return isPassed(prev) || (prev.level.index < level.index && l.level == level);
-  }
+  /// Every lesson is open; the order is only a recommendation.
+  bool isUnlocked(Lesson l) => true;
 
   List<Lesson> lessonsOf(CurriculumModule m) => path.where((l) => l.moduleId == m.id).toList();
 
@@ -385,8 +379,10 @@ class Curriculum {
 
   bool isModuleUnlocked(CurriculumModule m) => lessonsOf(m).any(isUnlocked);
 
-  /// First open lesson that is not passed yet.
-  Lesson? get next => path.where((l) => isUnlocked(l) && !isPassed(l)).firstOrNull;
+  /// Recommended next lesson: the first unpassed one at or above the student's level.
+  Lesson? get next =>
+      path.where((l) => l.level.index >= level.index && !isPassed(l)).firstOrNull ??
+      path.where((l) => !isPassed(l)).firstOrNull;
 
   ({int done, int total}) get overall => (done: path.where(isPassed).length, total: path.length);
 

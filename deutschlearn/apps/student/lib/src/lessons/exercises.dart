@@ -173,7 +173,7 @@ class _TextCardState extends State<_TextCard> {
           ),
           if (_showTranslation)
             DLCard(
-              color: DLColors.mint,
+              color: Theme.of(context).colorScheme.primaryContainer,
               child: Text(item.arabic, style: t.bodyLarge),
             ),
         ],
@@ -253,7 +253,7 @@ class _ChoiceState extends ConsumerState<_Choice> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DLCard(
-                color: DLColors.mint,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 child: Text(
                   gapSentence,
                   textDirection: TextDirection.ltr,
@@ -348,7 +348,7 @@ class _OrderState extends State<_Order> {
           constraints: const BoxConstraints(minHeight: 64),
           padding: const EdgeInsets.all(DLSpacing.sm),
           decoration: BoxDecoration(
-            color: DLColors.mint,
+            color: Theme.of(context).colorScheme.primaryContainer,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: DLColors.teal.withValues(alpha: 0.4)),
           ),

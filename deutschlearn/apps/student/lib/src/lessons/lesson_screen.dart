@@ -153,7 +153,7 @@ class _LessonPlayerState extends ConsumerState<LessonPlayer> {
               const SizedBox(height: DLSpacing.lg),
               if (_lesson.goalAr.isNotEmpty)
                 DLCard(
-                  color: DLColors.mint,
+                  color: Theme.of(context).colorScheme.primaryContainer,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -242,7 +242,7 @@ class _LessonPlayerState extends ConsumerState<LessonPlayer> {
         if (!passed) ...[
           const SizedBox(height: DLSpacing.md),
           Text(
-            'راجع الشرح ثم أعد المحاولة لفتح الدرس التالي • Wiederhole die Lektion',
+            'راجع الشرح وأعد المحاولة لتحسين نتيجتك • Wiederhole die Lektion, um dich zu verbessern',
             textAlign: TextAlign.center,
             style: t.bodyLarge,
           ),

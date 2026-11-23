@@ -42,7 +42,7 @@ IconData moduleIcon(String name) => switch (name) {
 /// The alphabet course is its own section before A1.
 bool isAlphabetModule(CurriculumModule m) => m.slug.startsWith('alphabet');
 
-/// The curriculum roadmap: levels → modules, unlocked in order.
+/// The curriculum roadmap: levels → modules, all open.
 class LessonsTab extends ConsumerWidget {
   const LessonsTab({super.key});
 
@@ -148,7 +148,9 @@ class CurriculumRoadmap extends ConsumerWidget {
           ],
           const SizedBox(height: DLSpacing.md),
         ],
-        for (final level in CefrLevel.values.where((l) => c.modules.any((m) => m.level == l && !isAlphabetModule(m)))) ...[
+        for (final level in CefrLevel.values.where(
+          (l) => c.modules.any((m) => m.level == l && !isAlphabetModule(m)),
+        )) ...[
           DLSectionHeader(arabic: 'المستوى ${level.code}', german: 'Niveau ${level.code}'),
           const SizedBox(height: DLSpacing.md),
           for (final m in c.modules.where((m) => m.level == level && !isAlphabetModule(m))) ...[
@@ -180,48 +182,43 @@ class ModuleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     final p = curriculum.moduleProgress(module);
-    final open = curriculum.isModuleUnlocked(module);
     final done = p.total > 0 && p.done == p.total;
-    return Opacity(
-      opacity: open ? 1 : 0.55,
-      child: DLCard(
-        key: Key('module-${module.id}'),
-        onTap: () => context.push(StudentRoutes.module(module.id)),
-        child: Row(
-          children: [
-            DLIconBadge(
-              icon: !open ? Icons.lock_rounded : (done ? Icons.check_rounded : moduleIcon(module.icon)),
-              color: !open ? Colors.grey : (done ? DLColors.success : DLColors.teal),
+    return DLCard(
+      key: Key('module-${module.id}'),
+      onTap: () => context.push(StudentRoutes.module(module.id)),
+      child: Row(
+        children: [
+          DLIconBadge(
+            icon: done ? Icons.check_rounded : moduleIcon(module.icon),
+            color: done ? DLColors.success : DLColors.teal,
+          ),
+          const SizedBox(width: DLSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(module.titleAr.isEmpty ? module.titleDe : module.titleAr, style: t.titleMedium),
+                Text(module.titleDe, textDirection: TextDirection.ltr, style: t.bodyMedium),
+                const SizedBox(height: DLSpacing.sm),
+                DLProgressBar(value: p.total == 0 ? 0 : p.done / p.total, height: 6),
+                const SizedBox(height: DLSpacing.xs),
+                Text('${p.done} / ${p.total}', style: t.bodySmall),
+              ],
             ),
-            const SizedBox(width: DLSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(module.titleAr.isEmpty ? module.titleDe : module.titleAr, style: t.titleMedium),
-                  Text(module.titleDe, textDirection: TextDirection.ltr, style: t.bodyMedium),
-                  const SizedBox(height: DLSpacing.sm),
-                  DLProgressBar(value: p.total == 0 ? 0 : p.done / p.total, height: 6),
-                  const SizedBox(height: DLSpacing.xs),
-                  Text('${p.done} / ${p.total}', style: t.bodySmall),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_left),
-          ],
-        ),
+          ),
+          const Icon(Icons.chevron_left),
+        ],
       ),
     );
   }
 }
 
 class LessonCard extends StatelessWidget {
-  const LessonCard({super.key, required this.lesson, this.progress, this.assigned = false, this.locked = false});
+  const LessonCard({super.key, required this.lesson, this.progress, this.assigned = false});
 
   final Lesson lesson;
   final LessonProgress? progress;
   final bool assigned;
-  final bool locked;
 
   @override
   Widget build(BuildContext context) {
@@ -229,54 +226,45 @@ class LessonCard extends StatelessWidget {
     final p = progress;
     final passed = lesson.passedWith(p);
     final isTest = lesson.kind != LessonKind.lesson;
-    return Opacity(
-      opacity: locked ? 0.55 : 1,
-      child: DLCard(
-        key: Key('lesson-${lesson.id}'),
-        color: isTest && !locked ? DLColors.yellow.withValues(alpha: 0.15) : null,
-        onTap: locked
-            ? () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('أنهِ الدرس السابق بنسبة 70٪ أولاً • Erst die vorige Lektion bestehen')),
-              )
-            : () => context.push(StudentRoutes.lesson(lesson.id)),
-        child: Row(
-          children: [
-            DLIconBadge(
-              icon: locked
-                  ? Icons.lock_rounded
-                  : passed
-                  ? Icons.check_rounded
-                  : isTest
-                  ? Icons.workspace_premium_rounded
-                  : Icons.menu_book_rounded,
-              color: locked ? Colors.grey : (passed ? DLColors.success : (isTest ? DLColors.navy : DLColors.blue)),
-            ),
-            const SizedBox(width: DLSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(lesson.titleAr.isEmpty ? lesson.titleDe : lesson.titleAr, style: t.titleMedium),
-                  Text(lesson.titleDe, textDirection: TextDirection.ltr, style: t.bodyMedium),
+    return DLCard(
+      key: Key('lesson-${lesson.id}'),
+      color: isTest ? DLColors.yellow.withValues(alpha: 0.15) : null,
+      onTap: () => context.push(StudentRoutes.lesson(lesson.id)),
+      child: Row(
+        children: [
+          DLIconBadge(
+            icon: passed
+                ? Icons.check_rounded
+                : isTest
+                ? Icons.workspace_premium_rounded
+                : Icons.menu_book_rounded,
+            color: passed ? DLColors.success : (isTest ? DLColors.navy : DLColors.blue),
+          ),
+          const SizedBox(width: DLSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(lesson.titleAr.isEmpty ? lesson.titleDe : lesson.titleAr, style: t.titleMedium),
+                Text(lesson.titleDe, textDirection: TextDirection.ltr, style: t.bodyMedium),
+                const SizedBox(height: DLSpacing.xs),
+                Text(
+                  p == null
+                      ? (isTest ? 'اختبار • Test' : '${lesson.itemCount} عنصر • ${lesson.itemCount} Elemente')
+                      : passed
+                      ? 'ناجح • ${p.bestScore}/${p.maxScore}'
+                      : 'محاولة • Versuch: ${p.bestScore}/${p.maxScore}',
+                  style: t.bodySmall,
+                ),
+                if (assigned) ...[
                   const SizedBox(height: DLSpacing.xs),
-                  Text(
-                    p == null
-                        ? (isTest ? 'اختبار • Test' : '${lesson.itemCount} عنصر • ${lesson.itemCount} Elemente')
-                        : passed
-                        ? 'ناجح • ${p.bestScore}/${p.maxScore}'
-                        : 'لم تنجح بعد (${lesson.passPercent}٪ مطلوب) • ${p.bestScore}/${p.maxScore}',
-                    style: t.bodySmall,
-                  ),
-                  if (assigned) ...[
-                    const SizedBox(height: DLSpacing.xs),
-                    const DLStatusChip(label: 'واجب • Hausaufgabe', tone: DLStatusTone.warning),
-                  ],
+                  const DLStatusChip(label: 'واجب • Hausaufgabe', tone: DLStatusTone.warning),
                 ],
-              ),
+              ],
             ),
-            const Icon(Icons.chevron_left),
-          ],
-        ),
+          ),
+          const Icon(Icons.chevron_left),
+        ],
       ),
     );
   }

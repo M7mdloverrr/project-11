@@ -7,6 +7,7 @@ export 'src/tokens.dart';
 export 'src/widgets/brand.dart';
 export 'src/widgets/buttons.dart';
 export 'src/widgets/cards.dart';
+export 'src/widgets/exit_guard.dart';
 export 'src/widgets/feedback.dart';
 export 'src/widgets/progress.dart';
 export 'src/widgets/text.dart';
