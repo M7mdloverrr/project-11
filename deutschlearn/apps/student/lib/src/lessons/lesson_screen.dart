@@ -177,7 +177,7 @@ class _LessonPlayerState extends ConsumerState<LessonPlayer> {
               ],
               const SizedBox(height: DLSpacing.md),
               Text(
-                '${_items.length} خطوة • $_max تمرين • النجاح من ${_lesson.passPercent}٪',
+                '${_items.length} خطوة • $_max تمرين • هدف النجاح ${_lesson.passPercent}٪ (ليس شرطاً للمتابعة)',
                 textAlign: TextAlign.center,
                 style: t.bodyMedium,
               ),
