@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../homework/homework_providers.dart';
 import '../lessons/lesson_providers.dart';
 import '../router.dart';
 import 'home_shell.dart';
@@ -22,8 +23,8 @@ class StartTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentProfileProvider);
     final curriculum = ref.watch(curriculumProvider).value;
-    final homework = ref.watch(homeworkProvider).value ?? const [];
-    final openHomework = homework.where((h) => h.progress == null).length;
+    final openHomework = ref.watch(openHomeworkCountProvider);
+    final live = ref.watch(activeLiveSessionProvider);
     void openTab(HomeTab t) => ref.read(homeTabProvider.notifier).select(t);
 
     final next = curriculum?.next;
@@ -42,7 +43,6 @@ class StartTab extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () async {
         ref.invalidate(myProgressProvider);
-        ref.invalidate(myAssignmentsProvider);
         await ref.read(curriculumProvider.future);
       },
       child: ListView(
@@ -62,7 +62,7 @@ class StartTab extends ConsumerWidget {
                 icon: Icons.notifications_none_rounded,
                 badge: openHomework,
                 tooltip: 'الإشعارات • Mitteilungen',
-                onPressed: () => _showHomework(context, homework),
+                onPressed: () => context.push(StudentRoutes.homework),
               ),
             ],
             height: 170,
@@ -136,7 +136,8 @@ class StartTab extends ConsumerWidget {
                           icon: Icons.videocam_rounded,
                           color: DLColors.blue,
                           titleAr: 'درس مباشر',
-                          titleDe: 'Live-Unterricht',
+                          titleDe: live == null ? 'Live-Unterricht' : 'Jetzt live!',
+                          badge: live == null ? 0 : 1,
                           onTap: () => context.push(StudentRoutes.live),
                         ),
                         DLPastelTile(
@@ -185,8 +186,6 @@ class StartTab extends ConsumerWidget {
       ),
     );
   }
-
-  void _showHomework(BuildContext context, List<Homework> homework) => context.push(StudentRoutes.homework);
 
   void _showExams(BuildContext context, Curriculum c) {
     final exams = c.path.where((l) => l.kind != LessonKind.lesson).toList();

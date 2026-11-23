@@ -1,3 +1,5 @@
+import 'lesson.dart';
+
 /// A live lesson the teacher drives: students see the item at [itemIndex] of [lessonId].
 class LiveSession {
   const LiveSession({
@@ -79,4 +81,17 @@ class LiveParticipant {
     studentId: j['student_id'] as String,
     lastSeen: j['last_seen'] == null ? null : DateTime.parse(j['last_seen'] as String).toLocal(),
   );
+}
+
+/// The expected answer of a scored exercise, as text for the teacher's screen and "show answer".
+extension LessonItemAnswerText on LessonItem {
+  String get answerText => switch (kind) {
+    LessonItemKind.quiz || LessonItemKind.gap || LessonItemKind.listen =>
+      answer != null && answer! < options.length ? options[answer!] : (options.firstOrNull ?? ''),
+    LessonItemKind.write => acceptedAnswers.firstOrNull ?? german,
+    LessonItemKind.match => pairs.map((p) => '${p.de} = ${p.ar}').join('\n'),
+    _ => german,
+  };
+
+  String get promptText => arabic.isNotEmpty ? arabic : german;
 }

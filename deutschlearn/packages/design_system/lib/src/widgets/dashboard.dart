@@ -183,9 +183,18 @@ class DLRoadmapCard extends StatelessWidget {
               gradient: active
                   ? const LinearGradient(colors: [Color(0xFFFFE08A), DLColors.yellow])
                   : LinearGradient(colors: [dlTint(context, DLColors.blue), dlTint(context, DLColors.teal)]),
-              border: Border.all(color: active ? const Color(0xFFE0A526) : DLColors.blue.withValues(alpha: 0.45), width: 1.5),
+              border: Border.all(
+                color: active ? const Color(0xFFE0A526) : DLColors.blue.withValues(alpha: 0.45),
+                width: 1.5,
+              ),
               boxShadow: active
-                  ? [BoxShadow(color: DLColors.yellow.withValues(alpha: 0.5), blurRadius: 12, offset: const Offset(0, 4))]
+                  ? [
+                      BoxShadow(
+                        color: DLColors.yellow.withValues(alpha: 0.5),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
                   : null,
             ),
             child: Column(
@@ -231,7 +240,9 @@ class DLRoadmapCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: _Bilingual(ar: titleAr, de: titleDe, big: true)),
+              Expanded(
+                child: _Bilingual(ar: titleAr, de: titleDe, big: true),
+              ),
               if (badge != null)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: DLSpacing.md, vertical: DLSpacing.xs + 2),
@@ -248,7 +259,10 @@ class DLRoadmapCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: DLSpacing.lg),
-          Directionality(textDirection: TextDirection.ltr, child: Row(children: nodes)),
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Row(children: nodes),
+          ),
         ],
       ),
     );
@@ -288,7 +302,11 @@ class DLAbcBlocks extends StatelessWidget {
         children: [
           Positioned(top: 0, left: size * 0.30, child: block('A', const [Color(0xFF6FD3A8), Color(0xFF1F9E73)], -0.08)),
           Positioned(bottom: 0, left: 0, child: block('B', const [Color(0xFFFFD36B), Color(0xFFF0A020)], 0.10)),
-          Positioned(bottom: size * 0.04, right: 0, child: block('C', const [Color(0xFF6BB8F2), Color(0xFF2370C8)], -0.05)),
+          Positioned(
+            bottom: size * 0.04,
+            right: 0,
+            child: block('C', const [Color(0xFF6BB8F2), Color(0xFF2370C8)], -0.05),
+          ),
         ],
       ),
     );
@@ -328,7 +346,10 @@ class DLResumeCard extends StatelessWidget {
             width: 104,
             height: 116,
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: dlTint(context, DLColors.blue), borderRadius: BorderRadius.circular(DLRadius.md)),
+            decoration: BoxDecoration(
+              color: dlTint(context, DLColors.blue),
+              borderRadius: BorderRadius.circular(DLRadius.md),
+            ),
             child: illustration ?? const DLAbcBlocks(size: 84),
           ),
           const SizedBox(width: DLSpacing.md),
@@ -339,7 +360,9 @@ class DLResumeCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(child: _Bilingual(ar: titleAr, de: titleDe, big: true)),
+                    Expanded(
+                      child: _Bilingual(ar: titleAr, de: titleDe, big: true),
+                    ),
                     _Ring(value: progress),
                   ],
                 ),
@@ -367,7 +390,10 @@ class DLResumeCard extends StatelessWidget {
                             children: [
                               Text(
                                 buttonAr,
-                                style: theme.textTheme.titleSmall?.copyWith(color: DLColors.navy, fontWeight: FontWeight.w800),
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  color: DLColors.navy,
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
                               Text(buttonDe, style: theme.textTheme.labelSmall?.copyWith(color: DLColors.navy)),
                             ],
@@ -464,13 +490,18 @@ class DLPastelTile extends StatelessWidget {
                 child: Icon(icon, color: color, size: 30),
               ),
               const SizedBox(width: DLSpacing.sm),
-              Expanded(child: _Bilingual(ar: titleAr, de: titleDe)),
+              Expanded(
+                child: _Bilingual(ar: titleAr, de: titleDe),
+              ),
               if (badge > 0)
                 Container(
                   key: const Key('tile-badge'),
                   padding: const EdgeInsets.all(6),
                   decoration: const BoxDecoration(color: DLColors.error, shape: BoxShape.circle),
-                  child: Text('$badge', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w800)),
+                  child: Text(
+                    '$badge',
+                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w800),
+                  ),
                 ),
             ],
           ),
@@ -518,11 +549,17 @@ class DLOverallProgressCard extends StatelessWidget {
           Container(
             width: 48,
             height: 48,
-            decoration: BoxDecoration(color: dlTint(context, DLColors.success), borderRadius: BorderRadius.circular(14)),
+            decoration: BoxDecoration(
+              color: dlTint(context, DLColors.success),
+              borderRadius: BorderRadius.circular(14),
+            ),
             child: const Icon(Icons.bar_chart_rounded, color: DLColors.success, size: 30),
           ),
           const SizedBox(width: DLSpacing.sm),
-          const Expanded(flex: 4, child: _Bilingual(ar: 'تقدّمك العام', de: 'Dein Fortschritt')),
+          const Expanded(
+            flex: 4,
+            child: _Bilingual(ar: 'تقدّمك العام', de: 'Dein Fortschritt'),
+          ),
           Expanded(
             flex: 5,
             child: Column(
@@ -646,7 +683,11 @@ class _Bilingual extends StatelessWidget {
           ar,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: (big ? t.titleMedium : t.titleSmall)?.copyWith(fontWeight: FontWeight.w800, color: scheme.onSurface, height: 1.2),
+          style: (big ? t.titleMedium : t.titleSmall)?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: scheme.onSurface,
+            height: 1.2,
+          ),
         ),
         Text(
           de,
@@ -701,7 +742,9 @@ class DLMaxWidth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
-    child: ConstrainedBox(constraints: BoxConstraints(maxWidth: maxWidth), child: child),
+    child: ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: maxWidth),
+      child: child,
+    ),
   );
 }
-
