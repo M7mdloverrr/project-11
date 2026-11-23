@@ -1,3 +1,6 @@
+import '../models/homework.dart';
+import '../models/live.dart';
+import 'classroom_repository.dart';
 import '../failure.dart';
 import '../models/admin.dart';
 import '../models/lesson.dart';
@@ -163,5 +166,64 @@ class UnconfiguredChatRepository implements ChatRepository {
 
   @override
   Future<ChatMessage> send({required String teacherId, required String studentId, required String body}) =>
+      Future.error(_notConfigured);
+}
+
+class UnconfiguredClassroomRepository implements ClassroomRepository {
+  const UnconfiguredClassroomRepository();
+
+  @override
+  Stream<List<Homework>> watchHomework() => Stream.error(_notConfigured);
+  @override
+  Stream<List<HomeworkSubmission>> watchSubmissions() => Stream.error(_notConfigured);
+  @override
+  Future<Map<String, List<String>>> fetchTargets() => Future.error(_notConfigured);
+  @override
+  Future<Homework> createHomework(Homework draft, {required List<String> studentIds}) => Future.error(_notConfigured);
+  @override
+  Future<void> deleteHomework(String homeworkId) => Future.error(_notConfigured);
+  @override
+  Future<HomeworkSubmission> saveSubmission(
+    String homeworkId, {
+    required Map<String, String> answers,
+    required bool submit,
+    required int autoScore,
+    required int maxScore,
+  }) => Future.error(_notConfigured);
+  @override
+  Future<HomeworkSubmission> gradeSubmission(
+    String submissionId, {
+    required int grade,
+    required String feedback,
+    Map<String, String> corrections = const {},
+    bool returnForRevision = false,
+  }) => Future.error(_notConfigured);
+  @override
+  Future<List<SchoolClass>> listClasses() => Future.error(_notConfigured);
+  @override
+  Future<SchoolClass> saveClass({String? id, required String name, required List<String> memberIds}) =>
+      Future.error(_notConfigured);
+  @override
+  Future<void> deleteClass(String classId) => Future.error(_notConfigured);
+  @override
+  Stream<List<LiveSession>> watchLiveSessions() => Stream.error(_notConfigured);
+  @override
+  Stream<List<LiveResponse>> watchLiveResponses(String sessionId) => Stream.error(_notConfigured);
+  @override
+  Stream<List<LiveParticipant>> watchLiveParticipants(String sessionId) => Stream.error(_notConfigured);
+  @override
+  Future<LiveSession> startLive({required String title, String? lessonId, String? classId}) =>
+      Future.error(_notConfigured);
+  @override
+  Future<void> updateLive(String sessionId, Map<String, dynamic> changes) => Future.error(_notConfigured);
+  @override
+  Future<void> endLive(String sessionId) => Future.error(_notConfigured);
+  @override
+  Future<void> joinLive(String sessionId) => Future.error(_notConfigured);
+  @override
+  Future<void> answerLive(String sessionId, {required int itemIndex, required String answer, bool? correct}) =>
+      Future.error(_notConfigured);
+  @override
+  Future<void> markLive(String sessionId, {required String studentId, required int itemIndex, required String mark}) =>
       Future.error(_notConfigured);
 }
