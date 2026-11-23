@@ -28,8 +28,9 @@ class DLHeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
+    final top = MediaQuery.paddingOf(context).top;
     return Container(
-      constraints: BoxConstraints(minHeight: height),
+      constraints: BoxConstraints(minHeight: height + top),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -48,7 +49,7 @@ class DLHeroHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(DLSpacing.sm, DLSpacing.md, DLSpacing.sm, DLSpacing.lg),
+            padding: EdgeInsets.fromLTRB(DLSpacing.sm, DLSpacing.md + top, DLSpacing.sm, DLSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [

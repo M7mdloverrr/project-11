@@ -19,12 +19,15 @@ class LessonScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(lesson.value?.titleAr ?? 'الدرس • Lektion')),
       body: SafeArea(
-        child: asyncBody<Lesson>(
-          lesson,
-          () => ref.invalidate(lessonDetailProvider(lessonId)),
-          (l) => l.items.isEmpty && l.explanationAr.isEmpty
-              ? const DLEmptyState(icon: Icons.menu_book_outlined, message: 'هذا الدرس فارغ • Diese Lektion ist leer')
-              : LessonPlayer(lesson: l),
+        child: DLMaxWidth(
+          maxWidth: 760,
+          child: asyncBody<Lesson>(
+            lesson,
+            () => ref.invalidate(lessonDetailProvider(lessonId)),
+            (l) => l.items.isEmpty && l.explanationAr.isEmpty
+                ? const DLEmptyState(icon: Icons.menu_book_outlined, message: 'هذا الدرس فارغ • Diese Lektion ist leer')
+                : LessonPlayer(lesson: l),
+          ),
         ),
       ),
     );
