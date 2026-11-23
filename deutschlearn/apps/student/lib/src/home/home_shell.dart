@@ -1,3 +1,4 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -25,43 +26,50 @@ class HomeShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tab = ref.watch(homeTabProvider);
-    return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: tab.index,
-          children: const [StartTab(), LessonsTab(), ProgressTab(), ChatTab(), ProfileTab()],
+    return DLExitGuard(
+      onBack: () {
+        if (ref.read(homeTabProvider) == HomeTab.start) return false;
+        ref.read(homeTabProvider.notifier).select(HomeTab.start);
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: IndexedStack(
+            index: tab.index,
+            children: const [StartTab(), LessonsTab(), ProgressTab(), ChatTab(), ProfileTab()],
+          ),
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: tab.index,
-        onDestinationSelected: (i) => ref.read(homeTabProvider.notifier).select(HomeTab.values[i]),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded),
-            label: 'Start',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined),
-            selectedIcon: Icon(Icons.menu_book_rounded),
-            label: 'Lektionen',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.insights_outlined),
-            selectedIcon: Icon(Icons.insights_rounded),
-            label: 'Fortschritt',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline),
-            selectedIcon: Icon(Icons.chat_bubble_rounded),
-            label: 'Chat',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person_rounded),
-            label: 'Profil',
-          ),
-        ],
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: tab.index,
+          onDestinationSelected: (i) => ref.read(homeTabProvider.notifier).select(HomeTab.values[i]),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home_rounded),
+              label: 'Start',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.menu_book_outlined),
+              selectedIcon: Icon(Icons.menu_book_rounded),
+              label: 'Lektionen',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.insights_outlined),
+              selectedIcon: Icon(Icons.insights_rounded),
+              label: 'Fortschritt',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.chat_bubble_outline),
+              selectedIcon: Icon(Icons.chat_bubble_rounded),
+              label: 'Chat',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person_rounded),
+              label: 'Profil',
+            ),
+          ],
+        ),
       ),
     );
   }

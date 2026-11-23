@@ -32,7 +32,7 @@ class RichExplanation extends StatelessWidget {
               children: [
                 for (final (i, r) in rows.indexed)
                   TableRow(
-                    decoration: i == 0 ? const BoxDecoration(color: DLColors.mint) : null,
+                    decoration: i == 0 ? BoxDecoration(color: Theme.of(context).colorScheme.primaryContainer) : null,
                     children: [
                       for (var c = 0; c < cols; c++)
                         Padding(
@@ -70,7 +70,7 @@ class RichExplanation extends StatelessWidget {
             padding: const EdgeInsets.only(top: DLSpacing.md, bottom: DLSpacing.xs),
             child: Text(
               line.substring(3),
-              style: t.titleMedium?.copyWith(color: DLColors.navy, fontWeight: FontWeight.w700),
+              style: t.titleMedium?.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700),
             ),
           ),
         );
@@ -96,7 +96,10 @@ class RichExplanation extends StatelessWidget {
             width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 3),
             padding: const EdgeInsets.symmetric(horizontal: DLSpacing.md, vertical: DLSpacing.sm),
-            decoration: BoxDecoration(color: DLColors.mint, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Text(
               line.substring(2),
               textDirection: TextDirection.ltr,

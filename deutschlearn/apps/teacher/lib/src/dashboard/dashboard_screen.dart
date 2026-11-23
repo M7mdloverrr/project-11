@@ -58,46 +58,48 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentProfileProvider);
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const DLLogo(size: 32),
-        actions: [
-          IconButton(
-            key: const Key('edit-profile'),
-            tooltip: 'الملف الشخصي • Profil',
-            icon: const Icon(Icons.manage_accounts_outlined),
-            onPressed: () => context.go(TeacherRoutes.profileSetup),
-          ),
-          IconButton(
-            key: const Key('sign-out'),
-            tooltip: 'تسجيل الخروج • Abmelden',
-            icon: const Icon(Icons.logout),
-            onPressed: () => ref.read(sessionControllerProvider.notifier).signOut(),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => _refresh(ref),
-        child: ListView(
-          padding: const EdgeInsets.all(DLSpacing.lg),
-          children: [
-            Text(
-              'مرحباً، ${profile.displayName}',
-              key: const Key('dashboard-greeting'),
-              style: theme.textTheme.headlineSmall,
+    return DLExitGuard(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const DLLogo(size: 32),
+          actions: [
+            IconButton(
+              key: const Key('edit-profile'),
+              tooltip: 'الملف الشخصي • Profil',
+              icon: const Icon(Icons.manage_accounts_outlined),
+              onPressed: () => context.push(TeacherRoutes.profileSetup),
             ),
-            Text('Willkommen zurück!', textDirection: TextDirection.ltr, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: DLSpacing.xl),
-            const TeacherCodeCard(),
-            const SizedBox(height: DLSpacing.xl),
-            const DLSectionHeader(arabic: 'طلبات الربط', german: 'Anfragen'),
-            const SizedBox(height: DLSpacing.md),
-            const PendingRequestsSection(),
-            const SizedBox(height: DLSpacing.xl),
-            const DLSectionHeader(arabic: 'طلابي', german: 'Meine Schüler'),
-            const SizedBox(height: DLSpacing.md),
-            const LinkedStudentsSection(),
+            IconButton(
+              key: const Key('sign-out'),
+              tooltip: 'تسجيل الخروج • Abmelden',
+              icon: const Icon(Icons.logout),
+              onPressed: () => ref.read(sessionControllerProvider.notifier).signOut(),
+            ),
           ],
+        ),
+        body: RefreshIndicator(
+          onRefresh: () => _refresh(ref),
+          child: ListView(
+            padding: const EdgeInsets.all(DLSpacing.lg),
+            children: [
+              Text(
+                'مرحباً، ${profile.displayName}',
+                key: const Key('dashboard-greeting'),
+                style: theme.textTheme.headlineSmall,
+              ),
+              Text('Willkommen zurück!', textDirection: TextDirection.ltr, style: theme.textTheme.bodyMedium),
+              const SizedBox(height: DLSpacing.xl),
+              const TeacherCodeCard(),
+              const SizedBox(height: DLSpacing.xl),
+              const DLSectionHeader(arabic: 'طلبات الربط', german: 'Anfragen'),
+              const SizedBox(height: DLSpacing.md),
+              const PendingRequestsSection(),
+              const SizedBox(height: DLSpacing.xl),
+              const DLSectionHeader(arabic: 'طلابي', german: 'Meine Schüler'),
+              const SizedBox(height: DLSpacing.md),
+              const LinkedStudentsSection(),
+            ],
+          ),
         ),
       ),
     );
@@ -171,7 +173,7 @@ class _TeacherCodeCardState extends ConsumerState<TeacherCodeCard> {
     final code = ref.watch(teacherCodeProvider);
     return DLCard(
       key: const Key('teacher-code-card'),
-      color: DLColors.mint,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: switch (code) {
         AsyncError(:final error) => DLBanner(
           tone: DLStatusTone.error,
@@ -190,7 +192,7 @@ class _TeacherCodeCardState extends ConsumerState<TeacherCodeCard> {
                 key: const Key('teacher-code'),
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineMedium?.copyWith(
-                  color: DLColors.navy,
+                  color: theme.colorScheme.onPrimaryContainer,
                   letterSpacing: 3,
                   fontWeight: FontWeight.w700,
                 ),
@@ -200,7 +202,7 @@ class _TeacherCodeCardState extends ConsumerState<TeacherCodeCard> {
             Text(
               'شارك الرمز مع طلابك ليرسلوا طلب ربط.',
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall?.copyWith(color: DLColors.textSecondary),
+              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: DLSpacing.lg),
             Row(

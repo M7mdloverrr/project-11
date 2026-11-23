@@ -20,7 +20,9 @@ void main() {
         ],
         child: MaterialApp(
           theme: DLTheme.light(),
-          home: const Scaffold(body: ChatThreadView(teacherId: 'teacher-1', studentId: 'student-1')),
+          home: const Scaffold(
+            body: ChatThreadView(teacherId: 'teacher-1', studentId: 'student-1'),
+          ),
         ),
       ),
     );

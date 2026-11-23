@@ -46,12 +46,7 @@ class ModuleScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: DLSpacing.sm),
                     Expanded(
-                      child: LessonCard(
-                        lesson: l,
-                        progress: c.progress[l.id],
-                        assigned: assigned.contains(l.id),
-                        locked: !c.isUnlocked(l),
-                      ),
+                      child: LessonCard(lesson: l, progress: c.progress[l.id], assigned: assigned.contains(l.id)),
                     ),
                   ],
                 ),

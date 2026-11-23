@@ -47,7 +47,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           .read(profileRepositoryProvider)
           .updateProfile(p.id, displayName: _name.text, locale: _locale);
       ref.read(sessionControllerProvider.notifier).profileUpdated(updated);
-      if (mounted) context.go(TeacherRoutes.dashboard);
+      if (mounted) context.canPop() ? context.pop() : context.go(TeacherRoutes.dashboard);
     } on AppFailure catch (f) {
       if (mounted) setState(() => _error = f.message);
     } finally {
@@ -61,7 +61,9 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: canGoBack ? BackButton(onPressed: () => context.go(TeacherRoutes.dashboard)) : null,
+        leading: canGoBack
+            ? BackButton(onPressed: () => context.canPop() ? context.pop() : context.go(TeacherRoutes.dashboard))
+            : null,
         title: Text(bilingualLabel('الملف الشخصي', 'Profil')),
       ),
       body: SafeArea(

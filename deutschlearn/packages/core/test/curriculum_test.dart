@@ -26,22 +26,20 @@ void main() {
     expect(c.placement?.id, 'p');
   });
 
-  test('a lesson unlocks only after the previous one is passed with 70%', () {
+  test('every lesson is open; next recommends the first unpassed lesson', () {
     var c = Curriculum(modules: const [m1, m2, m3], lessons: lessons, progress: {'a1': _p('a1', 6, 10)});
-    expect(c.isUnlocked(lessons[2]), isTrue);
-    expect(c.isUnlocked(lessons[1]), isFalse);
+    expect(lessons.every(c.isUnlocked), isTrue);
+    expect(c.modules.every(c.isModuleUnlocked), isTrue);
     expect(c.next?.id, 'a1');
     c = Curriculum(modules: const [m1, m2, m3], lessons: lessons, progress: {'a1': _p('a1', 7, 10)});
-    expect(c.isUnlocked(lessons[1]), isTrue);
     expect(c.next?.id, 'a2');
     expect(c.moduleProgress(m1), (done: 1, total: 2));
-    expect(c.isModuleUnlocked(m3), isFalse);
   });
 
-  test('placement level opens lower levels and the start of the placed level', () {
+  test('placement level only changes the recommendation', () {
     final c = Curriculum(modules: const [m1, m2, m3], lessons: lessons, progress: const {}, level: CefrLevel.a2);
-    expect(c.isUnlocked(lessons[3]), isTrue);
-    expect(c.isUnlocked(lessons[4]), isTrue);
+    expect(lessons.every(c.isUnlocked), isTrue);
+    expect(c.next?.level, CefrLevel.a2);
     expect(Curriculum.levelForPlacement(0.3), CefrLevel.a1);
     expect(Curriculum.levelForPlacement(0.6), CefrLevel.a2);
     expect(Curriculum.levelForPlacement(0.85), CefrLevel.b1);
