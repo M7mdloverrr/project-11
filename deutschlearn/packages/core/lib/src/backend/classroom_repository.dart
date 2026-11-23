@@ -74,7 +74,7 @@ class SupabaseClassroomRepository implements ClassroomRepository {
 
   @override
   Future<Homework> createHomework(Homework draft, {required List<String> studentIds}) => guardSupabase(() async {
-    if (studentIds.isEmpty)
+    if (studentIds.isEmpty) {
       throw const AppFailure(FailureKind.unknown, 'اختر طالباً واحداً على الأقل • Mindestens einen Schüler wählen');
     }
     final row = await _client.from('homework').insert({...draft.toInsert(), 'teacher_id': _uid}).select().single();
