@@ -19,12 +19,15 @@ class LessonScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(lesson.value?.titleAr ?? 'الدرس • Lektion')),
       body: SafeArea(
-        child: asyncBody<Lesson>(
-          lesson,
-          () => ref.invalidate(lessonDetailProvider(lessonId)),
-          (l) => l.items.isEmpty && l.explanationAr.isEmpty
-              ? const DLEmptyState(icon: Icons.menu_book_outlined, message: 'هذا الدرس فارغ • Diese Lektion ist leer')
-              : LessonPlayer(lesson: l),
+        child: DLMaxWidth(
+          maxWidth: 760,
+          child: asyncBody<Lesson>(
+            lesson,
+            () => ref.invalidate(lessonDetailProvider(lessonId)),
+            (l) => l.items.isEmpty && l.explanationAr.isEmpty
+                ? const DLEmptyState(icon: Icons.menu_book_outlined, message: 'هذا الدرس فارغ • Diese Lektion ist leer')
+                : LessonPlayer(lesson: l),
+          ),
         ),
       ),
     );
@@ -177,7 +180,7 @@ class _LessonPlayerState extends ConsumerState<LessonPlayer> {
               ],
               const SizedBox(height: DLSpacing.md),
               Text(
-                '${_items.length} خطوة • $_max تمرين • النجاح من ${_lesson.passPercent}٪',
+                '${_items.length} خطوة • $_max تمرين • هدف النجاح ${_lesson.passPercent}٪ (ليس شرطاً للمتابعة)',
                 textAlign: TextAlign.center,
                 style: t.bodyMedium,
               ),

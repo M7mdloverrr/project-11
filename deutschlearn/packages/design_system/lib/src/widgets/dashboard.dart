@@ -28,8 +28,9 @@ class DLHeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
+    final top = MediaQuery.paddingOf(context).top;
     return Container(
-      constraints: BoxConstraints(minHeight: height),
+      constraints: BoxConstraints(minHeight: height + top),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -48,7 +49,7 @@ class DLHeroHeader extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(DLSpacing.sm, DLSpacing.md, DLSpacing.sm, DLSpacing.lg),
+            padding: EdgeInsets.fromLTRB(DLSpacing.sm, DLSpacing.md + top, DLSpacing.sm, DLSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -74,6 +75,7 @@ class DLHeroHeader extends StatelessWidget {
                   ],
                 ),
                 if (bottom != null) ...[const SizedBox(height: DLSpacing.md), bottom!],
+                SizedBox(height: _OverlapScope.of(context)),
               ],
             ),
           ),
@@ -749,30 +751,32 @@ class DLMaxWidth extends StatelessWidget {
   );
 }
 
-/// A hero header with the first content card overlapping its lower edge
-/// (laid out, not transformed, so scrolling and taps stay exact).
+/// A hero header whose lower part is covered by the first content card. The header
+/// grows with its text and reserves [overlap] extra space, so nothing is hidden.
 class DLHeaderOverlap extends StatelessWidget {
-  const DLHeaderOverlap({
-    super.key,
-    required this.header,
-    required this.child,
-    this.headerHeight = 170,
-    this.overlap = 56,
-  });
+  const DLHeaderOverlap({super.key, required this.header, required this.child, this.overlap = 56});
 
   final Widget header;
   final Widget child;
-  final double headerHeight;
   final double overlap;
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Positioned(top: 0, left: 0, right: 0, child: header),
-      Padding(
-        padding: EdgeInsets.only(top: headerHeight - overlap),
-        child: child,
-      ),
+      _OverlapScope(space: overlap, child: header),
+      Transform.translate(offset: Offset(0, -overlap), child: child),
     ],
   );
+}
+
+class _OverlapScope extends InheritedWidget {
+  const _OverlapScope({required this.space, required super.child});
+
+  final double space;
+
+  static double of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_OverlapScope>()?.space ?? 0;
+
+  @override
+  bool updateShouldNotify(_OverlapScope old) => old.space != space;
 }
