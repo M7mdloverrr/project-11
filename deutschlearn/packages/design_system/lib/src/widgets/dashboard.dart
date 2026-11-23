@@ -748,3 +748,31 @@ class DLMaxWidth extends StatelessWidget {
     ),
   );
 }
+
+/// A hero header with the first content card overlapping its lower edge
+/// (laid out, not transformed, so scrolling and taps stay exact).
+class DLHeaderOverlap extends StatelessWidget {
+  const DLHeaderOverlap({
+    super.key,
+    required this.header,
+    required this.child,
+    this.headerHeight = 170,
+    this.overlap = 56,
+  });
+
+  final Widget header;
+  final Widget child;
+  final double headerHeight;
+  final double overlap;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+    children: [
+      Positioned(top: 0, left: 0, right: 0, child: header),
+      Padding(
+        padding: EdgeInsets.only(top: headerHeight - overlap),
+        child: child,
+      ),
+    ],
+  );
+}

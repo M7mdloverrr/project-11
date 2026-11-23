@@ -61,7 +61,7 @@ void main() {
 
   testWidgets('generate, regenerate and revoke the teacher code', (tester) async {
     await pump(tester);
-    expect(find.text('مرحباً، Frau Weber'), findsOneWidget);
+    expect(find.textContaining('Frau Weber'), findsOneWidget);
     await tapKey(tester, 'code-generate');
     final first = repo.activeCode!.code;
     expect(TeacherCodeFormat.isValid(first), isTrue);

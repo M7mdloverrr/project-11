@@ -21,13 +21,17 @@ void main() {
         attempts: 2,
         completedAt: DateTime.utc(2026),
       );
+    final classroom = FakeClassroomRepository(userId: 'teacher-1');
     tester.view.physicalSize = const Size(1080, 2400);
     tester.view.devicePixelRatio = 2.5;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
       ProviderScope(
         retry: noRetry,
-        overrides: [lessonRepositoryProvider.overrideWithValue(repo)],
+        overrides: [
+          lessonRepositoryProvider.overrideWithValue(repo),
+          classroomRepositoryProvider.overrideWithValue(classroom),
+        ],
         child: MaterialApp(
           theme: DLTheme.light(),
           locale: const Locale('ar'),
@@ -47,11 +51,12 @@ void main() {
 
     await tester.tap(find.byKey(const Key('assign-l2')));
     await tester.pumpAndSettle();
-    expect(repo.assignments.single.lessonId, 'l2');
+    expect(classroom.homework.single.lessonId, 'l2');
+    expect(classroom.targets[classroom.homework.single.id], ['student-1']);
     expect(find.textContaining('Hausaufgabe'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('assign-l2')));
     await tester.pumpAndSettle();
-    expect(repo.assignments, isEmpty);
+    expect(classroom.homework, isEmpty);
   });
 }

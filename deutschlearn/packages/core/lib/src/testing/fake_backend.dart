@@ -3,6 +3,7 @@ import 'dart:async';
 import '../backend/admin_repository.dart';
 import '../backend/auth_gateway.dart';
 import '../backend/chat_repository.dart';
+import '../backend/classroom_repository.dart';
 import '../backend/lesson_repository.dart';
 import '../backend/link_repository.dart';
 import '../backend/profile_repository.dart';
@@ -10,6 +11,8 @@ import '../failure.dart';
 import '../models/admin.dart';
 import '../models/cefr_level.dart';
 import '../models/chat.dart';
+import '../models/homework.dart';
+import '../models/live.dart';
 import '../models/lesson.dart';
 import '../models/link.dart';
 import '../models/profile.dart';
@@ -758,5 +761,212 @@ class FakeChatRepository implements ChatRepository {
     );
     receive(m);
     return m;
+  }
+}
+
+/// In-memory classroom: homework, submissions, classes and live sessions, with live streams.
+class FakeClassroomRepository implements ClassroomRepository {
+  FakeClassroomRepository({this.userId = 'me'});
+
+  final String userId;
+  final homework = <Homework>[];
+  final targets = <String, List<String>>{};
+  final submissions = <HomeworkSubmission>[];
+  final classes = <SchoolClass>[];
+  final sessions = <LiveSession>[];
+  final responses = <LiveResponse>[];
+  final participants = <LiveParticipant>[];
+  final _changes = StreamController<void>.broadcast();
+  var _seq = 0;
+
+  void notify() => _changes.add(null);
+
+  Stream<T> _watch<T>(T Function() read) async* {
+    yield read();
+    yield* _changes.stream.map((_) => read());
+  }
+
+  @override
+  Stream<List<Homework>> watchHomework() => _watch(() => [...homework.reversed]);
+  @override
+  Stream<List<HomeworkSubmission>> watchSubmissions() => _watch(() => [...submissions]);
+  @override
+  Future<Map<String, List<String>>> fetchTargets() async => {
+    for (final e in targets.entries) e.key: [...e.value],
+  };
+
+  @override
+  Future<Homework> createHomework(Homework draft, {required List<String> studentIds}) async {
+    final h = Homework(
+      id: 'hw${++_seq}',
+      teacherId: userId,
+      kind: draft.kind,
+      title: draft.title,
+      instructions: draft.instructions,
+      lessonId: draft.lessonId,
+      itemIds: draft.itemIds,
+      customItems: draft.customItems,
+      classId: draft.classId,
+      dueAt: draft.dueAt,
+      createdAt: DateTime.now(),
+    );
+    homework.add(h);
+    targets[h.id] = [...studentIds];
+    notify();
+    return h;
+  }
+
+  @override
+  Future<void> deleteHomework(String homeworkId) async {
+    homework.removeWhere((h) => h.id == homeworkId);
+    targets.remove(homeworkId);
+    submissions.removeWhere((s) => s.homeworkId == homeworkId);
+    notify();
+  }
+
+  @override
+  Future<HomeworkSubmission> saveSubmission(
+    String homeworkId, {
+    required Map<String, String> answers,
+    required bool submit,
+    required int autoScore,
+    required int maxScore,
+  }) async {
+    final old = submissions.where((s) => s.homeworkId == homeworkId && s.studentId == userId).firstOrNull;
+    if (old?.status == SubmissionStatus.graded) throw const AppFailure(FailureKind.forbidden);
+    final s = HomeworkSubmission(
+      id: old?.id ?? 'sub${++_seq}',
+      homeworkId: homeworkId,
+      studentId: userId,
+      status: submit ? SubmissionStatus.submitted : (old?.status ?? SubmissionStatus.inProgress),
+      answers: answers,
+      autoScore: autoScore,
+      maxScore: maxScore,
+      submittedAt: submit ? DateTime.now() : old?.submittedAt,
+    );
+    submissions
+      ..remove(old)
+      ..add(s);
+    notify();
+    return s;
+  }
+
+  @override
+  Future<HomeworkSubmission> gradeSubmission(
+    String submissionId, {
+    required int grade,
+    required String feedback,
+    Map<String, String> corrections = const {},
+    bool returnForRevision = false,
+  }) async {
+    final old = submissions.firstWhere((s) => s.id == submissionId);
+    final s = HomeworkSubmission(
+      id: old.id,
+      homeworkId: old.homeworkId,
+      studentId: old.studentId,
+      status: returnForRevision ? SubmissionStatus.returned : SubmissionStatus.graded,
+      answers: old.answers,
+      autoScore: old.autoScore,
+      maxScore: old.maxScore,
+      grade: grade,
+      feedback: feedback,
+      corrections: corrections,
+      submittedAt: old.submittedAt,
+      gradedAt: DateTime.now(),
+    );
+    submissions[submissions.indexOf(old)] = s;
+    notify();
+    return s;
+  }
+
+  @override
+  Future<List<SchoolClass>> listClasses() async => [...classes];
+  @override
+  Future<SchoolClass> saveClass({String? id, required String name, required List<String> memberIds}) async {
+    final c = SchoolClass(id: id ?? 'class${++_seq}', teacherId: userId, name: name, memberIds: memberIds);
+    classes
+      ..removeWhere((x) => x.id == c.id)
+      ..add(c);
+    return c;
+  }
+
+  @override
+  Future<void> deleteClass(String classId) async => classes.removeWhere((c) => c.id == classId);
+
+  @override
+  Stream<List<LiveSession>> watchLiveSessions() => _watch(() => [...sessions.reversed]);
+  @override
+  Stream<List<LiveResponse>> watchLiveResponses(String sessionId) =>
+      _watch(() => responses.where((r) => r.sessionId == sessionId).toList());
+  @override
+  Stream<List<LiveParticipant>> watchLiveParticipants(String sessionId) =>
+      _watch(() => participants.where((p) => p.sessionId == sessionId).toList());
+
+  @override
+  Future<LiveSession> startLive({required String title, String? lessonId, String? classId}) async {
+    final s = LiveSession(id: 'live${++_seq}', teacherId: userId, title: title, lessonId: lessonId, classId: classId);
+    sessions.add(s);
+    notify();
+    return s;
+  }
+
+  @override
+  Future<void> updateLive(String sessionId, Map<String, dynamic> changes) async {
+    final i = sessions.indexWhere((s) => s.id == sessionId);
+    final o = sessions[i];
+    sessions[i] = LiveSession(
+      id: o.id,
+      teacherId: o.teacherId,
+      title: o.title,
+      classId: o.classId,
+      lessonId: changes.containsKey('lesson_id') ? changes['lesson_id'] as String? : o.lessonId,
+      itemIndex: changes['item_index'] as int? ?? o.itemIndex,
+      showAnswer: changes['show_answer'] as bool? ?? o.showAnswer,
+      answererId: changes.containsKey('answerer_id') ? changes['answerer_id'] as String? : o.answererId,
+      live: changes['status'] == null ? o.live : changes['status'] != 'ended',
+    );
+    notify();
+  }
+
+  @override
+  Future<void> endLive(String sessionId) => updateLive(sessionId, {'status': 'ended'});
+
+  @override
+  Future<void> joinLive(String sessionId) async {
+    participants.add(LiveParticipant(sessionId: sessionId, studentId: userId));
+    notify();
+  }
+
+  @override
+  Future<void> answerLive(String sessionId, {required int itemIndex, required String answer, bool? correct}) async {
+    responses
+      ..removeWhere((r) => r.sessionId == sessionId && r.studentId == userId && r.itemIndex == itemIndex)
+      ..add(
+        LiveResponse(sessionId: sessionId, studentId: userId, itemIndex: itemIndex, answer: answer, correct: correct),
+      );
+    notify();
+  }
+
+  @override
+  Future<void> markLive(
+    String sessionId, {
+    required String studentId,
+    required int itemIndex,
+    required String mark,
+  }) async {
+    final i = responses.indexWhere(
+      (r) => r.sessionId == sessionId && r.studentId == studentId && r.itemIndex == itemIndex,
+    );
+    if (i < 0) return;
+    final o = responses[i];
+    responses[i] = LiveResponse(
+      sessionId: o.sessionId,
+      studentId: o.studentId,
+      itemIndex: o.itemIndex,
+      answer: o.answer,
+      correct: o.correct,
+      teacherMark: mark,
+    );
+    notify();
   }
 }

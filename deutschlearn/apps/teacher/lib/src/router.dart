@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'classroom/homework_create_screen.dart';
+import 'classroom/homework_screens.dart';
+import 'classroom/live_control_screen.dart';
+import 'classroom/teaching_screens.dart';
 import 'dashboard/dashboard_screen.dart';
 
 import 'package:core/core.dart';
@@ -16,6 +20,15 @@ abstract final class TeacherRoutes {
   static const profileSetup = '/profile-setup';
   static String student(String id) => '/dashboard/student/$id';
   static String chat(String id) => '/dashboard/student/$id/chat';
+  static const homework = '/dashboard/homework';
+  static const homeworkNew = '/dashboard/homework/new';
+  static String homeworkDetail(String id) => '/dashboard/homework/$id';
+  static String review(String homeworkId, String studentId) => '/dashboard/homework/$homeworkId/review/$studentId';
+  static const live = '/dashboard/live';
+  static const lessons = '/dashboard/lessons';
+  static String lessonPreview(String id) => '/dashboard/lessons/$id';
+  static const reports = '/dashboard/reports';
+  static const classes = '/dashboard/classes';
 }
 
 const _appSubtitle = 'لوحة المعلّم • Lehrer-Dashboard';
@@ -67,6 +80,45 @@ final teacherRouterProvider = Provider<GoRouter>((ref) {
         path: TeacherRoutes.dashboard,
         builder: (_, _) => const DashboardScreen(),
         routes: [
+          GoRoute(
+            path: 'homework',
+            builder: (_, _) => const TeacherHomeworkScreen(),
+            routes: [
+              GoRoute(
+                path: 'new',
+                builder: (_, state) => HomeworkCreateScreen(args: state.extra as HomeworkDraftArgs?),
+              ),
+              GoRoute(
+                path: ':id',
+                builder: (_, state) => TeacherHomeworkDetailScreen(homeworkId: state.pathParameters['id']!),
+                routes: [
+                  GoRoute(
+                    path: 'review/:student',
+                    builder: (_, state) => SubmissionReviewScreen(
+                      homeworkId: state.pathParameters['id']!,
+                      studentId: state.pathParameters['student']!,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'live',
+            builder: (_, state) => LiveControlScreen(lessonId: state.extra as String?),
+          ),
+          GoRoute(
+            path: 'lessons',
+            builder: (_, _) => const LessonBrowserScreen(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (_, state) => LessonPreviewScreen(lessonId: state.pathParameters['id']!),
+              ),
+            ],
+          ),
+          GoRoute(path: 'reports', builder: (_, _) => const ReportsScreen()),
+          GoRoute(path: 'classes', builder: (_, _) => const ClassesScreen()),
           GoRoute(
             path: 'student/:id',
             builder: (_, state) =>

@@ -48,136 +48,140 @@ class StartTab extends ConsumerWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DLHeroHeader(
-            title: 'Hallo, ${profile.displayName} 👋',
-            subtitle: 'مرحباً ${profile.displayName}',
-            leading: DLHeaderIcon(
-              icon: Icons.menu_rounded,
-              tooltip: 'القائمة • Menü',
-              onPressed: () => openTab(HomeTab.profile),
-            ),
-            actions: [
-              DLHeaderIcon(
-                key: const Key('home-bell'),
-                icon: Icons.notifications_none_rounded,
-                badge: openHomework,
-                tooltip: 'الإشعارات • Mitteilungen',
-                onPressed: () => context.push(StudentRoutes.homework),
+          DLHeaderOverlap(
+            header: DLHeroHeader(
+              title: 'Hallo, ${profile.displayName} 👋',
+              subtitle: 'مرحباً ${profile.displayName}',
+              leading: DLHeaderIcon(
+                icon: Icons.menu_rounded,
+                tooltip: 'القائمة • Menü',
+                onPressed: () => openTab(HomeTab.profile),
               ),
-            ],
-            height: 170,
-          ),
-          DLMaxWidth(
-            child: Transform.translate(
-              offset: const Offset(0, -56),
+              actions: [
+                DLHeaderIcon(
+                  key: const Key('home-bell'),
+                  icon: Icons.notifications_none_rounded,
+                  badge: openHomework,
+                  tooltip: 'الإشعارات • Mitteilungen',
+                  onPressed: () => context.push(StudentRoutes.homework),
+                ),
+              ],
+              height: 170,
+            ),
+            child: DLMaxWidth(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: DLSpacing.lg),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    DLRoadmapCard(
-                      key: const Key('home-roadmap'),
-                      titleAr: 'مسار تعلّم الألمانية',
-                      titleDe: 'Dein Lernweg',
-                      badge: 'A1 → B1',
-                      current: roadIndex.clamp(0, 3),
-                      stages: const [
-                        (label: 'A1', caption: 'Alphabet'),
-                        (label: 'A1', caption: null),
-                        (label: 'A2', caption: null),
-                        (label: 'B1', caption: null),
-                      ],
-                      onStage: (i) {
-                        if (i == 0 && alphabet != null) {
-                          context.push(StudentRoutes.module(alphabet.id));
-                        } else {
-                          openTab(HomeTab.lessons);
-                        }
-                      },
-                    ),
-                    const SizedBox(height: DLSpacing.lg),
-                    if (next != null)
-                      DLResumeCard(
-                        key: const Key('next-lesson'),
-                        titleAr: 'متابعة الدرس',
-                        titleDe: 'Lektion fortsetzen',
-                        lessonLabel:
-                            '${next.level.code} · ${next.titleDe}${next.titleAr.isEmpty ? '' : ' (${next.titleAr})'}',
-                        progress: moduleDone == null || moduleDone.total == 0 ? 0 : moduleDone.done / moduleDone.total,
-                        buttonAr: 'متابعة التعلّم',
-                        buttonDe: 'Lektion fortsetzen',
-                        onPressed: () => context.push(StudentRoutes.lesson(next.id)),
+                padding: EdgeInsets.zero,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: DLSpacing.lg),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      DLRoadmapCard(
+                        key: const Key('home-roadmap'),
+                        titleAr: 'مسار تعلّم الألمانية',
+                        titleDe: 'Dein Lernweg',
+                        badge: 'A1 → B1',
+                        current: roadIndex.clamp(0, 3),
+                        stages: const [
+                          (label: 'A1', caption: 'Alphabet'),
+                          (label: 'A1', caption: null),
+                          (label: 'A2', caption: null),
+                          (label: 'B1', caption: null),
+                        ],
+                        onStage: (i) {
+                          if (i == 0 && alphabet != null) {
+                            context.push(StudentRoutes.module(alphabet.id));
+                          } else {
+                            openTab(HomeTab.lessons);
+                          }
+                        },
                       ),
-                    const SizedBox(height: DLSpacing.lg),
-                    DLTileGrid(
-                      children: [
-                        DLPastelTile(
-                          key: const Key('tile-vocab'),
-                          icon: Icons.menu_book_rounded,
-                          color: const Color(0xFF1F9E58),
-                          titleAr: 'ممارسة المفردات',
-                          titleDe: 'Wortschatz üben',
-                          onTap: () {
-                            final m = curriculum?.modules.where((m) => m.slug == vocabularyModuleSlug).firstOrNull;
-                            m == null ? openTab(HomeTab.lessons) : context.push(StudentRoutes.module(m.id));
-                          },
+                      const SizedBox(height: DLSpacing.lg),
+                      if (next != null)
+                        DLResumeCard(
+                          key: const Key('next-lesson'),
+                          titleAr: 'متابعة الدرس',
+                          titleDe: 'Lektion fortsetzen',
+                          lessonLabel:
+                              '${next.level.code} · ${next.titleDe}${next.titleAr.isEmpty ? '' : ' (${next.titleAr})'}',
+                          progress: moduleDone == null || moduleDone.total == 0
+                              ? 0
+                              : moduleDone.done / moduleDone.total,
+                          buttonAr: 'متابعة التعلّم',
+                          buttonDe: 'Lektion fortsetzen',
+                          onPressed: () => context.push(StudentRoutes.lesson(next.id)),
                         ),
-                        DLPastelTile(
-                          key: const Key('tile-homework'),
-                          icon: Icons.assignment_rounded,
-                          color: const Color(0xFFE58A1F),
-                          titleAr: 'الواجبات المنزلية',
-                          titleDe: 'Hausaufgaben',
-                          badge: openHomework,
-                          onTap: () => context.push(StudentRoutes.homework),
-                        ),
-                        DLPastelTile(
-                          key: const Key('tile-live'),
-                          icon: Icons.videocam_rounded,
-                          color: DLColors.blue,
-                          titleAr: 'درس مباشر',
-                          titleDe: live == null ? 'Live-Unterricht' : 'Jetzt live!',
-                          badge: live == null ? 0 : 1,
-                          onTap: () => context.push(StudentRoutes.live),
-                        ),
-                        DLPastelTile(
-                          key: const Key('tile-placement'),
-                          icon: Icons.track_changes_rounded,
-                          color: DLColors.success,
-                          titleAr: 'اختبار تحديد المستوى',
-                          titleDe: 'Einstufungstest',
-                          onTap: curriculum?.placement == null
-                              ? null
-                              : () => context.push(StudentRoutes.lesson(curriculum!.placement!.id)),
-                        ),
-                        DLPastelTile(
-                          key: const Key('tile-exams'),
-                          icon: Icons.description_rounded,
-                          color: const Color(0xFF7B4FD6),
-                          titleAr: 'الاختبارات',
-                          titleDe: 'Prüfungen',
-                          onTap: curriculum == null ? null : () => _showExams(context, curriculum),
-                        ),
-                        DLPastelTile(
-                          key: const Key('tile-achievements'),
-                          icon: Icons.emoji_events_rounded,
-                          color: const Color(0xFFD49A12),
-                          titleAr: 'الإنجازات',
-                          titleDe: 'Erfolge',
-                          onTap: curriculum == null ? null : () => _showAchievements(context, curriculum),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: DLSpacing.lg),
-                    DLOverallProgressCard(
-                      key: const Key('home-overall'),
-                      label: level.code,
-                      value: levelRatio,
-                      onTap: () => openTab(HomeTab.progress),
-                    ),
-                    const SizedBox(height: DLSpacing.lg),
-                    const TeacherLinkTile(),
-                  ],
+                      const SizedBox(height: DLSpacing.lg),
+                      DLTileGrid(
+                        children: [
+                          DLPastelTile(
+                            key: const Key('tile-vocab'),
+                            icon: Icons.menu_book_rounded,
+                            color: const Color(0xFF1F9E58),
+                            titleAr: 'ممارسة المفردات',
+                            titleDe: 'Wortschatz üben',
+                            onTap: () {
+                              final m = curriculum?.modules.where((m) => m.slug == vocabularyModuleSlug).firstOrNull;
+                              m == null ? openTab(HomeTab.lessons) : context.push(StudentRoutes.module(m.id));
+                            },
+                          ),
+                          DLPastelTile(
+                            key: const Key('tile-homework'),
+                            icon: Icons.assignment_rounded,
+                            color: const Color(0xFFE58A1F),
+                            titleAr: 'الواجبات المنزلية',
+                            titleDe: 'Hausaufgaben',
+                            badge: openHomework,
+                            onTap: () => context.push(StudentRoutes.homework),
+                          ),
+                          DLPastelTile(
+                            key: const Key('tile-live'),
+                            icon: Icons.videocam_rounded,
+                            color: DLColors.blue,
+                            titleAr: 'درس مباشر',
+                            titleDe: live == null ? 'Live-Unterricht' : 'Jetzt live!',
+                            badge: live == null ? 0 : 1,
+                            onTap: () => context.push(StudentRoutes.live),
+                          ),
+                          DLPastelTile(
+                            key: const Key('tile-placement'),
+                            icon: Icons.track_changes_rounded,
+                            color: DLColors.success,
+                            titleAr: 'اختبار تحديد المستوى',
+                            titleDe: 'Einstufungstest',
+                            onTap: curriculum?.placement == null
+                                ? null
+                                : () => context.push(StudentRoutes.lesson(curriculum!.placement!.id)),
+                          ),
+                          DLPastelTile(
+                            key: const Key('tile-exams'),
+                            icon: Icons.description_rounded,
+                            color: const Color(0xFF7B4FD6),
+                            titleAr: 'الاختبارات',
+                            titleDe: 'Prüfungen',
+                            onTap: curriculum == null ? null : () => _showExams(context, curriculum),
+                          ),
+                          DLPastelTile(
+                            key: const Key('tile-achievements'),
+                            icon: Icons.emoji_events_rounded,
+                            color: const Color(0xFFD49A12),
+                            titleAr: 'الإنجازات',
+                            titleDe: 'Erfolge',
+                            onTap: curriculum == null ? null : () => _showAchievements(context, curriculum),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: DLSpacing.lg),
+                      DLOverallProgressCard(
+                        key: const Key('home-overall'),
+                        label: level.code,
+                        value: levelRatio,
+                        onTap: () => openTab(HomeTab.progress),
+                      ),
+                      const SizedBox(height: DLSpacing.lg),
+                      const TeacherLinkTile(),
+                    ],
+                  ),
                 ),
               ),
             ),

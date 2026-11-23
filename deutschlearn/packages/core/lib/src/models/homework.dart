@@ -1,3 +1,5 @@
+import 'lesson.dart';
+
 /// Homework: assigned by a teacher to students (individually or via a class),
 /// answered and submitted by students, then graded with feedback.
 enum HomeworkKind {
@@ -203,4 +205,30 @@ class SchoolClass {
     name: j['name'] as String? ?? '',
     memberIds: [for (final m in (j['class_members'] as List?) ?? const []) (m as Map)['student_id'] as String],
   );
+}
+
+/// One question of a homework: a lesson exercise or a teacher-written question.
+typedef HomeworkQuestion = ({String key, LessonItem? item, CustomItem? custom});
+
+List<HomeworkQuestion> homeworkQuestions(Homework h, Lesson? lesson) => [
+  if (lesson != null)
+    for (final i in lesson.items)
+      if (i.isScored && (h.kind == HomeworkKind.lesson || h.itemIds.contains(i.id))) (key: i.id, item: i, custom: null),
+  for (final (n, c) in h.customItems.indexed) (key: 'c$n', item: null, custom: c),
+];
+
+/// Auto-score: correct lesson exercises plus auto-gradable custom answers.
+({int score, int max}) scoreAnswers(List<HomeworkQuestion> qs, Map<String, String> answers) {
+  var score = 0, max = 0;
+  for (final q in qs) {
+    final a = answers[q.key] ?? '';
+    if (q.item != null) {
+      max++;
+      if (a == '✓') score++;
+    } else if (q.custom!.isAutoGraded) {
+      max++;
+      if (q.custom!.accepts(a)) score++;
+    }
+  }
+  return (score: score, max: max);
 }
