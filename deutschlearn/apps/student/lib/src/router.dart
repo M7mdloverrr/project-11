@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import 'homework/homework_detail_screen.dart';
+import 'homework/homework_screen.dart';
+import 'live/live_screen.dart';
 import 'home/home_shell.dart';
 import 'lessons/lesson_screen.dart';
 import 'lessons/module_screen.dart';
@@ -16,6 +19,9 @@ abstract final class StudentRoutes {
   static const linkTeacher = '/home/link-teacher';
   static String lesson(String id) => '/home/lesson/$id';
   static String module(String id) => '/home/module/$id';
+  static const homework = '/home/homework';
+  static String homeworkDetail(String id) => '/home/homework/$id';
+  static const live = '/home/live';
 }
 
 const _appSubtitle = 'منصة تعلّم الألمانية • Deutsch lernen';
@@ -72,6 +78,17 @@ final studentRouterProvider = Provider<GoRouter>((ref) {
             path: 'module/:id',
             builder: (_, state) => ModuleScreen(moduleId: state.pathParameters['id']!),
           ),
+          GoRoute(
+            path: 'homework',
+            builder: (_, _) => const HomeworkScreen(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (_, state) => HomeworkDetailScreen(homeworkId: state.pathParameters['id']!),
+              ),
+            ],
+          ),
+          GoRoute(path: 'live', builder: (_, _) => const LiveScreen()),
           GoRoute(
             path: 'lesson/:id',
             builder: (_, state) => LessonScreen(lessonId: state.pathParameters['id']!),

@@ -1,3 +1,5 @@
+import '../homework/homework_providers.dart';
+
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,7 @@ class ModuleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final curriculum = ref.watch(curriculumProvider);
-    final assigned = {...?ref.watch(myAssignmentsProvider).value?.map((a) => a.lessonId)};
+    final assigned = {...?ref.watch(myHomeworkStreamProvider).value?.map((h) => h.lessonId).nonNulls};
     final module = curriculum.value?.modules.where((m) => m.id == moduleId).firstOrNull;
     return Scaffold(
       appBar: AppBar(title: Text(module?.titleAr ?? 'الوحدة • Modul')),

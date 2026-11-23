@@ -39,35 +39,16 @@ class HomeShell extends ConsumerWidget {
             children: const [StartTab(), LessonsTab(), ProgressTab(), ChatTab(), ProfileTab()],
           ),
         ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: tab.index,
-          onDestinationSelected: (i) => ref.read(homeTabProvider.notifier).select(HomeTab.values[i]),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home_rounded),
-              label: 'Start',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.menu_book_outlined),
-              selectedIcon: Icon(Icons.menu_book_rounded),
-              label: 'Lektionen',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.insights_outlined),
-              selectedIcon: Icon(Icons.insights_rounded),
-              label: 'Fortschritt',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.chat_bubble_outline),
-              selectedIcon: Icon(Icons.chat_bubble_rounded),
-              label: 'Chat',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_outline),
-              selectedIcon: Icon(Icons.person_rounded),
-              label: 'Profil',
-            ),
+        bottomNavigationBar: DLBottomNav(
+          key: const Key('bottom-nav'),
+          index: tab.index,
+          onTap: (i) => ref.read(homeTabProvider.notifier).select(HomeTab.values[i]),
+          items: const [
+            (icon: Icons.home_rounded, ar: 'الرئيسية', de: 'Start'),
+            (icon: Icons.menu_book_rounded, ar: 'الدروس', de: 'Lektionen'),
+            (icon: Icons.insights_rounded, ar: 'التقدّم', de: 'Fortschritt'),
+            (icon: Icons.chat_bubble_rounded, ar: 'المحادثة', de: 'Chat'),
+            (icon: Icons.person_rounded, ar: 'حسابي', de: 'Profil'),
           ],
         ),
       ),

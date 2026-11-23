@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../router.dart';
 
+import '../classroom/classroom_providers.dart';
 import 'student_providers.dart';
 
 /// A linked student's lesson progress; the teacher assigns lessons as homework here.
@@ -22,12 +23,13 @@ class StudentDetailScreen extends ConsumerWidget {
     final assignments = ref.watch(studentAssignmentsProvider(studentId));
     void retry() => ref
       ..invalidate(teacherLessonsProvider)
+      ..invalidate(homeworkTargetsProvider)
       ..invalidate(studentProgressProvider(studentId))
       ..invalidate(studentAssignmentsProvider(studentId));
 
     Future<void> toggle(Lesson l) async {
       try {
-        await ref.read(studentAssignmentsProvider(studentId).notifier).toggle(l.id);
+        await ref.read(studentAssignmentsProvider(studentId).notifier).toggle(l);
       } catch (e) {
         if (context.mounted) {
           ScaffoldMessenger.of(

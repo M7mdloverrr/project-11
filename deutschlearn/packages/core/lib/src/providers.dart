@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'backend/admin_repository.dart';
 import 'backend/auth_gateway.dart';
 import 'backend/chat_repository.dart';
+import 'backend/classroom_repository.dart';
 import 'backend/lesson_repository.dart';
 import 'backend/link_repository.dart';
 import 'backend/profile_repository.dart';
@@ -66,3 +67,8 @@ typedef ChatThreadKey = ({String teacherId, String studentId});
 final chatThreadProvider = StreamProvider.autoDispose.family<List<ChatMessage>, ChatThreadKey>(
   (ref, key) => ref.watch(chatRepositoryProvider).watchThread(teacherId: key.teacherId, studentId: key.studentId),
 );
+
+final classroomRepositoryProvider = Provider<ClassroomRepository>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? const UnconfiguredClassroomRepository() : SupabaseClassroomRepository(client);
+});

@@ -33,7 +33,7 @@ void main() {
   });
 
   Future<void> pump(WidgetTester tester) async {
-    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.physicalSize = const Size(1080, 6000);
     tester.view.devicePixelRatio = 2.5;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(
@@ -61,7 +61,7 @@ void main() {
 
   testWidgets('generate, regenerate and revoke the teacher code', (tester) async {
     await pump(tester);
-    expect(find.text('مرحباً، Frau Weber'), findsOneWidget);
+    expect(find.textContaining('Frau Weber'), findsOneWidget);
     await tapKey(tester, 'code-generate');
     final first = repo.activeCode!.code;
     expect(TeacherCodeFormat.isValid(first), isTrue);

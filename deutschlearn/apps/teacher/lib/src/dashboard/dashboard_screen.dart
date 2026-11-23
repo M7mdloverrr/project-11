@@ -8,6 +8,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../router.dart';
+import '../classroom/classroom_providers.dart';
+import '../classroom/homework_create_screen.dart';
 import 'teacher_controllers.dart';
 
 String _initial(String name) => name.trim().isEmpty ? '?' : name.trim().characters.first.toUpperCase();
@@ -57,50 +59,180 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(currentProfileProvider);
-    final theme = Theme.of(context);
+    final students = ref.watch(linkedStudentsProvider).value?.length ?? 0;
+    final pending = ref.watch(pendingRequestsProvider).value?.length ?? 0;
+    final toReview = ref.watch(toReviewCountProvider);
+    final homework = ref.watch(teacherHomeworkProvider).value?.length ?? 0;
+    final live = ref.watch(activeTeacherLiveProvider);
     return DLExitGuard(
       child: Scaffold(
-        appBar: AppBar(
-          title: const DLLogo(size: 32),
-          actions: [
-            IconButton(
-              key: const Key('edit-profile'),
-              tooltip: 'الملف الشخصي • Profil',
-              icon: const Icon(Icons.manage_accounts_outlined),
-              onPressed: () => context.push(TeacherRoutes.profileSetup),
-            ),
-            IconButton(
-              key: const Key('sign-out'),
-              tooltip: 'تسجيل الخروج • Abmelden',
-              icon: const Icon(Icons.logout),
-              onPressed: () => ref.read(sessionControllerProvider.notifier).signOut(),
-            ),
-          ],
-        ),
         body: RefreshIndicator(
           onRefresh: () => _refresh(ref),
           child: ListView(
-            padding: const EdgeInsets.all(DLSpacing.lg),
+            padding: EdgeInsets.zero,
             children: [
-              Text(
-                'مرحباً، ${profile.displayName}',
-                key: const Key('dashboard-greeting'),
-                style: theme.textTheme.headlineSmall,
+              DLHeaderOverlap(
+                header: DLHeroHeader(
+                  title: 'Hallo, ${profile.displayName} 👋',
+                  subtitle: 'لوحة المعلّم • Lehrer-Dashboard',
+                  leading: DLHeaderIcon(
+                    key: const Key('edit-profile'),
+                    icon: Icons.manage_accounts_outlined,
+                    tooltip: 'الملف الشخصي • Profil',
+                    onPressed: () => context.push(TeacherRoutes.profileSetup),
+                  ),
+                  actions: [
+                    DLHeaderIcon(
+                      key: const Key('header-requests'),
+                      icon: Icons.notifications_none_rounded,
+                      badge: pending + toReview,
+                      tooltip: 'الإشعارات • Mitteilungen',
+                      onPressed: () => context.push(TeacherRoutes.homework),
+                    ),
+                    DLHeaderIcon(
+                      key: const Key('sign-out'),
+                      icon: Icons.logout,
+                      tooltip: 'تسجيل الخروج • Abmelden',
+                      onPressed: () => ref.read(sessionControllerProvider.notifier).signOut(),
+                    ),
+                  ],
+                  height: 170,
+                ),
+                child: DLMaxWidth(
+                  child: Padding(
+                    padding: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: DLSpacing.lg),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          DLCard(
+                            key: const Key('teacher-stats'),
+                            child: Row(
+                              children: [
+                                _Stat(value: '$students', ar: 'طلاب', de: 'Schüler', color: DLColors.teal),
+                                _Stat(value: '$homework', ar: 'واجبات', de: 'Aufgaben', color: const Color(0xFFE58A1F)),
+                                _Stat(value: '$toReview', ar: 'للتصحيح', de: 'Zu bewerten', color: DLColors.blue),
+                                _Stat(value: '$pending', ar: 'طلبات', de: 'Anfragen', color: const Color(0xFF7B4FD6)),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: DLSpacing.lg),
+                          DLTileGrid(
+                            children: [
+                              DLPastelTile(
+                                key: const Key('tile-live'),
+                                icon: Icons.sensors_rounded,
+                                color: DLColors.blue,
+                                titleAr: live == null ? 'بدء درس مباشر' : 'الحصة جارية',
+                                titleDe: live == null ? 'Live-Unterricht' : 'Jetzt live!',
+                                badge: live == null ? 0 : 1,
+                                onTap: () => context.push(TeacherRoutes.live),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-homework'),
+                                icon: Icons.assignment_rounded,
+                                color: const Color(0xFFE58A1F),
+                                titleAr: 'الواجبات والتصحيح',
+                                titleDe: 'Hausaufgaben',
+                                badge: toReview,
+                                onTap: () => context.push(TeacherRoutes.homework),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-lessons'),
+                                icon: Icons.menu_book_rounded,
+                                color: const Color(0xFF1F9E58),
+                                titleAr: 'تحضير الدروس',
+                                titleDe: 'Lektionen',
+                                onTap: () => context.push(TeacherRoutes.lessons),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-exam'),
+                                icon: Icons.description_rounded,
+                                color: const Color(0xFF7B4FD6),
+                                titleAr: 'إنشاء اختبار',
+                                titleDe: 'Test erstellen',
+                                onTap: () => context.push(
+                                  TeacherRoutes.homeworkNew,
+                                  extra:
+                                      (lessonId: null, studentId: null, kind: HomeworkKind.custom) as HomeworkDraftArgs,
+                                ),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-study'),
+                                icon: Icons.psychology_alt_rounded,
+                                color: const Color(0xFFD49A12),
+                                titleAr: 'مادة للحفظ',
+                                titleDe: 'Lernstoff',
+                                onTap: () => context.push(
+                                  TeacherRoutes.homeworkNew,
+                                  extra:
+                                      (lessonId: null, studentId: null, kind: HomeworkKind.study) as HomeworkDraftArgs,
+                                ),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-reports'),
+                                icon: Icons.insights_rounded,
+                                color: DLColors.teal,
+                                titleAr: 'تقارير الأداء',
+                                titleDe: 'Berichte',
+                                onTap: () => context.push(TeacherRoutes.reports),
+                              ),
+                              DLPastelTile(
+                                key: const Key('tile-classes'),
+                                icon: Icons.groups_rounded,
+                                color: const Color(0xFFD6457B),
+                                titleAr: 'الصفوف',
+                                titleDe: 'Klassen',
+                                onTap: () => context.push(TeacherRoutes.classes),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: DLSpacing.xl),
+                          const TeacherCodeCard(),
+                          const SizedBox(height: DLSpacing.xl),
+                          const DLSectionHeader(arabic: 'طلبات الربط', german: 'Anfragen'),
+                          const SizedBox(height: DLSpacing.md),
+                          const PendingRequestsSection(),
+                          const SizedBox(height: DLSpacing.xl),
+                          const DLSectionHeader(arabic: 'طلابي', german: 'Meine Schüler'),
+                          const SizedBox(height: DLSpacing.md),
+                          const LinkedStudentsSection(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              Text('Willkommen zurück!', textDirection: TextDirection.ltr, style: theme.textTheme.bodyMedium),
-              const SizedBox(height: DLSpacing.xl),
-              const TeacherCodeCard(),
-              const SizedBox(height: DLSpacing.xl),
-              const DLSectionHeader(arabic: 'طلبات الربط', german: 'Anfragen'),
-              const SizedBox(height: DLSpacing.md),
-              const PendingRequestsSection(),
-              const SizedBox(height: DLSpacing.xl),
-              const DLSectionHeader(arabic: 'طلابي', german: 'Meine Schüler'),
-              const SizedBox(height: DLSpacing.md),
-              const LinkedStudentsSection(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Stat extends StatelessWidget {
+  const _Stat({required this.value, required this.ar, required this.de, required this.color});
+
+  final String value;
+  final String ar;
+  final String de;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: t.headlineSmall?.copyWith(color: color, fontWeight: FontWeight.w800),
+          ),
+          Text(ar, style: t.labelMedium),
+          Text(de, style: t.labelSmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        ],
       ),
     );
   }
