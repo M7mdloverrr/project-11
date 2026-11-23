@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../failure.dart';
@@ -49,12 +51,46 @@ class SupabaseClassroomRepository implements ClassroomRepository {
 
   String get _uid => _client.auth.currentUser?.id ?? '';
 
+  /// Realtime on `homework` alone misses new assignments for students: the row is
+  /// inserted before its `homework_targets`, so RLS hides that insert event. We
+  /// therefore refetch whenever either table changes.
   @override
-  Stream<List<Homework>> watchHomework() => _client
-      .from('homework')
-      .stream(primaryKey: ['id'])
-      .order('created_at')
-      .map((rows) => rows.map(Homework.fromJson).toList().reversed.toList());
+  Stream<List<Homework>> watchHomework() {
+    late final StreamController<List<Homework>> out;
+    final subs = <StreamSubscription<Object?>>[];
+    var pending = Future<void>.value();
+    void refresh() => pending = pending.then((_) async {
+      try {
+        final rows = await _client.from('homework').select().order('created_at', ascending: false);
+        if (!out.isClosed) out.add(rows.map(Homework.fromJson).toList());
+      } catch (e, st) {
+        if (!out.isClosed) out.addError(mapSupabaseError(e), st);
+      }
+    });
+    out = StreamController<List<Homework>>(
+      onListen: () {
+        for (final table in ['homework', 'homework_targets']) {
+          subs.add(
+            _client
+                .from(table)
+                .stream(primaryKey: table == 'homework' ? ['id'] : ['homework_id', 'student_id'])
+                .listen(
+                  (_) => refresh(),
+                  onError: (Object e, StackTrace st) {
+                    if (!out.isClosed) out.addError(mapSupabaseError(e), st);
+                  },
+                ),
+          );
+        }
+      },
+      onCancel: () async {
+        for (final s in subs) {
+          await s.cancel();
+        }
+      },
+    );
+    return out.stream;
+  }
 
   @override
   Stream<List<HomeworkSubmission>> watchSubmissions() => _client
